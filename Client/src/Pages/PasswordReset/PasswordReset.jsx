@@ -1,0 +1,116 @@
+import React, { useState } from "react";
+import porscheImage from "../../assets/AuthImages/car1.png";
+import aiRemapLogo from "../../assets/logo/logo.png";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
+import { Link } from "react-router";
+import { Checkbox } from "../../components/checkbox";
+import { Button } from "../../components/ui/button";
+
+const PasswordReset = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleChange = (e) => {
+    const { value, id } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleLogin = () => {};
+  return (
+    <div className="min-h-screen relative font-sans antialiased">
+      {/* Background Image */}
+      <div className="fixed inset-0">
+        <img
+          src={porscheImage}
+          alt="Red Porsche Sports Car"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60"></div>
+      </div>
+
+      {/* Content Container */}
+      <div className="relative z-10 min-h-screen flex">
+        {/* Desktop Logo Container - Centered */}
+        <div className="hidden lg:flex w-1/2 items-center justify-center">
+          <div className="flex flex-col mb-40 items-center">
+            <img
+              src={aiRemapLogo}
+              alt="Ai REMAP Logo"
+              className="w-96 h-auto -mb-40"
+            />
+            <h2 className="text-white text-2xl font-semibold text-center drop-shadow-lg italic">
+              World Leading File Portal
+            </h2>
+          </div>
+        </div>
+
+        {/* Mobile Logo */}
+        <div className="lg:hidden w-full absolute -top-[1rem] flex flex-col items-center z-20">
+          <img
+            src={aiRemapLogo}
+            alt="Ai REMAP Logo"
+            className="w-60 h-auto -mb-[8.4rem]"
+          />
+          <h2 className="text-white italic text-sm font-semibold mt-8 text-center drop-shadow-lg">
+            World Leading File Portal
+          </h2>
+        </div>
+
+        {/* Form Container - Right side on desktop */}
+
+        <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-start px-4 lg:mt-0">
+          <div className="w-full lg:w-9/12 bg-zinc-50/90 dark:bg-[#242526]/90 backdrop-blur lg:p-16 p-10 rounded-lg shadow-2xl z-10">
+            <h2 className="text-zinc-900 dark:text-white text-2xl font-semibold mb-2">
+              Reset Password
+            </h2>
+            <p className="text-zinc-500 dark:text-gray-400 text-sm mb-8">
+              Enter your email to reset your password
+            </p>
+
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <Label
+                  htmlFor="email"
+                  className="block text-zinc-900 dark:text-white text-sm font-medium mb-2"
+                >
+                  Email
+                </Label>
+                <Input
+                  type="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter email address"
+                  className="w-full px-4 py-3 bg-white dark:bg-[#242526] text-zinc-900 dark:text-white rounded-lg border border-zinc-200 dark:border-gray-600  focus:outline-none transition-colors placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+                  required
+                />
+              </div>
+
+              <Button
+                type="submit"
+                // disabled={isLoading}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-gray-800 disabled:bg-zinc-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
+                data-testid="button-submit"
+              >
+                Send OTP
+              </Button>
+            </form>
+            <div className="text-center text-sm mt-6">
+              <Link
+                to="/signin"
+                className="text-red-500 hover:text-red-400 transition-colors"
+                data-testid="link-resetPassword"
+              >
+                Return to log in
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PasswordReset;
