@@ -6,6 +6,7 @@ import { Input } from "../../components/ui/input";
 import { Link } from "react-router";
 import { Checkbox } from "../../components/checkbox";
 import { Button } from "../../components/ui/button";
+import useOnboarding from "../../hooks/useOnboarding";
 
 const OnBoarding = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,12 @@ const OnBoarding = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleLogin = () => {};
+  const { isPending, OnboardingMutation } = useOnboarding();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    OnboardingMutation(formData);
+  };
   return (
     <div className="min-h-screen relative font-sans antialiased">
       {/* Background Image */}
@@ -195,11 +201,11 @@ const OnBoarding = () => {
                 </Link>
                 <Button
                   type="submit"
-                  // disabled={isLoading}
+                  disabled={isPending}
                   className=" bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-gray-800 disabled:bg-zinc-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed text-lg"
                   data-testid="button-submit"
                 >
-                  Save Profile
+                  {isPending ? "Saving..." : "Save Profile"}
                 </Button>
               </div>
             </form>

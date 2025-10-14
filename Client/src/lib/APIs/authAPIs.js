@@ -1,0 +1,39 @@
+import { axiosInstance } from "../axios.js";
+
+export const Signup = async (formData) => {
+  const response = await axiosInstance.post("/auth/signup", formData);
+  return response.data;
+};
+
+export const Onboarding = async (formData) => {
+  const response = await axiosInstance.post("/auth/onboarding", formData);
+  return response.data;
+};
+
+export const SignupEmailVerify = async (formData) => {
+  const response = await axiosInstance.post("/auth/signup-verify", formData);
+  return response.data;
+};
+
+export const ResendEmailVerification = async (formData) => {
+  const response = await axiosInstance.post(
+    "/auth/signup-verify-resend",
+    formData
+  );
+  return response.data;
+};
+
+export const Signin = async (formData) => {
+  const response = await axiosInstance.post("/auth/login", formData);
+  return response.data;
+};
+
+export const GetMe = async () => {
+  const response = await axiosInstance.get("/auth/getMe");
+  return response.data;
+};
+
+export const Logout = async () => {
+  const response = await axiosInstance.post("/auth/logout");
+  return response.data;
+};

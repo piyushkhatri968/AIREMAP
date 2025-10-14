@@ -1,6 +1,8 @@
 import Auth from "../models/auth.model.js";
 import { sendResponse } from "../utils/sendResponse.js";
 import { sendToken } from "../utils/sendToken.js";
+import crypto from "crypto";
+import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
 
 export const Signup = async (req, res) => {
   const { email, password, confirmPassword } = req.body;
@@ -29,7 +31,7 @@ export const Signup = async (req, res) => {
       return sendResponse(res, 400, false, "Email is already used");
     }
 
-    const user = Auth.create({
+    const user = await Auth.create({
       email,
       password,
     });
@@ -85,12 +87,26 @@ export const Onboarding = async (req, res) => {
       return sendResponse(res, 404, false, "User not found", null);
     }
 
-    sendToken(
-      user,
-      200,
-      "Onboarding completed. Please verify your account",
+    //create verificatin token and save in database
+    const token = crypto.randomBytes(32).toString("hex");
+    user.emailVerificationCode = token;
+    user.emailVerificationExpiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+    await user.save();
+
+    //send verification Email
+    await sendVerificationEmail({
+      to: user.email,
+      token,
+      firstName: user.firstName,
+    });
+
+    return sendResponse(
       res,
-      req
+      200,
+      true,
+      "Onboarding completed. Please verify your account",
+      user
     );
   } catch (error) {
     console.error("Error in Onboarding controller", error);
@@ -104,19 +120,73 @@ export const Onboarding = async (req, res) => {
   }
 };
 
-export const SignupVerify = (req, res) => {
-  const { emailVerificationCode } = req.body;
+export const SignupEmailVerify = async (req, res) => {
+  const { email, token } = req.body;
+  const decodedEmail = decodeURIComponent(email);
   try {
-    if (!emailVerificationCode) {
-      return sendResponse(
-        res,
-        400,
-        false,
-        "Verification code is required",
-        null
-      );
+    if (!email || !token) {
+      return sendResponse(res, 400, false, "Invalid verification link", null);
     }
-  } catch (error) {}
+
+    const user = await Auth.findOne({
+      email: decodedEmail,
+      emailVerificationCode: token,
+      emailVerificationExpiry: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return sendResponse(res, 400, false, "Invalid or expired token", null);
+    }
+
+    user.verified = true;
+    user.emailVerificationCode = undefined;
+    user.emailVerificationExpiry = undefined;
+    await user.save();
+
+    return sendResponse(res, 200, true, "Email verification successfull", user);
+  } catch (error) {
+    console.error("Error in SignupEmailVerify controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+};
+
+export const ResendEmailVerification = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return sendResponse(res, 400, false, "Email required", null);
+
+    const user = await Auth.findOne({ email: email.toLowerCase().trim() });
+    if (!user) return sendResponse(res, 404, false, "User not found", null);
+    if (user.verified)
+      return sendResponse(res, 400, false, "User already verified", null);
+
+    const token = crypto.randomBytes(32).toString("hex");
+    user.emailVerificationCode = token;
+    user.emailVerificationExpiry = Date.now() + 15 * 60 * 1000;
+    await user.save();
+
+    await sendVerificationEmail({
+      to: user.email,
+      token,
+      firstName: user.firstName,
+    });
+    return sendResponse(res, 200, true, "Verification email resent", null);
+  } catch (error) {
+    console.error("Error in ResendEmailVerification controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
 };
 
 export const Login = async (req, res) => {
@@ -154,13 +224,7 @@ export const Login = async (req, res) => {
 
 export const GetMe = (req, res) => {
   try {
-    return sendResponse(
-      res,
-      200,
-      success,
-      "User fetched successfully",
-      req.user
-    );
+    return sendResponse(res, 200, true, "User fetched successfully", req.user);
   } catch (error) {
     console.error("Error in GetMe controller", error);
     return sendResponse(

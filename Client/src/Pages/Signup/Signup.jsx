@@ -6,6 +6,7 @@ import { Input } from "../../components/ui/input";
 import { Link } from "react-router";
 import { Checkbox } from "../../components/checkbox";
 import { Button } from "../../components/ui/button";
+import useSignUp from "../../hooks/useSignup";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,13 @@ const Signup = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleLogin = () => {};
+  const { isPending, signupMutation } = useSignUp();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signupMutation(formData);
+  };
+
   return (
     <div className="min-h-screen relative font-sans antialiased">
       {/* Background Image */}
@@ -220,6 +227,7 @@ const Signup = () => {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="remember"
+                    required
                     checked={rememberMe}
                     onCheckedChange={(checked) => setRememberMe(checked)}
                     className="w-4 h-4 data-[state=checked]:bg-red-600 dark:data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600 dark:data-[state=checked]:border-red-600 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 rounded focus:ring-red-500 focus:ring-2"
@@ -235,11 +243,11 @@ const Signup = () => {
               </div>
               <Button
                 type="submit"
-                // disabled={isLoading}
+                disabled={isPending}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-gray-800 disabled:bg-zinc-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
                 data-testid="button-submit"
               >
-                Continue
+                {isPending ? "Loading..." : "Continue"}
               </Button>
             </form>
             <div className="text-center text-zinc-500 dark:text-gray-400 text-sm mt-6">

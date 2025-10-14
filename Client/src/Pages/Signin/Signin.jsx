@@ -6,6 +6,7 @@ import { Input } from "../../components/ui/input";
 import { Link } from "react-router";
 import { Checkbox } from "../../components/checkbox";
 import { Button } from "../../components/ui/button";
+import useSignIn from "../../hooks/useSignIn";
 
 const Signin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -17,7 +18,11 @@ const Signin = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleLogin = () => {};
+  const { isPending, signinMutation } = useSignIn();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signinMutation(formData);
+  };
   return (
     <div className="min-h-screen relative font-sans antialiased">
       {/* Background Image */}
@@ -174,11 +179,11 @@ const Signin = () => {
               </div>
               <Button
                 type="submit"
-                // disabled={isLoading}
+                disabled={isPending}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-gray-800 disabled:bg-zinc-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
                 data-testid="button-submit"
               >
-                Continue
+                {isPending ? "Loading..." : "Continue"}
               </Button>
             </form>
             <div className="text-center text-zinc-500 dark:text-gray-400 text-sm mt-6">
