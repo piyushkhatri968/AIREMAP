@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./lib/db.js";
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
     credentials: true,
   })
 );
@@ -27,6 +27,6 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
-  console.log("Server is running");
+  console.log("Server is running at PORT:", PORT);
   connectDB();
 });
