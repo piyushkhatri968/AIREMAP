@@ -1,24 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
+import { Logout } from "../lib/APIs/authAPIs";
 import { toast } from "react-toastify";
-import { Signin } from "../lib/APIs/authAPIs";
+import { useNavigate } from "react-router";
 
-const useSignIn = () => {
+const useLogout = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
-    mutationFn: Signin,
+  const { mutate } = useMutation({
+    mutationFn: Logout,
     onSuccess: (data) => {
-      toast.success(data?.message);
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      navigate("/");
+      navigate("/signin");
     },
     onError: (error) => {
       const message = error.response?.data?.message;
       toast.error(message);
+      navigate("/signin");
     },
   });
-  return { isPending, signinMutation: mutate };
+  return { logoutMutation: mutate };
 };
 
-export default useSignIn;
+export default useLogout;
