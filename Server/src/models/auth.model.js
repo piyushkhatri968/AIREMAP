@@ -16,7 +16,7 @@ const authSchema = mongoose.Schema(
     country: String,
     city: String,
     address: String,
-    postalCode: Number,
+    postalCode: String,
     profileImageUrl: String,
     credits: {
       type: Number,

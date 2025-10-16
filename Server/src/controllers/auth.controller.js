@@ -209,7 +209,8 @@ export const Login = async (req, res) => {
     if (!isPasswordMatched) {
       return sendResponse(res, 400, false, "Email or password is wrong");
     }
-    sendToken(isUserExist, 200, "Login successful", res, req);
+    const message = (isUserExist.onBoarded && isUserExist.verified) ? "Login successful" : !(isUserExist.onBoarded && isUserExist.verified) ? "Please complete the onboarding process" : isUserExist.onBoarded && !isUserExist.verified ? "Please verify your account" : null
+    sendToken(isUserExist, 200, message, res, req);
   } catch (error) {
     console.error("Error in Login controller", error);
     return sendResponse(

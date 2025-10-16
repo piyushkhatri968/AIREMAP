@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import aiRemapLogo from "../../assets/logo/logo.png";
+import aiRemapLogo from "../../../assets/logo/logo.png";
 
 const PageLoader = () => {
   return (

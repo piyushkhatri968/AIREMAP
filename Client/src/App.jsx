@@ -9,7 +9,7 @@ import VerifyEmail from "./Pages/VerifyEmail/VerifyEmail";
 import UserDashboard from "./Pages/Dashboard/UserDashboard/UserDashboard";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
 import useAuthUser from "./hooks/useAuthUser";
-import PageLoader from "./components/Loader/PageLoader";
+import PageLoader from "./components/Loader/PageLoader/PageLoader";
 import UploadFile from "./Pages/UploadFile/UploadFile";
 
 const App = () => {
