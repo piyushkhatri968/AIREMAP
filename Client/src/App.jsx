@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router";
 import Signin from "./Pages/SignIn/Signin";
 import Signup from "./Pages/Signup/Signup";
@@ -24,7 +23,7 @@ const App = () => {
 
   return (
     <Routes>
-      {/* 🌐 Public Routes */}
+      {/* Public Routes */}
       <Route
         path="/signin"
         element={
@@ -62,7 +61,7 @@ const App = () => {
         element={!isAuthenticated ? <PasswordReset /> : <Navigate to="/" />}
       />
 
-      {/* 🧭 Onboarding Routes */}
+      {/* Onboarding Routes */}
       <Route
         path="/onboarding"
         element={
@@ -80,7 +79,7 @@ const App = () => {
         }
       />
 
-      {/* 📩 Unverified Routes */}
+      {/* Unverified Routes */}
       <Route
         path="/unverified"
         element={
@@ -98,7 +97,7 @@ const App = () => {
         }
       />
 
-      {/* ✅ Email Verification Page */}
+      {/* Email Verification Page */}
       <Route
         path="/verify-email"
         element={
@@ -116,7 +115,7 @@ const App = () => {
         }
       />
 
-      {/* 🏠 Authenticated Dashboard Routes */}
+      {/* Authenticated Dashboard Routes */}
       <Route
         path="/"
         element={
