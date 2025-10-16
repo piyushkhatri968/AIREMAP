@@ -10,10 +10,10 @@ import {
   User as User1,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router";
-import useAuthUser from "../../../hooks/useAuthUser";
-import SideItem from "./SideItem";
+import useAuthUser from "../../../../hooks/useAuthUser";
+import UserSideItem from "../UserSidebar/UserSideItem";
 
-const Sidebar = ({ activeView, setActiveView, isOpen = true }) => {
+const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ const Sidebar = ({ activeView, setActiveView, isOpen = true }) => {
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
             General
           </h3>
-          <SideItem
+          <UserSideItem
             icon={<LayoutDashboard className="w-4 h-4" />}
             label="Dashboard"
             isActive={activeView === "dashboard"}
@@ -81,7 +81,7 @@ const Sidebar = ({ activeView, setActiveView, isOpen = true }) => {
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
             Database
           </h3>
-          <SideItem
+          <UserSideItem
             icon={<Tags className="w-4 h-4" />}
             label="Price List"
             isActive={activeView === "price-list"}
@@ -94,13 +94,13 @@ const Sidebar = ({ activeView, setActiveView, isOpen = true }) => {
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
             Credits
           </h3>
-          <SideItem
+          <UserSideItem
             icon={<CircleDollarSign className="w-4 h-4" />}
             label="Buy Credits"
             isActive={activeView === "buy-credits"}
             onClick={() => handleNavigation("buy-credits")}
           />
-          <SideItem
+          <UserSideItem
             icon={<FileSpreadsheet className="w-4 h-4" />}
             label="My Transactions"
             isActive={activeView === "transactions"}
@@ -113,28 +113,28 @@ const Sidebar = ({ activeView, setActiveView, isOpen = true }) => {
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
             Portal
           </h3>
-          <SideItem
+          <UserSideItem
             icon={<FileQuestion className="w-4 h-4" />}
             label="File Service"
             hasSubmenu
           >
-            <SideItem
+            <UserSideItem
               icon={<Upload className="w-4 h-4" />}
               label="Upload File"
               isActive={activeView === "upload-file"}
               onClick={() => handleNavigation("upload-file")}
             />
-            <SideItem
+            <UserSideItem
               icon={<FolderOpen className="w-4 h-4" />}
               label="My Files"
               isActive={activeView === "my-files"}
               onClick={() => handleNavigation("my-files")}
             />
-          </SideItem>
+          </UserSideItem>
         </div>
       </nav>
     </div>
   );
 };
 
-export default Sidebar;
+export default UserSidebar;

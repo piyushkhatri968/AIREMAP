@@ -4,14 +4,14 @@ import aiRemapLogo from "../../assets/logo/logo.png";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
 import { Link } from "react-router";
-import { Checkbox } from "../../components/checkbox";
+import { Checkbox } from "../../components/ui/checkbox";
 import { Button } from "../../components/ui/button";
-import useSignUp from "../../hooks/useSignup";
+import useSignUp from "../../hooks/useSignUp";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
+  password: "",
     confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);

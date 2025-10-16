@@ -10,12 +10,8 @@ const useLogout = () => {
     mutationFn: Logout,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      navigate("/signin");
-    },
-    onError: (error) => {
-      const message = error.response?.data?.message;
-      toast.error(message);
-      navigate("/signin");
+      toast.success(data.message);
+      window.location.href = "/signin";
     },
   });
   return { logoutMutation: mutate };

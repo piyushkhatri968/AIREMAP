@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-const SideItem = ({
+const UserSideItem = ({
   icon,
   label,
   isActive,
@@ -51,4 +51,4 @@ const SideItem = ({
   );
 };
 
-export default SideItem;
+export default UserSideItem;

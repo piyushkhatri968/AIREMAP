@@ -4,7 +4,7 @@ import aiRemapLogo from "../../assets/logo/logo.png";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
 import { Link } from "react-router";
-import { Checkbox } from "../../components/checkbox";
+import { Checkbox } from "../../components/ui/checkbox";
 import { Button } from "../../components/ui/button";
 import useSignIn from "../../hooks/useSignIn";
 
