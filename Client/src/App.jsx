@@ -19,11 +19,11 @@ import BuyCredits from "./Pages/UserPages/BuyCredits/BuyCredits";
 import NotFound from "./Pages/NotFound/NotFound";
 import OrderDetails from "./Pages/UserPages/OrderDetails/OrderDetails";
 import Checkout from "./Pages/UserPages/Checkout/Checkout";
+import ModificationPlan from "./Pages/UserPages/ModificationPlan/ModificationPlan";
+import Overview from "./Pages/UserPages/Overview/Overview";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
-
-  
 
   if (isLoading) return <PageLoader />;
 
@@ -62,11 +62,13 @@ const App = () => {
       {isAuthenticated && isOnboarded && isVerified && role === "user" && (
         <Route element={<UserDashboardLayout />}>
           <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/upload-file" element={<UploadFile />} />
-          <Route path="/my-files" element={<MyFiles />} />
           <Route path="/buy-credits" element={<BuyCredits />} />
           <Route path="/order-details" element={<OrderDetails />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/upload-file" element={<UploadFile />} />
+          <Route path="/modification-plan" element={<ModificationPlan />} />
+          <Route path="/overview" element={<Overview />} />
+          <Route path="/my-files" element={<MyFiles />} />
         </Route>
       )}
 
