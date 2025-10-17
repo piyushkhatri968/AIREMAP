@@ -233,9 +233,11 @@ export const Login = async (req, res) => {
   }
 };
 
-export const GetMe = (req, res) => {
+export const GetMe = async (req, res) => {
   try {
-    return sendResponse(res, 200, true, "User fetched successfully", req.user);
+    const { _id } = req.user
+    const user = await Auth.findById(_id).select("email credits role firstName lastName verified onBoarded address city country postalCode profileImageUrl")
+    return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {
     console.error("Error in GetMe controller", error);
     return sendResponse(

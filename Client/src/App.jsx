@@ -17,6 +17,8 @@ import MyFiles from "./Pages/UserPages/MyFiles/MyFiles";
 import Signin from "./Pages/Signin/Signin";
 import BuyCredits from "./Pages/UserPages/BuyCredits/BuyCredits";
 import NotFound from "./Pages/NotFound/NotFound";
+import OrderDetails from "./Pages/UserPages/OrderDetails/OrderDetails";
+import Checkout from "./Pages/UserPages/Checkout/Checkout";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -61,6 +63,14 @@ const App = () => {
           <Route path="/upload-file" element={<UploadFile />} />
           <Route path="/my-files" element={<MyFiles />} />
           <Route path="/buy-credits" element={<BuyCredits />} />
+          <Route path="/order-details" element={<OrderDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Route>
+      )}
+
+      {isAuthenticated && isOnboarded && isVerified && role === "admin" && (
+        <Route element={<AdminDashboardLayout />}>
+          <Route path="/dashboard" element={<AdminDashboard />} />
         </Route>
       )}
 
@@ -121,7 +131,7 @@ const App = () => {
       />
 
       {/* Fallback */}
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Navigate to="/signin" />} />
     </Routes>
   );
 };
