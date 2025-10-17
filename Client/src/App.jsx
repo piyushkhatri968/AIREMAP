@@ -23,6 +23,8 @@ import Checkout from "./Pages/UserPages/Checkout/Checkout";
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
 
+  
+
   if (isLoading) return <PageLoader />;
 
   const isAuthenticated = Boolean(authUser);

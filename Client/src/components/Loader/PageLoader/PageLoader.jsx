@@ -4,7 +4,7 @@ import aiRemapLogo from "../../../assets/logo/logo.png";
 
 const PageLoader = () => {
   return (
-    <div className="w-full min-h-screen bg-zinc-50 dark:bg-gray-900 text-zinc-900 dark:text-white flex items-center justify-center">
+    <div className="w-full min-h-screen bg-white dark:bg-[#171819] text-[#171819] dark:text-white flex items-center justify-center">
       <div className="flex flex-col items-center">
         {/* Logo with smooth zoom in/out animation */}
         <motion.img
