@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { FileCheck } from "lucide-react";
-import car2 from "../../../assets/AuthImages/car2.png";
-import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
-import { Label } from "../../../components/ui/label";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Button } from "../../../components/ui/button";
 import { toast } from "react-toastify";
+
 const Overview = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [priority, setPriority] = useState("1-2-hours");
   const [acceptTerms, setAcceptTerms] = useState(false);
 
+  const stateData = location.state || {};
   const {
-    vehicle,
     registration,
     ecuId,
     transmission,
@@ -31,7 +28,7 @@ const Overview = () => {
     notes,
     year,
     from,
-  } = location.state || {};
+  } = stateData;
 
   const modificationOptions = [
     // Left Column
@@ -121,17 +118,85 @@ const Overview = () => {
     },
   ];
 
+  const stageDisplay = {
+    noEngineMud: "No Engine Mud",
+    eco: "Eco",
+    "stage-1": "Stage 1",
+    "stage-2": "Stage 2",
+    gearbox: "Gear Box",
+    ofbts: "Original File (Back To Stock)",
+    "ecu-cloning": "ECU Cloning",
+  };
+
+  const optionNameMap = modificationOptions.reduce((acc, option) => {
+    acc[option.id] = option.name;
+    return acc;
+  }, {});
+
   useEffect(() => {
     if (!location.state || from !== "modification-plan") {
-      navigate("upload-file");
+      navigate("/upload-file");
     }
-  }, []);
+  }, [location.state, from, navigate]);
+
+  const handleGoBack = (e) => {
+    e.preventDefault();
+
+    navigate("/modification-plan", {
+      state: {
+        ...stateData,
+        from: "overview-back",
+      },
+    });
+  };
+
+  const data = location.state;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!acceptTerms) {
       toast.error("Please accept the terms");
+      return;
     }
+    console.log(data);
+  };
+  const renderSelectedOptions = () => {
+    if (!options || options.length === 0) {
+      if (stage === "gearbox" || stage === "ofbts" || stage === "ecu-cloning") {
+        return (
+          <p className="text-sm italic text-zinc-500 dark:text-gray-400 mt-2">
+            No extra modifications selected. (Not applicable for this Stage)
+          </p>
+        );
+      }
+      return (
+        <p className="text-sm italic text-red-500 dark:text-red-400 mt-2">
+          No extra modifications selected. (Required for this Stage)
+        </p>
+      );
+    }
+
+    return (
+      <div className="space-y-1 mt-2">
+        {options.map((optionId) => (
+          <div
+            key={optionId}
+            className="text-sm text-zinc-700 dark:text-gray-300 flex items-center gap-2"
+          >
+            <span className="text-red-600 dark:text-red-500">•</span>
+            {optionNameMap[optionId] || optionId}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   return (
@@ -140,12 +205,10 @@ const Overview = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4 sm:space-y-6"
     >
-      {/* Page Title and Breadcrumb */}
       <div>
         <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
           Overview
         </h1>
-        {/* Breadcrumb Navigation */}
         <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
           <button
             onClick={() => navigate("/dashboard")}
@@ -228,7 +291,7 @@ const Overview = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-[17rem]">
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-[12rem]">
                   Solutions
                 </h3>
                 <p className="text-xs text-zinc-500 dark:text-gray-400">
@@ -236,16 +299,6 @@ const Overview = () => {
                   attention to them.
                 </p>
               </div>
-
-              {/* <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-[7rem]">
-                  Priority
-                </h3>
-                <p className="text-xs text-zinc-500 dark:text-gray-400">
-                  Select your preferred service priority levels to help us meet
-                  your tunning needs according to your time line.
-                </p>
-              </div> */}
             </aside>
             {/* Right column: content cards */}
             <section className="lg:col-span-9 space-y-6">
@@ -256,81 +309,80 @@ const Overview = () => {
                     <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
                       Registration | {registration}
                     </h4>
-                    {/* <p className="text-sm text-zinc-500 dark:text-gray-400">
-                      1.6 CTI - 120-BHP - 88-KW
-                    </p> */}
 
                     <div className="grid grid-cols-2 gap-y-2 gap-x-6 mt-4 items-start">
-                      {/* <div className="text-sm text-zinc-500 dark:text-gray-400">
-                        Registration
+                      <div className="text-sm text-zinc-500 dark:text-gray-400">
+                        Make/Model/Year
                       </div>
                       <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                        {registration || "FE16GUO"}
-                      </div> */}
+                        {make} {model} {year}
+                      </div>
 
                       <div className="text-sm text-zinc-500 dark:text-gray-400">
                         ECU ID
                       </div>
                       <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                        {ecuId || "98000"}
+                        {ecuId || "N/A"}
                       </div>
 
                       <div className="text-sm text-zinc-500 dark:text-gray-400">
                         Gearbox
                       </div>
                       <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                        {transmission || "Automatic"}
+                        {transmission || "N/A"}
                       </div>
 
                       <div className="text-sm text-zinc-500 dark:text-gray-400">
-                        ECU
+                        Master/Slave
                       </div>
                       <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                        BOSCH EDC17C42
+                        {masterSlave || "N/A"}
                       </div>
 
                       <div className="text-sm text-zinc-500 dark:text-gray-400">
                         Read Tool
                       </div>
                       <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                        {readTool || "AVDI Abrites (Slave)"}
+                        {readTool || "N/A"}
                       </div>
 
                       <div className="text-sm text-zinc-500 dark:text-gray-400">
                         Read Type
                       </div>
                       <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                        {readType || "Full Read"}
+                        {readType || "N/A"}
                       </div>
                     </div>
 
                     <div className="mt-4 grid grid-cols-2 gap-x-6 items-start">
                       <div className="text-sm text-zinc-500 dark:text-gray-400">
-                        Uploads:
+                        Original File:
                       </div>
                       <div>
-                        <div className="flex items-center gap-2 mt-1 bg-gray-100 dark:bg-[#242526]/90 rounded px-3 py-1 max-w-full border border-zinc-200 dark:border-[#3a3b3c]">
-                          <FileCheck className="w-4 h-4 text-green-500" />
-                          <div className="flex flex-col">
-                            <span className="text-sm font-medium text-zinc-900 dark:text-gray-100">
-                              {ecuFile?.name}
-                            </span>
-                            <span className="text-xs text-zinc-500 dark:text-gray-300">
-                              {ecuFile?.size}
-                            </span>
+                        {ecuFile ? (
+                          <div className="flex items-center gap-2 mt-1 bg-gray-100 dark:bg-[#242526]/90 rounded px-3 py-1 max-w-full border border-zinc-200 dark:border-[#3a3b3c]">
+                            <FileCheck className="w-4 h-4 text-green-500" />
+                            <div className="flex flex-col">
+                              <span className="text-sm font-medium text-zinc-900 dark:text-gray-100">
+                                {ecuFile.name}
+                              </span>
+                              <span className="text-xs text-zinc-500 dark:text-gray-300">
+                                {formatFileSize(ecuFile.size)}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                        ) : (
+                          <span className="text-sm text-red-500">
+                            No file uploaded
+                          </span>
+                        )}
 
-                  <div className="w-full lg:w-56 order-1 lg:order-2 self-end lg:self-center">
-                    <div className="w-full h-40 bg-gray-100 dark:bg-[#242526]/90 rounded-lg overflow-hidden flex items-center justify-center border border-zinc-200 dark:border-[#3a3b3c]">
-                      <img
-                        src={car2}
-                        alt="Car"
-                        className="w-full h-full object-cover"
-                      />
+                        {commonFiles && commonFiles.length > 0 && (
+                          <div className="mt-2 text-sm text-zinc-500 dark:text-gray-400">
+                            **+ {commonFiles.length} additional file(s)**
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -339,119 +391,46 @@ const Overview = () => {
               <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
                 <div className="flex items-center gap-4">
                   <div className="bg-red-600 w-10 h-10 rounded flex items-center justify-center">
-                    <span className="text-white font-semibold">S1</span>
+                    {/* Display first letter of stage or 'S' for default */}
+                    <span className="text-white font-semibold">
+                      {stageDisplay[stage]
+                        ? stageDisplay[stage].charAt(0)
+                        : "S"}
+                    </span>
                   </div>
                   <div>
                     <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
-                      STAGE 1
+                      {stageDisplay[stage] || stage || "N/A Stage"}
                     </h4>
+                    {/* Stage description placeholder */}
                     <p className="text-sm text-zinc-500 dark:text-gray-400">
-                      Est. 21% more power and 19% more torque
+                      {stage === "stage-1"
+                        ? "Est. 21% more power and 19% more torque"
+                        : "Custom tuning plan selected."}
                     </p>
                   </div>
                 </div>
 
-                <div>
-                  {options.map((item2) => (
-                    <div>{item2}</div>
-                  ))}
+                <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
+                  <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
+                    Selected Options:
+                  </h5>
+                  {renderSelectedOptions()}
                 </div>
 
-                {/* <div className="mt-4 grid grid-cols-1 gap-2">
-                  <div className="flex items-center gap-4">
-                    <div className="flex-1 h-2 bg-gray-200 dark:bg-[#242526]/90 rounded-full overflow-hidden">
-                      <div className="h-full w-3/4 bg-gradient-to-r from-red-500 to-red-600 rounded-full" />
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="text-zinc-500 dark:text-gray-400">
-                        120 bhp
-                      </span>
-                      <span className="text-red-600">→</span>
-                      <span className="font-medium text-zinc-900 dark:text-white">
-                        145 bhp
-                      </span>
-                    </div>
+                {notes && (
+                  <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
+                    <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
+                      Notes for Tuner:
+                    </h5>
+                    <p className="text-sm italic text-zinc-600 dark:text-gray-400 whitespace-pre-wrap">
+                      {notes}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex-1 h-2 bg-gray-200 dark:bg-[#242526]/90 rounded-full overflow-hidden">
-                      <div className="h-full w-4/5 bg-gradient-to-r from-red-500 to-red-600 rounded-full" />
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="text-zinc-500 dark:text-gray-400">
-                        320 Nm
-                      </span>
-                      <span className="text-red-600">→</span>
-                      <span className="font-medium text-zinc-900 dark:text-white">
-                        380 Nm
-                      </span>
-                    </div>
-                  </div>
-                </div> */}
+                )}
               </div>
-              {/* Priority Card */}
-              {/* <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
-                <div>
-                  <RadioGroup
-                    value={priority}
-                    onValueChange={setPriority}
-                    className="space-y-3"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <RadioGroupItem
-                        value="1-2-hours"
-                        id="1-2-hours"
-                        className="border-gray-200 dark:border-gray-700 text-white data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
-                      />
-                      <Label
-                        htmlFor="1-2-hours"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        1-2-hours
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <RadioGroupItem
-                        value="as-soon"
-                        id="as-soon"
-                        className="border-gray-200 dark:border-gray-700 text-white data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
-                      />
-                      <Label
-                        htmlFor="as-soon"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        As Soon As Possible
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <RadioGroupItem
-                        value="asap"
-                        id="asap"
-                        className="border-gray-200 dark:border-gray-700 text-white data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
-                      />
-                      <Label
-                        htmlFor="asap"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        ASAP
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <RadioGroupItem
-                        value="tomorrow"
-                        id="tomorrow"
-                        className="border-gray-200 dark:border-gray-700 text-white data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
-                      />
-                      <Label
-                        htmlFor="tomorrow"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        Tomorrow
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div> */}
-              {/* Terms Card */}
+
+              {/* Terms Card (unchanged) */}
               <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-2">
@@ -480,8 +459,9 @@ const Overview = () => {
               {/* Action Buttons */}
               <div className="flex justify-between pt-2">
                 <Button
+                  type="button"
                   variant="outline"
-                  onClick={() => navigate(-1)}
+                  onClick={handleGoBack}
                   className="px-8 dark:text-white"
                 >
                   Back

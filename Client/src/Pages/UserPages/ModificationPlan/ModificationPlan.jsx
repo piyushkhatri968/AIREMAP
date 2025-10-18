@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router";
-import useAuthUser from "../../../hooks/useAuthUser";
 import { motion } from "framer-motion";
 import {
   Select,
@@ -45,7 +44,6 @@ const ModificationPlan = () => {
     {
       id: "glowplug",
       name: "GLOWPLUG",
-
       category: "performance",
     },
     {
@@ -65,14 +63,13 @@ const ModificationPlan = () => {
     },
     {
       id: "sap-delete",
-      name: "SAP DELETE (Secondry Air Pump)",
+      name: "SAP DELETE (Secondary Air Pump)",
       category: "emissions",
     },
     { id: "speed-limit", name: "SPEED LIMIT OFF", category: "performance" },
     {
       id: "swirl-flaps",
       name: "SWIRL FLAPS OFF",
-
       category: "performance",
     },
     { id: "water-pump", name: "WATER PUMP FIX", category: "maintenance" },
@@ -105,44 +102,6 @@ const ModificationPlan = () => {
     },
   ];
 
-  const options = {
-    "act-off": "ACT OFF (Cylinder On Demand)",
-    "ags-off": "AGS OFF (Active Grill Shutter)",
-    "clone-ecu": "CLONE ECU",
-    "cvn-fix": "CVN FIX",
-    "dpf-fap-off": "DPF - FAP OFF",
-    "egr-off": "EGR OFF",
-    "exhaust-flap": "EXHAUST FLAP REMOVAL",
-    glowplug: "GLOWPLUG",
-    hardcut: "HARDCUT POP&BANG LIMITER (DIESEL ONLY)",
-    "immo-off": "IMMO OFF",
-    "launch-control": "LAUNCH CONTROL",
-    nox: "NOx",
-    "oil-pressure": "OIL PRESSURE FIX",
-    "pop-bang": "POP & BANG (PETROL ONLY)",
-    "sap-delete": "SAP DELETE (Secondary Air Pump)",
-    "speed-limit": "SPEED LIMIT OFF",
-    "swirl-flaps": "SWIRL FLAPS OFF",
-    "water-pump": "WATER PUMP FIX",
-    "adblue-scr": "ADBLUE - SCR OFF",
-    "bmw-display": "BMW SPORTS DISPLAY",
-    "cold-start": "COLD START NOISE",
-    "decode-encode": "DECODE - ENCODE",
-    "dtc-off": "DTC OFF",
-    "evap-removal": "EVAP REMOVAL",
-    "flex-fuel": "FLEX FUEL E85",
-    "gpf-off": "GPF - OPF OFF",
-    "hot-start": "HOT START",
-    kickdown: "KICKDOWN DEACTIVATION",
-    "maf-off": "MAF OFF",
-    "o2-lambda": "O2 - LAMBDA OFF",
-    "original-file": "ORIGINAL FILE REQUEST",
-    readiness: "READINESS CALIBRATION",
-    "rev-limiter": "SOFT REV LIMITER REMOVAL",
-    "start-stop": "START STOP DISABLE",
-    "tprot-off": "TPROT OFF (Tuning Protection)",
-  };
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -153,20 +112,19 @@ const ModificationPlan = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [commonFiles, setCommonFiles] = useState([]);
 
-  const fromUploadFile = location.state?.from === "upload-file";
-  const fromUploadFileData = location.state;
+  const blockedStages = useMemo(() => ["gearbox", "ofbts", "ecu-cloning"], []);
+
+  const isOptionsBlocked = blockedStages.includes(selectedStage);
 
   useEffect(() => {
-    if (fromUploadFile && fromUploadFileData) {
-      setSelectedStage(fromUploadFile.readType || "");
-      if (fromUploadFileData.ecuFile) {
-        setUploadedFile(fromUploadFileData.ecuFile);
-      }
-      if (fromUploadFileData.commonFiles) {
-        setCommonFiles(fromUploadFileData.commonFiles);
-      }
+    if (isOptionsBlocked && selectedOptions.length > 0) {
+      setSelectedOptions([]);
     }
-  }, [fromUploadFile, fromUploadFileData, navigate]);
+  }, [isOptionsBlocked, selectedOptions.length]);
+
+  const fromSourceData = location.state;
+  const isComingFromUpload = fromSourceData?.from === "upload-file";
+  const isComingFromOverviewBack = fromSourceData?.from === "overview-back";
 
   const handleFileUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -180,7 +138,6 @@ const ModificationPlan = () => {
     }
   };
 
-  // Drag/Drop handlers (simplified, no hover effect)
   const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -196,6 +153,11 @@ const ModificationPlan = () => {
   };
 
   const handleOptionToggle = (optionId) => {
+    if (isOptionsBlocked) {
+      toast.info("Options selection is disabled for the current Stage.");
+      return;
+    }
+
     setSelectedOptions((prev) => {
       if (prev.includes(optionId)) {
         return prev.filter((id) => id !== optionId);
@@ -205,34 +167,74 @@ const ModificationPlan = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    {
-      e.preventDefault();
-
-      if (!selectedStage) {
-        toast.error("Please select a stage");
-        return;
+  useEffect(() => {
+    if (fromSourceData) {
+      if (fromSourceData.ecuFile) {
+        setUploadedFile(fromSourceData.ecuFile);
       }
-
-      if (selectedOptions.length === 0) {
-        return toast.error("Please select any option");
+      if (fromSourceData.commonFiles) {
+        setCommonFiles(fromSourceData.commonFiles);
       }
-
-      const data = {
-        ...fromUploadFileData,
-        ecuFile: uploadedFile,
-        stage: selectedStage,
-        options: selectedOptions,
-        notes,
-        commonFiles,
-        // Add the source page
-        from: "modification-plan",
-      };
-
-      navigate("/overview", {
-        state: data,
-      });
     }
+  }, [fromSourceData, setUploadedFile, setCommonFiles]);
+
+  useEffect(() => {
+    if (isComingFromOverviewBack && fromSourceData) {
+      // Files ko load karna (files ki loading ka issue na aaye, isliye unhe pehle set kar do)
+      if (fromSourceData.ecuFile) {
+        setUploadedFile(fromSourceData.ecuFile);
+      }
+      if (fromSourceData.commonFiles) {
+        setCommonFiles(fromSourceData.commonFiles);
+      }
+      const timer = setTimeout(() => {
+        if (fromSourceData.stage) {
+          setSelectedStage(fromSourceData.stage);
+        }
+        if (fromSourceData.options) {
+          setSelectedOptions(fromSourceData.options);
+        }
+        if (fromSourceData.notes) {
+          setNotes(fromSourceData.notes);
+        }
+      }, 10);
+      return () => clearTimeout(timer);
+    }
+  }, [
+    isComingFromOverviewBack,
+    fromSourceData,
+    setSelectedStage,
+    setSelectedOptions,
+    setNotes,
+    setUploadedFile,
+    setCommonFiles,
+  ]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!selectedStage) {
+      toast.error("Please select a stage");
+      return;
+    }
+
+    if (!isOptionsBlocked && selectedOptions.length === 0) {
+      return toast.error("Please select any option");
+    }
+
+    const data = {
+      ...fromSourceData,
+      ecuFile: uploadedFile,
+      stage: selectedStage,
+      options: selectedOptions,
+      notes,
+      commonFiles,
+      from: "modification-plan",
+    };
+
+    navigate("/overview", {
+      state: data,
+    });
   };
 
   return (
@@ -241,7 +243,7 @@ const ModificationPlan = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4 sm:space-y-6"
     >
-      {/* Page Title and Breadcrumb */}
+      {/* Page Title and Breadcrumb (unchanged) */}
       <div>
         <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
           Modification Plan
@@ -269,7 +271,7 @@ const ModificationPlan = () => {
           </span>
         </div>
       </div>
-      {/* Step Indicators */}
+      {/* Step Indicators (unchanged) */}
       <div className="flex items-center justify-end py-2 sm:py-4 gap-3 sm:gap-4">
         <div className="flex items-center space-x-2">
           <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 text-zinc-500 dark:bg-gray-600 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
@@ -321,7 +323,7 @@ const ModificationPlan = () => {
               </p>
             </div>
           </div>
-          {/* Stage Selection */}
+          {/* Stage Selection (unchanged logic) */}
           <div className="space-y-2 mt-4">
             <div className="flex items-center space-x-2">
               <span className="text-sm font-medium text-gray-900 dark:text-white">
@@ -394,6 +396,11 @@ const ModificationPlan = () => {
                 Options
               </span>
               <span className="text-red-500">*</span>
+              {isOptionsBlocked && (
+                <span className="text-xs text-red-500 ml-2">
+                  (Disabled for this Stage)
+                </span>
+              )}
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               Select any extra solutions you need to complement your customized
@@ -406,18 +413,27 @@ const ModificationPlan = () => {
                 {modificationOptions.slice(0, 18).map((option) => (
                   <label
                     key={option.id}
-                    className="flex items-center space-x-3 cursor-pointer group"
+                    className={`flex items-center space-x-3 cursor-pointer group ${
+                      isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   >
                     <Checkbox
                       checked={selectedOptions.includes(option.id)}
                       onCheckedChange={() => handleOptionToggle(option.id)}
-                      className="border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      disabled={isOptionsBlocked}
+                      className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
+                        isOptionsBlocked
+                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                          : ""
+                      }`}
                     />
                     <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
-                      {options?.option?.id || option.name}
-                      {option.warning && (
-                        <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                      )}
+                      <span>{option.name}</span>
+                      <span>
+                        {option.warning && (
+                          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                        )}
+                      </span>
                     </span>
                   </label>
                 ))}
@@ -428,25 +444,34 @@ const ModificationPlan = () => {
                 {modificationOptions.slice(18).map((option) => (
                   <label
                     key={option.id}
-                    className="flex items-center space-x-3 cursor-pointer group"
+                    className={`flex items-center space-x-3 cursor-pointer group ${
+                      isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   >
                     <Checkbox
                       checked={selectedOptions.includes(option.id)}
                       onCheckedChange={() => handleOptionToggle(option.id)}
-                      className="border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      disabled={isOptionsBlocked}
+                      className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
+                        isOptionsBlocked
+                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                          : ""
+                      }`}
                     />
                     <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
-                      {options?.option?.id || option.name}
-                      {option.warning && (
-                        <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                      )}
+                      <span>{option.name}</span>
+                      <span>
+                        {option.warning && (
+                          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                        )}
+                      </span>
                     </span>
                   </label>
                 ))}
               </div>
             </div>
           </div>
-          {/* File Upload Section */}
+
           <div className="space-y-4 mt-4">
             <div>
               <Label className="text-sm font-medium text-gray-900 dark:text-white">
@@ -527,7 +552,7 @@ const ModificationPlan = () => {
               </div>
             </div>
           </div>
-          {/* Notes Section */}
+          {/* Notes Section (unchanged) */}
           <div className="space-y-2">
             <Label
               htmlFor="notes"
@@ -547,7 +572,7 @@ const ModificationPlan = () => {
               className="min-h-[100px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
           </div>
-          {/* Submit Button */}
+          {/* Submit Button (unchanged) */}
           <div className="flex justify-end mt-4">
             <Button
               type="submit"

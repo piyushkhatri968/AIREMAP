@@ -12,14 +12,15 @@ import {
 } from "../../../components/ui/select";
 import { UploadCloud } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import { ecuOptions } from "../../../utils/ECUdata";
+import EcuSearchCombobox from "./EcuSearchCombobox";
 
 const UploadFile = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    vehicle: "",
     make: "",
     model: "",
     year: "",
@@ -43,15 +44,46 @@ const UploadFile = () => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
+  const MAX_ECU_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+  const MAX_COMMON_FILES_SIZE = 100 * 1024 * 1024; // 100 MB
+
+  const formatBytes = (bytes) => {
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+  };
+
   const handleFileUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setUploadedFile(event.target.files[0]);
+      const file = event.target.files[0];
+      if (file.size > MAX_ECU_FILE_SIZE) {
+        toast.error(
+          `File size should be less than ${formatBytes(MAX_ECU_FILE_SIZE)}.`
+        );
+        event.target.value = null;
+        return;
+      } else {
+        setUploadedFile(file);
+      }
     }
   };
 
   const handleCommonFilesUpload = (event) => {
     if (event.target.files) {
-      setCommonFiles(Array.from(event.target.files));
+      const files = Array.from(event.target.files);
+
+      // Calculate total size of all common files
+      const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+
+      if (totalSize > MAX_COMMON_FILES_SIZE) {
+        toast.error(
+          `Total size of additional files should be less than ${formatBytes(
+            MAX_COMMON_FILES_SIZE
+          )}.`
+        );
+        event.target.value = null;
+        return;
+      } else {
+        setCommonFiles(files);
+      }
     }
   };
 
@@ -69,6 +101,14 @@ const UploadFile = () => {
       setUploadedFile(e.dataTransfer.files[0]);
     }
   };
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredEcuOptions = useMemo(() => {
+    return ecuOptions.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -190,24 +230,8 @@ const UploadFile = () => {
                   .
                 </p>
               </div>
-              {/* <div className="col-span-2">
-                <div className="flex items-center gap-2">
-                  <Input
-                    required
-                    id="vehicle"
-                    placeholder="Vehicle"
-                    value={formData.vehicle}
-                    onChange={handleInputChange}
-                    className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                  ></Input>
-                </div>
-              </div> */}
-            </div>
-
-            {/* Make */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-1"></div>
-              <div className="col-span-2">
+              <div className="space-y-4 col-span-2">
+                {/* Make */}
                 <Input
                   required
                   id="make"
@@ -216,12 +240,8 @@ const UploadFile = () => {
                   onChange={handleInputChange}
                   className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                 />
-              </div>
-            </div>
-            {/* Model */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-1"></div>
-              <div className="col-span-2">
+
+                {/* Model */}
                 <Input
                   required
                   placeholder="Model"
@@ -230,12 +250,8 @@ const UploadFile = () => {
                   onChange={handleInputChange}
                   className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                 />
-              </div>
-            </div>
-            {/* Year */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-1"></div>
-              <div className="col-span-2">
+
+                {/* Year */}
                 <Input
                   required
                   placeholder="Year"
@@ -244,12 +260,8 @@ const UploadFile = () => {
                   onChange={handleInputChange}
                   className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                 />
-              </div>
-            </div>
-            {/* Registration */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-1"></div>
-              <div className="col-span-2">
+
+                {/* Registration */}
                 <Input
                   required
                   placeholder="Registration"
@@ -258,20 +270,22 @@ const UploadFile = () => {
                   onChange={handleInputChange}
                   className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                 />
-              </div>
-            </div>
-            {/* ECU ID */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-1"></div>
-              <div className="col-span-2">
-                <Input
-                  required
-                  placeholder="ECU ID"
-                  id="ecuId"
-                  value={formData.ecuId}
-                  onChange={handleInputChange}
-                  className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                />
+
+                {/* ECU ID */}
+                <div className="relative">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                    Select the ECU ID from the list.
+                  </p>
+
+                  {/* 🛑 REPLACE: Select with EcuSearchCombobox */}
+                  <EcuSearchCombobox
+                    options={ecuOptions} // Puri list pass kar do
+                    selectedValue={formData.ecuId}
+                    onValueChange={(value) =>
+                      handleSelectChange("ecuId", value)
+                    }
+                  />
+                </div>
               </div>
             </div>
 
@@ -289,7 +303,7 @@ const UploadFile = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value="automatic"
+                      value="Automatic"
                       id="automatic"
                       className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
                     />
@@ -302,7 +316,7 @@ const UploadFile = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value="manual"
+                      value="Manual"
                       id="manual"
                       className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
                     />
@@ -315,7 +329,7 @@ const UploadFile = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value="semi-automatic"
+                      value="SemiAutomatic"
                       id="semi-automatic"
                       className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
                     />

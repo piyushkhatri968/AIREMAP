@@ -21,6 +21,9 @@ import OrderDetails from "./Pages/UserPages/OrderDetails/OrderDetails";
 import Checkout from "./Pages/UserPages/Checkout/Checkout";
 import ModificationPlan from "./Pages/UserPages/ModificationPlan/ModificationPlan";
 import Overview from "./Pages/UserPages/Overview/Overview";
+import { useEffect } from "react";
+import ScrollToTop from "./components/ScrollToTop";
+import PriceList from "./Pages/UserPages/PriceList/PriceList";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -47,96 +50,100 @@ const App = () => {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          isAuthenticated ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            <Navigate to="/signin" />
-          )
-        }
-      />
-
-      {isAuthenticated && isOnboarded && isVerified && role === "user" && (
-        <Route element={<UserDashboardLayout />}>
-          <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/buy-credits" element={<BuyCredits />} />
-          <Route path="/order-details" element={<OrderDetails />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/upload-file" element={<UploadFile />} />
-          <Route path="/modification-plan" element={<ModificationPlan />} />
-          <Route path="/overview" element={<Overview />} />
-          <Route path="/my-files" element={<MyFiles />} />
-        </Route>
-      )}
-
-      {isAuthenticated && isOnboarded && isVerified && role === "admin" && (
-        <Route element={<AdminDashboardLayout />}>
-          <Route path="/dashboard" element={<AdminDashboard />} />
-        </Route>
-      )}
-
-      <Route path="/signin" element={redirectIfAuth() || <Signin />} />
-      <Route path="/signup" element={redirectIfAuth() || <Signup />} />
-
-      <Route
-        path="/password-reset"
-        element={
-          !isAuthenticated ? <PasswordReset /> : <Navigate to="/dashboard" />
-        }
-      />
-
-      <Route
-        path="/onboarding"
-        element={
-          isAuthenticated ? (
-            !isOnboarded ? (
-              <OnBoarding />
-            ) : isVerified ? (
+    <div>
+      <ScrollToTop />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
               <Navigate to="/dashboard" />
             ) : (
-              <Navigate to="/unverified" />
+              <Navigate to="/signin" />
             )
-          ) : (
-            <Navigate to="/signin" />
-          )
-        }
-      />
+          }
+        />
 
-      <Route
-        path="/unverified"
-        element={
-          isAuthenticated ? (
-            isOnboarded && !isVerified ? (
-              <Unverified />
-            ) : (
-              <Navigate to="/dashboard" />
-            )
-          ) : (
-            <Navigate to="/signin" />
-          )
-        }
-      />
-      <Route
-        path="/verify-email"
-        element={
-          isAuthenticated ? (
-            isOnboarded && !isVerified ? (
-              <VerifyEmail />
-            ) : (
-              <Navigate to="/dashboard" />
-            )
-          ) : (
-            <Navigate to="/signin" />
-          )
-        }
-      />
+        {isAuthenticated && isOnboarded && isVerified && role === "user" && (
+          <Route element={<UserDashboardLayout />}>
+            <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/buy-credits" element={<BuyCredits />} />
+            <Route path="/order-details" element={<OrderDetails />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/upload-file" element={<UploadFile />} />
+            <Route path="/modification-plan" element={<ModificationPlan />} />
+            <Route path="/overview" element={<Overview />} />
+            <Route path="/my-files" element={<MyFiles />} />
+            <Route path="/price-list" element={<PriceList />} />
+          </Route>
+        )}
 
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/signin" />} />
-    </Routes>
+        {isAuthenticated && isOnboarded && isVerified && role === "admin" && (
+          <Route element={<AdminDashboardLayout />}>
+            <Route path="/dashboard" element={<AdminDashboard />} />
+          </Route>
+        )}
+
+        <Route path="/signin" element={redirectIfAuth() || <Signin />} />
+        <Route path="/signup" element={redirectIfAuth() || <Signup />} />
+
+        <Route
+          path="/password-reset"
+          element={
+            !isAuthenticated ? <PasswordReset /> : <Navigate to="/dashboard" />
+          }
+        />
+
+        <Route
+          path="/onboarding"
+          element={
+            isAuthenticated ? (
+              !isOnboarded ? (
+                <OnBoarding />
+              ) : isVerified ? (
+                <Navigate to="/dashboard" />
+              ) : (
+                <Navigate to="/unverified" />
+              )
+            ) : (
+              <Navigate to="/signin" />
+            )
+          }
+        />
+
+        <Route
+          path="/unverified"
+          element={
+            isAuthenticated ? (
+              isOnboarded && !isVerified ? (
+                <Unverified />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+            ) : (
+              <Navigate to="/signin" />
+            )
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            isAuthenticated ? (
+              isOnboarded && !isVerified ? (
+                <VerifyEmail />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+            ) : (
+              <Navigate to="/signin" />
+            )
+          }
+        />
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/signin" />} />
+      </Routes>
+    </div>
   );
 };
 
