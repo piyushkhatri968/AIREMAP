@@ -291,7 +291,7 @@ const Overview = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-[12rem]">
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-[16rem]">
                   Solutions
                 </h3>
                 <p className="text-xs text-zinc-500 dark:text-gray-400">

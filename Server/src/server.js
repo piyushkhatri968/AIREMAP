@@ -19,12 +19,16 @@ app.use(
 );
 
 import authRoutes from "./routes/auth.route.js";
+import paymentRoutes from "./routes/payment.route.js";
+import ecuFileRoutes from "./routes/ecuFile.route.js";
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/ecuFile", ecuFileRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running at PORT:", PORT);
