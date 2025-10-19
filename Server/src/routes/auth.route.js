@@ -8,7 +8,10 @@ import {
   Signup,
   SignupEmailVerify,
 } from "../controllers/auth.controller.js";
-import { isAuthenticated } from "../middleware/auth.middleware.js";
+import {
+  isAuthenticated,
+  isFullyAuthenticated,
+} from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 

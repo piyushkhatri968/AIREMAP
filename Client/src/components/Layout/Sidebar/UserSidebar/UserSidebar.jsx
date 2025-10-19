@@ -52,7 +52,7 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
             <span className="text-xs text-gray-500 dark:text-zinc-500">
               Personal Account
             </span>
-            <div className="bg-red-500/20 rounded px-2 w-14 py-0.5 mt-1">
+            <div className="bg-red-500/20 rounded px-2 py-0.5 mt-1">
               <span className="text-xs text-red-500 font-medium">
                 {authUser?.credits || 0} CRD
               </span>

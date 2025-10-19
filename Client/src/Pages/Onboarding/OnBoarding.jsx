@@ -191,13 +191,13 @@ const OnBoarding = () => {
               </div>
 
               <div className="flex gap-6 justify-end items-center">
-                <Link
+                {/* <Link
                   to="/signin"
                   className="hover:bg-[#374151] text-white font-medium py-1.5 px-5 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-gray-800 disabled:bg-zinc-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed text-lg"
                   data-testid="button-submit"
                 >
                   Back
-                </Link>
+                </Link> */}
                 <Button
                   type="submit"
                   disabled={isPending}

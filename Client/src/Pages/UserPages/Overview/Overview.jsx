@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { motion } from "framer-motion";
-import { FileCheck } from "lucide-react";
+import { FileCheck, Loader2 } from "lucide-react";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Button } from "../../../components/ui/button";
 import { toast } from "react-toastify";
+import useCreateEcuFile from "../../../hooks/useCreateEcuFile";
 
 const Overview = () => {
   const location = useLocation();
@@ -43,14 +44,19 @@ const Overview = () => {
       category: "performance",
     },
     { id: "clone-ecu", name: "CLONE ECU", category: "performance" },
-    { id: "cvn-fix", name: "CVN FIX", category: "performance" },
+    {
+      id: "cvn-fix",
+      name: "CVN FIX",
+      warning: true,
+      credits: 1,
+      category: "performance",
+    },
     {
       id: "dpf-fap-off",
       name: "DPF - FAP OFF",
-      warning: true,
       category: "emissions",
     },
-    { id: "egr-off", name: "EGR OFF", warning: true, category: "emissions" },
+    { id: "egr-off", name: "EGR OFF", category: "emissions" },
     {
       id: "exhaust-flap",
       name: "EXHAUST FLAP REMOVAL",
@@ -59,7 +65,6 @@ const Overview = () => {
     {
       id: "glowplug",
       name: "GLOWPLUG",
-      warning: true,
       category: "performance",
     },
     {
@@ -67,43 +72,69 @@ const Overview = () => {
       name: "HARDCUT POP&BANG LIMITER (DIESEL ONLY)",
       category: "performance",
     },
-    { id: "immo-off", name: "IMMO OFF", category: "security" },
+    {
+      id: "immo-off",
+      name: "IMMO OFF",
+      warning: true,
+      credits: 2,
+      category: "security",
+    },
     { id: "launch-control", name: "LAUNCH CONTROL", category: "performance" },
     { id: "nox", name: "NOx", category: "emissions" },
     { id: "oil-pressure", name: "OIL PRESSURE FIX", category: "maintenance" },
     {
       id: "pop-bang",
       name: "POP & BANG (PETROL ONLY)",
+      warning: true,
+      credits: 1,
       category: "performance",
     },
     {
       id: "sap-delete",
-      name: "SAP DELETE (Secondry Air Pump)",
+      name: "SAP DELETE (Secondary Air Pump)",
       category: "emissions",
     },
     { id: "speed-limit", name: "SPEED LIMIT OFF", category: "performance" },
     {
       id: "swirl-flaps",
       name: "SWIRL FLAPS OFF",
-      warning: true,
       category: "performance",
     },
     { id: "water-pump", name: "WATER PUMP FIX", category: "maintenance" },
+    {
+      id: "enc-dec",
+      name: "ENCRYPT / DECRYPT (Includes 1 Encrypt and 1 Decrypt)",
+      category: "service",
+      warning: true,
+      credits: 1,
+    },
 
     // Right Column
     { id: "adblue-scr", name: "ADBLUE - SCR OFF", category: "emissions" },
     { id: "bmw-display", name: "BMW SPORTS DISPLAY", category: "display" },
     { id: "cold-start", name: "COLD START NOISE", category: "performance" },
     { id: "decode-encode", name: "DECODE - ENCODE", category: "security" },
-    { id: "dtc-off", name: "DTC OFF", warning: true, category: "diagnostics" },
+    { id: "dtc-off", name: "DTC OFF", category: "diagnostics" },
     { id: "evap-removal", name: "EVAP REMOVAL", category: "emissions" },
-    { id: "flex-fuel", name: "FLEX FUEL E85", category: "fuel" },
+    {
+      id: "flex-fuel",
+      name: "FLEX FUEL E85",
+      warning: true,
+      credits: 1,
+      category: "fuel",
+    },
     { id: "gpf-off", name: "GPF - OPF OFF", category: "emissions" },
     { id: "hot-start", name: "HOT START", category: "performance" },
     { id: "kickdown", name: "KICKDOWN DEACTIVATION", category: "transmission" },
     { id: "maf-off", name: "MAF OFF", category: "sensors" },
     { id: "o2-lambda", name: "O2 - LAMBDA OFF", category: "emissions" },
-    { id: "original-file", name: "ORIGINAL FILE REQUEST", category: "service" },
+    {
+      id: "original-file",
+      name: "ORIGINAL FILE REQUEST",
+      warning: true,
+      credits: 1,
+      category: "service",
+    },
     { id: "readiness", name: "READINESS CALIBRATION", category: "diagnostics" },
     {
       id: "rev-limiter",
@@ -116,16 +147,23 @@ const Overview = () => {
       name: "TPROT OFF (Tuning Protection)",
       category: "security",
     },
+    {
+      id: "add-solutions-to-master",
+      name: "ADDITIONAL SOLUTIONS ADDED TO MASTER FILE",
+      category: "performance",
+      warning: true,
+      credits: 1,
+    },
   ];
 
   const stageDisplay = {
-    noEngineMud: "No Engine Mud",
-    eco: "Eco",
-    "stage-1": "Stage 1",
-    "stage-2": "Stage 2",
-    gearbox: "Gear Box",
-    ofbts: "Original File (Back To Stock)",
-    "ecu-cloning": "ECU Cloning",
+    "No Engine Mud": "No Engine Mud",
+    Eco: "Eco",
+    "Stage 1": "Stage 1",
+    "Stage 2": "Stage 2",
+    "Gear Box": "Gear Box",
+    "Original File (Back To Stock)": "Original File (Back To Stock)",
+    "ECU Cloning": "ECU Cloning",
   };
 
   const optionNameMap = modificationOptions.reduce((acc, option) => {
@@ -152,13 +190,57 @@ const Overview = () => {
 
   const data = location.state;
 
-  const handleSubmit = (e) => {
+  const { isPending, createEcuFileMutation } = useCreateEcuFile();
+  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!acceptTerms) {
       toast.error("Please accept the terms");
       return;
     }
-    console.log(data);
+
+    const formData = new FormData();
+
+    // append normal fields
+    const normalFields = {
+      registration,
+      ecuId,
+      transmission,
+      readTool,
+      readType,
+      stage,
+      options,
+      make,
+      masterSlave,
+      model,
+      notes,
+      year,
+    };
+
+    Object.entries(normalFields).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value);
+      }
+    });
+
+    // append ecu file
+    if (ecuFile) {
+      formData.append("ecuFile", ecuFile);
+    }
+
+    // append files
+    if (commonFiles && commonFiles.length > 0) {
+      commonFiles.forEach((file, index) => {
+        formData.append("commonFiles", file);
+      });
+    }
+
+    try {
+      await createEcuFileMutation(formData);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const renderSelectedOptions = () => {
     if (!options || options.length === 0) {
@@ -469,9 +551,16 @@ const Overview = () => {
                 <Button
                   type="submit"
                   className="bg-red-600 hover:bg-red-700 text-white px-8"
-                  disabled={!acceptTerms}
+                  disabled={!acceptTerms || isPending}
                 >
-                  Submit
+                  {isPending ? (
+                    <div className="flex items-center justify-center">
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <span>Loading...</span>
+                    </div>
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </div>
             </section>

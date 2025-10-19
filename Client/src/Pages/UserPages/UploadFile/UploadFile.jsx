@@ -44,7 +44,7 @@ const UploadFile = () => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const MAX_ECU_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+  const MAX_ECU_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
   const MAX_COMMON_FILES_SIZE = 100 * 1024 * 1024; // 100 MB
 
   const formatBytes = (bytes) => {
@@ -102,16 +102,12 @@ const UploadFile = () => {
     }
   };
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredEcuOptions = useMemo(() => {
-    return ecuOptions.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.transmission) {
+      return toast.error("PLease select a transmission");
+    }
 
     if (!formData.readTool) {
       return toast.error("PLease select read tool");
@@ -142,7 +138,7 @@ const UploadFile = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-4 sm:space-y-6"
+      
     >
       {/* Page Title */}
       <div>
@@ -294,7 +290,6 @@ const UploadFile = () => {
               <div className="space-y-1"></div>
               <div className="col-span-2">
                 <RadioGroup
-                  required
                   value={formData.transmission}
                   onValueChange={(value) =>
                     handleSelectChange("transmission", value)

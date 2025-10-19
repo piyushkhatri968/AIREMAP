@@ -7,3 +7,8 @@ export const CreatePayment = async (formData) => {
   );
   return response.data;
 };
+
+export const PaymentHistory = async () => {
+  const response = await axiosInstance.get("/payment/payment-history");
+  return response.data;
+};

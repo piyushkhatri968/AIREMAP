@@ -22,6 +22,10 @@ const authSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    totalMoneySpent: {
+      type: Number,
+      default: 0,
+    },
     role: {
       type: String,
       default: "user",

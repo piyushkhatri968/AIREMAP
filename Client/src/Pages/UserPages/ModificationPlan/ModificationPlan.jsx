@@ -29,7 +29,13 @@ const ModificationPlan = () => {
       category: "performance",
     },
     { id: "clone-ecu", name: "CLONE ECU", category: "performance" },
-    { id: "cvn-fix", name: "CVN FIX", warning: true, category: "performance" },
+    {
+      id: "cvn-fix",
+      name: "CVN FIX",
+      warning: true,
+      credits: 1,
+      category: "performance",
+    },
     {
       id: "dpf-fap-off",
       name: "DPF - FAP OFF",
@@ -51,7 +57,13 @@ const ModificationPlan = () => {
       name: "HARDCUT POP&BANG LIMITER (DIESEL ONLY)",
       category: "performance",
     },
-    { id: "immo-off", name: "IMMO OFF", warning: true, category: "security" },
+    {
+      id: "immo-off",
+      name: "IMMO OFF",
+      warning: true,
+      credits: 2,
+      category: "security",
+    },
     { id: "launch-control", name: "LAUNCH CONTROL", category: "performance" },
     { id: "nox", name: "NOx", category: "emissions" },
     { id: "oil-pressure", name: "OIL PRESSURE FIX", category: "maintenance" },
@@ -59,6 +71,7 @@ const ModificationPlan = () => {
       id: "pop-bang",
       name: "POP & BANG (PETROL ONLY)",
       warning: true,
+      credits: 1,
       category: "performance",
     },
     {
@@ -73,6 +86,13 @@ const ModificationPlan = () => {
       category: "performance",
     },
     { id: "water-pump", name: "WATER PUMP FIX", category: "maintenance" },
+    {
+      id: "enc-dec",
+      name: "ENCRYPT / DECRYPT (Includes 1 Encrypt and 1 Decrypt)",
+      category: "service",
+      warning: true,
+      credits: 1,
+    },
 
     // Right Column
     { id: "adblue-scr", name: "ADBLUE - SCR OFF", category: "emissions" },
@@ -81,13 +101,25 @@ const ModificationPlan = () => {
     { id: "decode-encode", name: "DECODE - ENCODE", category: "security" },
     { id: "dtc-off", name: "DTC OFF", category: "diagnostics" },
     { id: "evap-removal", name: "EVAP REMOVAL", category: "emissions" },
-    { id: "flex-fuel", name: "FLEX FUEL E85", warning: true, category: "fuel" },
+    {
+      id: "flex-fuel",
+      name: "FLEX FUEL E85",
+      warning: true,
+      credits: 1,
+      category: "fuel",
+    },
     { id: "gpf-off", name: "GPF - OPF OFF", category: "emissions" },
     { id: "hot-start", name: "HOT START", category: "performance" },
     { id: "kickdown", name: "KICKDOWN DEACTIVATION", category: "transmission" },
     { id: "maf-off", name: "MAF OFF", category: "sensors" },
     { id: "o2-lambda", name: "O2 - LAMBDA OFF", category: "emissions" },
-    { id: "original-file", name: "ORIGINAL FILE REQUEST", category: "service" },
+    {
+      id: "original-file",
+      name: "ORIGINAL FILE REQUEST",
+      warning: true,
+      credits: 1,
+      category: "service",
+    },
     { id: "readiness", name: "READINESS CALIBRATION", category: "diagnostics" },
     {
       id: "rev-limiter",
@@ -99,6 +131,13 @@ const ModificationPlan = () => {
       id: "tprot-off",
       name: "TPROT OFF (Tuning Protection)",
       category: "security",
+    },
+    {
+      id: "add-solutions-to-master",
+      name: "ADDITIONAL SOLUTIONS ADDED TO MASTER FILE",
+      category: "performance",
+      warning: true,
+      credits: 1,
     },
   ];
 
@@ -112,7 +151,7 @@ const ModificationPlan = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [commonFiles, setCommonFiles] = useState([]);
 
-  const blockedStages = useMemo(() => ["gearbox", "ofbts", "ecu-cloning"], []);
+  const blockedStages = useMemo(() => ["Gear Box", "Original File (Back To Stock)", "ECU Cloning"], []);
 
   const isOptionsBlocked = blockedStages.includes(selectedStage);
 
@@ -123,7 +162,6 @@ const ModificationPlan = () => {
   }, [isOptionsBlocked, selectedOptions.length]);
 
   const fromSourceData = location.state;
-  const isComingFromUpload = fromSourceData?.from === "upload-file";
   const isComingFromOverviewBack = fromSourceData?.from === "overview-back";
 
   const handleFileUpload = (event) => {
@@ -345,43 +383,43 @@ const ModificationPlan = () => {
               <SelectContent className="bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 [&>*]:dark:bg-[#242526]/90 [&_*]:dark:bg-[#242526]/90">
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="noEngineMud"
+                  value="No Engine Mud"
                 >
                   No Engine Mud
                 </SelectItem>
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="eco"
+                  value="Eco"
                 >
                   Eco
                 </SelectItem>
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="stage-1"
+                  value="Stage 1"
                 >
                   Stage 1
                 </SelectItem>
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="stage-2"
+                  value="Stage 2"
                 >
                   Stage 2
                 </SelectItem>
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="gearbox"
+                  value="Gear Box"
                 >
                   Gear Box
                 </SelectItem>
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="ofbts"
+                  value="Original File (Back To Stock)"
                 >
                   Original File (Back To Stock)
                 </SelectItem>
                 <SelectItem
                   className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="ecu-cloning"
+                  value="ECU Cloning"
                 >
                   ECU Cloning
                 </SelectItem>
@@ -418,8 +456,8 @@ const ModificationPlan = () => {
                     }`}
                   >
                     <Checkbox
-                      checked={selectedOptions.includes(option.id)}
-                      onCheckedChange={() => handleOptionToggle(option.id)}
+                      checked={selectedOptions.includes(option.name)}
+                      onCheckedChange={() => handleOptionToggle(option.name)}
                       disabled={isOptionsBlocked}
                       className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
                         isOptionsBlocked
@@ -431,7 +469,11 @@ const ModificationPlan = () => {
                       <span>{option.name}</span>
                       <span>
                         {option.warning && (
-                          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          <span
+                            title={`Option requires ${option.credits} credits`}
+                          >
+                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          </span>
                         )}
                       </span>
                     </span>
@@ -449,8 +491,8 @@ const ModificationPlan = () => {
                     }`}
                   >
                     <Checkbox
-                      checked={selectedOptions.includes(option.id)}
-                      onCheckedChange={() => handleOptionToggle(option.id)}
+                      checked={selectedOptions.includes(option.name)}
+                      onCheckedChange={() => handleOptionToggle(option.name)}
                       disabled={isOptionsBlocked}
                       className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
                         isOptionsBlocked
@@ -462,7 +504,13 @@ const ModificationPlan = () => {
                       <span>{option.name}</span>
                       <span>
                         {option.warning && (
-                          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          <span
+                            title={`Option requires ${option.credits} ${
+                              option.credits > 1 ? "credits" : "credit"
+                            }`}
+                          >
+                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          </span>
                         )}
                       </span>
                     </span>
@@ -478,8 +526,7 @@ const ModificationPlan = () => {
                 Original File <span className="text-red-600">*</span>
               </Label>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Upload your original ECU file here. Supported formats: .bin,
-                .ori
+                Upload your original ECU file here.
               </p>
               <div
                 onDragOver={handleDragOver}
@@ -503,7 +550,6 @@ const ModificationPlan = () => {
                 <input
                   id="file-upload"
                   type="file"
-                  accept=".bin,.ori"
                   onChange={handleFileUpload}
                   className="hidden"
                 />

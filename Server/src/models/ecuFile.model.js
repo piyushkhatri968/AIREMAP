@@ -2,75 +2,76 @@ import mongoose from "mongoose";
 
 const ecuFileSchema = new mongoose.Schema(
   {
+    // user details
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Auth",
+    },
     // Vehicle Details
     ticketNumber: {
       type: String,
-      required,
+      unique: true,
+      required: true,
     },
     make: {
       type: String,
-      required,
+      required: true,
     },
     model: {
       type: String,
-      required,
+      required: true,
     },
     year: {
       type: String,
-      required,
+      required: true,
     },
     registration: {
       type: String,
-      required,
+      unique: true,
+      required: true,
     },
     ecuId: {
       type: String,
-      required,
+      required: true,
     },
     transmission: {
       type: String,
-      required,
+      required: true,
     },
     readType: {
       type: String,
-      required,
+      required: true,
     },
     readTool: {
       type: String,
-      required,
+      required: true,
     },
     masterSlave: {
       type: String,
-      required,
-    },
-    autoManual: {
-      type: String,
+      required: true,
     },
 
     // Tuning Details
     stage: {
       type: String,
-      required,
+      required: true,
     },
     notes: {
       type: String,
-      required,
     },
     modificationOptions: [
       {
         type: String,
-        required,
       },
     ],
 
     // File Paths
     originalFile: {
       type: String,
-      required,
+      required: true,
     },
     TunedFilePath: {
       type: String,
-      required,
     },
     additionalFiles: [
       {
@@ -86,6 +87,9 @@ const ecuFileSchema = new mongoose.Schema(
     },
 
     creditsUsed: {
+      type: Number,
+    },
+    creditsNeed: {
       type: Number,
     },
     unlockedAt: {

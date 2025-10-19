@@ -28,6 +28,37 @@ export const isAuthenticated = async (req, res, next) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+export const isFullyAuthenticated = async (req, res, next) => {
+  try {
+    const token = req.cookies.airemapToken;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized - No token provided" });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    if (!decoded) {
+      return res.status(401).json({ message: "Unauthorized - Invalid token" });
+    }
+
+    const user = await Auth.findOne({
+      _id: decoded.id,
+      onBoarded: true,
+      verified: true,
+    }).select("-password");
+
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized - No user found" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.log("Error in protectedRoute middleware", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 export const isAuthorized = (...roles) => {
   return (req, res, next) => {

@@ -16,14 +16,13 @@ import useAuthUser from "./hooks/useAuthUser";
 import MyFiles from "./Pages/UserPages/MyFiles/MyFiles";
 import Signin from "./Pages/Signin/Signin";
 import BuyCredits from "./Pages/UserPages/BuyCredits/BuyCredits";
-import NotFound from "./Pages/NotFound/NotFound";
 import OrderDetails from "./Pages/UserPages/OrderDetails/OrderDetails";
 import Checkout from "./Pages/UserPages/Checkout/Checkout";
 import ModificationPlan from "./Pages/UserPages/ModificationPlan/ModificationPlan";
 import Overview from "./Pages/UserPages/Overview/Overview";
-import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import PriceList from "./Pages/UserPages/PriceList/PriceList";
+import Transactions from "./Pages/UserPages/Transactions/Transactions";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -34,13 +33,6 @@ const App = () => {
   const isOnboarded = authUser?.onBoarded;
   const isVerified = authUser?.verified;
   const role = authUser?.role;
-
-  const requireAuth = (element) => {
-    if (!isAuthenticated) return <Navigate to="/signin" />;
-    if (!isOnboarded) return <Navigate to="/onboarding" />;
-    if (!isVerified) return <Navigate to="/unverified" />;
-    return element;
-  };
 
   const redirectIfAuth = () => {
     if (!isAuthenticated) return null;
@@ -67,14 +59,15 @@ const App = () => {
         {isAuthenticated && isOnboarded && isVerified && role === "user" && (
           <Route element={<UserDashboardLayout />}>
             <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/price-list" element={<PriceList />} />
             <Route path="/buy-credits" element={<BuyCredits />} />
             <Route path="/order-details" element={<OrderDetails />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/transactions" element={<Transactions />} />
             <Route path="/upload-file" element={<UploadFile />} />
             <Route path="/modification-plan" element={<ModificationPlan />} />
             <Route path="/overview" element={<Overview />} />
             <Route path="/my-files" element={<MyFiles />} />
-            <Route path="/price-list" element={<PriceList />} />
           </Route>
         )}
 

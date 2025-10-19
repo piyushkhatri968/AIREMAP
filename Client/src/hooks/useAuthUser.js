@@ -11,7 +11,6 @@ const useAuthUser = () => {
     queryFn: GetMe,
     retry: false,
     refetchOnWindowFocus: !isPublicPage,
-
   });
 
   return { isLoading: authUser.isLoading, authUser: authUser.data?.data };
