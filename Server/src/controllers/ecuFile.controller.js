@@ -1,7 +1,9 @@
 import EcuFile from "../models/ecuFile.model.js";
 import { sendResponse } from "../utils/sendResponse.js";
-import { uploadToCloudinary } from "../utils/uploadDataToCloudinary.js";
+import { uploadToCloudinary } from "../utils/Cloudinary/uploadDataToCloudinary.js";
 import fs from "fs/promises";
+import { sendEcuFileCreatedEmailConfirmation } from "../utils/EmailTemplates/sendEcuFileCreatedEmailConfirmation.js";
+import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 
 export const CreateEcuFile = async (req, res) => {
   const {
@@ -51,7 +53,7 @@ export const CreateEcuFile = async (req, res) => {
 
     const user = req.user;
 
-    // sCREDITS LOGIC
+    // CREDITS LOGIC
     let creditsNeed = 1; // default 1
 
     // Helper lists
@@ -110,15 +112,15 @@ export const CreateEcuFile = async (req, res) => {
       creditsNeed += extraCredits;
     }
 
-    if (user.credits < creditsNeed) {
-      return sendResponse(
-        res,
-        400,
-        false,
-        `Insufficient credits. Required ${creditsNeed} credits`,
-        null
-      );
-    }
+    // if (user.credits < creditsNeed) {
+    //   return sendResponse(
+    //     res,
+    //     400,
+    //     false,
+    //     `Insufficient credits. Required ${creditsNeed} credits`,
+    //     null
+    //   );
+    // }
 
     // upload ecu file
     let ecuFileUrl;
@@ -141,7 +143,7 @@ export const CreateEcuFile = async (req, res) => {
       }
     }
 
-    await EcuFile.create({
+    const newEcuFile = await EcuFile.create({
       userId: req.user._id,
       ticketNumber: registration,
       make,
@@ -160,6 +162,21 @@ export const CreateEcuFile = async (req, res) => {
       additionalFiles: commonFilesUrls,
       creditsNeed,
     });
+
+    const emailTemplate = sendEcuFileCreatedEmailConfirmation({
+      firstName: req.user.firstName,
+      ticketNo: newEcuFile.ticketNumber,
+    });
+
+    try {
+      await sendEmail({
+        to: req.user.email,
+        html: emailTemplate,
+        subject: "Ticket Created succesfully",
+      });
+    } catch (error) {
+      sendResponse(res, 500, false, error.message, null);
+    }
 
     return sendResponse(res, 201, true, "ECU File created successfully", null);
   } catch (error) {

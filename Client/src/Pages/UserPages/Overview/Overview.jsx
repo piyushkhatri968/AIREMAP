@@ -244,7 +244,7 @@ const Overview = () => {
   };
   const renderSelectedOptions = () => {
     if (!options || options.length === 0) {
-      if (stage === "gearbox" || stage === "ofbts" || stage === "ecu-cloning") {
+      if (stage === "Gear Box" || stage === "Original File (Back To Stock)" || stage === "ECU Cloning") {
         return (
           <p className="text-sm italic text-zinc-500 dark:text-gray-400 mt-2">
             No extra modifications selected. (Not applicable for this Stage)

@@ -3,6 +3,8 @@ import { squareClient, squareLocationId } from "../config/square.config.js";
 import { sendResponse } from "../utils/sendResponse.js";
 import PaymentHistory from "../models/paymentHistory.model.js";
 import Auth from "../models/auth.model.js";
+import { sendCreditsBoughtEmailConfirmation } from "../utils/EmailTemplates/sendCreditsBoughtEmailConfirmation.js";
+import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 
 export const CreatePayment = async (req, res) => {
   try {
@@ -50,6 +52,24 @@ export const CreatePayment = async (req, res) => {
       },
       { new: true }
     );
+
+    const htmlTemplate = sendCreditsBoughtEmailConfirmation({
+      amount,
+      credits,
+      serialNo,
+      dateTime: paymentStatus.createdAt,
+      firstName: req.user.firstName,
+    });
+
+    try {
+      await sendEmail({
+        to: req.user.email,
+        html: htmlTemplate,
+        subject: "AIREMAP Payment Receipt — Credits Purchase Successful",
+      });
+    } catch (error) {
+      sendResponse(res, 500, false, error.message, null);
+    }
 
     return sendResponse(
       res,

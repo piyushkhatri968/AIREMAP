@@ -1,4 +1,5 @@
 import nodeMailer from "nodemailer";
+import { SendVerificationEmailTemplate } from "../EmailTemplates/SendVerificationEmailTemplate.js";
 
 const transporter = nodeMailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -16,18 +17,16 @@ export const sendVerificationEmail = async ({ to, token, firstName }) => {
       process.env.FRONTEND_URL
     }/verify-email?token=${token}&email=${encodeURIComponent(to)}`;
 
-    const html = `
-    <p>Hi ${firstName || "there"},</p>
-    <p>Thanks for signing up. Please verify your email by clicking the link below:</p>
-    <p><a href="${verifyUrl}">Verify my email</a></p>
-    <p>This link expires in 15 minutes.</p>
-  `;
+    const htmlTemplate = SendVerificationEmailTemplate({
+      firstName,
+      verifyUrl,
+    });
 
     const mailOptions = {
       from: process.env.FROM_EMAIL,
       to,
       subject: "Verify your email at AIREMAP",
-      html,
+      html: htmlTemplate,
     };
 
     await transporter.sendMail(mailOptions);

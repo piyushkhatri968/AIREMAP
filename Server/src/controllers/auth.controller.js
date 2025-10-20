@@ -2,8 +2,9 @@ import Auth from "../models/auth.model.js";
 import { sendResponse } from "../utils/sendResponse.js";
 import { sendToken } from "../utils/sendToken.js";
 import crypto from "crypto";
-import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
-import { sendEmail } from "../utils/sendEmail.js";
+import { sendVerificationEmail } from "../utils/SendEmails/sendVerificationEmail.js";
+import { sendEmail } from "../utils/SendEmails/sendEmail.js";
+import { sendAccountVerifiedEmailTemplate } from "../utils/EmailTemplates/sendAccountVerifiedEmailTemplate.js";
 
 export const Signup = async (req, res) => {
   const { email, password, confirmPassword } = req.body;
@@ -148,10 +149,18 @@ export const SignupEmailVerify = async (req, res) => {
     user.emailVerificationExpiry = undefined;
     await user.save();
 
+    const htmlTemplate = sendAccountVerifiedEmailTemplate({
+      firstName: user.firstName,
+    });
+
     try {
-      await sendEmail({});
+      await sendEmail({
+        subject: "Account Verified at AIREMAP",
+        to: user.email,
+        html: htmlTemplate,
+      });
     } catch (error) {
-      return sendResponse(res, 500, false, error.message, null);
+      sendResponse(res, 500, false, error.message, null);
     }
 
     return sendResponse(res, 200, true, "Email verification successfull", user);

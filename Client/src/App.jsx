@@ -23,6 +23,12 @@ import Overview from "./Pages/UserPages/Overview/Overview";
 import ScrollToTop from "./components/ScrollToTop";
 import PriceList from "./Pages/UserPages/PriceList/PriceList";
 import Transactions from "./Pages/UserPages/Transactions/Transactions";
+import AdminOverview from "./Pages/AdminPages/AdminOverview/AdminOverview";
+import AdminCredits from "./Pages/AdminPages/AdminCredits/AdminCredits";
+import AdminFiles from "./Pages/AdminPages/AdminFiles/AdminFiles";
+import AdminTransactions from "./Pages/AdminPages/AdminTransactions/AdminTransactions";
+import AdminSettings from "./Pages/AdminPages/AdminSettings/AdminSettings";
+import AdminUsers from "./Pages/AdminPages/AdminUsers/AdminUsers";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -73,7 +79,12 @@ const App = () => {
 
         {isAuthenticated && isOnboarded && isVerified && role === "admin" && (
           <Route element={<AdminDashboardLayout />}>
-            <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/dashboard" element={<AdminOverview />} />
+            <Route path="/credits" element={<AdminCredits />} />
+            <Route path="/users" element={<AdminUsers />} />
+            <Route path="/files" element={<AdminFiles />} />
+            <Route path="/transactions" element={<AdminTransactions />} />
+            <Route path="/settings" element={<AdminSettings />} />
           </Route>
         )}
 

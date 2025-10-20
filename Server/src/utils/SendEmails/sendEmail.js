@@ -25,7 +25,7 @@ export const sendEmail = async ({ to, html, subject }) => {
     await transporter.sendMail(mailOptions);
     console.log("Email send successfully");
   } catch (error) {
-    console.error("Verification email failed to send:", error);
+    console.error("Email failed to send:", error);
     if (error.code === "EAUTH") {
       throw new Error(
         "Email authentication failed. Please check SMTP credentials."
@@ -35,7 +35,7 @@ export const sendEmail = async ({ to, html, subject }) => {
         "Unable to connect to mail server. Please try again later."
       );
     } else {
-      throw new Error("Failed to send verification email. Please try again.");
+      throw new Error("Failed to send email. Please try again.");
     }
   }
 };
