@@ -3,8 +3,12 @@ import { motion } from "framer-motion";
 import { Input } from "../../../components/ui/input";
 import useMyFiles from "../../../hooks/useMyFiles";
 import { toast } from "react-toastify";
+import { FolderOpen, Loader2 } from "lucide-react";
+import { Button } from "../../../components/ui/button";
+import { useNavigate } from "react-router";
 
 const MyFiles = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data, isLoading, isError } = useMyFiles();
@@ -72,7 +76,11 @@ const MyFiles = () => {
         </div>
 
         <div className="p-4 sm:p-6">
-          {data?.length === 0 ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">
+              <Loader2 className="animate-spin h-5 w-5 mr-2" /> Fetching Data...
+            </div>
+          ) : data && data.data?.length === 0 ? (
             <div className="text-center py-6 sm:py-8">
               <FolderOpen className="w-12 h-12 sm:w-16 sm:h-16 text-zinc-400 dark:text-gray-500 mx-auto mb-3 sm:mb-4" />
               <h3 className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white mb-2">
@@ -102,132 +110,133 @@ const MyFiles = () => {
 
               {/* Table Rows */}
               <div className="space-y-1">
-                {data?.data
-                  .filter((file) => {
-                    if (!searchQuery) return true;
-                    const query = searchQuery.toLowerCase();
-                    return (
-                      file?.make?.toLowerCase().includes(query) ||
-                      file?.model?.toLowerCase().includes(query) ||
-                      file?.registration?.toLowerCase().includes(query) ||
-                      file?.ticketNumber?.toLowerCase().includes(query) ||
-                      file?.readTool?.toLowerCase().includes(query) ||
-                      file?.stage?.toLowerCase().includes(query)
-                    );
-                  })
-                  .map((file) => (
-                    <div
-                      key={file._id}
-                      // onClick={() => setSelectedFile(file)}
-                      data-testid={`row-file-${file._id}`}
-                    >
-                      {/* Mobile View */}
-                      <div className="sm:hidden p-4 space-y-3 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                            <img
-                              src={`/car-logos/${file.make.toLowerCase()}.svg`}
-                              alt={file.make}
-                              className="w-6 h-6"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between">
-                              <div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                  {file.make} {file.model}
+                {data &&
+                  data?.data
+                    .filter((file) => {
+                      if (!searchQuery) return true;
+                      const query = searchQuery.toLowerCase();
+                      return (
+                        file?.make?.toLowerCase().includes(query) ||
+                        file?.model?.toLowerCase().includes(query) ||
+                        file?.registration?.toLowerCase().includes(query) ||
+                        file?.ticketNumber?.toLowerCase().includes(query) ||
+                        file?.readTool?.toLowerCase().includes(query) ||
+                        file?.stage?.toLowerCase().includes(query)
+                      );
+                    })
+                    .map((file) => (
+                      <div
+                        key={file._id}
+                        // onClick={() => setSelectedFile(file)}
+                        data-testid={`row-file-${file._id}`}
+                      >
+                        {/* Mobile View */}
+                        <div className="sm:hidden p-4 space-y-3 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                              <img
+                                src={`/car-logos/${file.make.toLowerCase()}.svg`}
+                                alt={file.make}
+                                className="w-6 h-6"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-start justify-between">
+                                <div>
+                                  <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                    {file.make} {file.model}
+                                  </div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                    {file.engine || "2.0 TDI"} •{" "}
+                                    {file.bhp || "150"}-BHP • {file.kw || "110"}
+                                    -kW
+                                  </div>
                                 </div>
-                                <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                  {file.engine || "2.0 TDI"} •{" "}
-                                  {file.bhp || "150"}-BHP • {file.kw || "110"}
-                                  -kW
-                                </div>
+                                <span
+                                  className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
+                                    file.status === "Unlocked"
+                                      ? "bg-emerald-400/10 text-emerald-500 dark:bg-emerald-400/10 dark:text-emerald-400"
+                                      : file.status === "In Progress"
+                                      ? "bg-blue-400/10 text-blue-500 dark:bg-blue-400/10 dark:text-blue-400"
+                                      : file.status === "Failed"
+                                      ? "bg-red-400/10 text-red-500 dark:bg-red-400/10 dark:text-red-400"
+                                      : "bg-yellow-400/10 text-yellow-500 dark:bg-yellow-400/10 dark:text-yellow-400"
+                                  }`}
+                                >
+                                  {file.status}
+                                </span>
                               </div>
-                              <span
-                                className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
-                                  file.status === "Unlocked"
-                                    ? "bg-emerald-400/10 text-emerald-500 dark:bg-emerald-400/10 dark:text-emerald-400"
-                                    : file.status === "In Progress"
-                                    ? "bg-blue-400/10 text-blue-500 dark:bg-blue-400/10 dark:text-blue-400"
-                                    : file.status === "Failed"
-                                    ? "bg-red-400/10 text-red-500 dark:bg-red-400/10 dark:text-red-400"
-                                    : "bg-yellow-400/10 text-yellow-500 dark:bg-yellow-400/10 dark:text-yellow-400"
-                                }`}
-                              >
-                                {file.status}
-                              </span>
-                            </div>
-                            <div className="mt-3 flex items-center justify-between">
-                              <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-900 dark:text-white font-medium">
-                                {file.registration}
-                              </span>
-                              <span className="text-xs text-gray-500 dark:text-gray-400">
-                                {formatDateTime(file.createdAt)}
-                              </span>
+                              <div className="mt-3 flex items-center justify-between">
+                                <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-900 dark:text-white font-medium">
+                                  {file.registration}
+                                </span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  {formatDateTime(file.createdAt)}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Desktop View */}
-                      <div className="hidden sm:grid grid-cols-[2fr,1fr,1fr,0.7fr,0.8fr,1fr] gap-6 items-center py-4 px-4 sm:px-0 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg group">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                            <img
-                              src={`/car-logos/${file.make.toLowerCase()}.svg`}
-                              alt={file.make}
-                              className="w-5 h-5"
-                            />
+                        {/* Desktop View */}
+                        <div className="hidden sm:grid grid-cols-[2fr,1fr,1fr,0.7fr,0.8fr,1fr] gap-6 items-center py-4 px-4 sm:px-0 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg group">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                              <img
+                                src={`/car-logos/${file.make.toLowerCase()}.svg`}
+                                alt={file.make}
+                                className="w-5 h-5"
+                              />
+                            </div>
+                            <div className="flex flex-col">
+                              <div className="text-gray-900 dark:text-white text-sm font-medium">
+                                {file.make} {file.model}
+                              </div>
+                              <div className="text-gray-500 dark:text-gray-400 text-xs">
+                                {file.engine || "2.0 TDI"} • {file.bhp || "150"}
+                                -BHP • {file.kw || "110"}-kW
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex flex-col">
+                          <div className="text-sm">
+                            <span className="px-2 py-1 bg-gray-800/10 dark:bg-white/10 rounded text-gray-900 dark:text-white font-medium">
+                              {file.registration}
+                            </span>
+                          </div>
+                          <div>
                             <div className="text-gray-900 dark:text-white text-sm font-medium">
-                              {file.make} {file.model}
+                              {file.readTool}
                             </div>
-                            <div className="text-gray-500 dark:text-gray-400 text-xs">
-                              {file.engine || "2.0 TDI"} • {file.bhp || "150"}
-                              -BHP • {file.kw || "110"}-kW
+                            <div className="text-gray-500 dark:text-gray-400 text-xs capitalize">
+                              {file.readType?.toLowerCase()}
                             </div>
                           </div>
-                        </div>
-                        <div className="text-sm">
-                          <span className="px-2 py-1 bg-gray-800/10 dark:bg-white/10 rounded text-gray-900 dark:text-white font-medium">
-                            {file.registration}
-                          </span>
-                        </div>
-                        <div>
                           <div className="text-gray-900 dark:text-white text-sm font-medium">
-                            {file.readTool}
+                            {file.creditsNeed}.00 CRD
                           </div>
-                          <div className="text-gray-500 dark:text-gray-400 text-xs capitalize">
-                            {file.readType?.toLowerCase()}
+                          <div>
+                            <span
+                              className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
+                                file.status === "Unlocked"
+                                  ? "bg-emerald-400/10 text-emerald-500 dark:bg-emerald-400/10 dark:text-emerald-400"
+                                  : file.status === "In Progress"
+                                  ? "bg-blue-400/10 text-blue-500 dark:bg-blue-400/10 dark:text-blue-400"
+                                  : file.status === "Failed"
+                                  ? "bg-red-400/10 text-red-500 dark:bg-red-400/10 dark:text-red-400"
+                                  : "bg-yellow-400/10 text-yellow-500 dark:bg-yellow-400/10 dark:text-yellow-400"
+                              }`}
+                            >
+                              {file.status}
+                            </span>
                           </div>
-                        </div>
-                        <div className="text-gray-900 dark:text-white text-sm font-medium">
-                          {file.creditsNeed}.00 CRD
-                        </div>
-                        <div>
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
-                              file.status === "Unlocked"
-                                ? "bg-emerald-400/10 text-emerald-500 dark:bg-emerald-400/10 dark:text-emerald-400"
-                                : file.status === "In Progress"
-                                ? "bg-blue-400/10 text-blue-500 dark:bg-blue-400/10 dark:text-blue-400"
-                                : file.status === "Failed"
-                                ? "bg-red-400/10 text-red-500 dark:bg-red-400/10 dark:text-red-400"
-                                : "bg-yellow-400/10 text-yellow-500 dark:bg-yellow-400/10 dark:text-yellow-400"
-                            }`}
-                          >
-                            {file.status}
-                          </span>
-                        </div>
-                        <div>
-                          <div className="text-gray-900 dark:text-white text-sm font-medium">
-                            {formatDateTime(file.createdAt)}
+                          <div>
+                            <div className="text-gray-900 dark:text-white text-sm font-medium">
+                              {formatDateTime(file.createdAt)}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
               </div>
             </div>
           )}

@@ -3,6 +3,7 @@ import { sendResponse } from "../utils/sendResponse.js";
 import { sendToken } from "../utils/sendToken.js";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 export const Signup = async (req, res) => {
   const { email, password, confirmPassword } = req.body;
@@ -94,12 +95,16 @@ export const Onboarding = async (req, res) => {
 
     await user.save();
 
-    //send verification Email
-    await sendVerificationEmail({
-      to: user.email,
-      token,
-      firstName: user.firstName,
-    });
+    try {
+      //send verification Email
+      await sendVerificationEmail({
+        to: user.email,
+        token,
+        firstName: user.firstName,
+      });
+    } catch (error) {
+      return sendResponse(res, 500, false, error.message, null);
+    }
 
     return sendResponse(
       res,
@@ -143,6 +148,12 @@ export const SignupEmailVerify = async (req, res) => {
     user.emailVerificationExpiry = undefined;
     await user.save();
 
+    try {
+      await sendEmail({});
+    } catch (error) {
+      return sendResponse(res, 500, false, error.message, null);
+    }
+
     return sendResponse(res, 200, true, "Email verification successfull", user);
   } catch (error) {
     console.error("Error in SignupEmailVerify controller", error);
@@ -171,11 +182,16 @@ export const ResendEmailVerification = async (req, res) => {
     user.emailVerificationExpiry = Date.now() + 15 * 60 * 1000;
     await user.save();
 
-    await sendVerificationEmail({
-      to: user.email,
-      token,
-      firstName: user.firstName,
-    });
+    try {
+      //send verification Email
+      await sendVerificationEmail({
+        to: user.email,
+        token,
+        firstName: user.firstName,
+      });
+    } catch (error) {
+      return sendResponse(res, 500, false, error.message, null);
+    }
     return sendResponse(res, 200, true, "Verification email resent", null);
   } catch (error) {
     console.error("Error in ResendEmailVerification controller", error);

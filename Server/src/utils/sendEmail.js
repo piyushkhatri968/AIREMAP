@@ -10,24 +10,16 @@ const transporter = nodeMailer.createTransport({
   },
 });
 
-export const sendVerificationEmail = async ({ to, token, firstName }) => {
+export const sendEmail = async ({ to, html, subject }) => {
   try {
-    const verifyUrl = `${
-      process.env.FRONTEND_URL
-    }/verify-email?token=${token}&email=${encodeURIComponent(to)}`;
-
-    const html = `
-    <p>Hi ${firstName || "there"},</p>
-    <p>Thanks for signing up. Please verify your email by clicking the link below:</p>
-    <p><a href="${verifyUrl}">Verify my email</a></p>
-    <p>This link expires in 15 minutes.</p>
-  `;
-
+    if (!to || !subject || !html) {
+      throw new Error("Missing required fields: to, subject, or html");
+    }
     const mailOptions = {
       from: process.env.FROM_EMAIL,
       to,
-      subject: "Verify your email at AIREMAP",
       html,
+      subject,
     };
 
     await transporter.sendMail(mailOptions);

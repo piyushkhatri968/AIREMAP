@@ -64,7 +64,8 @@ const Transactions = () => {
           <div className="divide-y divide-zinc-200 dark:divide-gray-700">
             {isLoading ? (
               <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">
-                <Loader2 className="animate-spin h-5 w-5 mr-2" /> Loading...
+                <Loader2 className="animate-spin h-5 w-5 mr-2" /> Fetching
+                Data...
               </div>
             ) : searchedTransaction?.length > 0 ? (
               searchedTransaction.map((row, index) => (

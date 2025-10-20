@@ -17,7 +17,7 @@ export const uploadToCloudinary = async (filePath) => {
         { quality: "auto", fetch_format: "auto" }, // applies to images only
       ],
     });
-
+    console.log("File uploaded to cloudinary:", result.secure_url);
     return result.secure_url;
   } catch (error) {
     console.error("Cloudinary upload error:", error);
