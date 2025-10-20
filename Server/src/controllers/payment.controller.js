@@ -9,7 +9,7 @@ import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 export const CreatePayment = async (req, res) => {
   try {
     const { sourceId, amount, email, cardHolderName, packageId } = req.body;
-    const userId = req.user?._id;
+    const userId = req.user._id;
     if (!sourceId || !amount || !email)
       return sendResponse(res, 400, false, "Missing payment info", null);
 

@@ -74,27 +74,27 @@ const Transactions = () => {
                   className="grid grid-cols-6 gap-4 py-4 px-4 text-sm"
                 >
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {formatDateTime(row.createdAt)}
+                    {formatDateTime(row?.createdAt)}
                   </div>
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row.serialNo}
+                    {row?.serialNo}
                   </div>
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row.credits}
+                    {row?.credits}
                   </div>
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    £{row.amount}
+                    £{row?.amount}
                   </div>
                   <div
                     className={`col-span-1 text-center font-medium ${
-                      row.status === "Completed"
+                      row?.status === "Completed"
                         ? "text-green-500"
                         : row.status === "Failed"
                         ? "text-red-500"
                         : "text-yellow-500"
                     }`}
                   >
-                    {row.status}
+                    {row?.status}
                   </div>
                   <div className="col-span-1 text-center">
                     <Button

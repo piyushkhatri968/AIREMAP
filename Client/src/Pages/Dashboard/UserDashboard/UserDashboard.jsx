@@ -4,6 +4,16 @@ import carBackground from "../../../assets/AuthImages/car2.png";
 import favIcon from "../../../../public/favicon.png";
 const UserDashboard = () => {
   const { authUser } = useAuthUser();
+
+  const formatCurrency = (amount) => {
+    if (typeof amount !== "number" || isNaN(amount)) return "£0.00";
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP", // British Pound
+      minimumFractionDigits: 2,
+    }).format(amount);
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#171819]">
       <motion.div
@@ -98,7 +108,7 @@ const UserDashboard = () => {
           <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-6 relative overflow-hidden">
             <div className="relative z-10">
               <div className="text-5xl font-light text-zinc-900 dark:text-white mb-2">
-                £ {authUser.totalMoneySpent}
+                {formatCurrency(authUser?.totalMoneySpent)}
               </div>
               <p className="text-zinc-600 dark:text-gray-400 text-sm">
                 Your account purchases

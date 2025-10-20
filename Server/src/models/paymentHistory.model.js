@@ -5,11 +5,21 @@ const paymentHistorySchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Auth",
+      required: true,
     },
-    serialNo: String,
+    serialNo: {
+      type: String,
+      required: true,
+    },
     packageType: String,
-    credits: Number,
-    amount: String,
+    credits: {
+      type: Number,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
     status: {
       type: String,
       enum: ["Pending", "Failed", "Completed"],

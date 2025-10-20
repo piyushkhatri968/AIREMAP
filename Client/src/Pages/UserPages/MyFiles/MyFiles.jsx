@@ -142,16 +142,6 @@ const MyFiles = () => {
                             </div>
                             <div className="flex-1">
                               <div className="flex items-start justify-between">
-                                <div>
-                                  <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                    {file.make} {file.model}
-                                  </div>
-                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                    {file.engine || "2.0 TDI"} •{" "}
-                                    {file.bhp || "150"}-BHP • {file.kw || "110"}
-                                    -kW
-                                  </div>
-                                </div>
                                 <span
                                   className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
                                     file.status === "Unlocked"
@@ -191,10 +181,6 @@ const MyFiles = () => {
                             <div className="flex flex-col">
                               <div className="text-gray-900 dark:text-white text-sm font-medium">
                                 {file.make} {file.model}
-                              </div>
-                              <div className="text-gray-500 dark:text-gray-400 text-xs">
-                                {file.engine || "2.0 TDI"} • {file.bhp || "150"}
-                                -BHP • {file.kw || "110"}-kW
                               </div>
                             </div>
                           </div>
