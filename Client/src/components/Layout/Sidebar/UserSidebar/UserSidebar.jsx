@@ -42,17 +42,20 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
       {/* User Header */}
       <div className="p-4 mt-16">
         <div className="flex items-center gap-4">
-          <div className="w-[4.5rem] h-[4.5rem] bg-zinc-200 dark:bg-zinc-600 rounded-md flex items-center justify-center">
-            <User1 className="w-12 h-12 fill-white text-gray-600 dark:text-white" />
+          <div className="w-[4.5rem] h-[4.5rem] rounded-md overflow-hidden flex items-center justify-center">
+            <img
+              src={`https://flagcdn.com/w320/${authUser?.country?.toLowerCase()}.png`}
+              alt={`${authUser?.country} flag`}
+              className="w-full h-full object-contain"
+              draggable="false"
+            />
           </div>
+
           <div className="flex flex-col">
             <span className="text-sm text-gray-900 dark:text-white font-medium">
               {authUser?.firstName || "First"} {authUser?.lastName || "Last"}
             </span>
-            <span className="text-xs text-gray-500 dark:text-zinc-500">
-              Personal Account
-            </span>
-            <div className="bg-red-500/20 rounded px-2 py-0.5 mt-1">
+            <div className="bg-red-500/20 rounded px-2 py-0.4 mt-1">
               <span className="text-xs text-red-500 font-medium">
                 {authUser?.credits || 0} CRD
               </span>

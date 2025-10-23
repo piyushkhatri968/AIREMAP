@@ -21,6 +21,7 @@ export const CreateEcuFile = async (req, res) => {
     transmission,
     year,
   } = req.body;
+
   try {
     if (
       !ecuId ||
@@ -85,6 +86,7 @@ export const CreateEcuFile = async (req, res) => {
     const ecu = ecuId?.trim() || "";
     const stg = stage?.trim() || "";
     const opts = options ? options.split(",").map((o) => o.trim()) : [];
+
 
     // (1) ECU-based logic
     const ecuMatch = ecuPrefixes.some((prefix) =>
@@ -194,12 +196,44 @@ export const GetEcuFiles = async (req, res) => {
     let userId = req.user._id;
     const data = await EcuFile.find({ userId })
       .select(
-        "make model registration creditsUsed creditsNeed readTool readType status createdAt"
+        "make model registration ticketNumber creditsUsed creditsNeed readTool readType status createdAt"
       )
       .sort({ createdAt: -1 });
     return sendResponse(res, 200, true, "Ecu Files fetched succesfully", data);
   } catch (error) {
     console.error("Error in GetEcuFiles controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+};
+
+export const GetTicketDetails = async (req, res) => {
+  try {
+    const { ticketNumber } = req.params;
+    if (!ticketNumber) {
+      return sendResponse(res, 400, false, "Ticker Number is required", null);
+    }
+    const response = await EcuFile.findOne({ ticketNumber }).populate(
+      "userId",
+      "firstName lastName email"
+    );
+    if (!response) {
+      return sendResponse(res, 404, false, "Ticket not found", null);
+    }
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Ticket details fetched successfully",
+      response
+    );
+  } catch (error) {
+    console.error("Error in GetTicketDetails controller", error);
     return sendResponse(
       res,
       500,

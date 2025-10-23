@@ -6,6 +6,7 @@ import {
 import {
   CreateEcuFile,
   GetEcuFiles,
+  GetTicketDetails,
 } from "../controllers/ecuFile.controller.js";
 import multer from "multer";
 import path from "path";
@@ -38,6 +39,12 @@ router.get(
   isFullyAuthenticated,
   isAuthorized("user"),
   GetEcuFiles
+);
+
+router.get(
+  "/getTicketDetails/:ticketNumber",
+  isFullyAuthenticated,
+  GetTicketDetails
 );
 
 export default router;

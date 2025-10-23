@@ -5,7 +5,7 @@ import useMyFiles from "../../../hooks/useMyFiles";
 import { toast } from "react-toastify";
 import { FolderOpen, Loader2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const MyFiles = () => {
   const navigate = useNavigate();
@@ -125,7 +125,8 @@ const MyFiles = () => {
                       );
                     })
                     .map((file) => (
-                      <div
+                      <Link
+                        to={`/ticket-details/${file?.ticketNumber}`}
                         key={file._id}
                         // onClick={() => setSelectedFile(file)}
                         data-testid={`row-file-${file._id}`}
@@ -137,13 +138,15 @@ const MyFiles = () => {
                               <div className="flex items-start justify-between">
                                 <span
                                   className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
-                                    file.status === "Unlocked"
-                                      ? "bg-emerald-400/10 text-emerald-500 dark:bg-emerald-400/10 dark:text-emerald-400"
-                                      : file.status === "In Progress"
-                                      ? "bg-blue-400/10 text-blue-500 dark:bg-blue-400/10 dark:text-blue-400"
-                                      : file.status === "Failed"
-                                      ? "bg-red-400/10 text-red-500 dark:bg-red-400/10 dark:text-red-400"
-                                      : "bg-yellow-400/10 text-yellow-500 dark:bg-yellow-400/10 dark:text-yellow-400"
+                                    file?.status === "Completed"
+                                      ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
+                                      : file?.status === "Failed"
+                                      ? "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
+                                      : file?.status === "In Progress"
+                                      ? "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300"
+                                      : file?.status === "Unlocked"
+                                      ? "bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300"
+                                      : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300"
                                   }`}
                                 >
                                   {file.status}
@@ -185,13 +188,15 @@ const MyFiles = () => {
                           <div>
                             <span
                               className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
-                                file.status === "Unlocked"
-                                  ? "bg-emerald-400/10 text-emerald-500 dark:bg-emerald-400/10 dark:text-emerald-400"
-                                  : file.status === "In Progress"
-                                  ? "bg-blue-400/10 text-blue-500 dark:bg-blue-400/10 dark:text-blue-400"
-                                  : file.status === "Failed"
-                                  ? "bg-red-400/10 text-red-500 dark:bg-red-400/10 dark:text-red-400"
-                                  : "bg-yellow-400/10 text-yellow-500 dark:bg-yellow-400/10 dark:text-yellow-400"
+                                file?.status === "Completed"
+                                  ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
+                                  : file?.status === "Failed"
+                                  ? "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
+                                  : file?.status === "In Progress"
+                                  ? "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300"
+                                  : file?.status === "Unlocked"
+                                  ? "bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300"
+                                  : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300"
                               }`}
                             >
                               {file.status}
@@ -203,7 +208,7 @@ const MyFiles = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
               </div>
             </div>

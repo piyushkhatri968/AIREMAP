@@ -17,3 +17,10 @@ export const GetEcuFiles = async () => {
   const response = await axiosInstance.get("/ecuFile/my-files");
   return response.data;
 };
+
+export const GetTicketDetails = async (ticketNumber) => {
+  const response = await axiosInstance.get(
+    `/ecuFile/getTicketDetails/${ticketNumber}`
+  );
+  return response.data.data;
+};

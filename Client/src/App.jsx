@@ -30,6 +30,7 @@ import AdminSettings from "./Pages/AdminPages/AdminSettings/AdminSettings";
 import AdminUsers from "./Pages/AdminPages/AdminUsers/AdminUsers";
 import AdminUnverifiedUsers from "./Pages/AdminPages/AdminUnverifiedUsers/AdminUnverifiedUsers";
 import ProfileSettings from "./Pages/UserPages/ProfileSettings/ProfileSettings";
+import TicketDetails from "./Pages/UserPages/TicketDetails/TicketDetails";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -76,6 +77,10 @@ const App = () => {
             <Route path="/overview" element={<Overview />} />
             <Route path="/my-files" element={<MyFiles />} />
             <Route path="/profile-settings" element={<ProfileSettings />} />
+            <Route
+              path="/ticket-details/:ticketNumber"
+              element={<TicketDetails />} 
+            />
           </Route>
         )}
 
