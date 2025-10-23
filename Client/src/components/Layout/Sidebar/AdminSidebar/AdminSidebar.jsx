@@ -20,6 +20,12 @@ const AdminSidebar = ({ isOpen = true }) => {
   const navItems = [
     { id: "overview", label: "Overview", icon: BarChart3, path: "/dashboard" },
     { id: "users", label: "Users", icon: Users, path: "/users" },
+    {
+      id: "unverifiedUsers",
+      label: "Unverified Users",
+      icon: Users,
+      path: "/unverifiedUsers",
+    },
     { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
     {
       id: "transactions",

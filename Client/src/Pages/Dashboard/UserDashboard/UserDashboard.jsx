@@ -72,7 +72,7 @@ const UserDashboard = () => {
             <div className="relative z-10">
               <div className="flex items-baseline space-x-2 mb-2">
                 <span className="text-3xl sm:text-5xl font-light text-zinc-900 dark:text-white">
-                  145
+                  {authUser?.totalFilesSubmitted || 0}
                 </span>
                 <span className="text-base sm:text-lg text-zinc-600 dark:text-gray-400">
                   Files

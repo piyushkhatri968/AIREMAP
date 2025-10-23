@@ -5,7 +5,6 @@ import OnBoarding from "./Pages/Onboarding/OnBoarding";
 import Unverified from "./Pages/Unverified/Unverified";
 import VerifyEmail from "./Pages/VerifyEmail/VerifyEmail";
 import UserDashboard from "./Pages/Dashboard/UserDashboard/UserDashboard";
-import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
 import UploadFile from "./Pages/UserPages/UploadFile/UploadFile";
 import PageLoader from "./components/Loader/PageLoader/PageLoader";
 
@@ -29,6 +28,8 @@ import AdminFiles from "./Pages/AdminPages/AdminFiles/AdminFiles";
 import AdminTransactions from "./Pages/AdminPages/AdminTransactions/AdminTransactions";
 import AdminSettings from "./Pages/AdminPages/AdminSettings/AdminSettings";
 import AdminUsers from "./Pages/AdminPages/AdminUsers/AdminUsers";
+import AdminUnverifiedUsers from "./Pages/AdminPages/AdminUnverifiedUsers/AdminUnverifiedUsers";
+import ProfileSettings from "./Pages/UserPages/ProfileSettings/ProfileSettings";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -74,6 +75,7 @@ const App = () => {
             <Route path="/modification-plan" element={<ModificationPlan />} />
             <Route path="/overview" element={<Overview />} />
             <Route path="/my-files" element={<MyFiles />} />
+            <Route path="/profile-settings" element={<ProfileSettings />} />
           </Route>
         )}
 
@@ -82,6 +84,7 @@ const App = () => {
             <Route path="/dashboard" element={<AdminOverview />} />
             <Route path="/credits" element={<AdminCredits />} />
             <Route path="/users" element={<AdminUsers />} />
+            <Route path="/unverifiedUsers" element={<AdminUnverifiedUsers />} />
             <Route path="/files" element={<AdminFiles />} />
             <Route path="/transactions" element={<AdminTransactions />} />
             <Route path="/settings" element={<AdminSettings />} />

@@ -135,11 +135,7 @@ const UploadFile = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      
-    >
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       {/* Page Title */}
       <div>
         <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
@@ -365,37 +361,37 @@ const UploadFile = () => {
                     side="top"
                   >
                     <SelectItem
-                      value="kess"
+                      value="KESS"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       KESS
                     </SelectItem>
                     <SelectItem
-                      value="ktag"
+                      value="KTAG"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       KTAG
                     </SelectItem>
                     <SelectItem
-                      value="mpps"
+                      value="MPPS"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       MPPS
                     </SelectItem>
                     <SelectItem
-                      value="galletto"
+                      value="Galletto"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       Galletto
                     </SelectItem>
                     <SelectItem
-                      value="cmd"
+                      value="CMD Flash"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       CMD Flash
                     </SelectItem>
                     <SelectItem
-                      value="magpro2"
+                      value="MagPro2"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       MagPro2
@@ -418,25 +414,25 @@ const UploadFile = () => {
                     side="top"
                   >
                     <SelectItem
-                      value="obd"
+                      value="OBD"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       OBD
                     </SelectItem>
                     <SelectItem
-                      value="boot"
+                      value="Boot Mode"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       Boot Mode
                     </SelectItem>
                     <SelectItem
-                      value="bench"
+                      value="Bench"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       Bench
                     </SelectItem>
                     <SelectItem
-                      value="eeprom"
+                      value="EEPROM"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
                       EEPROM
@@ -454,12 +450,12 @@ const UploadFile = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value="master"
+                      value="Master"
                       id="master"
                       className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
                     />
                     <Label
-                      htmlFor="master"
+                      htmlFor="Master"
                       className="text-zinc-900 dark:text-white"
                     >
                       Master
@@ -467,12 +463,12 @@ const UploadFile = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value="slave"
+                      value="Slave"
                       id="slave"
                       className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
                     />
                     <Label
-                      htmlFor="slave"
+                      htmlFor="Slave"
                       className="text-zinc-900 dark:text-white"
                     >
                       Slave

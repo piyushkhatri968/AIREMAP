@@ -104,7 +104,6 @@ export const CreatePayment = async (req, res) => {
 export const GetPaymentHistory = async (req, res) => {
   try {
     let userId = req.user._id;
-
     const paymentHistory = await PaymentHistory.find({ userId }).sort({
       createdAt: -1,
     });

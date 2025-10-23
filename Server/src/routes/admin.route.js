@@ -4,8 +4,11 @@ import {
   isFullyAuthenticated,
 } from "../middleware/auth.middleware.js";
 import {
+  GetAllEcuFiles,
   GetAllTransactionHistory,
-  GetAllUser,
+  GetAllUnverifiedUsers,
+  GetAllUsers,
+  UpdateEcuFileStatus,
   UpdateUserCredits,
   UpdateUserRole,
 } from "../controllers/admin.controller.js";
@@ -15,7 +18,13 @@ router.get(
   "/getAllUsers",
   isFullyAuthenticated,
   isAuthorized("admin"),
-  GetAllUser
+  GetAllUsers
+);
+router.get(
+  "/getAllUnverifiedUsers",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  GetAllUnverifiedUsers
 );
 
 router.put(
@@ -37,6 +46,20 @@ router.put(
   isFullyAuthenticated,
   isAuthorized("admin"),
   UpdateUserCredits
+);
+
+router.get(
+  "/getAllEcuFiles",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  GetAllEcuFiles
+);
+
+router.put(
+  "/updateEcuFileStatus",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  UpdateEcuFileStatus
 );
 
 export default router;

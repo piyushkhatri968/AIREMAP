@@ -26,6 +26,10 @@ const authSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    totalFilesSubmitted: {
+      type: Number,
+      default: 0,
+    },
     role: {
       type: String,
       default: "user",
@@ -52,6 +56,9 @@ const authSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+authSchema.index({ onBoarded: 1, verified: 1 });
+authSchema.index({ createdAt: -1 });
 
 // auto hash password
 authSchema.pre("save", async function (next) {

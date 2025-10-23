@@ -19,8 +19,9 @@ const AdminUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingUserId, setUpdatingUserId] = useState(null);
 
-  const { isUpdatingRole, updateUserRoleMutation } =
-    useUpdateRole(setUpdatingUserId);
+  const { isUpdatingRole, updateUserRoleMutation } = useUpdateRole({
+    setUpdatingUserId,
+  });
 
   const { isLoading, data, isError } = useQuery({
     queryFn: GetAllUsers,
@@ -37,7 +38,6 @@ const AdminUsers = () => {
     const lastNameMatch = item.lastName?.toLowerCase().includes(query);
     const roleMatch = item.role?.toLowerCase().includes(query);
 
-    // Agar koi bhi match ho, to user ko include karo
     return emailMatch || firstNameMatch || lastNameMatch || roleMatch;
   });
 
@@ -56,6 +56,7 @@ const AdminUsers = () => {
   };
 
   const formatCurrency = (amount) => {
+    console.log(typeof amount)
     if (typeof amount !== "number" || isNaN(amount)) return "£0.00";
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -88,8 +89,8 @@ const AdminUsers = () => {
           <div className="grid grid-cols-7 gap-4 py-3 text-xs font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
             <div className="text-center">User</div>
             <div className="text-center">Email</div>
-            <div className="text-center">Credits</div>
             <div className="text-center">Money Spent</div>
+            <div className="text-center">Files</div>
             <div className="text-center">Role</div>
             <div className="text-center">Joined</div>
             <div className="text-center">Actions</div>
@@ -106,7 +107,7 @@ const AdminUsers = () => {
               filteredUser.map((row) => (
                 <div
                   key={row._id}
-                  className="grid grid-cols-7 gap-4 py-4 text-sm"
+                  className="grid grid-cols-7 items-center gap-4 py-4 text-sm"
                 >
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
                     {row?.firstName + " " + row?.lastName}
@@ -115,10 +116,10 @@ const AdminUsers = () => {
                     {row?.email}
                   </div>
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row?.credits}
+                    {formatCurrency(row?.totalMoneySpent)}
                   </div>
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {formatCurrency(row?.totalMoneySpent)}
+                    {row?.totalFilesSubmitted || 0}
                   </div>
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white flex justify-center">
                     {updatingUserId === row._id && isUpdatingRole ? (

@@ -12,7 +12,7 @@ const useOnboarding = () => {
     },
     onError: (error) => {
       const message = error.response?.data?.message;
-      toast.error(message);
+      toast.error(message || "Failed to complete onboarding");
     },
   });
   return { isPending, OnboardingMutation: mutate };

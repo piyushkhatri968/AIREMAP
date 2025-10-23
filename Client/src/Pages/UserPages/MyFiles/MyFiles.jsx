@@ -99,7 +99,7 @@ const MyFiles = () => {
           ) : (
             <div className="overflow-x-auto -mx-4 sm:mx-0">
               {/* Desktop Table Header - Hidden on Mobile */}
-              <div className="hidden sm:grid grid-cols-[2fr,1fr,1fr,0.7fr,0.8fr,1fr] gap-6 mb-4 text-[13px] font-medium text-gray-500 dark:text-gray-400 tracking-wide px-4 sm:px-0">
+              <div className="hidden sm:grid grid-cols-[2fr,1fr,1fr,0.7fr,0.8fr,1fr] gap-6 mb-4 text-[13px] font-medium text-gray-500 dark:text-gray-400 tracking-wide px-4">
                 <div>VEHICLE</div>
                 <div>REGISTRATION</div>
                 <div>TOOL</div>
@@ -133,13 +133,6 @@ const MyFiles = () => {
                         {/* Mobile View */}
                         <div className="sm:hidden p-4 space-y-3 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                              <img
-                                src={`/car-logos/${file.make.toLowerCase()}.svg`}
-                                alt={file.make}
-                                className="w-6 h-6"
-                              />
-                            </div>
                             <div className="flex-1">
                               <div className="flex items-start justify-between">
                                 <span
@@ -169,20 +162,9 @@ const MyFiles = () => {
                         </div>
 
                         {/* Desktop View */}
-                        <div className="hidden sm:grid grid-cols-[2fr,1fr,1fr,0.7fr,0.8fr,1fr] gap-6 items-center py-4 px-4 sm:px-0 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg group">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                              <img
-                                src={`/car-logos/${file.make.toLowerCase()}.svg`}
-                                alt={file.make}
-                                className="w-5 h-5"
-                              />
-                            </div>
-                            <div className="flex flex-col">
-                              <div className="text-gray-900 dark:text-white text-sm font-medium">
-                                {file.make} {file.model}
-                              </div>
-                            </div>
+                        <div className="hidden sm:grid grid-cols-[2fr,1fr,1fr,0.7fr,0.8fr,1fr] gap-6 items-center py-4 px-4 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer rounded-lg group">
+                          <div className="text-gray-900 dark:text-white text-sm font-medium">
+                            {file.make} {file.model}
                           </div>
                           <div className="text-sm">
                             <span className="px-2 py-1 bg-gray-800/10 dark:bg-white/10 rounded text-gray-900 dark:text-white font-medium">

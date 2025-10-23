@@ -3,9 +3,16 @@ import porscheImage from "../../assets/AuthImages/car1.png";
 import aiRemapLogo from "../../assets/logo/logo.png";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
-import { Link } from "react-router";
 import { Button } from "../../components/ui/button";
 import useOnboarding from "../../hooks/useOnboarding";
+import { countries } from "../../utils/CountriesData";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
 
 const OnBoarding = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +27,10 @@ const OnBoarding = () => {
   const handleChange = (e) => {
     const { value, id } = e.target;
     setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSelectChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const { isPending, OnboardingMutation } = useOnboarding();
@@ -124,7 +135,32 @@ const OnBoarding = () => {
                 >
                   Country
                 </Label>
-                <Input
+                <Select
+                  value={formData.country}
+                  required
+                  onValueChange={(value) =>
+                    handleSelectChange("country", value)
+                  }
+                >
+                  <SelectTrigger className="w-full px-4 py-3 bg-white dark:bg-[#242526] text-zinc-900 dark:text-white rounded-lg border border-zinc-200 dark:border-gray-600  focus:outline-none transition-colors placeholder:text-zinc-500 dark:placeholder:text-gray-400">
+                    <SelectValue placeholder="Enter your country" />
+                  </SelectTrigger>
+                  <SelectContent
+                    className="dark:bg-[#242526] relative"
+                    side="top"
+                  >
+                    {countries.map((item) => (
+                      <SelectItem
+                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        key={item.code}
+                        value={item.code}
+                      >
+                        {item.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {/* <Input
                   type="text"
                   id="country"
                   value={formData.country}
@@ -132,7 +168,7 @@ const OnBoarding = () => {
                   placeholder="Select your country"
                   className="w-full px-4 py-3 bg-white dark:bg-[#242526] text-zinc-900 dark:text-white rounded-lg border border-zinc-200 dark:border-gray-600  focus:outline-none transition-colors placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                   required
-                />
+                /> */}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

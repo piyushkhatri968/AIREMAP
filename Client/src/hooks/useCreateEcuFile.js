@@ -13,7 +13,9 @@ const useCreateEcuFile = () => {
       navigate("/my-files");
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message);
+      toast.error(
+        error?.response?.data?.message || "Failed to create Ecu file"
+      );
     },
   });
   return { isPending, createEcuFileMutation: mutateAsync };

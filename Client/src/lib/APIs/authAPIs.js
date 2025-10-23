@@ -37,3 +37,8 @@ export const Logout = async () => {
   const response = await axiosInstance.post("/auth/logout");
   return response.data;
 };
+
+export const UpdateProfileSettings = async (formData) => {
+  const response = await axiosInstance.put("/auth/updateProfile", formData);
+  return response.data;
+};

@@ -12,7 +12,7 @@ const useSignIn = () => {
     },
     onError: (error) => {
       const message = error.response?.data?.message;
-      toast.error(message);
+      toast.error(message || "Failed to signin");
     },
   });
   return { isPending, signinMutation: mutate };

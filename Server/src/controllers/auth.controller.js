@@ -262,7 +262,7 @@ export const GetMe = async (req, res) => {
   try {
     const { _id } = req.user;
     const user = await Auth.findById(_id).select(
-      "email credits role firstName lastName verified onBoarded address city country postalCode profileImageUrl totalMoneySpent"
+      "email credits role firstName lastName verified onBoarded address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted"
     );
     return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {
@@ -304,6 +304,53 @@ export const SendForgotPasswordOTP = async (req, res) => {
     SendForgotPasswordOTP(email);
   } catch (error) {
     console.error("Error in Login controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+};
+
+export const UpdateProfile = async (req, res) => {
+  try {
+    const { firstName, lastName, country, city, address, postalCode } =
+      req.body;
+    if (
+      !firstName ||
+      !lastName ||
+      !country ||
+      !city ||
+      !address ||
+      !postalCode
+    ) {
+      return sendResponse(res, 400, false, "All fields are required", null);
+    }
+    const updateData = {
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      country: country.trim(),
+      city: city.trim(),
+      address: address.trim(),
+      postalCode: postalCode.toString().trim(),
+    };
+    const updatedUser = await Auth.findByIdAndUpdate(req.user._id, updateData, {
+      new: true,
+    });
+    if (!updatedUser) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Failed to update the profile",
+        null
+      );
+    }
+    return sendResponse(res, 200, true, "Profile updated successfully", null);
+  } catch (error) {
+    console.error("Error in UpdateProfile controller", error);
     return sendResponse(
       res,
       500,

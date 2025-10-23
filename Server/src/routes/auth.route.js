@@ -7,9 +7,11 @@ import {
   ResendEmailVerification,
   Signup,
   SignupEmailVerify,
+  UpdateProfile,
 } from "../controllers/auth.controller.js";
 import {
   isAuthenticated,
+  isAuthorized,
   isFullyAuthenticated,
 } from "../middleware/auth.middleware.js";
 
@@ -22,5 +24,11 @@ router.post("/signup-verify-resend", isAuthenticated, ResendEmailVerification);
 router.post("/login", Login);
 router.get("/getMe", isAuthenticated, GetMe);
 router.post("/logout", isAuthenticated, Logout);
+router.put(
+  "/updateProfile",
+  isFullyAuthenticated,
+  isAuthorized("user"),
+  UpdateProfile
+);
 
 export default router;

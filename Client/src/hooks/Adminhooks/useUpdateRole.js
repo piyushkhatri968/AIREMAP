@@ -19,7 +19,7 @@ const useUpdateRole = ({ setUpdatingUserId }) => {
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Failed to update user role");
     },
     onSettled: () => {
       if (setUpdatingUserId) {

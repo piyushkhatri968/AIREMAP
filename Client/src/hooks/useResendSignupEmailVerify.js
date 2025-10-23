@@ -10,7 +10,7 @@ const useResendSignupEmailVerify = () => {
     },
     onError: (error) => {
       const message = error?.response?.data?.message;
-      toast.error(message);
+      toast.error(message || "Failed to resend email verification");
     },
   });
   return { isPending, resendEmailMutation: mutate };

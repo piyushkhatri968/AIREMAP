@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SignupEmailVerify } from "../lib/APIs/authAPIs";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
 
 const useSignupEmailVerify = () => {
   const queryClient = useQueryClient();
@@ -13,7 +12,7 @@ const useSignupEmailVerify = () => {
     },
     onError: (error) => {
       const message = error.response?.data?.message;
-      toast.error(message);
+      toast.error(message || "Failed to verify");
     },
   });
   return { isPending, signupEmailVerifyMutation: mutate, error };

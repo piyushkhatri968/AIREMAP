@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Signup } from "../lib/APIs/authAPIs";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
 
 const useSignUp = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: Signup,
@@ -14,7 +12,7 @@ const useSignUp = () => {
     },
     onError: (error) => {
       const message = error.response?.data?.message;
-      toast.error(message);
+      toast.error(message || "Failed to signup");
     },
   });
   return { isPending, signupMutation: mutate };

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { GetAllTransactionHistory } from "../../../lib/APIs/adminAPIs";
-import { motion } from "framer-motion";
+import { motion, number } from "framer-motion";
 import { Input } from "../../../components/ui/input";
 import { Loader2 } from "lucide-react";
 
@@ -13,7 +13,6 @@ const AdminTransactions = () => {
     queryFn: GetAllTransactionHistory,
     queryKey: ["allTransactionHistory"],
   });
-
 
   const filteredTransactions = data?.data?.filter((item) => {
     const query = searchQuery.toLowerCase();
@@ -36,7 +35,7 @@ const AdminTransactions = () => {
     );
   });
 
-  if (isError) toast.error("Failed to load users");
+  if (isError) toast.error("Failed to load transactions");
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "";
@@ -53,6 +52,7 @@ const AdminTransactions = () => {
   };
 
   const formatCurrency = (amount) => {
+    if (amount) amount = Number(amount);
     if (typeof amount !== "number" || isNaN(amount)) return "£0.00";
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -94,13 +94,13 @@ const AdminTransactions = () => {
             {isLoading ? (
               <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">
                 <Loader2 className="animate-spin h-5 w-5 mr-2" /> Fetching
-                Users...
+                Transactions...
               </div>
             ) : filteredTransactions?.length > 0 ? (
               filteredTransactions.map((row) => (
                 <div
                   key={row._id}
-                  className="grid grid-cols-7 gap-4 py-4 text-sm"
+                  className="grid grid-cols-7 items-center gap-4 py-4 text-sm"
                 >
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
                     {row?.serialNo}
@@ -117,9 +117,6 @@ const AdminTransactions = () => {
                   <div className="col-span-1 text-center text-zinc-900 dark:text-white">
                     {row?.credits}
                   </div>
-                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {formatDateTime(row?.createdAt)}
-                  </div>
                   <div className="col-span-1 flex justify-center items-center">
                     <span
                       className={`px-3 py-1 text-xs font-semibold rounded-full min-w-[70px] text-center whitespace-nowrap 
@@ -133,6 +130,9 @@ const AdminTransactions = () => {
                     >
                       {row?.status || "N/A"}
                     </span>
+                  </div>
+                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
+                    {formatDateTime(row?.createdAt)}
                   </div>
                 </div>
               ))

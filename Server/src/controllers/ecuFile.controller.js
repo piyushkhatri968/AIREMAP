@@ -4,6 +4,7 @@ import { uploadToCloudinary } from "../utils/Cloudinary/uploadDataToCloudinary.j
 import fs from "fs/promises";
 import { sendEcuFileCreatedEmailConfirmation } from "../utils/EmailTemplates/sendEcuFileCreatedEmailConfirmation.js";
 import { sendEmail } from "../utils/SendEmails/sendEmail.js";
+import Auth from "../models/auth.model.js";
 
 export const CreateEcuFile = async (req, res) => {
   const {
@@ -50,8 +51,6 @@ export const CreateEcuFile = async (req, res) => {
         null
       );
     }
-
-    const user = req.user;
 
     // CREDITS LOGIC
     let creditsNeed = 1; // default 1
@@ -112,16 +111,6 @@ export const CreateEcuFile = async (req, res) => {
       creditsNeed += extraCredits;
     }
 
-    // if (user.credits < creditsNeed) {
-    //   return sendResponse(
-    //     res,
-    //     400,
-    //     false,
-    //     `Insufficient credits. Required ${creditsNeed} credits`,
-    //     null
-    //   );
-    // }
-
     // upload ecu file
     let ecuFileUrl;
     if (req?.files?.ecuFile?.[0]) {
@@ -162,6 +151,15 @@ export const CreateEcuFile = async (req, res) => {
       additionalFiles: commonFilesUrls,
       creditsNeed,
     });
+
+    // update userfileUpload count
+    await Auth.findByIdAndUpdate(
+      req.user._id,
+      {
+        $inc: { totalFilesSubmitted: Number(1) },
+      },
+      { new: true }
+    );
 
     const emailTemplate = sendEcuFileCreatedEmailConfirmation({
       firstName: req.user.firstName,

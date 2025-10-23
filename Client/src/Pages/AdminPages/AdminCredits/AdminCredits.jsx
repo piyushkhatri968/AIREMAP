@@ -6,6 +6,7 @@ import { GetAllUsers } from "../../../lib/APIs/adminAPIs";
 import { Loader2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { toast } from "react-toastify";
+import useUpdateUserCredits from "../../../hooks/Adminhooks/useUpdateUserCredits";
 
 const AdminCredits = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,10 +16,7 @@ const AdminCredits = () => {
     queryKey: ["allUsers"],
   });
 
-
-
-
-  if (isError) toast.error("Failed to load transactions");
+  if (isError) toast.error("Failed to load credits data");
 
   const filteredUsers = data?.data.filter((item) => {
     const query = searchQuery.toLowerCase();
@@ -29,6 +27,13 @@ const AdminCredits = () => {
 
     return emailMatch || firstNameMatch || lastNameMatch;
   });
+
+  const { isUpdatingCredits, updateUserCreditsMutation } =
+    useUpdateUserCredits();
+
+  const handleCredits = (userId, credits) => {
+    updateUserCreditsMutation({ userId, credits });
+  };
 
   return (
     <motion.div
@@ -74,7 +79,7 @@ const AdminCredits = () => {
                 filteredUsers.map((row) => (
                   <div
                     key={row._id}
-                    className="grid grid-cols-4 gap-4 py-4 text-sm"
+                    className="grid grid-cols-4 items-center gap-4 py-4 text-sm"
                   >
                     <div className="col-span-1 text-center text-zinc-900 dark:text-white">
                       {row?.firstName + " " + row?.lastName}
@@ -90,7 +95,9 @@ const AdminCredits = () => {
                         variant="outline"
                         size="xs"
                         className="bg-green-600 hover:bg-green-700 border-green-500 text-white"
+                        disable={isUpdatingCredits}
                         data-testid={`button-add-credit-${row._id}`}
+                        onClick={() => handleCredits(row._id, 1)}
                       >
                         +1
                       </Button>
@@ -99,6 +106,7 @@ const AdminCredits = () => {
                         size="xs"
                         className="bg-green-600 hover:bg-green-700 border-green-500 text-white"
                         data-testid={`button-add-credit-${row._id}`}
+                        onClick={() => handleCredits(row._id, 5)}
                       >
                         +5
                       </Button>
@@ -107,14 +115,16 @@ const AdminCredits = () => {
                         size="xs"
                         className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
                         data-testid={`button-add-credit-${row._id}`}
+                        onClick={() => handleCredits(row._id, -1)}
                       >
-                        +1
+                        -1
                       </Button>
                       <Button
                         variant="outline"
                         size="xs"
-                        className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
+                        className="bg-gray-600 hover:bg-gray-700 border-gray-500 text-white"
                         data-testid={`button-add-credit-${row._id}`}
+                        onClick={() => handleCredits(row._id, "reset")}
                       >
                         Reset
                       </Button>
