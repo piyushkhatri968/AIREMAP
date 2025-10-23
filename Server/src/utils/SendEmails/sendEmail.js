@@ -23,7 +23,6 @@ export const sendEmail = async ({ to, html, subject }) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Email send successfully");
   } catch (error) {
     console.error("Email failed to send:", error);
     if (error.code === "EAUTH") {
