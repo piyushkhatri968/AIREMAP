@@ -71,9 +71,6 @@ const TicketDetails = () => {
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   Notes
                 </p>
-                {/* <p className="border border-red-600 rounded-lg p-3 bg-red-600/20 text-xs text-gray-900 dark:text-white">
-                  {data?.notes}
-                </p> */}
                 <div className="border border-red-600 rounded-lg p-3 bg-red-600/20 text-xs text-gray-900 dark:text-white relative">
                   <AnimatePresence mode="wait">
                     {showFullNotes ? (
@@ -149,7 +146,6 @@ const TicketDetails = () => {
                 <StatusCard status={data?.status} />
               </div>
               <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 h-full flex flex-col">
-                {/* Header */}
                 <div className="flex items-center p-6 border-b border-zinc-200 dark:border-gray-700">
                   <h1 className="font-semibold text-gray-900 dark:text-white">
                     Support Chat
@@ -157,10 +153,8 @@ const TicketDetails = () => {
                   <Dot className="text-green-600" />
                 </div>
 
-                {/* Messages area */}
                 <div className="flex-1 overflow-y-auto bg-white dark:bg-[#1C1C1C] p-6 text-gray-900 dark:text-white space-y-3"></div>
 
-                {/* Input box */}
                 <div className="p-4 border-t border-zinc-200 dark:border-gray-700 flex items-center gap-3 bg-zinc-50 dark:bg-[#242526]/90">
                   <div className="flex-1">
                     <input
