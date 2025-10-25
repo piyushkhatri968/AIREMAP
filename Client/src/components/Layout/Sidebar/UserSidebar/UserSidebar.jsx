@@ -42,11 +42,11 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
       {/* User Header */}
       <div className="p-4 mt-16">
         <div className="flex items-center gap-4">
-          <div className="w-[4.5rem] h-[4.5rem] rounded-md overflow-hidden flex items-center justify-center">
+          <div className="w-[4.5rem] h-[3rem] overflow-hidden flex items-center justify-center">
             <img
               src={`https://flagcdn.com/w320/${authUser?.country?.toLowerCase()}.png`}
               alt={`${authUser?.country} flag`}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
               draggable="false"
             />
           </div>

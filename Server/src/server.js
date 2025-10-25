@@ -2,7 +2,10 @@ import express from "express";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import http from "http";
+import { Server } from "socket.io";
 import { connectDB } from "./lib/db.js";
+import { socketHandler } from "./socket/socketHandler.js";
 
 const PORT = process.env.PORT || 8080;
 
@@ -32,7 +35,22 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/ecuFile", ecuFileRoutes);
 app.use("/api/admin", adminRoutes);
 
-app.listen(PORT, () => {
+// http server for socket.io
+const server = http.createServer(app);
+
+// Initialize socket
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5174",
+    methods: ["Get", "Post"],
+    credentials: true,
+  },
+});
+
+// Socket logic
+socketHandler(io);
+
+server.listen(PORT, () => {
   console.log("Server is running at PORT:", PORT);
   connectDB();
 });

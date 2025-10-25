@@ -87,7 +87,6 @@ export const CreateEcuFile = async (req, res) => {
     const stg = stage?.trim() || "";
     const opts = options ? options.split(",").map((o) => o.trim()) : [];
 
-
     // (1) ECU-based logic
     const ecuMatch = ecuPrefixes.some((prefix) =>
       ecu.toUpperCase().includes(prefix)
@@ -234,6 +233,69 @@ export const GetTicketDetails = async (req, res) => {
     );
   } catch (error) {
     console.error("Error in GetTicketDetails controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+};
+
+export const EligibleToDownload = async (req, res) => {
+  try {
+    const { ticketNumber } = req.body;
+    if (!ticketNumber) {
+      return sendResponse(res, 400, false, "Ticket number is required", null);
+    }
+    const ecuFile = await EcuFile.findOne({
+      ticketNumber,
+      userId: req.user._id,
+    });
+
+    if (!ecuFile) {
+      return sendResponse(res, 404, false, "Ticket not found", null);
+    }
+
+    const userCredits = req.user.credits;
+    const creditsNeed = ecuFile.creditsNeed;
+
+    // Check credit eligibility
+    if (userCredits < creditsNeed) {
+      return sendResponse(
+        res,
+        403,
+        false,
+        `You need ${creditsNeed} credits to download this file.`,
+        { eligible: false }
+      );
+    }
+
+    // Deduct user credits
+    await Auth.findByIdAndUpdate(
+      req.user._id,
+      {
+        $inc: { credits: -Number(creditsNeed) },
+      },
+      { new: true }
+    );
+
+    ecuFile.creditsNeed = 0;
+    await ecuFile.save();
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "You are eligible to download the file",
+      {
+        eligible: true,
+        message: `${creditsNeed} credits used for downloading the file`,
+      }
+    );
+  } catch (error) {
+    console.error("Error in EligibleToDownload controller", error);
     return sendResponse(
       res,
       500,

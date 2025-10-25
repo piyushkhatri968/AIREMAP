@@ -31,6 +31,7 @@ import AdminUsers from "./Pages/AdminPages/AdminUsers/AdminUsers";
 import AdminUnverifiedUsers from "./Pages/AdminPages/AdminUnverifiedUsers/AdminUnverifiedUsers";
 import ProfileSettings from "./Pages/UserPages/ProfileSettings/ProfileSettings";
 import TicketDetails from "./Pages/UserPages/TicketDetails/TicketDetails";
+import AdminTicket from "./Pages/AdminPages/AdminTicket/AdminTicket";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -79,7 +80,7 @@ const App = () => {
             <Route path="/profile-settings" element={<ProfileSettings />} />
             <Route
               path="/ticket-details/:ticketNumber"
-              element={<TicketDetails />} 
+              element={<TicketDetails />}
             />
           </Route>
         )}
@@ -93,6 +94,7 @@ const App = () => {
             <Route path="/files" element={<AdminFiles />} />
             <Route path="/transactions" element={<AdminTransactions />} />
             <Route path="/settings" element={<AdminSettings />} />
+            <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
           </Route>
         )}
 

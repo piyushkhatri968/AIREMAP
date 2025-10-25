@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import useUpdateFileStatus from "../../../hooks/Adminhooks/useUpdateFileStatus";
+import { Link } from "react-router";
 
 const AdminFiles = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -103,7 +104,8 @@ const AdminFiles = () => {
               </div>
             ) : filteredEcuFiles?.length > 0 ? (
               filteredEcuFiles.map((row) => (
-                <div
+                <Link
+                  to={`/ticket/${row?.ticketNumber}`}
                   key={row._id}
                   className="grid grid-cols-6 items-center gap-4 py-4 text-sm"
                 >
@@ -156,7 +158,7 @@ const AdminFiles = () => {
                         }
                       >
                         <SelectTrigger className="w-28 mx-auto h-10 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                          <SelectValue placeholder="Select role" />
+                          <SelectValue placeholder="Select status" />
                         </SelectTrigger>
 
                         <SelectContent
@@ -197,7 +199,7 @@ const AdminFiles = () => {
                       </Select>
                     )}
                   </div>
-                </div>
+                </Link>
               ))
             ) : (
               <div className="text-center py-12 text-zinc-500 dark:text-gray-400">

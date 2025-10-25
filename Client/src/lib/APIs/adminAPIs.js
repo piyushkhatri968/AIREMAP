@@ -39,3 +39,12 @@ export const UpdateFileStatus = async (formData) => {
   );
   return response.data;
 };
+
+export const UploadTunedFile = async (formData) => {
+  const response = await axiosInstance.put("/admin/uploadTunedFile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};

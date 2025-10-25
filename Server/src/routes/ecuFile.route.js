@@ -5,13 +5,13 @@ import {
 } from "../middleware/auth.middleware.js";
 import {
   CreateEcuFile,
+  EligibleToDownload,
   GetEcuFiles,
   GetTicketDetails,
 } from "../controllers/ecuFile.controller.js";
+const router = express.Router();
 import multer from "multer";
 import path from "path";
-
-const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: "uploads/",
@@ -45,6 +45,13 @@ router.get(
   "/getTicketDetails/:ticketNumber",
   isFullyAuthenticated,
   GetTicketDetails
+);
+
+router.post(
+  "/isEligibleToDownload",
+  isFullyAuthenticated,
+  isAuthorized("user"),
+  EligibleToDownload
 );
 
 export default router;

@@ -2,21 +2,48 @@ import { useNavigate, useParams } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { GetTicketDetails } from "../../../lib/APIs/ecuFileAPIs";
-import { BadgeAlert, Dot, Download, Loader2, Send } from "lucide-react";
+import { Dot, Download, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import car1 from "../../../assets/AuthImages/car1.png";
-import StatusCard from "./StatusCard";
-import { useState } from "react";
-import ChatRoom from "./ChatRoom";
+import { useEffect, useState } from "react";
+import AdminChatRoom from "./AdminChatRoom";
+import { Button } from "../../../components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+import useUpdateFileStatus from "../../../hooks/Adminhooks/useUpdateFileStatus";
+import useUploadTunedFile from "../../../hooks/Adminhooks/useUploadTunedFile";
 
-const TicketDetails = () => {
+const AdminTicket = () => {
   const { ticketNumber } = useParams();
+  const navigate = useNavigate();
 
-  const { data, isPending } = useQuery({
+  const [updatingFileId, setUpdatingFileId] = useState(null);
+
+  const { isUpdatingStatus, updateFileStatusMutation } = useUpdateFileStatus({
+    setUpdatingFileId,
+    comingFrom: "AdminTicket",
+  });
+
+  useEffect(() => {
+    if (!ticketNumber) {
+      navigate("/files");
+    }
+  }, []);
+
+  const { data, error, isPending } = useQuery({
     queryKey: ["ticketDetails", ticketNumber],
     queryFn: () => GetTicketDetails(ticketNumber),
     enabled: !!ticketNumber,
   });
+
+  if (error) {
+    toast.error(error?.response?.data?.message);
+  }
 
   const stageDisplay = {
     "No Engine Mud": "No Engine Mud",
@@ -32,6 +59,39 @@ const TicketDetails = () => {
   const notes = data?.notes || "";
   const isLong = notes.length > 100;
   const previewText = isLong ? notes.slice(0, 100) + "..." : notes;
+
+  const [tunedFile, setTunedFile] = useState(null);
+
+  const handleTunedFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setTunedFile(file);
+    }
+  };
+
+  const { isPending: isTunedFilePending, uploadTunedFileMutation } =
+    useUploadTunedFile();
+
+  const uploadTunedFile = async () => {
+    if (!tunedFile) {
+      return toast.error("Please select a tuned file");
+    }
+
+    try {
+      const fd = new FormData();
+      fd.append("tunedFile", tunedFile);
+      fd.append("ticketNumber", ticketNumber);
+
+      await uploadTunedFileMutation(fd);
+      setTunedFile(null);
+    } catch (error) {
+      toast.error(
+        error?.message ||
+          error?.response?.data?.message ||
+          "Failed to upload tuned file"
+      );
+    }
+  };
 
   return (
     <motion.div
@@ -50,7 +110,7 @@ const TicketDetails = () => {
             {data?.make} {data?.model} {data?.year}
           </h2>
           {/* Three column layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4">
             {/* Details */}
             <div className="p-6 space-y-4 bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 mt-6">
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -137,18 +197,114 @@ const TicketDetails = () => {
               </div>
             </div>
 
-            {/* Chat */}
-            <div className="flex flex-col gap-4">
-              <div className="">
-                <StatusCard
-                  status={data?.status}
-                  ecuTunedFile={data?.tunedFile}
-                  ticketNumber={data?.ticketNumber}
+            {/* File System */}
+            <div className="p-6 space-y-6 bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 mt-6">
+              <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                File Status
+              </h1>
+              <p className="w-full h-[1px] bg-zinc-200 dark:bg-gray-700" />
+
+              <div className="flex flex-col w-full space-y-2">
+                <label className=" text-gray-900 dark:text-white">
+                  Update File Status
+                </label>
+                <div className="col-span-1 text-center text-zinc-900 dark:text-white flex justify-center">
+                  {updatingFileId === data._id && isUpdatingStatus ? (
+                    <Loader2 className="animate-spin h-5 w-5 text-zinc-500" />
+                  ) : (
+                    <Select
+                      required
+                      value={data?.status || "Pending"}
+                      onValueChange={(value) =>
+                        updateFileStatusMutation({
+                          fileId: data._id,
+                          status: value,
+                        })
+                      }
+                    >
+                      <SelectTrigger className="w-full mx-auto h-10 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+
+                      <SelectContent
+                        className="dark:bg-[#242526] relative"
+                        side="bottom"
+                      >
+                        <SelectItem
+                          value="Pending"
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          Pending
+                        </SelectItem>
+                        <SelectItem
+                          value="In Progress"
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          In Progress
+                        </SelectItem>
+                        <SelectItem
+                          value="Completed"
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          Completed
+                        </SelectItem>
+                        <SelectItem
+                          value="Failed"
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          Failed
+                        </SelectItem>
+                        <SelectItem
+                          value="Unlocked"
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          Unlocked
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col w-full space-y-2">
+                <label className=" text-gray-900 dark:text-white">
+                  Upload Tuned File
+                </label>
+                <input
+                  onChange={handleTunedFileUpload}
+                  type="file"
+                  className="w-full border p-2 border-zinc-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-md
+             file:bg-red-600 file:hover:bg-red-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 file:cursor-pointer"
                 />
+
+                {tunedFile && (
+                  <div className="flex items-center justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="bg-red-600 hover:bg-red-700 border-red-500 text-white disabled:bg-red-800"
+                      onClick={uploadTunedFile}
+                      disabled={isTunedFilePending}
+                    >
+                      {isTunedFilePending ? "Uploading..." : "Upload"}
+                    </Button>
+                  </div>
+                )}
               </div>
-              <div className="">
-                <ChatRoom ecuFileId={data?._id} />
-              </div>
+              {data?.tunedFile && (
+                <div className="flex items-center justify-between">
+                  <p className=" text-gray-900 dark:text-white">
+                    Download Tuned File
+                  </p>
+                  <a
+                    href={data?.tunedFile}
+                    download
+                    target="__blank"
+                    className="bg-green-600 hover:bg-green-700 border-green-500 text-white p-2 rounded-md text-sm cursor-pointer disabled:bg-green-800"
+                  >
+                    Download
+                  </a>
+                </div>
+              )}
             </div>
 
             {/* Request */}
@@ -231,10 +387,14 @@ const TicketDetails = () => {
               </div>
             </div>
           </div>
+          {/* Chat */}
+          <div className="flex flex-col gap-4 mt-6">
+            <AdminChatRoom ecuFileId={data?._id} />
+          </div>
         </div>
       )}
     </motion.div>
   );
 };
 
-export default TicketDetails;
+export default AdminTicket;

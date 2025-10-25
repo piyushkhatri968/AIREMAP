@@ -24,3 +24,10 @@ export const GetTicketDetails = async (ticketNumber) => {
   );
   return response.data.data;
 };
+
+export const IsEligibleToDownload = async (ticketNumber) => {
+  const response = await axiosInstance.post("/ecuFile/isEligibleToDownload", {
+    ticketNumber,
+  });
+  return response.data;
+};

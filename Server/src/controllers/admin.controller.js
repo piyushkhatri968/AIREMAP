@@ -2,6 +2,8 @@ import Auth from "../models/auth.model.js";
 import EcuFile from "../models/ecuFile.model.js";
 import { sendResponse } from "../utils/sendResponse.js";
 import PaymentHistory from "../models/paymentHistory.model.js";
+import { uploadToCloudinary } from "../utils/Cloudinary/uploadDataToCloudinary.js";
+import fs from "fs";
 
 export const GetAllUsers = async (req, res) => {
   try {
@@ -188,6 +190,53 @@ export const UpdateEcuFileStatus = async (req, res) => {
     return sendResponse(res, 200, true, "Status updated successfully", null);
   } catch (error) {
     console.error("Error in Admin-UpdateEcuFileStatus controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+
+export const UploadTunedFile = async (req, res) => {
+  try {
+    const { ticketNumber } = req.body;
+    if (!ticketNumber) {
+      return sendResponse(res, 400, false, "Ticket number is required", null);
+    }
+    const file = req.files?.tunedFile?.[0];
+    if (!file)
+      return sendResponse(res, 400, false, "Tuned file is required", null);
+
+    const ecuFile = await EcuFile.findOne({ ticketNumber });
+    if (!ecuFile) {
+      return sendResponse(res, 400, false, "Ticket not found", null);
+    }
+
+    // Upload file to cloudinary
+    let tunedFileUrl = null;
+    const filePath = file.path;
+
+    try {
+      tunedFileUrl = await uploadToCloudinary(filePath);
+    } catch (err) {
+      console.error("Cloudinary upload failed:", err);
+      return sendResponse(res, 500, false, "Cloud upload failed", null);
+    } finally {
+      fs.unlinkSync(filePath); // always remove local file
+    }
+
+    await EcuFile.findOneAndUpdate(
+      { ticketNumber },
+      { tunedFile: tunedFileUrl },
+      { new: true }
+    );
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Tuned file uploaded successfully",
+      null
+    );
+  } catch (error) {
+    console.error("Error in Admin-UploadTunedFile controller", error);
     sendResponse(res, 400, false, error.message, null);
   }
 };

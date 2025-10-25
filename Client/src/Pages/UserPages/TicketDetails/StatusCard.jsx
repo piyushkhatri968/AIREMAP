@@ -1,47 +1,100 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import { IsEligibleToDownload } from "../../../lib/APIs/ecuFileAPIs";
+import { toast } from "react-toastify";
 
-const statusConfig = {
-  Pending: {
-    title: "Pending",
-    message: "Your file request is pending and will be processed soon.",
-    color: "text-yellow-500",
-    button: null,
-  },
-  "In Progress": {
-    title: "In Progress",
-    message: "Your file is currently being tuned.",
-    color: "text-blue-500",
-    button: null,
-  },
-  Completed: {
-    title: "Completed",
-    message: "File tuning has been completed successfully.",
-    color: "text-green-500",
-    button: null,
-  },
-  Failed: {
-    title: "Failed",
-    message: "Something went wrong while tuning the file. Please try again.",
-    color: "text-red-500",
-    button: (
-      <button className="text-gray-900 dark:text-white text-xs font-semibold rounded-full py-3 px-5 bg-zinc-700 hover:bg-zinc-600">
-        Retry
-      </button>
-    ),
-  },
-  Unlocked: {
-    title: "File Unlocked",
-    message: "Click here to download tuned file.",
-    color: "text-purple-500",
-    button: (
-      <button className="text-gray-900 dark:text-white text-xs font-semibold rounded-full py-3 px-5 bg-zinc-700 hover:bg-zinc-600">
-        Download (4.19MB)
-      </button>
-    ),
-  },
-};
+const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
+  const queryClient = useQueryClient();
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: IsEligibleToDownload,
+  });
 
-const StatusCard = ({ status }) => {
+  const handleDownload = async () => {
+    if (!ticketNumber) {
+      toast.error("Ticket number missing!");
+      return;
+    }
+
+    try {
+      const res = await mutateAsync(ticketNumber);
+
+      if (res?.success && res?.data?.eligible) {
+        toast.success(res?.data?.message || "Download started...");
+        //  Trigger actual file download
+        queryClient.invalidateQueries({ queryKey: ["authUser"] });
+        const link = document.createElement("a");
+        link.href = ecuTunedFile;
+        link.download = "";
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        toast.error(
+          res?.message || "You are not eligible to download this file"
+        );
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Failed to check download eligibility"
+      );
+    }
+  };
+
+  const statusConfig = {
+    Pending: {
+      title: "Pending",
+      message: "Your file request is pending and will be processed soon.",
+      color: "text-yellow-500",
+      button: null,
+    },
+    "In Progress": {
+      title: "In Progress",
+      message: "Your file is currently being tuned.",
+      color: "text-blue-500",
+      button: null,
+    },
+    Completed: {
+      title: "Completed",
+      message:
+        "File tuning has been completed successfully. Wait for the file to be available.",
+      color: "text-green-500",
+      button: null,
+    },
+    Failed: {
+      title: "Failed",
+      message:
+        "Something went wrong while tuning the file. Please check again later.",
+      color: "text-red-500",
+      button: null,
+    },
+    Unlocked: {
+      title: "File Unlocked",
+      message: "Click below to download your tuned file.",
+      color: "text-purple-500",
+      button: ecuTunedFile ? (
+        <button
+          onClick={handleDownload}
+          disabled={isPending}
+          className={`text-gray-900 dark:text-white text-xs font-semibold rounded-full py-3 px-5 ${
+            isPending
+              ? "bg-zinc-700 cursor-not-allowed opacity-70"
+              : "bg-zinc-700 hover:bg-zinc-600"
+          } transition-colors`}
+        >
+          {isPending ? "Checking..." : "Download"}
+        </button>
+      ) : (
+        <button
+          disabled
+          className="text-gray-400 text-xs font-semibold rounded-full py-3 px-5 bg-zinc-800 cursor-not-allowed"
+        >
+          File not available
+        </button>
+      ),
+    },
+  };
+
   const config = statusConfig[status] || statusConfig.Pending;
 
   return (

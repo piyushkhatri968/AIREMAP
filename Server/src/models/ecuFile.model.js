@@ -70,7 +70,7 @@ const ecuFileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    TunedFilePath: {
+    tunedFile: {
       type: String,
     },
     additionalFiles: [

@@ -11,8 +11,22 @@ import {
   UpdateEcuFileStatus,
   UpdateUserCredits,
   UpdateUserRole,
+  UploadTunedFile,
 } from "../controllers/admin.controller.js";
+import multer from "multer";
+import path from "path";
+
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+  },
+});
+
+const upload = multer({ storage });
 
 router.get(
   "/getAllUsers",
@@ -60,6 +74,14 @@ router.put(
   isFullyAuthenticated,
   isAuthorized("admin"),
   UpdateEcuFileStatus
+);
+
+router.put(
+  "/uploadTunedFile",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  upload.fields([{ name: "tunedFile", maxCount: 1 }]),
+  UploadTunedFile
 );
 
 export default router;

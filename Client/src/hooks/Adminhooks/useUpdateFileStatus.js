@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UpdateFileStatus } from "../../lib/APIs/adminAPIs";
 import { toast } from "react-toastify";
 
-const useUpdateFileStatus = ({ setUpdatingFileId }) => {
+const useUpdateFileStatus = ({ setUpdatingFileId, comingFrom }) => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -16,7 +16,11 @@ const useUpdateFileStatus = ({ setUpdatingFileId }) => {
     },
     onSuccess: (res) => {
       toast.success(res?.message);
-      queryClient.invalidateQueries({ queryKey: ["allAdminEcuFiles"] });
+      if (comingFrom === "AdminTicket") {
+        queryClient.invalidateQueries({ queryKey: ["ticketDetails"] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["allAdminEcuFiles"] });
+      }
     },
     onError: (error) => {
       toast.error(
