@@ -22,6 +22,10 @@ const authSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    perCreditPrice: {
+      type: Number,
+      default: 60,
+    },
     totalMoneySpent: {
       type: Number,
       default: 0,
@@ -42,6 +46,10 @@ const authSchema = mongoose.Schema(
       default: false,
     },
     onBoarded: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },

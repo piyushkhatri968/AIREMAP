@@ -42,6 +42,16 @@ export const CreateEcuFile = async (req, res) => {
       return sendResponse(res, 400, false, "ECU file is required", null);
     }
 
+    if (req.user.credits < 1) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "You must have at least 1 credit to submit a file",
+        null
+      );
+    }
+
     const existing = await EcuFile.findOne({ registration });
     if (existing) {
       return sendResponse(

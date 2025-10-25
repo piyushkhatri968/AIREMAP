@@ -138,7 +138,7 @@ const AdminTransactions = () => {
               ))
             ) : (
               <div className="text-center py-12 text-zinc-500 dark:text-gray-400">
-                No users found.
+                No transactions found.
               </div>
             )}
           </div>

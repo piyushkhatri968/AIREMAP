@@ -4,8 +4,6 @@ import Auth from "../models/auth.model.js";
 
 export const socketHandler = (io) => {
   io.on("connection", (socket) => {
-    console.log("Socket connected:", socket.id);
-
     socket.on("join_chat", async ({ ecuFileId, userId }) => {
       socket.join(ecuFileId);
 
@@ -61,8 +59,6 @@ export const socketHandler = (io) => {
       io.to(ecuFileId).emit("receive_message", populatedMsg);
     });
 
-    socket.on("disconnect", () => {
-      console.log("Socket disconnected:", socket.id);
-    });
+    socket.on("disconnect", () => {});
   });
 };

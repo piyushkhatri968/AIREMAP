@@ -262,7 +262,7 @@ export const GetMe = async (req, res) => {
   try {
     const { _id } = req.user;
     const user = await Auth.findById(_id).select(
-      "email credits role firstName lastName verified onBoarded address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted"
+      "email credits role firstName lastName verified onBoarded address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice"
     );
     return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {

@@ -16,22 +16,6 @@ const chatSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    readBy: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Auth", // jinhone message dekh liya
-      },
-    ],
-    attachments: [
-      {
-        url: String, // file/image link
-        type: {
-          type: String,
-          enum: ["image", "file", "video", "other"],
-          default: "file",
-        },
-      },
-    ],
   },
   { timestamps: true }
 );

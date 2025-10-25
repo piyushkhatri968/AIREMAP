@@ -48,3 +48,20 @@ export const UploadTunedFile = async (formData) => {
   });
   return response.data;
 };
+
+export const UpdateCreditPrice = async (data) => {
+  const response = await axiosInstance.put("/admin/updatePerCreditPrice", data);
+  return response.data;
+};
+export const DisableUser = async (userId) => {
+  const response = await axiosInstance.post("/admin/disableUser", {
+    userId,
+  });
+  return response.data;
+};
+export const DeleteUser = async (userId) => {
+  const response = await axiosInstance.post("/admin/deleteUser", {
+    userId,
+  });
+  return response.data;
+};

@@ -4,11 +4,14 @@ import {
   isFullyAuthenticated,
 } from "../middleware/auth.middleware.js";
 import {
+  DeleteUser,
+  DisableUser,
   GetAllEcuFiles,
   GetAllTransactionHistory,
   GetAllUnverifiedUsers,
   GetAllUsers,
   UpdateEcuFileStatus,
+  UpdatePerCreditPrice,
   UpdateUserCredits,
   UpdateUserRole,
   UploadTunedFile,
@@ -82,6 +85,26 @@ router.put(
   isAuthorized("admin"),
   upload.fields([{ name: "tunedFile", maxCount: 1 }]),
   UploadTunedFile
+);
+
+router.put(
+  "/updatePerCreditPrice",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  UpdatePerCreditPrice
+);
+
+router.post(
+  "/disableUser",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  DisableUser
+);
+router.post(
+  "/deleteUser",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  DeleteUser
 );
 
 export default router;

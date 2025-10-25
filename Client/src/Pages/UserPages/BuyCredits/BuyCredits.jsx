@@ -1,7 +1,42 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
+import useAuthUser from "../../../hooks/useAuthUser";
+
 const BuyCredits = () => {
   const navigate = useNavigate();
+  const { authUser } = useAuthUser();
+
+  const perCreditPrice = Number(authUser?.perCreditPrice || 60);
+
+  const packages = [
+    { id: "1credit", credits: 1 },
+    { id: "2credits", credits: 2 },
+    { id: "3credits", credits: 3 },
+    { id: "4credits", credits: 4 },
+    { id: "10credits", credits: 10, discountPercent: 8 },
+    { id: "25credits", credits: 25, discountPercent: 12 },
+    { id: "48credits", credits: 48, discountPercent: 16 },
+  ].map((pkg) => {
+    const originalPrice = pkg.credits * perCreditPrice;
+    const discount = pkg.discountPercent
+      ? (originalPrice * pkg.discountPercent) / 100
+      : 0;
+    const finalPrice = originalPrice - discount;
+
+    return {
+      ...pkg,
+      name: `${pkg.credits}x Credit${pkg.credits > 1 ? "s" : ""}`,
+      price: `£${finalPrice.toLocaleString()}`,
+      originalPrice: discount ? `£${originalPrice.toLocaleString()}` : null,
+      isBundle: Boolean(discount),
+      popular: pkg.credits === 25, // make 25-credit plan popular
+      savings: discount ? `£${discount.toFixed(0)}` : null,
+      perCredit: discount
+        ? `£${(finalPrice / pkg.credits).toFixed(2)}`
+        : `£${perCreditPrice}`,
+    };
+  });
+
   return (
     <main className="flex-1">
       <motion.div
@@ -21,75 +56,10 @@ const BuyCredits = () => {
             .
           </p>
         </div>
+
         <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {[
-              {
-                id: "1credit",
-                name: "1x Credit",
-                price: "£60",
-                credits: 1,
-                popular: false,
-                isBundle: false,
-              },
-              {
-                id: "2credits",
-                name: "2x Credits",
-                price: "£120",
-                credits: 2,
-                popular: false,
-                isBundle: false,
-              },
-              {
-                id: "3credits",
-                name: "3x Credits",
-                price: "£180",
-                credits: 3,
-                popular: false,
-                isBundle: false,
-              },
-              {
-                id: "4credits",
-                name: "4x Credits",
-                price: "£240",
-                credits: 4,
-                popular: false,
-                isBundle: false,
-              },
-              {
-                id: "10credits",
-                name: "10x Credits",
-                price: "£552",
-                originalPrice: "£600",
-                credits: 10,
-                popular: false,
-                isBundle: true,
-                savings: "£48",
-                perCredit: "£55.20",
-              },
-              {
-                id: "25credits",
-                name: "25x Credits",
-                price: "£1,320",
-                originalPrice: "£1,500",
-                credits: 25,
-                popular: true,
-                isBundle: true,
-                savings: "£180",
-                perCredit: "£52.80",
-              },
-              {
-                id: "48credits",
-                name: "48x Credits",
-                price: "£2,400",
-                originalPrice: "£2,880",
-                credits: 48,
-                popular: false,
-                isBundle: true,
-                savings: "£480",
-                perCredit: "£50",
-              },
-            ].map((pkg, index) => (
+            {packages.map((pkg, index) => (
               <motion.div
                 key={pkg.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -102,7 +72,6 @@ const BuyCredits = () => {
                     pkg.popular ? "ring-2 ring-red-500" : ""
                   }`}
                   onClick={() => {
-                    // Navigate to order details with package info
                     navigate(`/order-details?package=${pkg.id}`, {
                       state: {
                         packageDetails: pkg,
@@ -110,11 +79,10 @@ const BuyCredits = () => {
                       },
                     });
                   }}
-                  data-testid={`card-package-${pkg.id}`}
                 >
                   {pkg.isBundle && (
                     <div className="absolute -top-1.5 sm:-top-2 -right-1.5 sm:-right-2 bg-red-500 text-white text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">
-                      %
+                      % OFF
                     </div>
                   )}
 
@@ -146,10 +114,7 @@ const BuyCredits = () => {
                       </div>
                     )}
 
-                    <button
-                      className="w-full bg-red-600 hover:bg-red-700 text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm sm:text-base transition-colors"
-                      data-testid={`button-select-${pkg.id}`}
-                    >
+                    <button className="w-full bg-red-600 hover:bg-red-700 text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm sm:text-base transition-colors">
                       Select
                     </button>
                   </div>
@@ -168,26 +133,16 @@ const BuyCredits = () => {
               Secure payment powered by Stripe • All major cards accepted
             </p>
             <div className="flex items-center justify-center space-x-2 sm:space-x-4">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-600 rounded flex items-center justify-center">
-                <span className="text-[10px] sm:text-xs font-bold text-white">
-                  VISA
-                </span>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-600 rounded flex items-center justify-center">
-                <span className="text-[10px] sm:text-xs font-bold text-white">
-                  MC
-                </span>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-600 rounded flex items-center justify-center">
-                <span className="text-[10px] sm:text-xs font-bold text-white">
-                  AMEX
-                </span>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-600 rounded flex items-center justify-center">
-                <span className="text-[10px] sm:text-xs font-bold text-white">
-                  PP
-                </span>
-              </div>
+              {["VISA", "MC", "AMEX", "PP"].map((brand) => (
+                <div
+                  key={brand}
+                  className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-600 rounded flex items-center justify-center"
+                >
+                  <span className="text-[10px] sm:text-xs font-bold text-white">
+                    {brand}
+                  </span>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
