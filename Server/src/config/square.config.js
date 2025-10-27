@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const squareClient = axios.create({
-  baseURL: "https://connect.squareupsandbox.com/v2",
+  baseURL: "https://connect.squareup.com/v2",
   headers: {
     "Square-Version": "2025-03-20",
     "Content-Type": "application/json",
