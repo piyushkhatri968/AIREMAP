@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { GetAllUsers } from "../../../lib/APIs/adminAPIs";
+import { GetAllDisabledUsers } from "../../../lib/APIs/adminAPIs";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { Input } from "../../../components/ui/input";
 import { useState } from "react";
-import { Loader2, UserLock, UserX } from "lucide-react";
+import { Loader2, UserCheck, UserX } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import {
   Select,
@@ -14,16 +14,16 @@ import {
 } from "../../../components/ui/select";
 import { SelectItem } from "../../../components/ui/select";
 import useUpdateRole from "../../../hooks/Adminhooks/useUpdateRole";
-import UpdatePerCreditPrice from "./UpdatePerCreditPrice";
 
-import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
+import UpdatePerCreditPrice from "../AdminUsers/UpdatePerCreditPrice";
+import useActiveUser from "../../../hooks/Adminhooks/useActiveUser";
 
-const AdminUsers = () => {
+const AdminDisabledUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingUserId, setUpdatingUserId] = useState(null);
 
-  const [disablingUserId, setDisablingUserId] = useState(null);
+  const [enablingUserId, setEnablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
 
   const { isUpdatingRole, updateUserRoleMutation } = useUpdateRole({
@@ -31,8 +31,8 @@ const AdminUsers = () => {
   });
 
   const { isLoading, data, isError } = useQuery({
-    queryFn: GetAllUsers,
-    queryKey: ["allUsers"],
+    queryFn: GetAllDisabledUsers,
+    queryKey: ["allDisableUsers"],
   });
 
   if (isError) toast.error("Failed to load users");
@@ -72,8 +72,8 @@ const AdminUsers = () => {
     }).format(amount);
   };
 
-  const { disableUserMutation, disablePending } = useDisableUser({
-    setDisablingUserId,
+  const { enablePending, enableUserMutation } = useActiveUser({
+    setEnablingUserId,
   });
   const { deleteUserMutation, deletePending } = useDeleteUser({
     setDeletingUserId,
@@ -199,20 +199,18 @@ const AdminUsers = () => {
                       </Button>
                     )}
 
-                    {disablingUserId === row?._id && disablePending ? (
+                    {enablingUserId === row?._id && enablePending ? (
                       <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
                     ) : (
                       <Button
                         variant="outline"
-                        title="Disable"
+                        title="Active"
                         size="xs"
-                        onClick={() =>
-                          disableUserMutation({ userId: row?._id })
-                        }
+                        onClick={() => enableUserMutation({ userId: row?._id })}
                         className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white ml-1"
                         data-testid={`button-disable-${row._id}`}
                       >
-                        <UserLock className="w-4 h-4" />
+                        <UserCheck className="w-4 h-4" />
                       </Button>
                     )}
                   </div>
@@ -230,4 +228,4 @@ const AdminUsers = () => {
   );
 };
 
-export default AdminUsers;
+export default AdminDisabledUsers;

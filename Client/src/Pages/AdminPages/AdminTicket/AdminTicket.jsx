@@ -124,45 +124,47 @@ const AdminTicket = () => {
                   className="w-full rounded-lg object-contain"
                 />
               </div>
-              <div className="space-y-2">
-                <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                  Notes
-                </p>
-                <div className="border border-red-600 rounded-lg p-3 bg-red-600/20 text-xs text-gray-900 dark:text-white relative">
-                  <AnimatePresence mode="wait">
-                    {showFullNotes ? (
-                      <motion.p
-                        key="full"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.4 }}
-                      >
-                        {notes}
-                      </motion.p>
-                    ) : (
-                      <motion.p
-                        key="preview"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.4 }}
-                      >
-                        {previewText}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
+              {data?.notes && (
+                <div className="space-y-2">
+                  <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                    Notes
+                  </p>
+                  <div className="border border-red-600 rounded-lg p-3 bg-red-600/20 text-xs text-gray-900 dark:text-white relative">
+                    <AnimatePresence mode="wait">
+                      {showFullNotes ? (
+                        <motion.p
+                          key="full"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.4 }}
+                        >
+                          {notes}
+                        </motion.p>
+                      ) : (
+                        <motion.p
+                          key="preview"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.4 }}
+                        >
+                          {previewText}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
 
-                  {isLong && (
-                    <button
-                      onClick={() => setShowFullNotes((prev) => !prev)}
-                      className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 mt-2 inline-block font-semibold"
-                    >
-                      {showFullNotes ? "See less" : "See more"}
-                    </button>
-                  )}
+                    {isLong && (
+                      <button
+                        onClick={() => setShowFullNotes((prev) => !prev)}
+                        className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 mt-2 inline-block font-semibold"
+                      >
+                        {showFullNotes ? "See less" : "See more"}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   Registration

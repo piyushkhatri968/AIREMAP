@@ -32,6 +32,9 @@ import AdminUnverifiedUsers from "./Pages/AdminPages/AdminUnverifiedUsers/AdminU
 import ProfileSettings from "./Pages/UserPages/ProfileSettings/ProfileSettings";
 import TicketDetails from "./Pages/UserPages/TicketDetails/TicketDetails";
 import AdminTicket from "./Pages/AdminPages/AdminTicket/AdminTicket";
+import DisablePop from "./components/DisablePop";
+import { useEffect } from "react";
+import AdminDisabledUsers from "./Pages/AdminPages/AdminDisabledUsers/AdminDisabledUsers";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -42,6 +45,7 @@ const App = () => {
   const isOnboarded = authUser?.onBoarded;
   const isVerified = authUser?.verified;
   const role = authUser?.role;
+  const isDisabled = authUser?.disabled;
 
   const redirectIfAuth = () => {
     if (!isAuthenticated) return null;
@@ -90,7 +94,11 @@ const App = () => {
             <Route path="/dashboard" element={<AdminOverview />} />
             <Route path="/credits" element={<AdminCredits />} />
             <Route path="/users" element={<AdminUsers />} />
-            <Route path="/unverifiedUsers" element={<AdminUnverifiedUsers />} />
+            <Route
+              path="/unverified-users"
+              element={<AdminUnverifiedUsers />}
+            />
+            <Route path="/disabled-users" element={<AdminDisabledUsers />} />
             <Route path="/files" element={<AdminFiles />} />
             <Route path="/transactions" element={<AdminTransactions />} />
             <Route path="/settings" element={<AdminSettings />} />
@@ -157,6 +165,11 @@ const App = () => {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>
+      {isDisabled && (
+        <div className="fixed inset-0 z-[9999]">
+          <DisablePop />
+        </div>
+      )}
     </div>
   );
 };

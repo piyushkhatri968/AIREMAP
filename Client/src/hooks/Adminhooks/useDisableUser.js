@@ -2,16 +2,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DisableUser } from "../../lib/APIs/adminAPIs";
 import { toast } from "react-toastify";
 
-const useDisableUser = () => {
+const useDisableUser = ({ setDisablingUserId }) => {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
-    mutationFn: DisableUser,
+    mutationFn: async ({ userId }) => await DisableUser({ userId }),
+    onMutate: ({ userId }) => {
+      if (setDisablingUserId) {
+        setDisablingUserId(userId);
+      }
+    },
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
       toast.success(res.message || "User disabled successfully");
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message || "Failed to disable user");
+    },
+    onSettled: () => {
+      if (setDisablingUserId) {
+        setDisablingUserId(null);
+      }
     },
   });
   return { disablePending: isPending, disableUserMutation: mutate };

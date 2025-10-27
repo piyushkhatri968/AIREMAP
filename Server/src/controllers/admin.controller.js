@@ -10,7 +10,11 @@ import mongoose from "mongoose";
 
 export const GetAllUsers = async (req, res) => {
   try {
-    const users = await Auth.find({ onBoarded: true, verified: true })
+    const users = await Auth.find({
+      onBoarded: true,
+      verified: true,
+      disabled: false,
+    })
       .select(
         "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice"
       )
@@ -21,6 +25,30 @@ export const GetAllUsers = async (req, res) => {
     return sendResponse(res, 200, true, "Users fetched successfully", users);
   } catch (error) {
     console.error("Error in Admin-GetAllUsers controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+export const GetAllDisabledUsers = async (req, res) => {
+  try {
+    const users = await Auth.find({
+      disabled: true,
+    })
+      .select(
+        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice"
+      )
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Disabled users fetched successfully",
+      users
+    );
+  } catch (error) {
+    console.error("Error in Admin-GetAllDisabledUsers controller", error);
     sendResponse(res, 400, false, error.message, null);
   }
 };
@@ -309,6 +337,33 @@ export const DisableUser = async (req, res) => {
     return sendResponse(res, 200, true, `User disabled successfull`, null);
   } catch (error) {
     console.error("Error in Admin-DisableUser controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+export const ActiveUser = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return sendResponse(res, 400, false, "User  is required", null);
+    }
+
+    if (userId === req.user._id.toString()) {
+      return sendResponse(res, 400, false, "You can't active yourself", null);
+    }
+
+    const activatedUser = await Auth.findByIdAndUpdate(
+      userId,
+      {
+        disabled: false,
+      },
+      { new: true }
+    );
+    if (!activatedUser) {
+      return sendResponse(res, 400, false, "Failed to activate user", null);
+    }
+    return sendResponse(res, 200, true, `User activated successfull`, null);
+  } catch (error) {
+    console.error("Error in Admin-ActiveUser controller", error);
     sendResponse(res, 400, false, error.message, null);
   }
 };

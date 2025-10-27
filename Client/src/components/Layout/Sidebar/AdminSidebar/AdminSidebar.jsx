@@ -4,15 +4,14 @@ import {
   CreditCard,
   FileText,
   Settings,
+  UserRoundMinusIcon,
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import useAuthUser from "../../../../hooks/useAuthUser";
 
 const AdminSidebar = ({ isOpen = true }) => {
   const [activeTab, setActiveTab] = useState("");
-  const { authUser } = useAuthUser();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,8 +22,14 @@ const AdminSidebar = ({ isOpen = true }) => {
     {
       id: "unverifiedUsers",
       label: "Unverified Users",
-      icon: Users,
-      path: "/unverifiedUsers",
+      icon: UserRoundMinusIcon,
+      path: "/unverified-users",
+    },
+    {
+      id: "disabledUsers",
+      label: "Disabled Users",
+      icon: UserRoundMinusIcon,
+      path: "/disabled-users",
     },
     { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
     {

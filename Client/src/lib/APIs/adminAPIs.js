@@ -4,6 +4,10 @@ export const GetAllUsers = async () => {
   const response = await axiosInstance.get("/admin/getAllUsers");
   return response.data;
 };
+export const GetAllDisabledUsers = async () => {
+  const response = await axiosInstance.get("/admin/getAllDisabledUsers");
+  return response.data;
+};
 export const GetAllUnverifiedUsers = async () => {
   const response = await axiosInstance.get("/admin/getAllUnverifiedUsers");
   return response.data;
@@ -53,15 +57,15 @@ export const UpdateCreditPrice = async (data) => {
   const response = await axiosInstance.put("/admin/updatePerCreditPrice", data);
   return response.data;
 };
-export const DisableUser = async (userId) => {
-  const response = await axiosInstance.post("/admin/disableUser", {
-    userId,
-  });
+export const DisableUser = async (formData) => {
+  const response = await axiosInstance.post("/admin/disableUser", formData);
   return response.data;
 };
-export const DeleteUser = async (userId) => {
-  const response = await axiosInstance.post("/admin/deleteUser", {
-    userId,
-  });
+export const EnableUser = async (formData) => {
+  const response = await axiosInstance.post("/admin/activeUser", formData);
+  return response.data;
+};
+export const DeleteUser = async (formData) => {
+  const response = await axiosInstance.post("/admin/deleteUser", formData);
   return response.data;
 };

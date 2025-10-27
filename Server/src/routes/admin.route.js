@@ -4,8 +4,10 @@ import {
   isFullyAuthenticated,
 } from "../middleware/auth.middleware.js";
 import {
+  ActiveUser,
   DeleteUser,
   DisableUser,
+  GetAllDisabledUsers,
   GetAllEcuFiles,
   GetAllTransactionHistory,
   GetAllUnverifiedUsers,
@@ -36,6 +38,12 @@ router.get(
   isFullyAuthenticated,
   isAuthorized("admin"),
   GetAllUsers
+);
+router.get(
+  "/getAllDisabledUsers",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  GetAllDisabledUsers
 );
 router.get(
   "/getAllUnverifiedUsers",
@@ -99,6 +107,12 @@ router.post(
   isFullyAuthenticated,
   isAuthorized("admin"),
   DisableUser
+);
+router.post(
+  "/activeUser",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  ActiveUser
 );
 router.post(
   "/deleteUser",
