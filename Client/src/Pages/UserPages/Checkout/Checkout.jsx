@@ -16,7 +16,7 @@ import googleplayImg from "../../../assets/payment/googlepay.svg";
 import stripeImg from "../../../assets/payment/stripe.svg";
 import useCreatePayment from "../../../hooks/useCreatePayment";
 
-const SQUARE_APP_ID = "sandbox-sq0idb-TjXG7dXuKre9EGWMEyontQ";
+const SQUARE_APP_ID = "sq0idp-DEtbSQbvUEDDspvImb9jDw";
 const SQUARE_LOCATION_ID = "LJY1HYSWX9338";
 
 const Checkout = () => {
@@ -63,7 +63,6 @@ const Checkout = () => {
         await card.attach("#card-container");
         cardMountedRef.current = true;
       } catch (err) {
-        console.log(err)
         toast.error("Unable to load card form. Try again later");
       } finally {
         if (mounted) setIsPaymentsLoading(false);
