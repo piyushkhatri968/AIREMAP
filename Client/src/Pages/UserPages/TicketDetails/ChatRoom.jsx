@@ -6,7 +6,7 @@ import useAuthUser from "../../../hooks/useAuthUser";
 import { toast } from "react-toastify";
 
 // connect socket
-const socket = io("http://localhost:8080", {
+const socket = io("https://api.airemap.co.uk", {
   withCredentials: true,
 });
 
