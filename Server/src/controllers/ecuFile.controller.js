@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import { sendEcuFileCreatedEmailConfirmation } from "../utils/EmailTemplates/sendEcuFileCreatedEmailConfirmation.js";
 import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 import Auth from "../models/auth.model.js";
+import { cleanupUploads } from "../utils/Cloudinary/fileCleanup.js";
 
 export const CreateEcuFile = async (req, res) => {
   const {
@@ -35,14 +36,17 @@ export const CreateEcuFile = async (req, res) => {
       !transmission ||
       !year
     ) {
+      await cleanupUploads(req.files);
       return sendResponse(res, 400, false, "All fields are required", null);
     }
 
     if (!req.files.ecuFile?.[0]) {
+      await cleanupUploads(req.files);
       return sendResponse(res, 400, false, "ECU file is required", null);
     }
 
     if (req.user.credits < 1) {
+      await cleanupUploads(req.files);
       return sendResponse(
         res,
         400,
@@ -54,6 +58,7 @@ export const CreateEcuFile = async (req, res) => {
 
     const existing = await EcuFile.findOne({ registration });
     if (existing) {
+      await cleanupUploads(req.files);
       return sendResponse(
         res,
         400,
@@ -127,8 +132,11 @@ export const CreateEcuFile = async (req, res) => {
     if (req?.files?.ecuFile?.[0]) {
       const ecuFilePath = req.files.ecuFile[0].path;
       const cloudinaryUrl = await uploadToCloudinary(ecuFilePath);
-      if (cloudinaryUrl) ecuFileUrl = cloudinaryUrl;
-      await fs.unlink(ecuFilePath);
+      await fs.unlink(ecuFilePath).catch(() => {}); // safe cleanup
+      if (!cloudinaryUrl) {
+        return sendResponse(res, 500, false, "Failed to upload ECU file", null);
+      }
+      ecuFileUrl = cloudinaryUrl;
     }
 
     // upload additional files
@@ -138,9 +146,9 @@ export const CreateEcuFile = async (req, res) => {
         uploadToCloudinary(file.path)
       );
       commonFilesUrls = await Promise.all(uploads);
-      for (const f of req.files.commonFiles) {
-        await fs.unlink(f.path);
-      }
+      await Promise.all(
+        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => {}))
+      );
     }
 
     const newEcuFile = await EcuFile.create({
@@ -184,12 +192,13 @@ export const CreateEcuFile = async (req, res) => {
         subject: "Ticket Created succesfully",
       });
     } catch (error) {
-      sendResponse(res, 500, false, error.message, null);
+      console.error("Email send failed:", error.message);
     }
 
     return sendResponse(res, 201, true, "ECU File created successfully", null);
   } catch (error) {
     console.error("Error in CreateEcuFile controller", error);
+    await cleanupUploads(req.files);
     return sendResponse(
       res,
       500,

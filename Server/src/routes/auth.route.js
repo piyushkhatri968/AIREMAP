@@ -23,7 +23,7 @@ router.post("/signup-verify", isAuthenticated, SignupEmailVerify);
 router.post("/signup-verify-resend", isAuthenticated, ResendEmailVerification);
 router.post("/login", Login);
 router.get("/getMe", isAuthenticated, GetMe);
-router.post("/logout", isAuthenticated, Logout);
+router.post("/logout", Logout);
 router.put(
   "/updateProfile",
   isFullyAuthenticated,

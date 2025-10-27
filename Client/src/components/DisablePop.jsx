@@ -29,12 +29,12 @@ const DisablePop = () => {
 
           <p className="text-zinc-600 dark:text-zinc-300 text-sm mt-3">
             or mail us at{" "}
-            <a href="" className="text-red-600 cursor-pointer">support@airemap.com</a>
+            <a href="" className="text-red-600 cursor-pointer hover:underline">support@airemap.com</a>
           </p>
 
           <p className="text-zinc-600 dark:text-zinc-300 text-sm mt-8">
             Log in with another account.{" "}
-            <button className="text-red-600" onClick={logoutMutation}>
+            <button className="text-red-600 hover:underline hover:text-red-700 transition-all duration-300" onClick={logoutMutation}>
               Sign In
             </button>
           </p>

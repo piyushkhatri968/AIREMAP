@@ -8,18 +8,21 @@ cloudinary.config({
 
 export const uploadToCloudinary = async (filePath) => {
   try {
+    const fileName = filePath.split("\\").pop().split("/").pop(); // get filename with ext
+    const folder = "AIREMAP/Files";
+
+    // Force raw type so Cloudinary keeps extension for all file types
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: "AIREMAP/Files",
-      resource_type: "auto",
+      folder,
+      resource_type: "raw", // this keeps extensions consistent for all
       use_filename: true,
       unique_filename: false,
-      transformation: [
-        { quality: "auto", fetch_format: "auto" }, // applies to images only
-      ],
+      public_id: fileName.replace(/\.[^/.]+$/, ""), // remove extension in ID (Cloudinary adds it internally)
     });
+
     return result.secure_url;
   } catch (error) {
-    console.error("Cloudinary upload error:", error);
+    console.error("Cloudinary upload error:", error.message);
     return null;
   }
 };
