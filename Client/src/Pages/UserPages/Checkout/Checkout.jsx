@@ -63,6 +63,7 @@ const Checkout = () => {
         await card.attach("#card-container");
         cardMountedRef.current = true;
       } catch (err) {
+        console.log(err)
         toast.error("Unable to load card form. Try again later");
       } finally {
         if (mounted) setIsPaymentsLoading(false);
