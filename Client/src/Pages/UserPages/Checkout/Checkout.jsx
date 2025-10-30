@@ -124,7 +124,6 @@ const Checkout = () => {
       }
     } catch (err) {
       console.log(err);
-      toast.error(err.response?.data?.message || "Payment error");
     } finally {
       setIsProcessing(false);
     }

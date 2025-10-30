@@ -58,6 +58,7 @@ export const sendCreditsBoughtEmailConfirmation = ({
       }
       .details-row {
         display: flex;
+        align-items:center;
         justify-content: space-between;
         padding: 6px 0;
         border-bottom: 1px solid #2a2a2a;
