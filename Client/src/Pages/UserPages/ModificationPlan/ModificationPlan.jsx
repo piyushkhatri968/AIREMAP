@@ -151,7 +151,10 @@ const ModificationPlan = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [commonFiles, setCommonFiles] = useState([]);
 
-  const blockedStages = useMemo(() => ["Gear Box", "Original File (Back To Stock)", "ECU Cloning"], []);
+  const blockedStages = useMemo(
+    () => ["Gear Box", "Original File (Back To Stock)", "ECU Cloning"],
+    []
+  );
 
   const isOptionsBlocked = blockedStages.includes(selectedStage);
 
@@ -526,26 +529,19 @@ const ModificationPlan = () => {
                 Original File <span className="text-red-600">*</span>
               </Label>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Upload your original ECU file here.
+                Your original ECU file here.
               </p>
               <div
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors"
-                onClick={() => document.getElementById("file-upload")?.click()}
+                // onDragOver={handleDragOver}
+                // onDrop={handleDrop}
+                className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors"
+                // onClick={() => document.getElementById("file-upload")?.click()}
               >
-                {uploadedFile ? (
+                {uploadedFile && (
                   <div className="flex items-center space-x-2 text-green-600">
                     <Check className="h-5 w-5" />
                     <span>{uploadedFile.name}</span>
                   </div>
-                ) : (
-                  <>
-                    <UploadCloud className="h-10 w-10 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Drag and drop your file here, or click to select
-                    </p>
-                  </>
                 )}
                 <input
                   id="file-upload"

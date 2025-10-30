@@ -25,7 +25,7 @@ const UserDashboard = () => {
           Welcome Back, {authUser?.firstName || ""} {authUser?.lastName || ""}
         </h1>
 
-        <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl mb-6 sm:mb-10 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden">
+        {/* <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl mb-6 sm:mb-10 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden">
           <div
             className="absolute right-0 sm:right-48 top-0 w-full sm:w-2/3 h-full opacity-20"
             style={{
@@ -41,7 +41,6 @@ const UserDashboard = () => {
           ></div>
           <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
             <div className="flex items-center space-x-3">
-              {/* Logo */}
               <img
                 src={favIcon}
                 alt="Airemap Autodata"
@@ -64,7 +63,7 @@ const UserDashboard = () => {
               Open Autodata
             </button>
           </div>
-        </div>
+        </div> */}
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
           {/* Files Card */}

@@ -2,8 +2,6 @@ import { useLocation } from "react-router";
 import { motion } from "framer-motion";
 
 const PriceList = () => {
-  const location = useLocation();
-
   const stage1Items = [
     { nameKey: "O2 / LAMBDA", credits: 1, isFreeWithTune: true },
     {
@@ -190,54 +188,18 @@ const PriceList = () => {
               </div>
               <ul className="space-y-2 text-center text-sm sm:text-base lg:text-lg">
                 <li>
-                  Slave Users wanting decrypting and encrypting of files outside
-                  our service are charged at 1 Credit. These requests can only
-                  be made if Airemap have no solution available or are unable to
-                  find a working solution, or the ECU requires specific custom
-                  tuning inc. changes for upgraded turbos, injectors etc.
+                  <span className="text-red-600">Slave:</span> External
+                  encrypt/decrypt requests cost 1 Credit if Airemap has no
+                  solution or ECU needs custom tuning. Credits are
+                  non-refundable, non-transferable, and not for tools. Files
+                  under 21-day warranty can be modified free (Stage options
+                  excluded). Over 21 days = +1 Credit.
                 </li>
                 <li>
-                  Due to software being a digital sale, ALL payments for credits
-                  are NON-refundable. Credits cannot be transferred to other
-                  account holders or used towards tool purchases.
-                </li>
-                <li>
-                  If there are any file issues, and we cannot resolve, then file
-                  credits will be refunded back onto your credit balance.
-                </li>
-                <li>
-                  Files over 21 days old that require rework modifications are
-                  charged at an EXTRA 1 Credit. This includes solutions too.
-                </li>
-                <li>
-                  Due to software being a digital sale, ALL payments for credits
-                  are NON-refundable. Credits cannot be transferred to other
-                  account holders or used towards tool purchases. If there are
-                  any file issues, and we cannot resolve, then file credits will
-                  be refunded back onto your credit balance. Files over 21 days
-                  old that require further modifications are charged at an EXTRA
-                  1 Credit.
-                </li>
-                <li>
-                  This includes solutions too. Airemap reserves the right to
-                  allow access to the VRM Databases Lookup. This Database is a
-                  service aimed at the SLAVE Network of Airemap. If VRM usage is
-                  abused, your VRM access will be permanently disabled and
-                  manual search reduced. Files that require further solutions,
-                  adding or removing from the ECU file within the 21-day
-                  warranty period, are FREE for all slave users. This excludes
-                  Stage options. However, for Master users, all extras are
-                  chargeable.
-                </li>
-                <li>
-                  When ordering a file for a Master Tool, please be sure you
-                  have the complete request from the end customer. Adding or
-                  removing extra features or tunes to a file after the order has
-                  been sent will result in an extra charge. Any solutions
-                  wanting to be added outside the warranty window are charged
-                  and will require a new file request. Jobs that require redo,
-                  due to customer\'s car going back to main dealer and the map
-                  has been removed, you will need to make a new file request.
+                  <span className="text-red-600">Master:</span> All extras,
+                  including solutions, are chargeable. Submit complete customer
+                  requests; edits after submission incur extra charges. Credits
+                  non-refundable, non-transferable, and not for tools.
                 </li>
               </ul>
             </div>

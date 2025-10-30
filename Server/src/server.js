@@ -20,7 +20,6 @@ app.use(
       "http://localhost:5174",
       "https://files.airemap.co.uk",
       "https://airemap.co.uk",
-      "https://api.airemap.co.uk",
     ],
     credentials: true,
   })

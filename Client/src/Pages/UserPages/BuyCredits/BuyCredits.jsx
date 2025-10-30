@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuthUser from "../../../hooks/useAuthUser";
 
 const BuyCredits = () => {
@@ -23,17 +23,21 @@ const BuyCredits = () => {
       : 0;
     const finalPrice = originalPrice - discount;
 
+    // ✅ Round off all numbers to nearest whole
+    const roundedOriginal = Math.round(originalPrice);
+    const roundedDiscount = Math.round(discount);
+    const roundedFinal = Math.round(finalPrice);
+    const roundedPerCredit = Math.round(roundedFinal / pkg.credits);
+
     return {
       ...pkg,
       name: `${pkg.credits}x Credit${pkg.credits > 1 ? "s" : ""}`,
-      price: `£${finalPrice.toLocaleString()}`,
-      originalPrice: discount ? `£${originalPrice.toLocaleString()}` : null,
+      price: `£${roundedFinal.toLocaleString()}`,
+      originalPrice: discount ? `£${roundedOriginal.toLocaleString()}` : null,
       isBundle: Boolean(discount),
-      popular: pkg.credits === 25, // make 25-credit plan popular
-      savings: discount ? `£${discount.toFixed(0)}` : null,
-      perCredit: discount
-        ? `£${(finalPrice / pkg.credits).toFixed(2)}`
-        : `£${perCreditPrice}`,
+      popular: pkg.credits === 25,
+      savings: discount ? `£${roundedDiscount}` : null,
+      perCredit: `£${roundedPerCredit}`,
     };
   });
 
@@ -50,9 +54,12 @@ const BuyCredits = () => {
           </h2>
           <p className="text-center text-zinc-600 dark:text-gray-400 text-sm sm:text-base">
             If you need more info about our pricing, please check{" "}
-            <span className="text-red-500 hover:underline cursor-pointer">
+            <Link
+              to="/price-list"
+              className="text-red-500 hover:underline cursor-pointer"
+            >
               Pricing Guidelines
-            </span>
+            </Link>
             .
           </p>
         </div>

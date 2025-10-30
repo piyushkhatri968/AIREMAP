@@ -15,6 +15,7 @@ import amexImg from "../../../assets/payment/amex.svg";
 import googleplayImg from "../../../assets/payment/googlepay.svg";
 import stripeImg from "../../../assets/payment/stripe.svg";
 import useCreatePayment from "../../../hooks/useCreatePayment";
+import useAuthUser from "../../../hooks/useAuthUser";
 
 const SQUARE_APP_ID = "sq0idp-DEtbSQbvUEDDspvImb9jDw";
 const SQUARE_LOCATION_ID = "LJY1HYSWX9338";
@@ -22,6 +23,9 @@ const SQUARE_LOCATION_ID = "LJY1HYSWX9338";
 const Checkout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { authUser } = useAuthUser();
+  const isVATApplicable = Boolean(authUser?.VAT);
 
   const [searchParams] = useSearchParams();
   const [paymentMethod, setPaymentMethod] = useState("card");
@@ -168,10 +172,14 @@ const Checkout = () => {
                   <span>{packageDetails?.name || "Credit Package"}</span>
                   <span>£{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between items-center text-sm mt-2 text-zinc-500 dark:text-gray-400">
-                  <span>VAT (20%)</span>
-                  <span>£{vat.toFixed(2)}</span>
-                </div>
+
+                {isVATApplicable && (
+                  <div className="flex justify-between items-center text-sm mt-2 text-zinc-500 dark:text-gray-400">
+                    <span>VAT (20%)</span>
+                    <span>£{vat.toFixed(2)}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between items-center font-medium mt-4 pt-4 border-t border-zinc-200 dark:border-gray-700">
                   <span>Total due</span>
                   <span>£{total.toFixed(2)}</span>

@@ -87,6 +87,59 @@ const UploadFile = () => {
     }
   };
 
+  const readToolData = [
+    "AVDI Abrites",
+    "Alientech KTAG",
+    "Alientech Kess3 Bench",
+    "Alientech Kess3 Boot",
+    "Alientech Kess3 OBD",
+    "Alientech KessV2",
+    "Alientech Powergate",
+    "AutoFLASHER Bench",
+    "AutoFLASHER Boot",
+    "AutoFLASHER OBD",
+    "Autotuner Bench",
+    "Autotuner Boot",
+    "Autotuner OBD",
+    "BS OBD",
+    "BS Tricore Boottool",
+    "BS Toolbox",
+    "Bitbox",
+    "CMD Bench",
+    "CMD Boot",
+    "CMD OBD",
+    "CMD Tricore Boottool",
+    "DFox Bench",
+    "DFox Boot",
+    "DFox OBD",
+    "Dimsport Genius",
+    "Dimsport Trasdata",
+    "EVC BDM",
+    "EVC BSL",
+    "Eprom Programmer",
+    "FGtech Bench",
+    "FGtech Boot",
+    "FGtech OBD",
+    "Femto (BMW Tool)",
+    "Frieling SPI Wizard",
+    "Frieling i-Boot",
+    "Frieling i-Flash",
+    "Galetto",
+    "HexProg",
+    "Hptuners",
+    "MPPS",
+    "Magic Motorsport Bench",
+    "Magic Motorsport Boot",
+    "Magic Motorsport OBD",
+    "Other",
+    "PCM-Flash",
+    "Pemicro Nexus Debugger",
+    "Piasini Serial Suite",
+    "bFlash Boot",
+    "bFlash Bench",
+    "bFlash OBD",
+  ];
+
   // Drag/Drop handlers (simplified, no hover effect)
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -214,12 +267,12 @@ const UploadFile = () => {
                   Vehicle <span className="text-red-600">*</span>
                 </Label>
                 <p className="text-sm text-zinc-600 dark:text-gray-400">
-                  Choose your vehicle model. If you cannot find your vehicle,
-                  please contact us on{" "}
-                  <a href="/help" className="text-red-600">
+                  Choose your vehicle model.
+                  {/* If you cannot find your vehicle,
+                  please contact us on*/}{" "}
+                  {/* <a href="/help" className="text-red-600">
                     Help Page
-                  </a>
-                  .
+                  </a> */}
                 </p>
               </div>
               <div className="space-y-4 col-span-2">
@@ -259,7 +312,12 @@ const UploadFile = () => {
                   placeholder="Registration"
                   id="registration"
                   value={formData.registration}
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      registration: e.target.value.toUpperCase(),
+                    }))
+                  }
                   className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                 />
 
@@ -356,46 +414,20 @@ const UploadFile = () => {
                   <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
                     <SelectValue placeholder="Select read tool" />
                   </SelectTrigger>
+
                   <SelectContent
                     className="dark:bg-[#242526] relative"
                     side="top"
                   >
-                    <SelectItem
-                      value="KESS"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      KESS
-                    </SelectItem>
-                    <SelectItem
-                      value="KTAG"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      KTAG
-                    </SelectItem>
-                    <SelectItem
-                      value="MPPS"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      MPPS
-                    </SelectItem>
-                    <SelectItem
-                      value="Galletto"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      Galletto
-                    </SelectItem>
-                    <SelectItem
-                      value="CMD Flash"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      CMD Flash
-                    </SelectItem>
-                    <SelectItem
-                      value="MagPro2"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      MagPro2
-                    </SelectItem>
+                    {readToolData.map((tool) => (
+                      <SelectItem
+                        key={tool}
+                        value={tool}
+                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                      >
+                        {tool}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
 
@@ -414,28 +446,25 @@ const UploadFile = () => {
                     side="top"
                   >
                     <SelectItem
-                      value="OBD"
+                      value="Full Read
+"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
-                      OBD
+                      Full Read
                     </SelectItem>
                     <SelectItem
-                      value="Boot Mode"
+                      value="VR Read
+"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
-                      Boot Mode
+                      VR Read
                     </SelectItem>
                     <SelectItem
-                      value="Bench"
+                      value="ID Only
+"
                       className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                     >
-                      Bench
-                    </SelectItem>
-                    <SelectItem
-                      value="EEPROM"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      EEPROM
+                      ID Only
                     </SelectItem>
                   </SelectContent>
                 </Select>

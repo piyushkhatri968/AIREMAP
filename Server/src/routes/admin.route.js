@@ -16,6 +16,7 @@ import {
   UpdatePerCreditPrice,
   UpdateUserCredits,
   UpdateUserRole,
+  UpdateUserVAT,
   UploadTunedFile,
 } from "../controllers/admin.controller.js";
 import multer from "multer";
@@ -67,6 +68,12 @@ router.put(
   isFullyAuthenticated,
   isAuthorized("admin"),
   UpdateUserRole
+);
+router.put(
+  "/updateUserVAT",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  UpdateUserVAT
 );
 
 router.get(

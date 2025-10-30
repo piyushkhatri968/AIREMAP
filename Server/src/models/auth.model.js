@@ -51,7 +51,11 @@ const authSchema = mongoose.Schema(
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    VAT: {
+      type: Boolean,
+      default: true,
     },
     emailVerificationCode: String,
     emailVerificationExpiry: Date,

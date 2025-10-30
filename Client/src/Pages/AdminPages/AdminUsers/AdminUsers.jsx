@@ -18,6 +18,7 @@ import UpdatePerCreditPrice from "./UpdatePerCreditPrice";
 
 import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
+import useUpdateVAT from "../../../hooks/Adminhooks/useUpdateVAT";
 
 const AdminUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +29,12 @@ const AdminUsers = () => {
 
   const { isUpdatingRole, updateUserRoleMutation } = useUpdateRole({
     setUpdatingUserId,
+  });
+
+  const [updatingVATUserId, setUpdatingVATUserId] = useState(null);
+
+  const { isUpdatingVAT, updateUserVATMutation } = useUpdateVAT({
+    setUpdatingVATUserId,
   });
 
   const { isLoading, data, isError } = useQuery({
@@ -100,10 +107,11 @@ const AdminUsers = () => {
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
         <div className="overflow-x-auto">
           {/* Header */}
-          <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr_0.5fr_1.2fr_1.5fr_1fr] gap-4 py-3 text-xs font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
+          <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_0.5fr_1.2fr_1.5fr_1fr] px-1 py-3 text-xs font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
             <div className="text-center">User</div>
             <div className="text-center">Email</div>
             <div className="text-center">Money Spent</div>
+            <div className="text-center">VAT</div>
             <div className="text-center">Credit Price</div>
             <div className="text-center">Files</div>
             <div className="text-center">Role</div>
@@ -122,7 +130,7 @@ const AdminUsers = () => {
               filteredUser.map((row) => (
                 <div
                   key={row._id}
-                  className="grid grid-cols-[1fr_1.5fr_1fr_1fr_0.5fr_1.2fr_1.5fr_1fr] items-center gap-4 py-4 text-sm"
+                  className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_0.5fr_1.2fr_1.5fr_1fr] items-center justify-center px-1 py-4 text-sm"
                 >
                   <div className="text-center text-zinc-900 dark:text-white">
                     {row?.firstName + " " + row?.lastName}
@@ -132,6 +140,43 @@ const AdminUsers = () => {
                   </div>
                   <div className="text-center text-zinc-900 dark:text-white">
                     {formatCurrency(row?.totalMoneySpent)}
+                  </div>
+                  <div className="text-center text-zinc-900 dark:text-white flex justify-center">
+                    {updatingVATUserId === row._id && isUpdatingVAT ? (
+                      <Loader2 className="animate-spin h-5 w-5 text-zinc-500" />
+                    ) : (
+                      <Select
+                        required
+                        value={row?.VAT === true ? "true" : "false" || true}
+                        onValueChange={(value) =>
+                          updateUserVATMutation({
+                            userId: row._id,
+                            vat: value,
+                          })
+                        }
+                      >
+                        <SelectTrigger className="w-24 mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                          <SelectValue placeholder="Select VAT" />
+                        </SelectTrigger>
+                        <SelectContent
+                          className="dark:bg-[#242526] relative"
+                          side="top"
+                        >
+                          <SelectItem
+                            value="true"
+                            className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                          >
+                            True
+                          </SelectItem>
+                          <SelectItem
+                            value="false"
+                            className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                          >
+                            False
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
                   </div>
 
                   <UpdatePerCreditPrice
@@ -156,7 +201,7 @@ const AdminUsers = () => {
                           })
                         }
                       >
-                        <SelectTrigger className="w-28 mx-auto h-10 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                        <SelectTrigger className="w-24 mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
                           <SelectValue placeholder="Select role" />
                         </SelectTrigger>
 

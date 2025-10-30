@@ -17,6 +17,10 @@ export const UpdateUserRole = async (formData) => {
   const response = await axiosInstance.put("/admin/updateUserRole", formData);
   return response.data;
 };
+export const UpdateUserVAT = async (formData) => {
+  const response = await axiosInstance.put("/admin/updateUserVAT", formData);
+  return response.data;
+};
 
 export const GetAllTransactionHistory = async () => {
   const response = await axiosInstance.get("/admin/getAllTransactionHistory");

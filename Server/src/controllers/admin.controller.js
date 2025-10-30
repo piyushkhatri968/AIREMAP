@@ -16,7 +16,7 @@ export const GetAllUsers = async (req, res) => {
       disabled: false,
     })
       .select(
-        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice"
+        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
       )
       .sort({
         createdAt: -1,
@@ -34,7 +34,7 @@ export const GetAllDisabledUsers = async (req, res) => {
       disabled: true,
     })
       .select(
-        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice"
+        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
       )
       .sort({
         createdAt: -1,
@@ -109,6 +109,31 @@ export const UpdateUserRole = async (req, res) => {
     return sendResponse(res, 200, true, "Role updated successfully", null);
   } catch (error) {
     console.error("Error in Admin-UpdateUserRole controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+export const UpdateUserVAT = async (req, res) => {
+  const { userId, vat } = req.body;
+  try {
+    if (!userId || !vat) {
+      return sendResponse(res, 400, false, "User and VAT is required", null);
+    }
+
+    if (userId === req.user._id.toString()) {
+      return sendResponse(res, 403, false, "You can't update your VAT", null);
+    }
+    const updatedUser = await Auth.findByIdAndUpdate(
+      userId,
+      { $set: { VAT: vat } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return sendResponse(res, 404, false, "Failed to update VAT", null);
+    }
+    return sendResponse(res, 200, true, "VAT updated successfully", null);
+  } catch (error) {
+    console.error("Error in Admin-UpdateUserVAT controller", error);
     sendResponse(res, 400, false, error.message, null);
   }
 };
