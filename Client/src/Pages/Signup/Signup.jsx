@@ -62,7 +62,7 @@ const Signup = () => {
           </div>
 
           {/* Mobile Logo */}
-          <div className="lg:hidden w-full absolute top-16 flex flex-col items-center z-20">
+          <div className="lg:hidden w-full absolute top-[7.3%] flex flex-col items-center z-20">
             <img
               src={aiRemapLogo}
               alt="Ai REMAP Logo"

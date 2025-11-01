@@ -52,7 +52,7 @@ const Signin = () => {
         </div>
 
         {/* Mobile Logo */}
-        <div className="lg:hidden w-full absolute top-24 flex flex-col items-center z-20">
+        <div className="lg:hidden w-full absolute top-[13%] flex flex-col items-center z-20">
           <img src={aiRemapLogo} alt="Ai REMAP Logo" className="w-60 h-auto" />
           <h2 className="text-white italic text-sm font-semibold text-center drop-shadow-lg">
             World Leading File Portal
