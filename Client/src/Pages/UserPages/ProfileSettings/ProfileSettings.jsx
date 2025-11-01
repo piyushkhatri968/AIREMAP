@@ -16,11 +16,13 @@ const Settings = () => {
   });
 
   const { isPending, updateProfileMutation } = useUpdateProfile();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     updateProfileMutation(formData);
   };
-  const handleChange = async (e) => {
+
+  const handleChange = (e) => {
     const { value, name } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -29,18 +31,19 @@ const Settings = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
+      className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700 m-3 sm:m-6 mt-6 sm:mt-0"
     >
-      <div className="bg-white dark:bg-[#1C1C1C] rounded-xl p-8 border border-zinc-200 dark:border-zinc-800">
-        <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">
+      <div className="bg-white dark:bg-[#1C1C1C] rounded-xl p-4 sm:p-8 border border-zinc-200 dark:border-zinc-800">
+        <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-900 dark:text-white">
           Profile Settings
         </h2>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Full Name */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Full Name
+                First Name{" "}
                 <span className="text-red-600 dark:text-red-500">*</span>
               </label>
               <input
@@ -53,7 +56,10 @@ const Settings = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 text-sm text-transparent">.</label>
+              <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
+                Last Name{" "}
+                <span className="text-red-600 dark:text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 name="lastName"
@@ -64,6 +70,7 @@ const Settings = () => {
               />
             </div>
           </div>
+
           {/* Country */}
           <div>
             <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
@@ -71,7 +78,7 @@ const Settings = () => {
             </label>
             <select
               name="country"
-              value={formData.country || ""} /* Add fallback empty string */
+              value={formData.country || ""}
               onChange={handleChange}
               className="w-full px-4 py-2.5 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white appearance-none"
             >
@@ -82,6 +89,7 @@ const Settings = () => {
               ))}
             </select>
           </div>
+
           {/* City */}
           <div>
             <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
@@ -96,9 +104,10 @@ const Settings = () => {
               className="w-full px-4 py-2.5 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
             />
           </div>
-          {/* Address and Post Code */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2">
+
+          {/* Address + Post Code */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="sm:col-span-2">
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
                 Address{" "}
                 <span className="text-red-600 dark:text-red-500">*</span>
@@ -122,18 +131,18 @@ const Settings = () => {
                 name="postalCode"
                 value={formData.postalCode}
                 onChange={handleChange}
-                placeholder=" Post Code"
+                placeholder="Post Code"
                 className="w-full px-4 py-2.5 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
               />
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-end">
+          <div className="flex justify-end pt-2">
             <button
               type="submit"
               disabled={isPending}
-              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 transition-colors rounded-lg text-white font-medium disabled:bg-red-400"
+              className="px-5 sm:px-6 py-2.5 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 transition-colors rounded-lg text-white font-medium disabled:bg-red-400"
             >
               {isPending ? "Saving..." : "Save Changes"}
             </button>

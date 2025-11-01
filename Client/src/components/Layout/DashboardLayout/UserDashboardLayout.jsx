@@ -8,7 +8,7 @@ const UserDashboardLayout = () => {
   const [activeView, setActiveView] = useState("dashboard");
 
   return (
-    <div className="min-h-screen flex bg-white dark:bg-[#171819]">
+    <div className="min-h-screen flex bg-white dark:bg-[#171819] overflow-hidden">
       {/* Sidebar */}
       <UserSidebar
         activeView={activeView}
@@ -24,7 +24,7 @@ const UserDashboardLayout = () => {
         />
       )}
 
-      <div className="lg:ml-64 flex-1 flex flex-col">
+      <div className="lg:ml-64 flex-1 flex flex-col overflow-hidden">
         {/* Navbar */}
         <UserNavbar
           isSidebarOpen={isSidebarOpen}
@@ -32,7 +32,7 @@ const UserDashboardLayout = () => {
         />
 
         {/* Main content area */}
-        <div className="flex-1 p-4 sm:p-6 lg:p-8 mt-16">
+        <div className="flex-1 sm:p-6 lg:p-8 mt-16 overflow-x-hidden overflow-y-auto">
           <Outlet />
         </div>
       </div>

@@ -20,7 +20,11 @@ import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
 import useUpdateVAT from "../../../hooks/Adminhooks/useUpdateVAT";
 
+import useAuthUser from "../../../hooks/useAuthUser";
+
 const AdminUsers = () => {
+  const { authUser } = useAuthUser();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingUserId, setUpdatingUserId] = useState(null);
 
@@ -133,7 +137,8 @@ const AdminUsers = () => {
                   className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_0.5fr_1.2fr_1.5fr_1fr] items-center justify-center px-1 py-4 text-sm"
                 >
                   <div className="text-center text-zinc-900 dark:text-white">
-                    {row?.firstName + " " + row?.lastName}
+                    {row?.firstName + " " + row?.lastName}{" "}
+                    <span className="text-green-500 text-xs"> {row?._id === authUser._id && "(You)"}</span>
                   </div>
                   <div className="text-center text-zinc-900 dark:text-white">
                     {row?.email}

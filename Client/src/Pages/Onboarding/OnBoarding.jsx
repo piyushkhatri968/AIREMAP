@@ -68,16 +68,16 @@ const OnBoarding = () => {
         </div>
 
         {/* Mobile Logo */}
-        <div className="lg:hidden w-full absolute -top-[1rem] flex flex-col items-center z-20">
+        {/* <div className="lg:hidden w-full absolute top-0 flex flex-col items-center z-20">
           <img
             src={aiRemapLogo}
             alt="Ai REMAP Logo"
-            className="w-60 h-auto -mb-[8.4rem]"
+            className="w-60 h-auto"
           />
-          <h2 className="text-white italic text-sm font-semibold mt-8 text-center drop-shadow-lg">
+          <h2 className="text-white italic text-sm font-semibold text-center drop-shadow-lg">
             World Leading File Portal
           </h2>
-        </div>
+        </div> */}
 
         {/* Form Container - Right side on desktop */}
 

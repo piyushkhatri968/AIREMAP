@@ -285,8 +285,8 @@ const ModificationPlan = () => {
       className="space-y-4 sm:space-y-6"
     >
       {/* Page Title and Breadcrumb (unchanged) */}
-      <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+      <div className="p-4">
+        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
           Modification Plan
         </h1>
         {/* Breadcrumb Navigation */}
@@ -313,7 +313,7 @@ const ModificationPlan = () => {
         </div>
       </div>
       {/* Step Indicators (unchanged) */}
-      <div className="flex items-center justify-end py-2 sm:py-4 gap-3 sm:gap-4">
+      <div className="flex flex-wrap items-center px-4 py-2 sm:py-4 gap-3 sm:gap-4">
         <div className="flex items-center space-x-2">
           <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 text-zinc-500 dark:bg-gray-600 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
             1
@@ -610,8 +610,7 @@ const ModificationPlan = () => {
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Please enter the notes if there is anything that our tuners should consider when modifying the file"
-              className="min-h-[100px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              className="min-h-[100px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
             />
           </div>
           {/* Submit Button (unchanged) */}

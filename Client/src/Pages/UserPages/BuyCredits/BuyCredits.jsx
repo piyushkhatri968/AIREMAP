@@ -42,7 +42,7 @@ const BuyCredits = () => {
   });
 
   return (
-    <main className="flex-1">
+    <main className="flex-1 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

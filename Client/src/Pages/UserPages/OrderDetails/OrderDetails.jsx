@@ -50,7 +50,7 @@ const OrderDetails = () => {
   const total = Math.round(subtotal + vat);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="px-4 sm:px-0 mt-6 sm:mt-0">
       <Card className="max-w-3xl mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-700 shadow-lg">
         <div className="p-8">
           <h1 className="text-2xl font-semibold mb-8 text-zinc-900 dark:text-white">

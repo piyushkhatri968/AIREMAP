@@ -190,8 +190,8 @@ const UploadFile = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       {/* Page Title */}
-      <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+      <div className="p-4">
+        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
           Upload File
         </h1>
         {/* Breadcrumb Navigation - Hidden on mobile */}
@@ -210,7 +210,7 @@ const UploadFile = () => {
       </div>
 
       {/* Step Indicators */}
-      <div className="flex items-center justify-end py-2 sm:py-4 gap-3 sm:gap-4">
+      <div className="flex flex-wrap items-center px-4 py-2 sm:py-4 gap-3 sm:gap-4">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-red-600 text-white flex items-center justify-center text-xs sm:text-sm font-bold">
             1
@@ -246,7 +246,7 @@ const UploadFile = () => {
       {/* Form Container */}
       <form
         onSubmit={handleSubmit}
-        className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
+        className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700 w-full"
       >
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="mb-6 sm:mb-8">
@@ -340,7 +340,7 @@ const UploadFile = () => {
             </div>
 
             {/* Transmission Type */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-1 md:grid-cols-3 sm:gap-4 md:gap-6">
               <div className="space-y-1"></div>
               <div className="col-span-2">
                 <RadioGroup

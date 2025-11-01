@@ -67,7 +67,7 @@ const AdminTransactions = () => {
       className="space-y-6"
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Transaction History</h2>
+        <h2 className="text-2xl font-bold text-red-600">Transaction History</h2>
         <Input
           placeholder="Search transactions by email, name, transaction Id, status"
           value={searchQuery}

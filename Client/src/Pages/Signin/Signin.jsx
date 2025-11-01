@@ -39,11 +39,11 @@ const Signin = () => {
       <div className="relative z-10 min-h-screen flex">
         {/* Desktop Logo Container - Centered */}
         <div className="hidden lg:flex w-1/2 items-center justify-center">
-          <div className="flex flex-col mb-40 items-center">
+          <div className="flex flex-col items-center">
             <img
               src={aiRemapLogo}
               alt="Ai REMAP Logo"
-              className="w-96 h-auto -mb-40"
+              className="w-96 h-auto"
             />
             <h2 className="text-white text-2xl font-semibold text-center drop-shadow-lg italic">
               World Leading File Portal
@@ -52,13 +52,9 @@ const Signin = () => {
         </div>
 
         {/* Mobile Logo */}
-        <div className="lg:hidden w-full absolute -top-[1rem] flex flex-col items-center z-20">
-          <img
-            src={aiRemapLogo}
-            alt="Ai REMAP Logo"
-            className="w-60 h-auto -mb-[8.4rem]"
-          />
-          <h2 className="text-white italic text-sm font-semibold mt-8 text-center drop-shadow-lg">
+        <div className="lg:hidden w-full absolute top-24 flex flex-col items-center z-20">
+          <img src={aiRemapLogo} alt="Ai REMAP Logo" className="w-60 h-auto" />
+          <h2 className="text-white italic text-sm font-semibold text-center drop-shadow-lg">
             World Leading File Portal
           </h2>
         </div>

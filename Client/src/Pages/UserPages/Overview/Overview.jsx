@@ -294,8 +294,8 @@ const Overview = () => {
         animate={{ opacity: 1, y: 0 }}
         className="space-y-4 sm:space-y-6"
       >
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+        <div className="p-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
             Overview
           </h1>
           <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
@@ -319,7 +319,7 @@ const Overview = () => {
           </div>
         </div>
         {/* Step Indicators */}
-        <div className="flex items-center justify-end py-2 sm:py-4 gap-3 sm:gap-4">
+        <div className="flex flex-wrap px-4 items-center py-2 sm:py-4 gap-3 sm:gap-4">
           <div className="flex items-center space-x-2">
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 text-zinc-500 dark:bg-gray-600 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
               1
@@ -352,23 +352,22 @@ const Overview = () => {
           </div>
         </div>
         {/* Main Content: two-column layout (left labels, right content) */}
+
         <form
           onSubmit={handleSubmit}
           className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
         >
           <div className="p-4 sm:p-6 lg:p-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Left column: labels/descriptions */}
-              <aside className="lg:col-span-3 space-y-8 pr-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">
-                    Overview
-                  </h2>
-                  <p className="text-sm text-zinc-500 dark:text-gray-400 whitespace-nowrap">
-                    Check if the form data is entered correctly before submit.
-                  </p>
-                </div>
-
+            <aside className="lg:col-span-3 space-y-8">
+              <div>
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">
+                  Overview
+                </h2>
+                <p className="text-sm text-zinc-500 dark:text-gray-400">
+                  Check if the form data is entered correctly before submit.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                 <div>
                   <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mb-1">
                     Details
@@ -378,21 +377,8 @@ const Overview = () => {
                     possible helps to complete the file faster.
                   </p>
                 </div>
-
-                <div>
-                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-[16rem]">
-                    Solutions
-                  </h3>
-                  <p className="text-xs text-zinc-500 dark:text-gray-400">
-                    If there are, read the solution notes and be sure to pay
-                    attention to them.
-                  </p>
-                </div>
-              </aside>
-              {/* Right column: content cards */}
-              <section className="lg:col-span-9 space-y-6">
                 {/* Car Details Card */}
-                <div className="bg-white mt-16 dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
                     <div className="flex-1 order-2 lg:order-1">
                       <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
@@ -476,7 +462,16 @@ const Overview = () => {
                     </div>
                   </div>
                 </div>
-                {/* Solutions Card */}
+
+                <div>
+                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-8 sm:mt-0">
+                    Solutions
+                  </h3>
+                  <p className="text-xs text-zinc-500 dark:text-gray-400">
+                    If there are, read the solution notes and be sure to pay
+                    attention to them.
+                  </p>
+                </div>
                 <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
                   <div className="flex items-center gap-4">
                     <div className="bg-red-600 w-10 h-10 rounded flex items-center justify-center">
@@ -519,62 +514,69 @@ const Overview = () => {
                   )}
                 </div>
 
-                {/* Terms Card (unchanged) */}
-                <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="terms"
-                        checked={acceptTerms}
-                        onCheckedChange={(checked) => setAcceptTerms(checked)}
-                        className="rounded border-gray-300 text-red-600 focus:ring-red-500"
-                      />
-                      <label
-                        htmlFor="terms"
-                        className="text-sm text-zinc-500 dark:text-gray-400"
-                      >
-                        I accept the terms and conditions{" "}
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          settermsConditionPopup(true);
-                        }}
-                        className="text-red-600 hover:underline"
-                      >
-                        Please read and accept the terms and conditions before
-                        proceeding.
-                      </button>
+                <div></div>
+                <div>
+                  {/* Terms Card (unchanged) */}
+                  <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700 mt-8 sm:mt-0">
+                    <div className="flex items-start justify-between">
+                      <div className="flex flex-col items-start">
+                        <div className="flex gap-2">
+                          <Checkbox
+                            id="terms"
+                            checked={acceptTerms}
+                            onCheckedChange={(checked) =>
+                              setAcceptTerms(checked)
+                            }
+                            className="rounded border-gray-300 text-red-600 focus:ring-red-500"
+                          />
+                          <label
+                            htmlFor="terms"
+                            className="text-sm text-zinc-500 dark:text-gray-400 whitespace-nowrap"
+                          >
+                            I accept the terms and conditions.{" "}
+                          </label>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            settermsConditionPopup(true);
+                          }}
+                          className="text-red-600 hover:underline text-start mt-2 sm:mt-0"
+                        >
+                          Please read and accept the terms and conditions before
+                          proceeding.
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  {/* Action Buttons */}
+                  <div className="flex justify-between pt-8">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleGoBack}
+                      className="px-8 dark:text-white"
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="bg-red-600 hover:bg-red-700 text-white px-8"
+                      disabled={!acceptTerms || isPending}
+                    >
+                      {isPending ? (
+                        <div className="flex items-center justify-center">
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          <span>Loading...</span>
+                        </div>
+                      ) : (
+                        "Submit"
+                      )}
+                    </Button>
+                  </div>
                 </div>
-                {/* Action Buttons */}
-                <div className="flex justify-between pt-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleGoBack}
-                    className="px-8 dark:text-white"
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="bg-red-600 hover:bg-red-700 text-white px-8"
-                    disabled={!acceptTerms || isPending}
-                  >
-                    {isPending ? (
-                      <div className="flex items-center justify-center">
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        <span>Loading...</span>
-                      </div>
-                    ) : (
-                      "Submit"
-                    )}
-                  </Button>
-                </div>
-              </section>
-            </div>
+              </div>
+            </aside>
           </div>
         </form>
       </motion.div>

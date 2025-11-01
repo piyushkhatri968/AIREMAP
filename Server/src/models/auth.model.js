@@ -51,7 +51,7 @@ const authSchema = mongoose.Schema(
     },
     disabled: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     VAT: {
       type: Boolean,
