@@ -7,7 +7,7 @@ const AdminDashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
   return (
-    <div className="min-h-screen flex bg-white dark:bg-[#171819]">
+    <div className="min-h-screen flex bg-white dark:bg-[#171819] overflow-hidden">
       {/* Sidebar */}
       <AdminSidebar
         activeView={activeView}
@@ -23,7 +23,7 @@ const AdminDashboardLayout = () => {
         />
       )}
 
-      <div className="lg:ml-64 flex-1 flex flex-col">
+      <div className="lg:ml-64 flex-1 flex flex-col overflow-hidden">
         {/* Navbar */}
         <AdminNavbar
           isSidebarOpen={isSidebarOpen}
@@ -31,7 +31,7 @@ const AdminDashboardLayout = () => {
         />
 
         {/* Main content area */}
-        <div className="flex-1 p-6 sm:p-8 lg:p-10 mt-20">
+        <div className="flex-1 p-6 sm:p-8 lg:p-10 mt-20 overflow-x-hidden overflow-y-auto">
           <Outlet />
         </div>
       </div>

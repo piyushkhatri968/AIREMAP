@@ -18,25 +18,22 @@ const AdminUnverifiedUsers = () => {
 
   const filteredUser = data?.data?.filter((item) => {
     const query = searchQuery.toLowerCase();
-
     const emailMatch = item.email?.toLowerCase().includes(query);
     const firstNameMatch = item.firstName?.toLowerCase().includes(query);
     const lastNameMatch = item.lastName?.toLowerCase().includes(query);
-
     return emailMatch || firstNameMatch || lastNameMatch;
   });
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-
     return date.toLocaleString("en-US", {
-      month: "short", // e.g. Aug
-      day: "2-digit", // e.g. 30
-      year: "numeric", // e.g. 2025
-      hour: "2-digit", // e.g. 09
-      minute: "2-digit", // e.g. 53
-      hour12: false, // 24-hour format (set true for AM/PM)
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     });
   };
 
@@ -46,68 +43,81 @@ const AdminUnverifiedUsers = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h2 className="text-xl md:text-2xl my-3 sm:my-0 font-bold text-white">
           Unverified Users Management
         </h2>
         <Input
           placeholder="Search users by name, email"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-80 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-          data-testid="input-search-users"
+          className="w-full sm:w-80 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
         />
       </div>
 
-      {/* Transactions Table */}
+      {/* Table Container */}
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
-        <div className="overflow-x-auto">
-          {/* Header */}
-          <div className="grid grid-cols-5 gap-4 py-3 text-xs font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
-            <div className="text-center">User</div>
-            <div className="text-center">Email</div>
-            <div className="text-center">Country</div>
-            <div className="text-center">City</div>
-            <div className="text-center">Joined</div>
-            {/* <div className="text-center">Actions</div> */}
-          </div>
+        <div className="overflow-x-auto rounded-xl">
+          <table className="min-w-full w-full text-sm text-center">
+            <thead>
+              <tr className="font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
+                <th className="py-3 px-4">User</th>
+                <th className="py-3 px-4">Email</th>
+                <th className="py-3 px-4">Country</th>
+                <th className="py-3 px-4">City</th>
+                <th className="py-3 px-4">Joined</th>
+              </tr>
+            </thead>
 
-          {/* Content */}
-          <div className="divide-y divide-zinc-200 dark:divide-gray-700">
-            {isLoading ? (
-              <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">
-                <Loader2 className="animate-spin h-5 w-5 mr-2" /> Fetching
-                Unverified Users...
-              </div>
-            ) : filteredUser?.length > 0 ? (
-              filteredUser.map((row) => (
-                <div
-                  key={row._id}
-                  className="grid grid-cols-5 items-center gap-4 py-4 text-sm"
-                >
-                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row?.firstName || "N/A"} {row?.lastName || "N/A"}
-                  </div>
-                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row?.email}
-                  </div>
-                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row?.country || "N/A"}
-                  </div>
-                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {row?.city || "N/A"}
-                  </div>
-                  <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-                    {formatDateTime(row?.createdAt)}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-12 text-zinc-500 dark:text-gray-400">
-                No users found.
-              </div>
-            )}
-          </div>
+            <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
+              {isLoading ? (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="py-10 text-zinc-500 dark:text-gray-400"
+                  >
+                    <div className="flex justify-center items-center">
+                      <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                      Fetching Unverified Users...
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredUser?.length > 0 ? (
+                filteredUser.map((row) => (
+                  <tr
+                    key={row._id}
+                    className="whitespace-nowrap"
+                  >
+                    <td className="py-3 px-4 text-zinc-900 dark:text-white">
+                      {row?.firstName || "N/A"} {row?.lastName || "N/A"}
+                    </td>
+                    <td className="py-3 px-4 text-zinc-900 dark:text-white">
+                      {row?.email}
+                    </td>
+                    <td className="py-3 px-4 text-zinc-900 dark:text-white">
+                      {row?.country || "N/A"}
+                    </td>
+                    <td className="py-3 px-4 text-zinc-900 dark:text-white">
+                      {row?.city || "N/A"}
+                    </td>
+                    <td className="py-3 px-4 text-zinc-900 dark:text-white">
+                      {formatDateTime(row?.createdAt)}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="py-12 text-zinc-500 dark:text-gray-400"
+                  >
+                    No users found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </motion.div>

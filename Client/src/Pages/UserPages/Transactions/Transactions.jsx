@@ -36,6 +36,9 @@ const Transactions = () => {
       className="space-y-4 p-4"
     >
       {/* Search Bar */}
+      <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+        Transaction History
+      </h2>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 dark:text-gray-500 h-4 w-4" />
         <Input
