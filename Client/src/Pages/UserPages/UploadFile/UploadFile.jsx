@@ -327,9 +327,9 @@ const UploadFile = () => {
                     Select the ECU ID from the list.
                   </p>
 
-                  {/* 🛑 REPLACE: Select with EcuSearchCombobox */}
+                  {/* Select with EcuSearchCombobox */}
                   <EcuSearchCombobox
-                    options={ecuOptions} // Puri list pass kar do
+                    options={ecuOptions}
                     selectedValue={formData.ecuId}
                     onValueChange={(value) =>
                       handleSelectChange("ecuId", value)
