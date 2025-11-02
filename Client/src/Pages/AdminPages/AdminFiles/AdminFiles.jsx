@@ -74,7 +74,7 @@ const AdminFiles = () => {
       className="space-y-6"
     >
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h2 className="text-xl font-semibold text-white mt-2 sm:mt-0">
+        <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mt-2 sm:mt-0">
           ECU File Management
         </h2>
         <Input

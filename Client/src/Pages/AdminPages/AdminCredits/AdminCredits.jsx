@@ -41,13 +41,13 @@ const AdminCredits = () => {
     >
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h2 className="text-xl sm:text-2xl mt-2 sm:my-0 font-bold text-white">Credits Management</h2>
+        <h2 className="text-xl sm:text-2xl mt-2 sm:my-0 font-bold text-zinc-900 dark:text-white">Credits Management</h2>
       </div>
 
       {/* Search & Table */}
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
         <div className="p-6 flex flex-col gap-2">
-          <h2 className="text-xl font-semibold text-white">User Credits</h2>
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">User Credits</h2>
           <p className="text-zinc-900 dark:text-zinc-400 text-sm">
             Add or remove credits for users.
           </p>

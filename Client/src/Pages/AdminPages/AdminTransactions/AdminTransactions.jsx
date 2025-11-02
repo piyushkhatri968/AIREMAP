@@ -58,7 +58,7 @@ const AdminTransactions = () => {
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold text-white">Transaction History</h2>
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Transaction History</h2>
         <Input
           placeholder="Search by email, name, transaction ID, or status"
           value={searchQuery}
