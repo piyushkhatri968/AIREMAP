@@ -64,6 +64,11 @@ const AdminTicket = () => {
 
   const handleTunedFileUpload = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 10 * 1024 * 1024) {
+      toast.error("File size cannot exceed 10 MB");
+      e.target.value = ""; // reset file input  
+      return;
+    }
     if (file) {
       setTunedFile(file);
     }
@@ -87,8 +92,8 @@ const AdminTicket = () => {
     } catch (error) {
       toast.error(
         error?.message ||
-          error?.response?.data?.message ||
-          "Failed to upload tuned file"
+        error?.response?.data?.message ||
+        "Failed to upload tuned file"
       );
     }
   };
@@ -169,7 +174,7 @@ const AdminTicket = () => {
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   Registration
                 </p>
-                <p className=" text-xs text-white">
+                <p className=" text-xs text-gray-900 dark:text-white">
                   {data?.registration || "N/A"}
                 </p>
               </div>
@@ -177,13 +182,13 @@ const AdminTicket = () => {
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   ECU
                 </p>
-                <p className="text-xs text-white">{data?.ecuId || "N/A"}</p>
+                <p className="text-xs text-gray-900 dark:text-white">{data?.ecuId || "N/A"}</p>
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   Tool
                 </p>
-                <p className=" text-xs text-white">
+                <p className=" text-xs text-gray-900 dark:text-white">
                   <span>
                     {data?.readTool} {data?.readType} {data?.masterSlave}
                   </span>
@@ -193,7 +198,7 @@ const AdminTicket = () => {
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   Gearbox
                 </p>
-                <p className=" text-xs text-white">
+                <p className=" text-xs text-gray-900 dark:text-white">
                   <span>{data?.transmission || "N/A"}</span>
                 </p>
               </div>
@@ -344,13 +349,13 @@ const AdminTicket = () => {
 
                 <div className="text-xs text-white">
                   {data?.modificationOptions &&
-                  data?.modificationOptions?.flatMap(
-                    (item) =>
-                      item
-                        ?.split(",")
-                        ?.map((opt) => opt.trim())
-                        ?.filter((opt) => opt.length > 0) // remove empty values
-                  ).length > 0 ? (
+                    data?.modificationOptions?.flatMap(
+                      (item) =>
+                        item
+                          ?.split(",")
+                          ?.map((opt) => opt.trim())
+                          ?.filter((opt) => opt.length > 0) // remove empty values
+                    ).length > 0 ? (
                     data?.modificationOptions
                       ?.flatMap((item) =>
                         item

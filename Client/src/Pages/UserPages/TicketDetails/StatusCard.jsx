@@ -19,7 +19,7 @@ const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
       const res = await mutateAsync(ticketNumber);
 
       if (res?.success && res?.data?.eligible) {
-        toast.success(res?.data?.message || "Download started...");
+        toast.success(res?.data?.message);
         //  Trigger actual file download
         queryClient.invalidateQueries({ queryKey: ["authUser"] });
         const link = document.createElement("a");
@@ -76,18 +76,17 @@ const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
         <button
           onClick={handleDownload}
           disabled={isPending}
-          className={`text-gray-900 dark:text-white text-xs font-semibold rounded-full py-3 px-5 ${
-            isPending
-              ? "bg-zinc-700 cursor-not-allowed opacity-70"
-              : "bg-zinc-700 hover:bg-zinc-600"
-          } transition-colors`}
+          className={` text-xs font-semibold rounded-full py-3 px-5 ${isPending
+              ? "bg-zinc-700 cursor-not-allowed opacity-70 text-white"
+              : "bg-green-600 hover:bg-green-700 text-white"
+            } transition-colors`}
         >
           {isPending ? "Checking..." : "Download"}
         </button>
       ) : (
         <button
           disabled
-          className="text-gray-400 text-xs font-semibold rounded-full py-3 px-5 bg-zinc-800 cursor-not-allowed"
+          className="text-white text-xs font-semibold rounded-full py-3 px-5 bg-zinc-700 cursor-not-allowed"
         >
           File not available
         </button>

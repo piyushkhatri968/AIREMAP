@@ -132,7 +132,7 @@ export const CreateEcuFile = async (req, res) => {
     if (req?.files?.ecuFile?.[0]) {
       const ecuFilePath = req.files.ecuFile[0].path;
       const cloudinaryUrl = await uploadToCloudinary(ecuFilePath);
-      await fs.unlink(ecuFilePath).catch(() => {}); // safe cleanup
+      await fs.unlink(ecuFilePath).catch(() => { }); // safe cleanup
       if (!cloudinaryUrl) {
         return sendResponse(res, 500, false, "Failed to upload ECU file", null);
       }
@@ -147,7 +147,7 @@ export const CreateEcuFile = async (req, res) => {
       );
       commonFilesUrls = await Promise.all(uploads);
       await Promise.all(
-        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => {}))
+        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => { }))
       );
     }
 
@@ -303,6 +303,8 @@ export const EligibleToDownload = async (req, res) => {
     ecuFile.creditsNeed = 0;
     await ecuFile.save();
 
+    let message = creditsNeed === 0 ? null : `${creditsNeed} credits used for downloading the file`
+
     return sendResponse(
       res,
       200,
@@ -310,7 +312,7 @@ export const EligibleToDownload = async (req, res) => {
       "You are eligible to download the file",
       {
         eligible: true,
-        message: `${creditsNeed} credits used for downloading the file`,
+        message: message
       }
     );
   } catch (error) {
