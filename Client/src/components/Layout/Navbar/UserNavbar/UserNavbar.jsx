@@ -1,19 +1,25 @@
-import { Menu, User, LogOut, Settings } from "lucide-react";
+import { Menu, User, LogOut, Settings, Moon, Sun, Monitor } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 
 import useLogout from "../../../../hooks/useLogout";
+import { useTheme } from "../../../../hooks/useTheme";
 
 const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
   const navigate = useNavigate();
 
   const { logoutMutation } = useLogout();
+  const { setTheme, theme } = useTheme()
 
   return (
     <nav className="h-16 bg-white dark:bg-[#1C1C1C] border-b border-zinc-200 dark:border-zinc-800 px-3 sm:px-6 flex items-center fixed top-0 left-0 right-0 z-50">
@@ -60,6 +66,43 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
             sideOffset={8}
             className="w-56 rounded-lg p-1 bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 shadow-xl"
           >
+            {/* Theme Selector */}
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
+                <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
+                  Theme
+                </span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
+                <DropdownMenuItem
+                  onClick={() => setTheme("light")}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
+                    }`}
+                >
+                  <Sun className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                  <span>Light</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  onClick={() => setTheme("dark")}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "dark" ? "font-semibold" : ""
+                    }`}
+                >
+                  <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                  <span>Dark</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  onClick={() => setTheme("system")}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "system" ? "font-semibold" : ""
+                    }`}
+                >
+                  <Monitor className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                  <span>System</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
             {/* Settings */}
             <DropdownMenuItem
               onClick={() => navigate("/profile-settings")}
@@ -70,6 +113,10 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
                 Settings
               </span>
             </DropdownMenuItem>
+
+
+
+            <DropdownMenuSeparator className="my-1 bg-zinc-200 dark:bg-zinc-800" />
             {/* Logout */}
             <DropdownMenuItem
               onClick={logoutMutation}
