@@ -1,0 +1,126 @@
+import React from "react";
+import { Menu, User, LogOut, Sun, Moon, Monitor } from "lucide-react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "../../../ui/dropdown-menu";
+
+import useLogout from "../../../../hooks/useLogout";
+import { useTheme } from "../../../../hooks/useTheme"
+
+const AgentNavbar = ({ onMenuToggle, isSidebarOpen }) => {
+    const navigate = useNavigate();
+
+    const { logoutMutation } = useLogout();
+    const { setTheme, theme } = useTheme()
+
+    return (
+        <nav className="h-24 bg-white dark:bg-[#1C1C1C] border-b border-zinc-200 dark:border-zinc-800 px-3 sm:px-6 flex items-center fixed top-0 left-0 right-0 z-50">
+            {/* Left Section */}
+            <div className="flex items-center flex-1">
+                {/* Mobile Menu Button */}
+                <button
+                    onClick={onMenuToggle}
+                    className="lg:hidden mr-2 sm:mr-4 p-1.5 sm:p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                >
+                    <motion.div
+                        animate={{ rotate: isSidebarOpen ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 dark:text-zinc-400" />
+                    </motion.div>
+                </button>
+
+                {/* Logo */}
+                <div
+                    onClick={() => navigate("/")}
+                    className="flex flex-col items-start mr-4 sm:mr-40 cursor-pointer hover:opacity-80 transition-opacity"
+                >
+                    <span className="text-base sm:text-xl font-bold">
+                        <span className="text-red-600 dark:text-red-500 text-[1.1rem] sm:text-[1.3rem]">
+                            Agent{" "}
+                        </span>
+                        <span className="text-gray-900 dark:text-zinc-100">Dashboard</span>
+                    </span>
+                    <span className="text-gray-900 dark:text-zinc-400 text-sm">
+                        Manage files
+                    </span>
+                </div>
+            </div>
+
+            {/* Right Section */}
+            <div className="flex items-center gap-2">
+                <DropdownMenu>
+                    <DropdownMenuTrigger className="outline-none focus:outline-none">
+                        <div className="w-8 h-8 bg-zinc-100 dark:bg-zinc-700 rounded-md flex items-center justify-center hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors cursor-pointer">
+                            <User className="w-5 h-5 text-gray-600 dark:text-zinc-300" />
+                        </div>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent
+                        align="end"
+                        sideOffset={8}
+                        className="w-56 rounded-lg p-1 bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 shadow-xl"
+                    >
+                        {/* Theme Selector */}
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
+                                <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                                <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
+                                    Theme
+                                </span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
+                                <DropdownMenuItem
+                                    onClick={() => setTheme("light")}
+                                    className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
+                                        }`}
+                                >
+                                    <Sun className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                                    <span>Light</span>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem
+                                    onClick={() => setTheme("dark")}
+                                    className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "dark" ? "font-semibold" : ""
+                                        }`}
+                                >
+                                    <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                                    <span>Dark</span>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem
+                                    onClick={() => setTheme("system")}
+                                    className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "system" ? "font-semibold" : ""
+                                        }`}
+                                >
+                                    <Monitor className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                                    <span>System</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                        {/* 🚪 Logout */}
+                        <DropdownMenuItem
+                            onClick={logoutMutation}
+                            className="flex items-center gap-2 px-3 py-2 text-red-600 dark:text-red-500 cursor-pointer hover:bg-red-50 dark:hover:bg-zinc-800"
+                        >
+                            <LogOut className="w-4 h-4 text-red-600" />
+                            <span className="text-sm text-zinc-800 dark:text-white font-medium">
+                                Sign Out
+                            </span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        </nav>
+    );
+};
+
+export default AgentNavbar;

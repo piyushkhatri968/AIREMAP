@@ -6,7 +6,6 @@ import { Dot, Download, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import car1 from "../../../assets/AuthImages/car1.png";
 import { useEffect, useState } from "react";
-import AdminChatRoom from "./AdminChatRoom";
 import { Button } from "../../../components/ui/button";
 import {
   Select,
@@ -17,6 +16,7 @@ import {
 } from "../../../components/ui/select";
 import useUpdateFileStatus from "../../../hooks/Adminhooks/useUpdateFileStatus";
 import useUploadTunedFile from "../../../hooks/Adminhooks/useUploadTunedFile";
+import ChatRoom from "../../UserPages/TicketDetails/ChatRoom";
 
 const AdminTicket = () => {
   const { ticketNumber } = useParams();
@@ -396,7 +396,7 @@ const AdminTicket = () => {
           </div>
           {/* Chat */}
           <div className="flex flex-col gap-4 mt-6">
-            <AdminChatRoom ecuFileId={data?._id} />
+            <ChatRoom ecuFileId={data?._id} />
           </div>
         </div>
       )}

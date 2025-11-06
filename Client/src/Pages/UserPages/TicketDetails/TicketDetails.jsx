@@ -37,7 +37,7 @@ const TicketDetails = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-4 sm:space-y-6 p-4"
+      className=""
     >
       {isPending ? (
         <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">
@@ -45,10 +45,10 @@ const TicketDetails = () => {
           Ticket Details...
         </div>
       ) : (
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+        <div className="">
+          {/* <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
             {data?.make} {data?.model} {data?.year}
-          </h2>
+          </h2> */}
           {/* Three column layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4 items-start">
             {/* Details */}
@@ -105,6 +105,14 @@ const TicketDetails = () => {
                   </div>
                 </div>
               )}
+              <div className="space-y-1">
+                <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                  Vehicle
+                </p>
+                <p className=" text-xs text-gray-900 dark:text-white">
+                  {data?.make} {data?.model} {data?.year}
+                </p>
+              </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   Registration
@@ -188,13 +196,13 @@ const TicketDetails = () => {
 
                 <div className="text-xs text-white">
                   {data?.modificationOptions &&
-                  data?.modificationOptions?.flatMap(
-                    (item) =>
-                      item
-                        ?.split(",")
-                        ?.map((opt) => opt.trim())
-                        ?.filter((opt) => opt.length > 0) // remove empty values
-                  ).length > 0 ? (
+                    data?.modificationOptions?.flatMap(
+                      (item) =>
+                        item
+                          ?.split(",")
+                          ?.map((opt) => opt.trim())
+                          ?.filter((opt) => opt.length > 0) // remove empty values
+                    ).length > 0 ? (
                     data?.modificationOptions
                       ?.flatMap((item) =>
                         item

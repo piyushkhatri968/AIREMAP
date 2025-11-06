@@ -37,7 +37,7 @@ const authSchema = mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: ["admin", "user"],
+      enum: ["admin", "user","agent"],
     },
     lastLoginLocation: String,
     lastLoginAt: Date,

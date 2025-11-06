@@ -93,21 +93,21 @@ router.put(
 router.get(
   "/getAllEcuFiles",
   isFullyAuthenticated,
-  isAuthorized("admin"),
+  isAuthorized("admin", "agent"),
   GetAllEcuFiles
 );
 
 router.put(
   "/updateEcuFileStatus",
   isFullyAuthenticated,
-  isAuthorized("admin"),
+  isAuthorized("admin", "agent"),
   UpdateEcuFileStatus
 );
 
 router.put(
   "/uploadTunedFile",
   isFullyAuthenticated,
-  isAuthorized("admin"),
+  isAuthorized("admin","agent"),
   upload.fields([{ name: "tunedFile", maxCount: 1 }]),
   UploadTunedFile
 );

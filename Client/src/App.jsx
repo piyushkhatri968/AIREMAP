@@ -35,6 +35,9 @@ import AdminTicket from "./Pages/AdminPages/AdminTicket/AdminTicket";
 import DisablePop from "./components/DisablePop";
 import { useEffect } from "react";
 import AdminDisabledUsers from "./Pages/AdminPages/AdminDisabledUsers/AdminDisabledUsers";
+import AgentDashboardLayout from "./components/Layout/DashboardLayout/AgentDashboardLayout";
+import AgentDashboard from "./Pages/AgentPages/AgentDashboard/AgentDashboard";
+import AgentSettings from "./Pages/AgentPages/AgentSettings/AgentSettings";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -103,6 +106,15 @@ const App = () => {
             <Route path="/transactions" element={<AdminTransactions />} />
             <Route path="/settings" element={<AdminSettings />} />
             <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
+          </Route>
+        )}
+
+        {isAuthenticated && isOnboarded && isVerified && role === "agent" && (
+          <Route element={<AgentDashboardLayout />}>
+            <Route path="/dashboard" element={<AgentDashboard />} />
+            <Route path="/files" element={<AdminFiles />} />
+            <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
+            <Route path="/settings" element={<AgentSettings />} />
           </Route>
         )}
 

@@ -19,7 +19,6 @@ app.use(
     origin: [
       "http://localhost:5174",
       "https://files.airemap.co.uk",
-      "https://airemap.co.uk",
     ],
     credentials: true,
   })
@@ -45,7 +44,7 @@ const server = http.createServer(app);
 // Initialize socket
 const io = new Server(server, {
   cors: {
-    origin: "https://files.airemap.co.uk",
+    origin: ["https://files.airemap.co.uk", "http://localhost:5174"],
     methods: ["Get", "Post"],
     credentials: true,
   },

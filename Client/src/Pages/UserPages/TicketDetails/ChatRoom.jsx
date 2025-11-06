@@ -1,188 +1,154 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { motion } from "framer-motion";
-import { Dot, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import { toast } from "react-toastify";
 
-// connect socket
-const socket = io("https://api.airemap.co.uk", {
+const socket = io(import.meta.env.VITE_API_BASE_URL || "http://localhost:8080", {
   withCredentials: true,
 });
 
 const ChatRoom = ({ ecuFileId }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [unreadIndex, setUnreadIndex] = useState(null);
-  const messagesEndRef = useRef(null);
   const [chatPartner, setChatPartner] = useState(null);
-
+  const [activeParticipants, setActiveParticipants] = useState([]);
+  const messagesEndRef = useRef(null);
+  const chatScrollRef = useRef(null);
   const { authUser } = useAuthUser();
 
   useEffect(() => {
-    if (!ecuFileId) return toast.error("Failed to load chat");
+    if (!ecuFileId) return toast.error("Invalid ECU file");
 
     socket.emit("join_chat", { ecuFileId, userId: authUser._id });
 
     socket.on("load_messages", (data) => {
       setMessages(data.messages || []);
-      setUnreadIndex(data.unreadIndex);
       setChatPartner(data.chatPartner);
+      setActiveParticipants(data.activeParticipants || []);
     });
 
-    socket.on("receive_message", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+    socket.on("receive_message", (msg) => setMessages((prev) => [...prev, msg]));
+    socket.on("participant_joined", (p) =>
+      setActiveParticipants((prev) => [...prev, p])
+    );
+    socket.on("participant_left", ({ userId }) =>
+      setActiveParticipants((prev) => prev.filter((p) => p.userId !== userId))
+    );
 
     return () => {
       socket.off("load_messages");
       socket.off("receive_message");
+      socket.off("participant_joined");
+      socket.off("participant_left");
     };
   }, [ecuFileId, authUser._id]);
 
-  // Auto scroll
+  // 👇 Only scrolls the chat container — not the entire page
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = chatScrollRef.current;
+    if (el) {
+      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+    }
   }, [messages]);
 
-  // send message
   const handleSend = () => {
     if (!message.trim()) return;
-    socket.emit("send_message", {
-      ecuFileId,
-      senderId: authUser._id,
-      message,
-    });
+    socket.emit("send_message", { ecuFileId, senderId: authUser._id, message });
     setMessage("");
   };
 
-  // format date heading like “24 Oct 2025”
-  const formatDate = (dateString) => {
-    const d = new Date(dateString);
-    return d.toLocaleDateString("en-GB", {
+  const formatDate = (dateString) =>
+    new Date(dateString).toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "short",
       year: "numeric",
     });
-  };
 
-  // group messages by date
-  const groupedMessages = messages.reduce((groups, msg) => {
-    const dateKey = formatDate(msg.createdAt);
-    if (!groups[dateKey]) groups[dateKey] = [];
-    groups[dateKey].push(msg);
-    return groups;
+  const grouped = messages.reduce((acc, msg) => {
+    const key = formatDate(msg.createdAt);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(msg);
+    return acc;
   }, {});
 
-  const allDates = Object.keys(groupedMessages);
-
   return (
-    <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 flex flex-col overflow-hidden h-[453px] max-h-[70vh]">
+    <div className="flex flex-col h-[550px] bg-[#18191A] border border-zinc-700 rounded-xl shadow-md overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-zinc-200 dark:border-gray-700">
+      <div className="flex justify-between items-center p-4 border-b border-zinc-700 bg-[#242526]">
         <div>
-          <h1 className="font-semibold text-gray-900 dark:text-white">
+          <h1 className="font-semibold text-white text-base">
             {chatPartner
-              ? `${chatPartner.firstName || ""} ${chatPartner.lastName || ""}`
+              ? `${chatPartner.firstName} ${chatPartner.lastName}`
               : "Support Chat"}
           </h1>
-          {chatPartner && (
-            <p className="text-xs text-gray-500">
-              {chatPartner.role === "admin"
-                ? "Support Team"
-                : chatPartner.email}
-            </p>
-          )}
+          <p className="text-xs text-gray-400">
+            {chatPartner?.email || chatPartner?.role}
+          </p>
+        </div>
+        <div className="text-xs text-gray-500">
+          {activeParticipants.length} active
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto bg-white dark:bg-[#1C1C1C] p-6 text-gray-900 dark:text-white space-y-3">
-        {messages.length === 0 ? (
-          <p className="text-gray-400 text-sm italic text-center my-10">
-            No messages yet
-          </p>
-        ) : (
-          allDates.map((date, dateIndex) => (
-            <div key={date}>
-              {/*  Date Heading */}
-              <div className="text-center text-xs text-gray-500 mb-3">
-                {date}
-              </div>
-
-              {/* Messages under that date */}
-              {groupedMessages[date].map((msg, i) => {
-                const globalIndex = messages.findIndex(
-                  (m) => m._id === msg._id
-                );
-                const showUnreadDivider =
-                  unreadIndex !== null && globalIndex === unreadIndex;
-
-                const isMe = msg.sender?._id === authUser._id;
-
-                return (
-                  <React.Fragment key={msg._id}>
-                    {/* Unread Divider */}
-                    {showUnreadDivider && (
-                      <div className="flex items-center my-4">
-                        <div className="flex-1 h-px bg-gray-500/40"></div>
-                        <span className="px-3 text-xs text-orange-500 font-semibold">
-                          Unread messages
-                        </span>
-                        <div className="flex-1 h-px bg-gray-500/40"></div>
-                      </div>
-                    )}
-
-                    {/*  Message Bubble */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`flex ${
-                        isMe ? "justify-end" : "justify-start"
-                      } w-full`}
-                    >
-                      <div
-                        className={`max-w-[75%] px-4 py-2 mb-2 rounded-2xl ${
-                          isMe
-                            ? "bg-orange-600 text-white rounded-br-none"
-                            : "bg-zinc-700 text-white rounded-bl-none"
-                        }`}
-                      >
-                        <p className="text-sm">{msg.message}</p>
-                        <p className="text-[10px] text-gray-300 mt-1 text-right">
-                          {new Date(msg.createdAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </p>
-                      </div>
-                    </motion.div>
-                  </React.Fragment>
-                );
-              })}
+      <div
+        ref={chatScrollRef}
+        className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#1C1C1C] scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
+      >
+        {Object.keys(grouped).map((date) => (
+          <div key={date}>
+            <div className="text-center text-[11px] text-gray-500 mb-2">
+              {date}
             </div>
-          ))
-        )}
+            {grouped[date].map((msg) => {
+              const isMe = msg.sender?._id === authUser._id;
+              return (
+                <motion.div
+                  key={msg._id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[75%] px-4 py-2 mb-1 rounded-2xl ${
+                      isMe
+                        ? "bg-orange-600 text-white rounded-br-none"
+                        : "bg-[#3A3B3C] text-white rounded-bl-none"
+                    }`}
+                  >
+                    <p className="text-sm">{msg.message}</p>
+                    <p className="text-[10px] text-gray-300 mt-1 text-right">
+                      {new Date(msg.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        ))}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-zinc-200 dark:border-gray-700 flex items-center gap-3 bg-zinc-50 dark:bg-[#242526]/90">
-        <div className="flex-1">
-          <input
-            type="text"
-            placeholder="Enter message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            className="w-full rounded-full bg-zinc-200 dark:bg-zinc-700 py-3 px-5 text-sm text-gray-900 dark:text-white placeholder-gray-500 outline-none"
-          />
-        </div>
+      <div className="p-3 border-t border-zinc-700 flex gap-2 bg-[#242526]">
+        <input
+          type="text"
+          className="flex-1 px-4 py-2 rounded-full bg-[#3A3B3C] text-sm text-white placeholder-gray-400 outline-none"
+          placeholder="Type your message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+        />
         <button
           onClick={handleSend}
-          className="bg-orange-600 rounded-full text-white p-3 hover:bg-orange-700 transition"
+          className="bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-full transition"
         >
-          <Send />
+          <Send size={16} />
         </button>
       </div>
     </div>
