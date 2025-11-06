@@ -15,6 +15,7 @@ const AgentSidebar = ({ isOpen = true }) => {
     const navItems = [
         { id: "dashboard", label: "Dashboard", icon: BarChart3, path: "/dashboard" },
         { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
+        { id: "credits", label: "Credits", icon: FileText, path: "/credits" },
         { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
     ];
 

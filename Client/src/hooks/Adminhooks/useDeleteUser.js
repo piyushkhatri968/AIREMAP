@@ -14,6 +14,8 @@ const useDeleteUser = ({ setDeletingUserId }) => {
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
       queryClient.invalidateQueries({ queryKey: ["allDisableUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["allAgents"] });
+      queryClient.invalidateQueries({ queryKey: ["allAdmins"] });
       toast.success(res.message || "User deleted successfully");
     },
     onError: (error) => {

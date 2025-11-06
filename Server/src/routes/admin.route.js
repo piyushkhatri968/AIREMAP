@@ -5,8 +5,12 @@ import {
 } from "../middleware/auth.middleware.js";
 import {
   ActiveUser,
+  CreateAgent,
+  CreateAdmin,
   DeleteUser,
   DisableUser,
+  GetAllAdmins,
+  GetAllAgents,
   GetAllDisabledUsers,
   GetAllEcuFiles,
   GetAllTransactionHistory,
@@ -47,8 +51,20 @@ const upload = multer({ storage });
 router.get(
   "/getAllUsers",
   isFullyAuthenticated,
-  isAuthorized("admin"),
+  isAuthorized("admin", "agent"),
   GetAllUsers
+);
+router.get(
+  "/getAllAgents",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  GetAllAgents
+);
+router.get(
+  "/getAllAdmins",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  GetAllAdmins
 );
 router.get(
   "/getAllDisabledUsers",
@@ -86,7 +102,7 @@ router.get(
 router.put(
   "/updateUserCredits",
   isFullyAuthenticated,
-  isAuthorized("admin"),
+  isAuthorized("admin", "agent"),
   UpdateUserCredits
 );
 
@@ -107,7 +123,7 @@ router.put(
 router.put(
   "/uploadTunedFile",
   isFullyAuthenticated,
-  isAuthorized("admin","agent"),
+  isAuthorized("admin", "agent"),
   upload.fields([{ name: "tunedFile", maxCount: 1 }]),
   UploadTunedFile
 );
@@ -136,6 +152,19 @@ router.post(
   isFullyAuthenticated,
   isAuthorized("admin"),
   DeleteUser
+);
+
+router.post(
+  "/createAgent",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  CreateAgent
+);
+router.post(
+  "/createAdmin",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  CreateAdmin
 );
 
 export default router;

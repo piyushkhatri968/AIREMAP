@@ -4,6 +4,14 @@ export const GetAllUsers = async () => {
   const response = await axiosInstance.get("/admin/getAllUsers");
   return response.data;
 };
+export const GetAllAgents = async () => {
+  const response = await axiosInstance.get("/admin/getAllAgents");
+  return response.data;
+};
+export const GetAllAdmins = async () => {
+  const response = await axiosInstance.get("/admin/getAllAdmins");
+  return response.data;
+};
 export const GetAllDisabledUsers = async () => {
   const response = await axiosInstance.get("/admin/getAllDisabledUsers");
   return response.data;
@@ -71,5 +79,14 @@ export const EnableUser = async (formData) => {
 };
 export const DeleteUser = async (formData) => {
   const response = await axiosInstance.post("/admin/deleteUser", formData);
+  return response.data;
+};
+
+export const CreateAgent = async (formData) => {
+  const response = await axiosInstance.post("/admin/createAgent", formData);
+  return response.data;
+};
+export const CreateAdmin = async (formData) => {
+  const response = await axiosInstance.post("/admin/createAdmin", formData);
   return response.data;
 };

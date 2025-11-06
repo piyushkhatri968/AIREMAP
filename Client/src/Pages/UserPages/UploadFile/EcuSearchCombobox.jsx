@@ -46,8 +46,8 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
             role="combobox"
             className="w-full justify-between h-12 
           bg-white text-zinc-900 border border-zinc-300 
-          dark:bg-[#1f1f22] dark:text-gray-100 dark:border-gray-700 
-          hover:bg-zinc-50 dark:hover:bg-[#2a2b2d] 
+          dark:bg-[#242526] dark:text-gray-100 dark:border-gray-700 
+          hover:bg-zinc-50 
           transition-colors"
           >
             {currentSelectionName}
@@ -59,7 +59,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
           {open && (
             <DialogContent
               className="p-0 sm:max-w-[425px] 
-              bg-white dark:bg-[#1f1f22] 
+              bg-white dark:bg-[#242526]
               border border-zinc-200 dark:border-gray-700 
               shadow-xl rounded-xl overflow-hidden transition-colors"
             >

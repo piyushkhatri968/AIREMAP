@@ -1,10 +1,13 @@
 import {
   BarChart3,
   Coins,
-  CreditCard,
+  Euro,
   FileText,
+  HatGlasses,
   Settings,
-  UserRoundMinusIcon,
+  ShieldAlert,
+  ShieldUser,
+  UserLock,
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -22,23 +25,25 @@ const AdminSidebar = ({ isOpen = true }) => {
     {
       id: "unverifiedUsers",
       label: "Unverified Users",
-      icon: UserRoundMinusIcon,
+      icon: ShieldAlert,
       path: "/unverified-users",
     },
     {
       id: "disabledUsers",
       label: "Disabled Users",
-      icon: UserRoundMinusIcon,
+      icon: UserLock,
       path: "/disabled-users",
     },
     { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
     {
       id: "transactions",
       label: "Transactions",
-      icon: CreditCard,
+      icon: Euro,
       path: "/transactions",
     },
     { id: "credits", label: "Credits", icon: Coins, path: "/credits" },
+    { id: "agents", label: "Agents", icon: HatGlasses, path: "/agents" },
+    { id: "admins", label: "Admins", icon: ShieldUser, path: "/admins" },
     { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
   ];
 
@@ -58,7 +63,7 @@ const AdminSidebar = ({ isOpen = true }) => {
 
   return (
     <div
-      className={`w-64 bg-white dark:bg-[#1C1C1C] flex flex-col h-screen fixed left-0 top-0 z-40 transition-transform duration-300 lg:translate-x-0 border-r border-zinc-200 dark:border-zinc-800 ${
+      className={`w-64 bg-white dark:bg-[#1C1C1C] flex flex-col h-screen fixed overflow-auto left-0 top-0 z-40 transition-transform duration-300 lg:translate-x-0 border-r border-zinc-200 dark:border-zinc-800 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >

@@ -13,6 +13,9 @@ const useDisableUser = ({ setDisablingUserId }) => {
     },
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["allDisableUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["allAgents"] });
+      queryClient.invalidateQueries({ queryKey: ["allAdmins"] });
       toast.success(res.message || "User disabled successfully");
     },
     onError: (error) => {

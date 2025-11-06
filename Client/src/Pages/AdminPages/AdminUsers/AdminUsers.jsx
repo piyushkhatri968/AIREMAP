@@ -23,14 +23,10 @@ import useAuthUser from "../../../hooks/useAuthUser";
 const AdminUsers = () => {
   const { authUser } = useAuthUser();
   const [searchQuery, setSearchQuery] = useState("");
-  const [updatingUserId, setUpdatingUserId] = useState(null);
   const [disablingUserId, setDisablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
   const [updatingVATUserId, setUpdatingVATUserId] = useState(null);
 
-  const { isUpdatingRole, updateUserRoleMutation } = useUpdateRole({
-    setUpdatingUserId,
-  });
   const { isUpdatingVAT, updateUserVATMutation } = useUpdateVAT({
     setUpdatingVATUserId,
   });
@@ -88,7 +84,9 @@ const AdminUsers = () => {
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">User Management</h2>
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          User Management
+        </h2>
         <Input
           placeholder="Search users by name, email, role"
           value={searchQuery}
@@ -110,7 +108,6 @@ const AdminUsers = () => {
                 <th className="px-2 py-3 text-center">VAT</th>
                 <th className="px-2 py-3 text-center">Credit Price</th>
                 <th className="px-2 py-3 text-center">Files</th>
-                <th className="px-2 py-3 text-center">Role</th>
                 <th className="px-2 py-3 text-center">Joined</th>
                 <th className="px-2 py-3 text-center">Actions</th>
               </tr>
@@ -129,10 +126,7 @@ const AdminUsers = () => {
                 </tr>
               ) : filteredUser?.length > 0 ? (
                 filteredUser.map((row) => (
-                  <tr
-                    key={row._id}
-                    className="whitespace-nowrap"
-                  >
+                  <tr key={row._id} className="whitespace-nowrap">
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                       {row.firstName} {row.lastName}
                       {row._id === authUser._id && (
@@ -193,47 +187,10 @@ const AdminUsers = () => {
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                       {row.totalFilesSubmitted || 0}
                     </td>
-                    <td className="px-2 py-3 text-center">
-                      {updatingUserId === row._id && isUpdatingRole ? (
-                        <Loader2 className="animate-spin h-5 w-5 text-zinc-500 mx-auto" />
-                      ) : (
-                        <Select
-                          required
-                          value={row.role || "user"}
-                          onValueChange={(value) =>
-                            updateUserRoleMutation({
-                              userId: row._id,
-                              role: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="w-24 mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                            <SelectValue placeholder="Select role" />
-                          </SelectTrigger>
-                          <SelectContent
-                            className="dark:bg-[#242526]"
-                            side="top"
-                          >
-                            <SelectItem
-                              value="user"
-                              className="dark:text-white"
-                            >
-                              User
-                            </SelectItem>
-                            <SelectItem
-                              value="admin"
-                              className="dark:text-white"
-                            >
-                              Admin
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      )}
-                    </td>
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                       {formatDateTime(row.createdAt)}
                     </td>
-                    <td className="px-2 py-3 text-center flex justify-center gap-1">
+                    <td className="px-2 py-3 text-center flex justify-center items-center gap-1">
                       {deletingUserId === row._id && deletePending ? (
                         <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
                       ) : (
@@ -259,7 +216,7 @@ const AdminUsers = () => {
                           onClick={() =>
                             disableUserMutation({ userId: row._id })
                           }
-                          className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white ml-1"
+                          className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white"
                         >
                           <UserLock className="w-4 h-4" />
                         </Button>

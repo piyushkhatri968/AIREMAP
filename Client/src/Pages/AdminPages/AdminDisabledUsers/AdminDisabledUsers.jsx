@@ -125,10 +125,7 @@ const AdminDisabledUsers = () => {
                 </tr>
               ) : filteredUser?.length > 0 ? (
                 filteredUser.map((row) => (
-                  <tr
-                    key={row._id}
-                    className="whitespace-nowrap"
-                  >
+                  <tr key={row._id} className="whitespace-nowrap">
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {row?.firstName + " " + row?.lastName}
                     </td>
@@ -147,42 +144,8 @@ const AdminDisabledUsers = () => {
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {row?.totalFilesSubmitted || 0}
                     </td>
-                    <td className="py-3 px-4">
-                      {updatingUserId === row._id && isUpdatingRole ? (
-                        <Loader2 className="animate-spin h-5 w-5 text-zinc-500 mx-auto" />
-                      ) : (
-                        <Select
-                          required
-                          value={row?.role || "user"}
-                          onValueChange={(value) =>
-                            updateUserRoleMutation({
-                              userId: row._id,
-                              role: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="w-28 mx-auto h-10 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                            <SelectValue placeholder="Select role" />
-                          </SelectTrigger>
-                          <SelectContent
-                            className="dark:bg-[#242526]"
-                            side="top"
-                          >
-                            <SelectItem
-                              value="user"
-                              className="dark:text-white dark:hover:bg-[#2f3031]"
-                            >
-                              User
-                            </SelectItem>
-                            <SelectItem
-                              value="admin"
-                              className="dark:text-white dark:hover:bg-[#2f3031]"
-                            >
-                              Admin
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      )}
+                    <td className="py-3 px-4 text-zinc-900 dark:text-white">
+                      {row?.role.toUpperCase()}
                     </td>
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {formatDateTime(row?.createdAt)}
@@ -230,7 +193,7 @@ const AdminDisabledUsers = () => {
                     colSpan="8"
                     className="py-12 text-zinc-500 dark:text-gray-400"
                   >
-                    No users found.
+                    No disabled users found.
                   </td>
                 </tr>
               )}

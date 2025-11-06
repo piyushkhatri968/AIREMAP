@@ -37,10 +37,9 @@ const authSchema = mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: ["admin", "user","agent"],
+      enum: ["admin", "user", "agent"],
     },
     lastLoginLocation: String,
-    lastLoginAt: Date,
     verified: {
       type: Boolean,
       default: false,
@@ -53,9 +52,15 @@ const authSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    accountNotVerificationReason: {
+      type: String,
+    },
     VAT: {
       type: Boolean,
       default: true,
+    },
+    lastLoginLocation: {
+      type: String,
     },
     emailVerificationCode: String,
     emailVerificationExpiry: Date,

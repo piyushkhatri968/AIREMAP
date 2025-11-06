@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { Input } from "../../../components/ui/input";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Check, Loader2, UserLock, UserX, X } from "lucide-react";
+import { Button } from "../../../components/ui/button";
 
 const AdminUnverifiedUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,6 +38,9 @@ const AdminUnverifiedUsers = () => {
     });
   };
 
+  const [approvingUserId, setApprovingUserId] = useState(null);
+  const [rejectingUserId, setRejectingUserId] = useState(null);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -67,6 +71,7 @@ const AdminUnverifiedUsers = () => {
                 <th className="py-3 px-4">Country</th>
                 <th className="py-3 px-4">City</th>
                 <th className="py-3 px-4">Joined</th>
+                <th className="py-3 px-4">Actions</th>
               </tr>
             </thead>
 
@@ -85,10 +90,7 @@ const AdminUnverifiedUsers = () => {
                 </tr>
               ) : filteredUser?.length > 0 ? (
                 filteredUser.map((row) => (
-                  <tr
-                    key={row._id}
-                    className="whitespace-nowrap"
-                  >
+                  <tr key={row._id} className="whitespace-nowrap">
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {row?.firstName || "N/A"} {row?.lastName || "N/A"}
                     </td>
@@ -103,6 +105,38 @@ const AdminUnverifiedUsers = () => {
                     </td>
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {formatDateTime(row?.createdAt)}
+                    </td>
+                    <td className="px-2 py-3 text-center flex justify-center items-center gap-1">
+                      {rejectingUserId === row._id && rejectPending ? (
+                        <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
+                      ) : (
+                        <Button
+                          variant="outline"
+                          title="Reject"
+                          // onClick={() =>
+                          //   deleteUserMutation({ userId: row._id })
+                          // }
+                          size="xs"
+                          className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      )}
+                      {approvingUserId === row._id && approvePending ? (
+                        <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
+                      ) : (
+                        <Button
+                          variant="outline"
+                          title="Approve"
+                          size="xs"
+                          // onClick={() =>
+                          //   disableUserMutation({ userId: row._id })
+                          // }
+                          className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white"
+                        >
+                          <Check className="w-4 h-4" />
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 ))

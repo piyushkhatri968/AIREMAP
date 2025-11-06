@@ -25,6 +25,9 @@ const UpdatePerCreditPrice = ({ userId, perCreditPrice }) => {
     mutationFn: UpdateCreditPrice,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["allAdmins"] });
+      queryClient.invalidateQueries({ queryKey: ["allAgents"] });
+      queryClient.invalidateQueries({ queryKey: ["allDisableUsers"] });
       toast.success(data?.message || "Credit price updated!");
       setEditing(false);
     },

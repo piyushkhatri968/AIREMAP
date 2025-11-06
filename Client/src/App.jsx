@@ -38,6 +38,8 @@ import AdminDisabledUsers from "./Pages/AdminPages/AdminDisabledUsers/AdminDisab
 import AgentDashboardLayout from "./components/Layout/DashboardLayout/AgentDashboardLayout";
 import AgentDashboard from "./Pages/AgentPages/AgentDashboard/AgentDashboard";
 import AgentSettings from "./Pages/AgentPages/AgentSettings/AgentSettings";
+import AdminAdmins from "./Pages/AdminPages/AdminAdmins/AdminAdmins";
+import AdminAgents from "./Pages/AdminPages/AdminAgents/AdminAgents";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -97,6 +99,8 @@ const App = () => {
             <Route path="/dashboard" element={<AdminOverview />} />
             <Route path="/credits" element={<AdminCredits />} />
             <Route path="/users" element={<AdminUsers />} />
+            <Route path="/agents" element={<AdminAgents />} />
+            <Route path="/admins" element={<AdminAdmins />} />
             <Route
               path="/unverified-users"
               element={<AdminUnverifiedUsers />}
@@ -114,6 +118,7 @@ const App = () => {
             <Route path="/dashboard" element={<AgentDashboard />} />
             <Route path="/files" element={<AdminFiles />} />
             <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
+            <Route path="/credits" element={<AdminCredits />} />
             <Route path="/settings" element={<AgentSettings />} />
           </Route>
         )}

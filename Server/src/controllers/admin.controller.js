@@ -14,6 +14,49 @@ export const GetAllUsers = async (req, res) => {
       onBoarded: true,
       verified: true,
       disabled: false,
+      role: "user",
+    })
+      .select(
+        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
+      )
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
+    return sendResponse(res, 200, true, "Users fetched successfully", users);
+  } catch (error) {
+    console.error("Error in Admin-GetAllUsers controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+export const GetAllAgents = async (req, res) => {
+  try {
+    const users = await Auth.find({
+      onBoarded: true,
+      verified: true,
+      disabled: false,
+      role: "agent",
+    })
+      .select(
+        "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
+      )
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
+    return sendResponse(res, 200, true, "Users fetched successfully", users);
+  } catch (error) {
+    console.error("Error in Admin-GetAllUsers controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+export const GetAllAdmins = async (req, res) => {
+  try {
+    const users = await Auth.find({
+      onBoarded: true,
+      verified: true,
+      disabled: false,
+      role: "admin",
     })
       .select(
         "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
@@ -31,6 +74,8 @@ export const GetAllUsers = async (req, res) => {
 export const GetAllDisabledUsers = async (req, res) => {
   try {
     const users = await Auth.find({
+      onBoarded: true,
+      verified: true,
       disabled: true,
     })
       .select(
@@ -459,6 +504,77 @@ export const DeleteUser = async (req, res) => {
     await session.abortTransaction();
     session.endSession();
     console.error("Error in Admin-DeleteUser:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+
+export const CreateAgent = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+    if (!firstName || !lastName || !email || !password) {
+      return sendResponse(res, 400, false, "All fields are required", null);
+    }
+    if (password.length < 6) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Password must be atleast 6 characters long"
+      );
+    }
+    const isEmailRegistered = await Auth.findOne({ email });
+    if (isEmailRegistered) {
+      return sendResponse(res, 400, false, "Email already exit", null);
+    }
+
+    await Auth.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      role: "agent",
+      verified: true,
+      onBoarded: true,
+    });
+
+    return sendResponse(res, 200, true, "Agent created successfully", null);
+  } catch (error) {
+    console.error("Error in Admin-CreateAgent:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+export const CreateAdmin = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+    if (!firstName || !lastName || !email || !password) {
+      return sendResponse(res, 400, false, "All fields are required", null);
+    }
+    if (password.length < 6) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Password must be atleast 6 characters long"
+      );
+    }
+    const isEmailRegistered = await Auth.findOne({ email });
+    if (isEmailRegistered) {
+      return sendResponse(res, 400, false, "Email already exit", null);
+    }
+
+    await Auth.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      role: "admin",
+      verified: true,
+      onBoarded: true,
+    });
+
+    return sendResponse(res, 200, true, "Admin created successfully", null);
+  } catch (error) {
+    console.error("Error in Admin-CreateAdmin:", error);
     return sendResponse(res, 500, false, error.message, null);
   }
 };
