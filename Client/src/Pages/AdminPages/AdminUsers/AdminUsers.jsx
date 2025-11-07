@@ -13,15 +13,12 @@ import {
   SelectValue,
   SelectItem,
 } from "../../../components/ui/select";
-import useUpdateRole from "../../../hooks/Adminhooks/useUpdateRole";
 import UpdatePerCreditPrice from "./UpdatePerCreditPrice";
 import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
 import useUpdateVAT from "../../../hooks/Adminhooks/useUpdateVAT";
-import useAuthUser from "../../../hooks/useAuthUser";
 
 const AdminUsers = () => {
-  const { authUser } = useAuthUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [disablingUserId, setDisablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
@@ -128,15 +125,10 @@ const AdminUsers = () => {
                 filteredUser.map((row) => (
                   <tr key={row._id} className="whitespace-nowrap">
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {row.firstName} {row.lastName}
-                      {row._id === authUser._id && (
-                        <span className="text-green-500 text-xs ml-1">
-                          (You)
-                        </span>
-                      )}
+                      {row.firstName || "N/A"} {row.lastName}
                     </td>
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {row.email}
+                      {row.email || "N/A"}
                     </td>
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                       {formatCurrency(row.totalMoneySpent)}

@@ -67,20 +67,6 @@ const OnBoarding = () => {
           </div>
         </div>
 
-        {/* Mobile Logo */}
-        {/* <div className="lg:hidden w-full absolute top-0 flex flex-col items-center z-20">
-          <img
-            src={aiRemapLogo}
-            alt="Ai REMAP Logo"
-            className="w-60 h-auto"
-          />
-          <h2 className="text-white italic text-sm font-semibold text-center drop-shadow-lg">
-            World Leading File Portal
-          </h2>
-        </div> */}
-
-        {/* Form Container - Right side on desktop */}
-
         <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-start px-4 lg:mt-0">
           <div className="w-full lg:w-9/12 bg-zinc-50/90 dark:bg-[#242526]/90 backdrop-blur lg:p-16 p-10 rounded-lg shadow-2xl z-10">
             <h2 className="text-zinc-900 dark:text-white text-2xl font-semibold mb-2">
@@ -160,15 +146,6 @@ const OnBoarding = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                {/* <Input
-                  type="text"
-                  id="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  placeholder="Select your country"
-                  className="w-full px-4 py-3 bg-white dark:bg-[#242526] text-zinc-900 dark:text-white rounded-lg border border-zinc-200 dark:border-gray-600  focus:outline-none transition-colors placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                  required
-                /> */}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

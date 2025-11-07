@@ -13,6 +13,7 @@ import {
   GetAllAgents,
   GetAllDisabledUsers,
   GetAllEcuFiles,
+  GetAllAgentEcuFiles,
   GetAllTransactionHistory,
   GetAllUnverifiedUsers,
   GetAllUsers,
@@ -22,6 +23,10 @@ import {
   UpdateUserRole,
   UpdateUserVAT,
   UploadTunedFile,
+  ApproveUser,
+  RejectUser,
+  GetAssignedUsersToAgent,
+  AssignUsersToAgent,
 } from "../controllers/admin.controller.js";
 import multer from "multer";
 import path from "path";
@@ -109,8 +114,14 @@ router.put(
 router.get(
   "/getAllEcuFiles",
   isFullyAuthenticated,
-  isAuthorized("admin", "agent"),
+  isAuthorized("admin"),
   GetAllEcuFiles
+);
+router.get(
+  "/getAllAgentEcuFiles",
+  isFullyAuthenticated,
+  isAuthorized("agent"),
+  GetAllAgentEcuFiles
 );
 
 router.put(
@@ -165,6 +176,32 @@ router.post(
   isFullyAuthenticated,
   isAuthorized("admin"),
   CreateAdmin
+);
+
+router.post(
+  "/approveUser",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  ApproveUser
+);
+router.post(
+  "/rejectUser",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  RejectUser
+);
+
+router.get(
+  "/getAssignedUsersToAgent/:id",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  GetAssignedUsersToAgent
+);
+router.post(
+  "/assignUsersToAgent/:id",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  AssignUsersToAgent
 );
 
 export default router;

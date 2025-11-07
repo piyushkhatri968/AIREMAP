@@ -40,6 +40,7 @@ import AgentDashboard from "./Pages/AgentPages/AgentDashboard/AgentDashboard";
 import AgentSettings from "./Pages/AgentPages/AgentSettings/AgentSettings";
 import AdminAdmins from "./Pages/AdminPages/AdminAdmins/AdminAdmins";
 import AdminAgents from "./Pages/AdminPages/AdminAgents/AdminAgents";
+import AgentFiles from "./Pages/AgentPages/AgentFiles/AgentFiles";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -116,7 +117,7 @@ const App = () => {
         {isAuthenticated && isOnboarded && isVerified && role === "agent" && (
           <Route element={<AgentDashboardLayout />}>
             <Route path="/dashboard" element={<AgentDashboard />} />
-            <Route path="/files" element={<AdminFiles />} />
+            <Route path="/files" element={<AgentFiles />} />
             <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
             <Route path="/credits" element={<AdminCredits />} />
             <Route path="/settings" element={<AgentSettings />} />

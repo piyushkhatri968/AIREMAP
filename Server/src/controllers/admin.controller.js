@@ -14,6 +14,7 @@ export const GetAllUsers = async (req, res) => {
       onBoarded: true,
       verified: true,
       disabled: false,
+      rejected: false,
       role: "user",
     })
       .select(
@@ -35,6 +36,7 @@ export const GetAllAgents = async (req, res) => {
       onBoarded: true,
       verified: true,
       disabled: false,
+      rejected: false,
       role: "agent",
     })
       .select(
@@ -56,6 +58,7 @@ export const GetAllAdmins = async (req, res) => {
       onBoarded: true,
       verified: true,
       disabled: false,
+      rejected: false,
       role: "admin",
     })
       .select(
@@ -77,6 +80,7 @@ export const GetAllDisabledUsers = async (req, res) => {
       onBoarded: true,
       verified: true,
       disabled: true,
+      rejected: false,
     })
       .select(
         "firstName lastName email credits role createdAt totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
@@ -102,6 +106,7 @@ export const GetAllUnverifiedUsers = async (req, res) => {
   try {
     const users = await Auth.find({
       $or: [{ onBoarded: false }, { verified: false }],
+      rejected: false,
     })
       .select(
         "firstName lastName email role country city verified onBoarded createdAt"
@@ -268,6 +273,32 @@ export const GetAllEcuFiles = async (req, res) => {
     );
   } catch (error) {
     console.error("Error in Admin-GetAllEcuFiles controller", error);
+    sendResponse(res, 400, false, error.message, null);
+  }
+};
+export const GetAllAgentEcuFiles = async (req, res) => {
+  try {
+    const agentId = req.user._id;
+    const agent = await Auth.findById(agentId).select("assignedUsersToAgent");
+    if (!agent) {
+      return sendResponse(res, 404, false, "Agent not found", null);
+    }
+    const response = await EcuFile.find({
+      userId: { $in: agent.assignedUsersToAgent },
+    })
+      .select("userId status createdAt ticketNumber make model")
+      .populate("userId", "firstName lastName email")
+      .sort({ createdAt: -1 })
+      .lean();
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Ecu Files fetched Successfully",
+      response
+    );
+  } catch (error) {
+    console.error("Error in Admin-GetAllAgentEcuFiles controller", error);
     sendResponse(res, 400, false, error.message, null);
   }
 };
@@ -575,6 +606,117 @@ export const CreateAdmin = async (req, res) => {
     return sendResponse(res, 200, true, "Admin created successfully", null);
   } catch (error) {
     console.error("Error in Admin-CreateAdmin:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+
+export const ApproveUser = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return sendResponse(res, 400, false, "User Id is required", null);
+    }
+    const isUserExist = await Auth.findById(userId);
+    if (!isUserExist) {
+      return sendResponse(res, 400, false, "User not found", null);
+    }
+
+    const approveUser = await Auth.findByIdAndUpdate(userId, {
+      onBoarded: true,
+      verified: true,
+    });
+
+    if (!approveUser) {
+      return sendResponse(res, 400, false, "Failed to verify user", null);
+    }
+    return sendResponse(res, 200, true, "User verified successfully", null);
+  } catch (error) {
+    console.error("Error in Admin-ApproveUser:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+
+export const RejectUser = async (req, res) => {
+  try {
+    const { userId, reason } = req.body;
+    if (!userId) {
+      return sendResponse(res, 400, false, "User Id is required", null);
+    }
+    const isUserExist = await Auth.findById(userId);
+    if (!isUserExist) {
+      return sendResponse(res, 400, false, "User not found", null);
+    }
+
+    const rejectUser = await Auth.findByIdAndUpdate(userId, {
+      verified: false,
+      accountRejectionReason: reason,
+    });
+
+    if (!rejectUser) {
+      return sendResponse(res, 400, false, "Failed to Reject user", null);
+    }
+    return sendResponse(res, 200, true, "User rejected successfully", null);
+  } catch (error) {
+    console.error("Error in Admin-RejectUser:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+
+export const GetAssignedUsersToAgent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return sendResponse(res, 400, false, "Agent Id is required", null);
+    }
+
+    const agent = await Auth.findById(id).select("assignedUsersToAgent");
+    if (!agent) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Failed to get selected users",
+        null
+      );
+    }
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Assigned users fetched successfully",
+      agent
+    );
+  } catch (error) {
+    console.error("Error in Admin-GetAssignedUsersToAgent:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+
+export const AssignUsersToAgent = async (req, res) => {
+  try {
+    const { id } = req.params; // agentId
+    const { userIds } = req.body;
+
+    if (!id) {
+      return sendResponse(res, 400, false, "Agent Id is required", null);
+    }
+    const agent = await Auth.findById(id);
+    if (!agent) {
+      return sendResponse(res, 400, false, "Agent not found", null);
+    }
+
+    agent.assignedUsersToAgent = userIds;
+    await agent.save();
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Users assigned to agent successfully",
+      null
+    );
+  } catch (error) {
+    console.error("Error in Admin-AssignUsersToAgent:", error);
     return sendResponse(res, 500, false, error.message, null);
   }
 };

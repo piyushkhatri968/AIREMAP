@@ -21,6 +21,14 @@ const AdminSidebar = ({ isOpen = true }) => {
   // sidebar navigation items
   const navItems = [
     { id: "overview", label: "Overview", icon: BarChart3, path: "/dashboard" },
+    { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
+    {
+      id: "transactions",
+      label: "Transactions",
+      icon: Euro,
+      path: "/transactions",
+    },
+    { id: "credits", label: "Credits", icon: Coins, path: "/credits" },
     { id: "users", label: "Users", icon: Users, path: "/users" },
     {
       id: "unverifiedUsers",
@@ -34,16 +42,9 @@ const AdminSidebar = ({ isOpen = true }) => {
       icon: UserLock,
       path: "/disabled-users",
     },
-    { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
-    {
-      id: "transactions",
-      label: "Transactions",
-      icon: Euro,
-      path: "/transactions",
-    },
-    { id: "credits", label: "Credits", icon: Coins, path: "/credits" },
     { id: "agents", label: "Agents", icon: HatGlasses, path: "/agents" },
     { id: "admins", label: "Admins", icon: ShieldUser, path: "/admins" },
+
     { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
   ];
 

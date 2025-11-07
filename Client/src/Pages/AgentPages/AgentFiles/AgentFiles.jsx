@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { GetAllEcuFiles } from "../../../lib/APIs/adminAPIs";
+import { GetAllAgentEcuFiles } from "../../../lib/APIs/adminAPIs";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { Input } from "../../../components/ui/input";
@@ -15,7 +15,7 @@ import {
 import useUpdateFileStatus from "../../../hooks/Adminhooks/useUpdateFileStatus";
 import { useNavigate } from "react-router";
 
-const AdminFiles = () => {
+const AgentFiles = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingFileId, setUpdatingFileId] = useState(null);
 
@@ -26,8 +26,8 @@ const AdminFiles = () => {
   });
 
   const { data, isLoading, error } = useQuery({
-    queryFn: GetAllEcuFiles,
-    queryKey: ["allAdminEcuFiles"],
+    queryFn: GetAllAgentEcuFiles,
+    queryKey: ["allAgentEcuFiles"],
   });
 
   if (error) {
@@ -212,4 +212,4 @@ const AdminFiles = () => {
   );
 };
 
-export default AdminFiles;
+export default AgentFiles;

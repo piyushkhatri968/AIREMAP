@@ -39,6 +39,12 @@ const authSchema = mongoose.Schema(
       default: "user",
       enum: ["admin", "user", "agent"],
     },
+    assignedUsersToAgent: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Auth",
+      },
+    ],
     lastLoginLocation: String,
     verified: {
       type: Boolean,
@@ -52,7 +58,11 @@ const authSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    accountNotVerificationReason: {
+    rejected: {
+      type: Boolean,
+      default: false,
+    },
+    accountRejectionReason: {
       type: String,
     },
     VAT: {

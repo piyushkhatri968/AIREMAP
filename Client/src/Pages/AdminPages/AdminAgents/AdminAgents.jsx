@@ -9,12 +9,11 @@ import { Button } from "../../../components/ui/button";
 
 import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
-import useAuthUser from "../../../hooks/useAuthUser";
 import CreateAgent from "./CreateAgent";
 import AgentUsersSelectorModal from "./AgentUsersSelectorModal";
+import useAssignUsersToAgent from "../../../hooks/Adminhooks/useAssignUsersToAgent";
 
 const AdminAgents = () => {
-  const { authUser } = useAuthUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [disablingUserId, setDisablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
@@ -38,7 +37,7 @@ const AdminAgents = () => {
     queryKey: ["allAgents"],
   });
 
-  if (isError) toast.error("Failed to load users");
+  if (isError) toast.error("Failed to load agents");
 
   const filteredUser = data?.data?.filter((item) => {
     const query = searchQuery.toLowerCase();
@@ -63,11 +62,25 @@ const AdminAgents = () => {
   };
 
   const [showModal, setShowModal] = useState(false);
-  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [selectedAgent, setSelectedAgent] = useState(null);
+
+  const handleOpenModal = (agent) => {
+    setSelectedAgent(agent);
+    setShowModal(true);
+  };
+
+  const { assignUsersToAgentMutation, isAssigningUsersToAgent } =
+    useAssignUsersToAgent();
 
   const handleSave = (selected) => {
-    setSelectedUserIds(selected);
-    console.log(selected);
+    assignUsersToAgentMutation(
+      { id: selectedAgent._id, userIds: selected },
+      {
+        onSuccess: () => {
+          setShowModal(false);
+        },
+      }
+    );
   };
 
   return (
@@ -129,20 +142,15 @@ const AdminAgents = () => {
                     <tr key={row._id} className="whitespace-nowrap">
                       <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                         {row.firstName} {row.lastName}
-                        {row._id === authUser._id && (
-                          <span className="text-green-500 text-xs ml-1">
-                            (You)
-                          </span>
-                        )}
                       </td>
                       <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                         {row.email}
                       </td>
                       <td
-                        className="px-2 py-3 text-center text-zinc-900 dark:text-white cursor-pointer"
-                        onClick={() => setShowModal(true)}
+                        className="px-2 py-3 text-center text-zinc-500 dark:text-gray-400 hover:text-zinc-800 dark:hover:text-white transition-colors cursor-pointer"
+                        onClick={() => handleOpenModal(row)}
                       >
-                        Click here
+                        Manage
                       </td>
 
                       <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
@@ -204,11 +212,13 @@ const AdminAgents = () => {
         </div>
       )}
 
-      {showModal && (
+      {showModal && selectedAgent && (
         <AgentUsersSelectorModal
           usersData={usersData}
           setShowModal={setShowModal}
-          onSave={(selected) => handleSave(selected)}
+          agentId={selectedAgent._id}
+          onSave={handleSave}
+          isAssigningUsersToAgent={isAssigningUsersToAgent}
         />
       )}
     </>

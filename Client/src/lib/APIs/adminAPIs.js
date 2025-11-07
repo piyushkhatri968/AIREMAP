@@ -47,6 +47,10 @@ export const GetAllEcuFiles = async () => {
   const response = await axiosInstance.get("/admin/getAllEcuFiles");
   return response.data;
 };
+export const GetAllAgentEcuFiles = async () => {
+  const response = await axiosInstance.get("/admin/getAllAgentEcuFiles");
+  return response.data;
+};
 
 export const UpdateFileStatus = async (formData) => {
   const response = await axiosInstance.put(
@@ -88,5 +92,28 @@ export const CreateAgent = async (formData) => {
 };
 export const CreateAdmin = async (formData) => {
   const response = await axiosInstance.post("/admin/createAdmin", formData);
+  return response.data;
+};
+
+export const ApproveUser = async (formData) => {
+  const response = await axiosInstance.post("/admin/approveUser", formData);
+  return response.data;
+};
+export const RejectUser = async (formData) => {
+  const response = await axiosInstance.post("/admin/rejectUser", formData);
+  return response.data;
+};
+
+export const GetAssignedUsersToAgent = async (id) => {
+  const response = await axiosInstance.get(
+    `/admin/GetAssignedUsersToAgent/${id}`
+  );
+  return response.data;
+};
+
+export const AssignUsersToAgent = async ({ id, userIds }) => {
+  const response = await axiosInstance.post(`/admin/assignUsersToAgent/${id}`, {
+    userIds,
+  });
   return response.data;
 };
