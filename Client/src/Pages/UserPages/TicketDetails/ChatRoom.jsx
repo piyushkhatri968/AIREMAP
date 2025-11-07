@@ -5,7 +5,7 @@ import { Send } from "lucide-react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import { toast } from "react-toastify";
 
-const socket = io(import.meta.env.VITE_API_BASE_URL || "http://localhost:8080", {
+const socket = io(import.meta.env.VITE_API_BASE_URL || "https://api.airemap.co.uk", {
   withCredentials: true,
 });
 
@@ -112,11 +112,10 @@ const ChatRoom = ({ ecuFileId }) => {
                   className={`flex ${isMe ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[75%] px-4 py-2 mb-1 rounded-2xl ${
-                      isMe
-                        ? "bg-orange-600 text-white rounded-br-none"
-                        : "bg-[#3A3B3C] text-white rounded-bl-none"
-                    }`}
+                    className={`max-w-[75%] px-4 py-2 mb-1 rounded-2xl ${isMe
+                      ? "bg-orange-600 text-white rounded-br-none"
+                      : "bg-[#3A3B3C] text-white rounded-bl-none"
+                      }`}
                   >
                     <p className="text-sm">{msg.message}</p>
                     <p className="text-[10px] text-gray-300 mt-1 text-right">
