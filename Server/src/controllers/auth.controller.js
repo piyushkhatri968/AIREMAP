@@ -18,7 +18,7 @@ export const Signup = async (req, res) => {
     }
 
     if (password !== confirmPassword) {
-      return sendResponse(res, 400, false, "Passwords do no match", null);
+      return sendResponse(res, 400, false, "Passwords do not match", null);
     }
     if (password.length < 6) {
       return sendResponse(
