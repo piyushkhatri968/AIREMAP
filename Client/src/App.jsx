@@ -33,10 +33,9 @@ import ProfileSettings from "./Pages/UserPages/ProfileSettings/ProfileSettings";
 import TicketDetails from "./Pages/UserPages/TicketDetails/TicketDetails";
 import AdminTicket from "./Pages/AdminPages/AdminTicket/AdminTicket";
 import DisablePop from "./components/DisablePop";
-import { useEffect } from "react";
+
 import AdminDisabledUsers from "./Pages/AdminPages/AdminDisabledUsers/AdminDisabledUsers";
 import AgentDashboardLayout from "./components/Layout/DashboardLayout/AgentDashboardLayout";
-import AgentDashboard from "./Pages/AgentPages/AgentDashboard/AgentDashboard";
 import AgentSettings from "./Pages/AgentPages/AgentSettings/AgentSettings";
 import AdminAdmins from "./Pages/AdminPages/AdminAdmins/AdminAdmins";
 import AdminAgents from "./Pages/AdminPages/AdminAgents/AdminAgents";
@@ -57,7 +56,7 @@ const App = () => {
     if (!isAuthenticated) return null;
     if (!isOnboarded) return <Navigate to="/onboarding" />;
     if (!isVerified) return <Navigate to="/unverified" />;
-    return <Navigate to="/dashboard" />;
+    return <Navigate to={authUser?.role === "agent" ? "/files" : "/dashboard"} />;
   };
 
   return (
@@ -68,7 +67,7 @@ const App = () => {
           path="/"
           element={
             isAuthenticated ? (
-              <Navigate to="/dashboard" />
+              <Navigate to={authUser?.role === "agent" ? "/files" : "/dashboard"} />
             ) : (
               <Navigate to="/signin" />
             )
@@ -116,7 +115,6 @@ const App = () => {
 
         {isAuthenticated && isOnboarded && isVerified && role === "agent" && (
           <Route element={<AgentDashboardLayout />}>
-            <Route path="/dashboard" element={<AgentDashboard />} />
             <Route path="/files" element={<AgentFiles />} />
             <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
             <Route path="/credits" element={<AdminCredits />} />
