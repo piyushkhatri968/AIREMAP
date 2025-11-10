@@ -22,7 +22,6 @@ import Overview from "./Pages/UserPages/Overview/Overview";
 import ScrollToTop from "./components/ScrollToTop";
 import PriceList from "./Pages/UserPages/PriceList/PriceList";
 import Transactions from "./Pages/UserPages/Transactions/Transactions";
-import AdminOverview from "./Pages/AdminPages/AdminOverview/AdminOverview";
 import AdminCredits from "./Pages/AdminPages/AdminCredits/AdminCredits";
 import AdminFiles from "./Pages/AdminPages/AdminFiles/AdminFiles";
 import AdminTransactions from "./Pages/AdminPages/AdminTransactions/AdminTransactions";
@@ -40,6 +39,7 @@ import AgentSettings from "./Pages/AgentPages/AgentSettings/AgentSettings";
 import AdminAdmins from "./Pages/AdminPages/AdminAdmins/AdminAdmins";
 import AdminAgents from "./Pages/AdminPages/AdminAgents/AdminAgents";
 import AgentFiles from "./Pages/AgentPages/AgentFiles/AgentFiles";
+import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -56,7 +56,9 @@ const App = () => {
     if (!isAuthenticated) return null;
     if (!isOnboarded) return <Navigate to="/onboarding" />;
     if (!isVerified) return <Navigate to="/unverified" />;
-    return <Navigate to={authUser?.role === "agent" ? "/files" : "/dashboard"} />;
+    return (
+      <Navigate to={authUser?.role === "agent" ? "/files" : "/dashboard"} />
+    );
   };
 
   return (
@@ -67,7 +69,9 @@ const App = () => {
           path="/"
           element={
             isAuthenticated ? (
-              <Navigate to={authUser?.role === "agent" ? "/files" : "/dashboard"} />
+              <Navigate
+                to={authUser?.role === "agent" ? "/files" : "/dashboard"}
+              />
             ) : (
               <Navigate to="/signin" />
             )
@@ -96,7 +100,7 @@ const App = () => {
 
         {isAuthenticated && isOnboarded && isVerified && role === "admin" && (
           <Route element={<AdminDashboardLayout />}>
-            <Route path="/dashboard" element={<AdminOverview />} />
+            <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/credits" element={<AdminCredits />} />
             <Route path="/users" element={<AdminUsers />} />
             <Route path="/agents" element={<AdminAgents />} />

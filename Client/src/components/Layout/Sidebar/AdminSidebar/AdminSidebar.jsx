@@ -22,13 +22,33 @@ const AdminSidebar = ({ isOpen = true }) => {
   const { authUser } = useAuthUser();
 
   const navItems = [
-    { id: "overview", label: "Overview", icon: BarChart3, path: "/dashboard" },
+    {
+      id: "statistics",
+      label: "Statistics",
+      icon: BarChart3,
+      path: "/dashboard",
+    },
     { id: "files", label: "ECU Files", icon: FileText, path: "/files" },
-    { id: "transactions", label: "Transactions", icon: Euro, path: "/transactions" },
+    {
+      id: "transactions",
+      label: "Transactions",
+      icon: Euro,
+      path: "/transactions",
+    },
     { id: "credits", label: "Credits", icon: Coins, path: "/credits" },
     { id: "users", label: "Users", icon: Users, path: "/users" },
-    { id: "unverifiedUsers", label: "Unverified Users", icon: ShieldAlert, path: "/unverified-users" },
-    { id: "disabledUsers", label: "Disabled Users", icon: UserLock, path: "/disabled-users" },
+    {
+      id: "unverifiedUsers",
+      label: "Unverified Users",
+      icon: ShieldAlert,
+      path: "/unverified-users",
+    },
+    {
+      id: "disabledUsers",
+      label: "Disabled Users",
+      icon: UserLock,
+      path: "/disabled-users",
+    },
     { id: "agents", label: "Agents", icon: HatGlasses, path: "/agents" },
     { id: "admins", label: "Admins", icon: ShieldUser, path: "/admins" },
     { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
@@ -59,10 +79,11 @@ const AdminSidebar = ({ isOpen = true }) => {
             <button
               key={item.id}
               onClick={() => handleNavClick(item)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${activeTab === item.id
-                ? "bg-red-600 text-white"
-                : "text-gray-600 dark:text-zinc-400 hover:bg-zinc-100 hover:text-gray-900 dark:hover:bg-[#2B2B2B] dark:hover:text-white"
-                }`}
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                activeTab === item.id
+                  ? "bg-red-600 text-white"
+                  : "text-gray-600 dark:text-zinc-400 hover:bg-zinc-100 hover:text-gray-900 dark:hover:bg-[#2B2B2B] dark:hover:text-white"
+              }`}
             >
               <item.icon className="w-5 h-5" />
               <span>{item.label}</span>
@@ -72,8 +93,12 @@ const AdminSidebar = ({ isOpen = true }) => {
       </div>
 
       <div className="p-4 ">
-        <div className=" text-sm font-medium border border-zinc-300 dark:border-zinc-600 rounded-md w-full px-4 py-3 bg-zinc-50 dark:bg-[#242526]/90"><p className="text-gray-600 dark:text-white">{authUser.firstName} {authUser.lastName}</p>
-          <p className="text-gray-600 dark:text-zinc-400">{authUser.email}</p></div>
+        <div className=" text-sm font-medium border border-zinc-300 dark:border-zinc-600 rounded-md w-full px-4 py-3 bg-zinc-50 dark:bg-[#242526]/90">
+          <p className="text-gray-600 dark:text-white">
+            {authUser.firstName} {authUser.lastName}
+          </p>
+          <p className="text-gray-600 dark:text-zinc-400">{authUser.email}</p>
+        </div>
       </div>
     </div>
   );

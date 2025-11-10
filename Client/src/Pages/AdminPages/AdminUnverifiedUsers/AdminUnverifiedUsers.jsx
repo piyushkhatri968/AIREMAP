@@ -105,7 +105,7 @@ const AdminUnverifiedUsers = () => {
                 {isLoading ? (
                   <tr>
                     <td
-                      colSpan="5"
+                      colSpan="6"
                       className="py-10 text-zinc-500 dark:text-gray-400"
                     >
                       <div className="flex justify-center items-center">

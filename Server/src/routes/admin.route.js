@@ -28,6 +28,7 @@ import {
   GetAssignedUsersToAgent,
   AssignUsersToAgent,
   updateProfile,
+  Statistics,
 } from "../controllers/admin.controller.js";
 import multer from "multer";
 import path from "path";
@@ -205,6 +206,18 @@ router.post(
   AssignUsersToAgent
 );
 
-router.post("/updateProfile", isFullyAuthenticated, isAuthorized("admin", "agent"), updateProfile)
+router.post(
+  "/updateProfile",
+  isFullyAuthenticated,
+  isAuthorized("admin", "agent"),
+  updateProfile
+);
+
+router.get(
+  "/statistics",
+  isFullyAuthenticated,
+  isAuthorized("admin"),
+  Statistics
+);
 
 export default router;
