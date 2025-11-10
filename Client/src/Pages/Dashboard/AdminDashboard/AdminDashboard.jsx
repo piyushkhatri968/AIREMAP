@@ -93,7 +93,7 @@ const AdminDashboard = () => {
           {/* ===== FILES SECTION ===== */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { title: "Total Files", key: "total" },
+              { title: "Total Files", key: "total", lastMonthKey: "lastMonth" },
               { title: "Completed Files", key: "completed" },
               { title: "Pending Files", key: "pending" },
               { title: "Unlocked Files", key: "unlocked" },
@@ -113,6 +113,11 @@ const AdminDashboard = () => {
                   <div className="text-3xl font-bold text-zinc-900 dark:text-white">
                     {stats?.files?.[file.key] || 0}
                   </div>
+                  {file.lastMonthKey && (
+                    <p className="text-xs text-green-500 dark:text-green-400">
+                      +{stats?.files?.lastMonth || 0} this month
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             ))}

@@ -776,92 +776,97 @@ export const updateProfile = async (req, res) => {
 
 export const Statistics = async (req, res) => {
   try {
-    // current date and calculate last month date
     const now = new Date();
     const lastMonth = new Date();
     lastMonth.setMonth(lastMonth.getMonth() - 1);
 
-    //  USER STATS
-    const totalUsers = await Auth.countDocuments({ role: "user" });
-    const totalAdmins = await Auth.countDocuments({ role: "admin" });
-    const totalAgents = await Auth.countDocuments({ role: "agent" });
-
-    const lastMonthUsers = await Auth.countDocuments({
-      role: "user",
-      createdAt: { $gte: lastMonth, $lte: now },
-    });
-
-    const lastMonthAdmins = await Auth.countDocuments({
-      role: "admin",
-      createdAt: { $gte: lastMonth, $lte: now },
-    });
-
-    const lastMonthAgents = await Auth.countDocuments({
-      role: "agent",
-      createdAt: { $gte: lastMonth, $lte: now },
-    });
-
-    //  File STATS,
-
-    const totalFiles = await EcuFile.countDocuments();
-    const completedFiles = await EcuFile.countDocuments({
-      status: "Completed",
-    });
-    const pendingFiles = await EcuFile.countDocuments({ status: "Pending" });
-    const failedFiles = await EcuFile.countDocuments({ status: "Failed" });
-    const UnlockedFiles = await EcuFile.countDocuments({ status: "Unlocked" });
-    const InProgresFiles = await EcuFile.countDocuments({
-      status: "In Progress",
-    });
-
-    const lastMonthFiles = await EcuFile.countDocuments({
-      createdAt: { $gte: lastMonth, $lte: now },
-    });
-
-    //  Payment STATS,
-
-    const totalPayments = await PaymentHistory.countDocuments({
-      status: "Completed",
-    });
-
-    const totalRevenueAgg = await PaymentHistory.aggregate([
-      { $match: { status: "Completed" } },
-      { $group: { _id: null, total: { $sum: "$amount" } } },
+    // Parallel counts for users, admins, agents
+    const [
+      totalUsers,
+      lastMonthUsers,
+      totalAdmins,
+      lastMonthAdmins,
+      totalAgents,
+      lastMonthAgents,
+      totalFiles,
+      completedFiles,
+      pendingFiles,
+      unlockedFiles,
+      inProgressFiles,
+      failedFiles,
+      lastMonthFiles,
+    ] = await Promise.all([
+      Auth.countDocuments({ role: "user" }),
+      Auth.countDocuments({
+        role: "user",
+        createdAt: { $gte: lastMonth, $lte: now },
+      }),
+      Auth.countDocuments({ role: "admin" }),
+      Auth.countDocuments({
+        role: "admin",
+        createdAt: { $gte: lastMonth, $lte: now },
+      }),
+      Auth.countDocuments({ role: "agent" }),
+      Auth.countDocuments({
+        role: "agent",
+        createdAt: { $gte: lastMonth, $lte: now },
+      }),
+      EcuFile.countDocuments(),
+      EcuFile.countDocuments({ status: "Completed" }),
+      EcuFile.countDocuments({ status: "Pending" }),
+      EcuFile.countDocuments({ status: "Unlocked" }),
+      EcuFile.countDocuments({ status: "In Progress" }),
+      EcuFile.countDocuments({ status: "Failed" }),
+      EcuFile.countDocuments({ createdAt: { $gte: lastMonth, $lte: now } }),
     ]);
-    const totalRevenue = totalRevenueAgg[0]?.total || 0;
 
-    const totalCreditsAgg = await PaymentHistory.aggregate([
-      { $group: { _id: null, total: { $sum: "$credits" } } },
-    ]);
-    const totalCreditsSold = totalCreditsAgg[0]?.total || 0;
-
-    const lastMonthRevenueAgg = await PaymentHistory.aggregate([
+    // Payments aggregation in single $facet
+    const paymentsAgg = await PaymentHistory.aggregate([
       {
-        $match: {
-          status: "Completed",
-          createdAt: { $gte: lastMonth, $lte: now },
+        $facet: {
+          totalRevenue: [
+            { $match: { status: "Completed" } },
+            { $group: { _id: null, total: { $sum: "$amount" } } },
+          ],
+          lastMonthRevenue: [
+            {
+              $match: {
+                status: "Completed",
+                createdAt: { $gte: lastMonth, $lte: now },
+              },
+            },
+            { $group: { _id: null, total: { $sum: "$amount" } } },
+          ],
+          creditsSold: [{ $group: { _id: null, total: { $sum: "$credits" } } }],
+          totalPayments: [
+            { $match: { status: "Completed" } },
+            { $count: "total" },
+          ],
         },
       },
-      { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
-    const lastMonthRevenue = lastMonthRevenueAgg[0]?.total || 0;
 
-    // RESPONSE
+    const paymentsData = paymentsAgg[0] || {};
+    const totalRevenue = paymentsData.totalRevenue[0]?.total || 0;
+    const lastMonthRevenue = paymentsData.lastMonthRevenue[0]?.total || 0;
+    const creditsSold = paymentsData.creditsSold[0]?.total || 0;
+    const totalPayments = paymentsData.totalPayments[0]?.total || 0;
+
     const data = {
       users: {
-        totalUsers: totalUsers,
-        totalAdmins: totalAdmins,
-        totalAgents: totalAgents,
-        lastMonthUsers: lastMonthUsers,
-        lastMonthAgents: lastMonthAgents,
-        lastMonthAdmins: lastMonthAdmins,
+        totalUsers,
+        totalAdmins,
+        totalAgents,
+        lastMonthUsers,
+        lastMonthAdmins,
+        lastMonthAgents,
       },
       files: {
         total: totalFiles,
         completed: completedFiles,
         pending: pendingFiles,
-        unlocked: UnlockedFiles,
-        inProgress: InProgresFiles,
+        unlocked: unlockedFiles,
+        inProgress: inProgressFiles,
         failed: failedFiles,
         lastMonth: lastMonthFiles,
       },
@@ -869,9 +874,10 @@ export const Statistics = async (req, res) => {
         total: totalPayments,
         revenue: totalRevenue,
         lastMonthRevenue,
-        creditsSold: totalCreditsSold,
+        creditsSold,
       },
     };
+
     return sendResponse(
       res,
       200,
