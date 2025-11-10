@@ -117,3 +117,8 @@ export const AssignUsersToAgent = async ({ id, userIds }) => {
   });
   return response.data;
 };
+
+export const UpdateProfile = async (formData) => {
+  const response = await axiosInstance.post("/admin/updateProfile", formData)
+  return response.data
+}

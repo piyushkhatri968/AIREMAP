@@ -354,7 +354,7 @@ export const UploadTunedFile = async (req, res) => {
       console.error("Cloudinary upload failed:", err);
       return sendResponse(res, 500, false, "Cloud upload failed", null);
     } finally {
-      await fs.unlink(filePath).catch(() => {}); // always remove local file
+      await fs.unlink(filePath).catch(() => { }); // always remove local file
     }
 
     await EcuFile.findOneAndUpdate(
@@ -720,3 +720,42 @@ export const AssignUsersToAgent = async (req, res) => {
     return sendResponse(res, 500, false, error.message, null);
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { firstName, lastName, newPassword, confirmPassword } = req.body
+    const userId = req.user._id
+
+    if (!firstName || !lastName || !newPassword || !confirmPassword) {
+      return sendResponse(res, 400, false, "All fields are required", null)
+    }
+
+    if (newPassword !== confirmPassword) {
+      return sendResponse(res, 400, false, "Passwords do no match", null);
+    }
+
+    if (newPassword.length < 6) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Password must be atleast 6 characters long"
+      );
+    }
+    const user = await Auth.findById(userId);
+    if (!user) {
+      return sendResponse(res, 400, false, "User not found", null)
+    }
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.password = newPassword
+
+    await user.save()
+
+    return sendResponse(res, 200, true, "Updated successfully", null)
+
+  } catch (error) {
+    console.error("Error in Admin-updateProfile:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+}

@@ -27,6 +27,7 @@ import {
   RejectUser,
   GetAssignedUsersToAgent,
   AssignUsersToAgent,
+  updateProfile,
 } from "../controllers/admin.controller.js";
 import multer from "multer";
 import path from "path";
@@ -203,5 +204,7 @@ router.post(
   isAuthorized("admin"),
   AssignUsersToAgent
 );
+
+router.post("/updateProfile", isFullyAuthenticated, isAuthorized("admin", "agent"), updateProfile)
 
 export default router;
