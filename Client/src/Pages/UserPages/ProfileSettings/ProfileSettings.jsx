@@ -3,9 +3,13 @@ import { useState } from "react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import useUpdateProfile from "../../../hooks/useUpdateProfile";
 import { countries } from "../../../utils/CountriesData";
+import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
 
 const Settings = () => {
   const { authUser } = useAuthUser();
+
+
   const [formData, setFormData] = useState({
     firstName: authUser?.firstName || "",
     lastName: authUser?.lastName || "",
@@ -13,18 +17,49 @@ const Settings = () => {
     city: authUser?.city || "",
     address: authUser?.address || "",
     postalCode: authUser?.postalCode || "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+    isUpdatePassword: false,
   });
 
-  const { isPending, updateProfileMutation } = useUpdateProfile();
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    updateProfileMutation(formData);
-  };
+  const { isPending, updateProfileMutation } = useUpdateProfile({ setFormData });
+
+  const [showPasswordPanel, setShowPasswordPanel] = useState(false);
 
   const handleChange = (e) => {
-    const { value, name } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const togglePasswordPanel = () => {
+    setShowPasswordPanel((prev) => !prev);
+    setFormData((prev) => ({
+      ...prev,
+      isUpdatePassword: !prev.isUpdatePassword,
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: ""
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (formData.isUpdatePassword) {
+      if (formData.newPassword !== formData.confirmPassword) {
+        return toast.error("Passwords do not match!");
+      }
+      if (formData.newPassword.length < 6) {
+        return toast.error("Password must be at least 6 characters long!");
+      }
+    }
+
+    updateProfileMutation(formData);
   };
 
   return (
@@ -43,8 +78,7 @@ const Settings = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                First Name{" "}
-                <span className="text-red-600 dark:text-red-500">*</span>
+                First Name <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -57,8 +91,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Last Name{" "}
-                <span className="text-red-600 dark:text-red-500">*</span>
+                Last Name <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -74,7 +107,7 @@ const Settings = () => {
           {/* Country */}
           <div>
             <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-              Country <span className="text-red-600 dark:text-red-500">*</span>
+              Country <span className="text-red-600">*</span>
             </label>
             <select
               name="country"
@@ -93,7 +126,7 @@ const Settings = () => {
           {/* City */}
           <div>
             <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-              City <span className="text-red-600 dark:text-red-500">*</span>
+              City <span className="text-red-600">*</span>
             </label>
             <input
               type="text"
@@ -105,12 +138,11 @@ const Settings = () => {
             />
           </div>
 
-          {/* Address + Post Code */}
+          {/* Address + Postal Code */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="sm:col-span-2">
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Address{" "}
-                <span className="text-red-600 dark:text-red-500">*</span>
+                Address <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -123,8 +155,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Post Code{" "}
-                <span className="text-red-600 dark:text-red-500">*</span>
+                Post Code <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -136,6 +167,96 @@ const Settings = () => {
               />
             </div>
           </div>
+
+          {/* Password Panel Toggle */}
+          <button
+            type="button"
+            onClick={togglePasswordPanel}
+            className="text-right text-gray-900 dark:text-white hover:text-red-600"
+          >
+            {showPasswordPanel ? "Close password panel?" : "Wanna update password?"}
+          </button>
+
+          {showPasswordPanel && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <div>
+                <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
+                  Current Password <span className="text-red-600">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showCurrent ? "text" : "password"}
+                    name="currentPassword"
+                    value={formData.currentPassword}
+                    onChange={handleChange}
+                    required={showPasswordPanel}
+                    placeholder="Current Password"
+                    className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrent(!showCurrent)}
+                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-zinc-400 dark:hover:text-white"
+                  >
+                    {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
+                  New Password <span className="text-red-600">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showNew ? "text" : "password"}
+                    name="newPassword"
+                    value={formData.newPassword}
+                    required={showPasswordPanel}
+                    onChange={handleChange}
+                    placeholder="New Password"
+                    className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNew(!showNew)}
+                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-zinc-400 dark:hover:text-white"
+                  >
+                    {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
+                  Confirm Password <span className="text-red-600">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showConfirm ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    required={showPasswordPanel}
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
+                    className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm(!showConfirm)}
+                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-zinc-400 dark:hover:text-white"
+                  >
+                    {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
 
           {/* Submit Button */}
           <div className="flex justify-end pt-2">

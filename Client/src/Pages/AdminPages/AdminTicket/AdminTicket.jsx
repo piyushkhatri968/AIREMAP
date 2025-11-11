@@ -392,6 +392,31 @@ const AdminTicket = () => {
                   </p>
                 </a>
               </div>
+              <div className="space-y-2">
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Additional Files
+                </p>
+
+                {data?.additionalFiles?.length > 0 ? (
+                  data.additionalFiles.map((item, idx) => (
+                    <a
+                      key={idx}
+                      href={item} // Use item, assuming it's the file URL
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white flex items-center justify-between text-xs p-3 bg-zinc-700 rounded-lg cursor-pointer font-semibold w-full"
+                    >
+                      <p className="flex items-center gap-3">
+                        <Download size={18} /> File {idx + 1}
+                      </p>
+                    </a>
+                  ))
+                ) : (
+                  <div className="text-gray-900 dark:text-zinc-400 text-xs">No Additional Files</div>
+                )}
+              </div>
+
             </div>
           </div>
           {/* Chat */}

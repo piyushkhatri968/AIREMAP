@@ -316,47 +316,55 @@ export const SendForgotPasswordOTP = async (req, res) => {
 
 export const UpdateProfile = async (req, res) => {
   try {
-    const { firstName, lastName, country, city, address, postalCode } =
-      req.body;
-    if (
-      !firstName ||
-      !lastName ||
-      !country ||
-      !city ||
-      !address ||
-      !postalCode
-    ) {
+    const {
+      firstName,
+      lastName,
+      country,
+      city,
+      address,
+      postalCode,
+      isUpdatePassword,
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    } = req.body;
+
+    // Validate mandatory profile fields
+    if (!firstName || !lastName || !country || !city || !address || !postalCode) {
       return sendResponse(res, 400, false, "All fields are required", null);
     }
-    const updateData = {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      country: country.trim(),
-      city: city.trim(),
-      address: address.trim(),
-      postalCode: postalCode.toString().trim(),
-    };
-    const updatedUser = await Auth.findByIdAndUpdate(req.user._id, updateData, {
-      new: true,
-    });
-    if (!updatedUser) {
-      return sendResponse(
-        res,
-        400,
-        false,
-        "Failed to update the profile",
-        null
-      );
+
+    const user = await Auth.findById(req.user._id);
+    if (!user) return sendResponse(res, 404, false, "User not found", null);
+
+    // Handle password update
+    if (isUpdatePassword) {
+      const isCurrentPassMatched = await user.comparePassword(currentPassword);
+      if (!isCurrentPassMatched) {
+        return sendResponse(res, 403, false, "Current password is incorrect", null);
+      }
+      if (newPassword !== confirmPassword) {
+        return sendResponse(res, 400, false, "Passwords do not match", null);
+      }
+      if (newPassword.length < 6) {
+        return sendResponse(res, 400, false, "Password must be at least 6 characters long", null);
+      }
+      user.password = newPassword;
     }
+
+    // Update profile fields
+    user.firstName = firstName.trim();
+    user.lastName = lastName.trim();
+    user.country = country.trim();
+    user.city = city.trim();
+    user.address = address.trim();
+    user.postalCode = postalCode.toString().trim();
+
+    await user.save();
+
     return sendResponse(res, 200, true, "Profile updated successfully", null);
   } catch (error) {
-    console.error("Error in UpdateProfile controller", error);
-    return sendResponse(
-      res,
-      500,
-      false,
-      error.message || "Internal Server Error",
-      null
-    );
+    console.error("Error in UpdateProfile controller:", error);
+    return sendResponse(res, 500, false, error.message || "Internal Server Error", null);
   }
 };

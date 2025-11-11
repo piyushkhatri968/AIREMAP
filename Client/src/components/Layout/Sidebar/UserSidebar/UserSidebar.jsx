@@ -8,8 +8,9 @@ import {
   Upload,
   FolderOpen,
   User as User1,
+  ShoppingBag,
 } from "lucide-react";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuthUser from "../../../../hooks/useAuthUser";
 import UserSideItem from "../UserSidebar/UserSideItem";
 
@@ -35,13 +36,13 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
 
   return (
     <div
-      className={`w-64 bg-white dark:bg-[#1C1C1C] flex flex-col h-screen fixed left-0 top-0 z-40 transition-transform duration-300 lg:translate-x-0 border-r border-zinc-200 dark:border-zinc-800 ${isOpen ? "translate-x-0" : "-translate-x-full"
+      className={`w-64 bg-white dark:bg-[#1C1C1C] flex flex-col justify-between h-screen fixed left-0 top-0 z-40 transition-transform duration-300 lg:translate-x-0 border-r border-zinc-200 dark:border-zinc-800 ${isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
     >
       {/* User Header */}
       <div className="p-4 mt-16">
         <div className="flex items-center gap-4">
-          <div className="w-[4.5rem] h-[3rem] overflow-hidden flex items-center justify-center border border-zinc-200 dark:border-gray-600">
+          <div className="w-[4.5rem] h-[3rem] overflow-hidden flex items-center justify-center border border-zinc-200 dark:border-gray-600 rounded-full bg-gray-100">
             <img
               src={`https://flagcdn.com/w320/${authUser?.country?.toLowerCase()}.png`}
               alt={`${authUser?.country} flag`}
@@ -50,10 +51,13 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
             />
           </div>
 
+
+
           <div className="flex flex-col">
             <span className="text-sm text-gray-900 dark:text-white font-medium">
               {authUser?.firstName || "First"} {authUser?.lastName || "Last"}
             </span>
+            <span className="text-gray-900 dark:text-zinc-300 text-xs">{authUser.email}</span>
             <div className="bg-red-500/20 rounded px-2 py-0.4 mt-1">
               <span className="text-xs text-red-500 font-medium">
                 {authUser?.credits || 0} CRD
@@ -135,6 +139,14 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
           </UserSideItem>
         </div>
       </nav>
+      <div className="p-4">
+        <Link className="flex items-center gap-3 justify-center text-sm font-medium rounded-md w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-800">
+          <ShoppingBag className="text-gray-600 dark:text-zinc-400" size={18} />
+          <p className="text-gray-600 dark:text-white font-semibold">
+            Tools Shop
+          </p>
+        </Link>
+      </div>
     </div>
   );
 };

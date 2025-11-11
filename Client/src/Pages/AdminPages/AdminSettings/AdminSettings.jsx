@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UpdateProfile } from "../../../lib/APIs/adminAPIs";
 import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
 
 const AdminSettings = () => {
   const { authUser } = useAuthUser();
@@ -23,13 +24,20 @@ const AdminSettings = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const [showPasswordPanel, setShowPasswordPanel] = useState(false);
 
   const hadlePasswordPanel = () => {
-    setShowPasswordPanel(!showPasswordPanel);
+    setShowPasswordPanel((prev) => !prev);
     setFormData((prev) => ({
       ...prev,
       isUpdatePassword: !prev.isUpdatePassword,
+      confirmPassword: "",
+      currentPassword: "",
+      newPassword: "",
     }));
   };
 
@@ -125,48 +133,74 @@ const AdminSettings = () => {
               >
                 <div>
                   <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                    Current Password{" "}
-                    <span className="text-red-600 dark:text-red-500">*</span>
+                    Current Password <span className="text-red-600">*</span>
                   </label>
-                  <input
-                    type="password"
-                    name="currentPassword"
-                    value={formData.currentPassword}
-                    onChange={handleChange}
-                    required={showPasswordPanel}
-                    placeholder="Current Password"
-                    className="w-full px-4 py-2.5 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showCurrent ? "text" : "password"}
+                      name="currentPassword"
+                      value={formData.currentPassword}
+                      onChange={handleChange}
+                      required={showPasswordPanel}
+                      placeholder="Current Password"
+                      className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrent(!showCurrent)}
+                      className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-zinc-400 dark:hover:text-white"
+                    >
+                      {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
+
                 <div>
                   <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                    New Password{" "}
-                    <span className="text-red-600 dark:text-red-500">*</span>
+                    New Password <span className="text-red-600">*</span>
                   </label>
-                  <input
-                    type="password"
-                    name="newPassword"
-                    value={formData.newPassword}
-                    required={showPasswordPanel}
-                    onChange={handleChange}
-                    placeholder="New Password"
-                    className="w-full px-4 py-2.5 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showNew ? "text" : "password"}
+                      name="newPassword"
+                      value={formData.newPassword}
+                      required={showPasswordPanel}
+                      onChange={handleChange}
+                      placeholder="New Password"
+                      className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNew(!showNew)}
+                      className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-zinc-400 dark:hover:text-white"
+                    >
+                      {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
+
                 <div>
                   <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                    Confirm Password{" "}
-                    <span className="text-red-600 dark:text-red-500">*</span>
+                    Confirm Password <span className="text-red-600">*</span>
                   </label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    required={showPasswordPanel}
-                    onChange={handleChange}
-                    placeholder="Confirm Password"
-                    className="w-full px-4 py-2.5 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showConfirm ? "text" : "password"}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      required={showPasswordPanel}
+                      onChange={handleChange}
+                      placeholder="Confirm Password"
+                      className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirm(!showConfirm)}
+                      className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-zinc-400 dark:hover:text-white"
+                    >
+                      {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             )}
