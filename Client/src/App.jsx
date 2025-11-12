@@ -40,6 +40,7 @@ import AdminAdmins from "./Pages/AdminPages/AdminAdmins/AdminAdmins";
 import AdminAgents from "./Pages/AdminPages/AdminAgents/AdminAgents";
 import AgentFiles from "./Pages/AgentPages/AgentFiles/AgentFiles";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
+import FaultyCodesPage from "./Pages/FaultyCodesPage/FaultyCodesPage";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -95,6 +96,7 @@ const App = () => {
               path="/ticket-details/:ticketNumber"
               element={<TicketDetails />}
             />
+            <Route path="/fault-codes" element={<FaultyCodesPage />} />
           </Route>
         )}
 

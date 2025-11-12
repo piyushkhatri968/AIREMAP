@@ -138,9 +138,22 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
             />
           </UserSideItem>
         </div>
+
+        {/* LIBRARY Section */}
+        <div className="space-y-1">
+          <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
+            Library
+          </h3>
+          <UserSideItem
+            icon={<CircleDollarSign className="w-4 h-4" />}
+            label="Fault Codes"
+            isActive={activeView === "fault-codes"}
+            onClick={() => handleNavigation("fault-codes")}
+          />
+        </div>
       </nav>
       <div className="p-4">
-        <Link className="flex items-center gap-3 justify-center text-sm font-medium rounded-md w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-800">
+        <Link to="https://airemap.co.uk/shop/" target="_blank" className="flex items-center gap-3 justify-center text-sm font-medium rounded-md w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-800">
           <ShoppingBag className="text-gray-600 dark:text-zinc-400" size={18} />
           <p className="text-gray-600 dark:text-white font-semibold">
             Tools Shop
