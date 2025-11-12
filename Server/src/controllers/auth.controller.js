@@ -5,6 +5,7 @@ import crypto from "crypto";
 import { sendVerificationEmail } from "../utils/SendEmails/sendVerificationEmail.js";
 import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 import { sendAccountVerifiedEmailTemplate } from "../utils/EmailTemplates/sendAccountVerifiedEmailTemplate.js";
+import { StatsData } from "./stats.controller.js";
 
 export const Signup = async (req, res) => {
   const { email, password, confirmPassword } = req.body;
@@ -235,8 +236,8 @@ export const Login = async (req, res) => {
       return sendResponse(res, 400, false, "Email or password is wrong");
     }
 
-    isUserExist.lastLoginTime = new Date()
-    await isUserExist.save()
+    isUserExist.lastLoginTime = new Date();
+    await isUserExist.save();
 
     let message;
 
@@ -333,7 +334,14 @@ export const UpdateProfile = async (req, res) => {
     } = req.body;
 
     // Validate mandatory profile fields
-    if (!firstName || !lastName || !country || !city || !address || !postalCode) {
+    if (
+      !firstName ||
+      !lastName ||
+      !country ||
+      !city ||
+      !address ||
+      !postalCode
+    ) {
       return sendResponse(res, 400, false, "All fields are required", null);
     }
 
@@ -344,13 +352,25 @@ export const UpdateProfile = async (req, res) => {
     if (isUpdatePassword) {
       const isCurrentPassMatched = await user.comparePassword(currentPassword);
       if (!isCurrentPassMatched) {
-        return sendResponse(res, 403, false, "Current password is incorrect", null);
+        return sendResponse(
+          res,
+          403,
+          false,
+          "Current password is incorrect",
+          null
+        );
       }
       if (newPassword !== confirmPassword) {
         return sendResponse(res, 400, false, "Passwords do not match", null);
       }
       if (newPassword.length < 6) {
-        return sendResponse(res, 400, false, "Password must be at least 6 characters long", null);
+        return sendResponse(
+          res,
+          400,
+          false,
+          "Password must be at least 6 characters long",
+          null
+        );
       }
       user.password = newPassword;
     }
@@ -368,6 +388,28 @@ export const UpdateProfile = async (req, res) => {
     return sendResponse(res, 200, true, "Profile updated successfully", null);
   } catch (error) {
     console.error("Error in UpdateProfile controller:", error);
-    return sendResponse(res, 500, false, error.message || "Internal Server Error", null);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+};
+
+export const UserStats = async (req, res) => {
+  try {
+    const data = await StatsData(req.user._id);
+    return sendResponse(res, 200, true, "Stats fetched successfully", data);
+  } catch (error) {
+    console.error("Error in UserStats controller:", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
   }
 };

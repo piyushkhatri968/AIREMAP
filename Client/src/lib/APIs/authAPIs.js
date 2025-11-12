@@ -42,3 +42,8 @@ export const UpdateProfileSettings = async (formData) => {
   const response = await axiosInstance.put("/auth/updateProfile", formData);
   return response.data;
 };
+
+export const StatsAPI = async () => {
+  const response = await axiosInstance.get("/auth/stats");
+  return response.data;
+};

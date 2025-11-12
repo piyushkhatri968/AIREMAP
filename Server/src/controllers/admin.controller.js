@@ -7,6 +7,7 @@ import fs from "fs/promises";
 import { deleteFromCloudinary } from "../utils/Cloudinary/deleteDataFromCloudinary.js";
 import Chat from "../models/chat.model.js";
 import mongoose from "mongoose";
+import FileHistory from "../models/FileHistory.js";
 
 export const GetAllUsers = async (req, res) => {
   try {
@@ -354,7 +355,7 @@ export const UploadTunedFile = async (req, res) => {
       console.error("Cloudinary upload failed:", err);
       return sendResponse(res, 500, false, "Cloud upload failed", null);
     } finally {
-      await fs.unlink(filePath).catch(() => { }); //  remove local file
+      await fs.unlink(filePath).catch(() => {}); //  remove local file
     }
 
     await EcuFile.findOneAndUpdate(
@@ -362,6 +363,13 @@ export const UploadTunedFile = async (req, res) => {
       { tunedFile: tunedFileUrl, status: "Unlocked" },
       { new: true }
     );
+
+    // upload history record
+    await FileHistory.create({
+      ecuFile: ecuFile._id,
+      userId: req.user._id,
+      actionType: "upload",
+    });
 
     return sendResponse(
       res,
@@ -887,6 +895,50 @@ export const Statistics = async (req, res) => {
     );
   } catch (error) {
     console.error("Error in Admin-Statistics:", error);
+    return sendResponse(res, 500, false, error.message, null);
+  }
+};
+
+export const FileHistoryLogic = async (req, res) => {
+  try {
+    const { ticketNumber } = req.params;
+    const ecuFile = await EcuFile.findOne({ ticketNumber });
+    if (!ecuFile) {
+      return sendResponse(res, 400, false, "Ticket not found", null);
+    }
+    const downloads = await FileHistory.find({
+      ecuFile: ecuFile._id,
+      actionType: "download",
+    }).sort({ createdAt: -1 });
+
+    const uploads = await FileHistory.find({
+      ecuFile: ecuFile._id,
+      actionType: "upload",
+    })
+      .populate("userId", "firstName lastName email")
+      .sort({ createdAt: -1 });
+
+    // total stats
+    const totalUploads = uploads.length;
+    const totalDownloads = downloads.length;
+
+    const data = {
+      totalUploads,
+      totalDownloads,
+      uploadHistory: uploads,
+      downloadHistory: downloads,
+    };
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "File history fetched successfully",
+      data
+    );
+    // total number also
+  } catch (error) {
+    console.error("Error in Admin-FileHistory:", error);
     return sendResponse(res, 500, false, error.message, null);
   }
 };

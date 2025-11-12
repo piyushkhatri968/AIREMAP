@@ -5,10 +5,11 @@ import PaymentHistory from "../models/paymentHistory.model.js";
 import Auth from "../models/auth.model.js";
 import { sendCreditsBoughtEmailConfirmation } from "../utils/EmailTemplates/sendCreditsBoughtEmailConfirmation.js";
 import { sendEmail } from "../utils/SendEmails/sendEmail.js";
+import { updateStats } from "./stats.controller.js";
 
 export const CreatePayment = async (req, res) => {
   try {
-    const { sourceId, amount, email, cardHolderName, packageId } = req.body;
+    const { sourceId, amount, email, packageId } = req.body;
     const userId = req.user._id;
     if (!sourceId || !amount || !email)
       return sendResponse(res, 400, false, "Missing payment info", null);
@@ -53,6 +54,8 @@ export const CreatePayment = async (req, res) => {
       { new: true }
     );
 
+    await updateStats(userId, { moneySpent: amount });
+
     const htmlTemplate = sendCreditsBoughtEmailConfirmation({
       amount,
       credits,
@@ -96,7 +99,9 @@ export const CreatePayment = async (req, res) => {
     }
 
     const errData = error.response?.data?.errors?.[0];
-    const userMessage = getFriendlyErrorMessage(errData);
+    const userMessage = getFriendlyErrorMessage(
+      errData || "Payment failed. Please try again."
+    );
     return sendResponse(res, 400, false, userMessage, null);
   }
 };

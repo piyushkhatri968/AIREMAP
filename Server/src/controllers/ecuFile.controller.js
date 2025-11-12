@@ -6,6 +6,8 @@ import { sendEcuFileCreatedEmailConfirmation } from "../utils/EmailTemplates/sen
 import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 import Auth from "../models/auth.model.js";
 import { cleanupUploads } from "../utils/Cloudinary/fileCleanup.js";
+import { updateStats } from "./stats.controller.js";
+import FileHistory from "../models/FileHistory.js";
 
 export const CreateEcuFile = async (req, res) => {
   const {
@@ -132,7 +134,7 @@ export const CreateEcuFile = async (req, res) => {
     if (req?.files?.ecuFile?.[0]) {
       const ecuFilePath = req.files.ecuFile[0].path;
       const cloudinaryUrl = await uploadToCloudinary(ecuFilePath);
-      await fs.unlink(ecuFilePath).catch(() => { }); // safe cleanup
+      await fs.unlink(ecuFilePath).catch(() => {}); // safe cleanup
       if (!cloudinaryUrl) {
         return sendResponse(res, 500, false, "Failed to upload ECU file", null);
       }
@@ -147,7 +149,7 @@ export const CreateEcuFile = async (req, res) => {
       );
       commonFilesUrls = await Promise.all(uploads);
       await Promise.all(
-        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => { }))
+        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => {}))
       );
     }
 
@@ -179,6 +181,8 @@ export const CreateEcuFile = async (req, res) => {
       },
       { new: true }
     );
+
+    await updateStats(req.user._id, { filesSubmitted: Number(1) });
 
     const emailTemplate = sendEcuFileCreatedEmailConfirmation({
       firstName: req.user.firstName,
@@ -303,7 +307,17 @@ export const EligibleToDownload = async (req, res) => {
     ecuFile.creditsNeed = 0;
     await ecuFile.save();
 
-    let message = creditsNeed === 0 ? null : `${creditsNeed} credits used for downloading the file`
+    // download history record
+    await FileHistory.create({
+      ecuFile: ecuFile._id,
+      userId: req.user._id,
+      actionType: "download",
+    });
+
+    let message =
+      creditsNeed === 0
+        ? null
+        : `${creditsNeed} credits used for downloading the file`;
 
     return sendResponse(
       res,
@@ -312,7 +326,7 @@ export const EligibleToDownload = async (req, res) => {
       "You are eligible to download the file",
       {
         eligible: true,
-        message: message
+        message: message,
       }
     );
   } catch (error) {
@@ -329,8 +343,17 @@ export const EligibleToDownload = async (req, res) => {
 
 export const QueueFiles = async (req, res) => {
   try {
-    const data = await EcuFile.countDocuments({ userId: req.user._id, status: "In Progress" })
-    return sendResponse(res, 200, true, "Queue Files fetched succesfully", data);
+    const data = await EcuFile.countDocuments({
+      userId: req.user._id,
+      status: "In Progress",
+    });
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Queue Files fetched succesfully",
+      data
+    );
   } catch (error) {
     console.error("Error in FileRoomAndQueueStatus controller", error);
     return sendResponse(
@@ -341,4 +364,4 @@ export const QueueFiles = async (req, res) => {
       null
     );
   }
-}
+};

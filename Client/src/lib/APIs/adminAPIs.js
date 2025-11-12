@@ -127,3 +127,9 @@ export const Statistics = async () => {
   const response = await axiosInstance.get("/admin/statistics");
   return response.data;
 };
+export const FileHistory = async (ticketNumber) => {
+  const response = await axiosInstance.get(
+    `/admin/fileHistory/${ticketNumber}`
+  );
+  return response.data;
+};

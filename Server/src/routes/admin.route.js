@@ -29,6 +29,7 @@ import {
   AssignUsersToAgent,
   updateProfile,
   Statistics,
+  FileHistoryLogic,
 } from "../controllers/admin.controller.js";
 import multer from "multer";
 import path from "path";
@@ -218,6 +219,12 @@ router.get(
   isFullyAuthenticated,
   isAuthorized("admin"),
   Statistics
+);
+router.get(
+  "/fileHistory/:ticketNumber",
+  isFullyAuthenticated,
+  isAuthorized("admin", "agent"),
+  FileHistoryLogic
 );
 
 export default router;

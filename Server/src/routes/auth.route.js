@@ -8,6 +8,7 @@ import {
   Signup,
   SignupEmailVerify,
   UpdateProfile,
+  UserStats,
 } from "../controllers/auth.controller.js";
 import {
   isAuthenticated,
@@ -30,5 +31,6 @@ router.put(
   isAuthorized("user"),
   UpdateProfile
 );
+router.get("/stats", isFullyAuthenticated, isAuthorized("user"), UserStats);
 
 export default router;
