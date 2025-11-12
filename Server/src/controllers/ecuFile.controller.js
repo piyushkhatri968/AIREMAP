@@ -326,3 +326,19 @@ export const EligibleToDownload = async (req, res) => {
     );
   }
 };
+
+export const QueueFiles = async (req, res) => {
+  try {
+    const data = await EcuFile.countDocuments({ userId: req.user._id, status: "In Progress" })
+    return sendResponse(res, 200, true, "Queue Files fetched succesfully", data);
+  } catch (error) {
+    console.error("Error in FileRoomAndQueueStatus controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+}

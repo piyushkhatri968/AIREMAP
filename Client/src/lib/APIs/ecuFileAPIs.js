@@ -31,3 +31,8 @@ export const IsEligibleToDownload = async (ticketNumber) => {
   });
   return response.data;
 };
+
+export const QueueFiles = async () => {
+  const response = await axiosInstance.get("/ecuFile/queueFiles")
+  return response.data
+}

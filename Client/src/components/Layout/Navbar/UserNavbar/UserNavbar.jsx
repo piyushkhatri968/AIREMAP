@@ -12,14 +12,56 @@ import {
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 
+import favIcon from "../../../../../public/favicon.png"
+
 import useLogout from "../../../../hooks/useLogout";
 import { useTheme } from "../../../../hooks/useTheme";
+import { useQuery } from "@tanstack/react-query";
+import { QueueFiles } from "../../../../lib/APIs/ecuFileAPIs";
+import { useEffect, useState } from "react";
 
 const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
   const navigate = useNavigate();
 
   const { logoutMutation } = useLogout();
   const { setTheme, theme } = useTheme()
+
+  const { data, isLoading } = useQuery({
+    queryFn: QueueFiles,
+    queryKey: ["queueFiles"]
+  })
+
+  const [fileRoomStatus, setFileRoomStatus] = useState("Closed");
+
+  useEffect(() => {
+    const updateStatus = () => {
+      const now = new Date();
+      const day = now.getDay(); // 0 = Sunday, 6 = Saturday
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      const time = hour + minute / 60;
+
+      let isOpen = false;
+
+      if (day >= 1 && day <= 5) {
+        // Monday - Friday: 9am - 7pm
+        isOpen = time >= 9 && time < 19;
+      } else if (day === 6) {
+        // Saturday: 9am - 2pm
+        isOpen = time >= 9 && time < 14;
+      } else {
+        // Sunday: closed
+        isOpen = false;
+      }
+
+      setFileRoomStatus(isOpen ? "Open" : "Closed");
+    };
+
+    updateStatus(); // run immediately
+    const interval = setInterval(updateStatus, 60 * 1000); // update every minute
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <nav className="h-16 bg-white dark:bg-[#1C1C1C] border-b border-zinc-200 dark:border-zinc-800 px-3 sm:px-6 flex items-center fixed top-0 left-0 right-0 z-50">
@@ -41,8 +83,13 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
         {/* Logo */}
         <div
           onClick={() => navigate("/")}
-          className="flex items-center mr-4 sm:mr-40 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 mr-4 sm:mr-24 cursor-pointer hover:opacity-80 transition-opacity"
         >
+          <img
+            src={favIcon}
+            alt="Airemap Autodata"
+            className="w-10 rounded-full"
+          />
           <span className="text-base sm:text-xl font-bold">
             <span className="text-red-600 dark:text-red-500 text-[1.1rem] sm:text-[1.3rem]">
               AI
@@ -50,6 +97,24 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
             <span className="text-gray-900 dark:text-zinc-100">REMAP</span>
           </span>
         </div>
+        {/* Status Info - Hide on mobile */}
+        {
+          isLoading ? null : <div className="hidden lg:flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500 dark:text-zinc-400">File Room:</span>
+              <span className={`text-sm font-medium px-2 py-0.5 rounded ${fileRoomStatus === 'Open' ? 'text-green-600 dark:text-green-400 bg-green-400/10' : 'text-red-600 dark:text-red-500 bg-red-400/10'}`}>
+                {fileRoomStatus}
+              </span>
+            </div>
+            <div className="flex items-center gap-6">
+              <span className="text-gray-400 dark:text-zinc-600">|</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500 dark:text-zinc-400">Queue:</span>
+                <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">{data?.data || 0}</span>
+              </div>
+            </div>
+          </div>
+        }
       </div>
 
       {/* Right Section */}
@@ -114,8 +179,6 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
               </span>
             </DropdownMenuItem>
 
-
-
             <DropdownMenuSeparator className="my-1 bg-zinc-200 dark:bg-zinc-800" />
             {/* Logout */}
             <DropdownMenuItem
@@ -130,7 +193,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </nav>
+    </nav >
   );
 };
 

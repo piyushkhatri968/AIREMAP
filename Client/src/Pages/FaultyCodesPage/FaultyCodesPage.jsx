@@ -28,7 +28,6 @@ const FaultyCodesPage = () => {
         >
             <div className="p-4 sm:p-6">
                 <div className="space-y-4 sm:space-y-6">
-                    {/* 🔍 Search Bar */}
                     <div className="flex items-center space-x-3 sm:space-x-4">
                         <div className="relative flex-1">
                             <Search className="absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
@@ -43,17 +42,17 @@ const FaultyCodesPage = () => {
                     </div>
 
                     <div className="relative">
-                        {/* 🧾 Desktop Table */}
                         <div className="hidden sm:block overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-zinc-200 dark:border-gray-700">
-                                        <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider w-56">
-                                            DF Code
-                                        </th>
                                         <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider w-40">
                                             P Code
                                         </th>
+                                        <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider w-56">
+                                            DF Code
+                                        </th>
+
                                         <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider text-right">
                                             Description
                                         </th>
@@ -65,13 +64,14 @@ const FaultyCodesPage = () => {
                                             key={index}
                                             className="hover:bg-zinc-100/50 dark:hover:bg-gray-700/50 transition-colors"
                                         >
-                                            <td className="py-3 px-4 text-zinc-900 dark:text-white text-xs">
-                                                {code.dfCode}
-                                            </td>
-                                            <td className="py-3 px-4 text-zinc-900 dark:text-white text-xs">
+                                            <td className="py-3 px-4 text-zinc-900 dark:text-white text-sm">
                                                 {code.pCode}
                                             </td>
-                                            <td className="py-3 px-4 text-zinc-900 dark:text-white text-xs text-right">
+                                            <td className="py-3 px-4 text-zinc-900 dark:text-white text-sm">
+                                                {code.dfCode}
+                                            </td>
+
+                                            <td className="py-3 px-4 text-zinc-900 dark:text-white text-sm text-right">
                                                 {code.description}
                                             </td>
                                         </tr>
@@ -80,7 +80,6 @@ const FaultyCodesPage = () => {
                             </table>
                         </div>
 
-                        {/* 📱 Mobile List View */}
                         <div className="sm:hidden">
                             <div className="space-y-2 divide-y divide-zinc-200 dark:divide-gray-700">
                                 {paginatedCodes.map((code, index) => (
@@ -89,12 +88,13 @@ const FaultyCodesPage = () => {
                                         className="py-3 px-3 hover:bg-zinc-100/50 dark:hover:bg-gray-700/50 transition-colors space-y-2"
                                     >
                                         <div className="flex justify-between text-sm">
-                                            <p className="text-zinc-900 dark:text-white font-medium">
-                                                DF Code: {code.dfCode}
-                                            </p>
                                             <p className="text-zinc-500 dark:text-gray-400">
                                                 P Code: {code.pCode}
                                             </p>
+                                            <p className="text-zinc-900 dark:text-white font-medium">
+                                                DF Code: {code.dfCode}
+                                            </p>
+
                                         </div>
                                         <p className="text-zinc-700 dark:text-gray-300 text-sm mt-1">
                                             {code.description}
@@ -105,7 +105,6 @@ const FaultyCodesPage = () => {
                         </div>
                     </div>
 
-                    {/* 🔢 Pagination */}
                     <div className="flex items-center justify-center space-x-2 mt-4">
                         <button
                             onClick={() => setCurrentPage(1)}
@@ -121,8 +120,6 @@ const FaultyCodesPage = () => {
                         >
                             ‹
                         </button>
-
-                        {/* Page Numbers */}
                         {(() => {
                             const maxVisible = window.innerWidth < 640 ? 5 : 10;
                             const pages = [];

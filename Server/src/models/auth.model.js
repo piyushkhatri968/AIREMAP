@@ -45,7 +45,10 @@ const authSchema = mongoose.Schema(
         ref: "Auth",
       },
     ],
-    lastLoginLocation: String,
+    lastLoginTime: {
+      type: Date,
+      default: Date.now,
+    },
     verified: {
       type: Boolean,
       default: false,

@@ -235,6 +235,9 @@ export const Login = async (req, res) => {
       return sendResponse(res, 400, false, "Email or password is wrong");
     }
 
+    isUserExist.lastLoginTime = new Date()
+    await isUserExist.save()
+
     let message;
 
     if (!isUserExist.onBoarded) {
@@ -262,7 +265,7 @@ export const GetMe = async (req, res) => {
   try {
     const { _id } = req.user;
     const user = await Auth.findById(_id).select(
-      "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT"
+      "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime"
     );
     return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {

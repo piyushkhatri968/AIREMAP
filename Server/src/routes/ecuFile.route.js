@@ -8,6 +8,7 @@ import {
   EligibleToDownload,
   GetEcuFiles,
   GetTicketDetails,
+  QueueFiles,
 } from "../controllers/ecuFile.controller.js";
 const router = express.Router();
 import multer from "multer";
@@ -63,5 +64,7 @@ router.post(
   isAuthorized("user"),
   EligibleToDownload
 );
+
+router.get("/queueFiles", isFullyAuthenticated, isAuthorized("user"), QueueFiles)
 
 export default router;

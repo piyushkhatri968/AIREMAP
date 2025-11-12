@@ -4,11 +4,10 @@ import {
   Tags,
   CircleDollarSign,
   FileSpreadsheet,
-  FileQuestion,
   Upload,
   FolderOpen,
-  User as User1,
   ShoppingBag,
+  File,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuthUser from "../../../../hooks/useAuthUser";
@@ -120,7 +119,7 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
             Portal
           </h3>
           <UserSideItem
-            icon={<FileQuestion className="w-4 h-4" />}
+            icon={<File className="w-4 h-4" />}
             label="File Service"
             hasSubmenu
           >

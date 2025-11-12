@@ -14,6 +14,34 @@ const UserDashboard = () => {
     }).format(amount);
   };
 
+  const formatDateTime = (dateString) => {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHr = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHr / 24);
+
+    if (diffSec < 60) return "Just now";
+    if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? "s" : ""} ago`;
+    if (diffHr < 24) return `${diffHr} hour${diffHr > 1 ? "s" : ""} ago`;
+    if (diffDay === 1) return "Yesterday";
+    if (diffDay < 7) return `${diffDay} day${diffDay > 1 ? "s" : ""} ago`;
+
+    // For older dates, show normal formatted date
+    return date.toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#171819] p-4">
       <motion.div
@@ -21,11 +49,14 @@ const UserDashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-4 sm:mb-8"
       >
-        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
-          Welcome Back, {authUser?.firstName || ""} {authUser?.lastName || ""}
+        <h1 className="text-xl sm:text-2xl text-zinc-900 dark:text-white">
+          Welcome Back, <span className="font-bold">
+            {authUser?.firstName || ""} {authUser?.lastName || ""}
+          </span>
         </h1>
+        <p className="text-sm sm:text-base font-medium text-zinc-600 dark:text-gray-400 mb-2">Last login {formatDateTime(authUser?.lastLoginTime)}</p>
 
-        {/* <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl mb-6 sm:mb-10 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden">
+        <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl mb-6 sm:mb-10 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden">
           <div
             className="absolute right-0 sm:right-48 top-0 w-full sm:w-2/3 h-full opacity-20"
             style={{
@@ -44,7 +75,7 @@ const UserDashboard = () => {
               <img
                 src={favIcon}
                 alt="Airemap Autodata"
-                className="w-8 sm:w-auto"
+                className="w-10 rounded-full"
               />
               <div>
                 <div className="text-zinc-600 dark:text-gray-300 text-xs sm:text-sm">
@@ -63,7 +94,7 @@ const UserDashboard = () => {
               Open Autodata
             </button>
           </div>
-        </div> */}
+        </div>
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
           {/* Files Card */}
