@@ -6,6 +6,7 @@ import { sendVerificationEmail } from "../utils/SendEmails/sendVerificationEmail
 import { sendEmail } from "../utils/SendEmails/sendEmail.js";
 import { sendAccountVerifiedEmailTemplate } from "../utils/EmailTemplates/sendAccountVerifiedEmailTemplate.js";
 import { StatsData } from "./stats.controller.js";
+import { sendPasswordResetEmail } from "../utils/EmailTemplates/sendPasswordResetEmail.js";
 
 export const Signup = async (req, res) => {
   const { email, password, confirmPassword } = req.body;
@@ -327,7 +328,7 @@ export const Logout = (req, res) => {
   res.status(200).json({ success: true, message: "Logout successful" });
 };
 
-export const SendForgotPasswordOTP = async (req, res) => {
+export const SendForgotPasswordEmail = async (req, res) => {
   const { email } = req.body;
   try {
     if (!email) {
@@ -341,9 +342,97 @@ export const SendForgotPasswordOTP = async (req, res) => {
     if (!isUserExist) {
       return sendResponse(res, 404, false, "User not found", null);
     }
-    SendForgotPasswordOTP(email);
+    //create verificatin token and save in database
+    const token = crypto.randomBytes(32).toString("hex");
+    isUserExist.passwordResetCode = token;
+    isUserExist.passwordResetExpiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+    await isUserExist.save();
+
+    const emailTemplate = sendPasswordResetEmail({
+      firstName: isUserExist.firstName,
+      token,
+    });
+
+    try {
+      //send reset password Email
+      await sendEmail({
+        to: email,
+        subject: "Password Reset Email",
+        html: emailTemplate,
+      });
+    } catch (error) {
+      return sendResponse(res, 500, false, error.message, null);
+    }
+
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Password reset email send successfully",
+      null
+    );
   } catch (error) {
     console.error("Error in Login controller", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+};
+export const UpdatePassword = async (req, res) => {
+  const { token, password, confirmPassword } = req.body;
+
+  try {
+    if (!token) {
+      return sendResponse(res, 400, false, "Reset token is required", null);
+    }
+
+    if (!password || !confirmPassword) {
+      return sendResponse(res, 400, false, "All fields are required", null);
+    }
+
+    if (password !== confirmPassword) {
+      return sendResponse(res, 400, false, "Passwords do not match", null);
+    }
+
+    if (password.length < 6) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Password must be atleast 6 characters long"
+      );
+    }
+
+    const user = await Auth.findOne({ passwordResetCode: token });
+
+    if (!user) {
+      return sendResponse(
+        res,
+        404,
+        false,
+        "Invalid or expired reset token",
+        null
+      );
+    }
+
+    if (user.passwordResetExpiry < Date.now()) {
+      return sendResponse(res, 400, false, "Reset token expired", null);
+    }
+
+    user.password = password;
+    user.passwordResetCode = null;
+    user.passwordResetExpiry = null;
+
+    await user.save();
+
+    return sendResponse(res, 200, true, "Password updated successfully. Please login now", null);
+  } catch (error) {
+    console.error("Error in UpdatePassword controller:", error);
     return sendResponse(
       res,
       500,

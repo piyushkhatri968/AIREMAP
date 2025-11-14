@@ -92,7 +92,7 @@ const MyFiles = () => {
           <div className="flex justify-center items-center py-10 text-zinc-500 dark:text-gray-400">
             <Loader2 className="animate-spin h-5 w-5 mr-2" /> Fetching Data...
           </div>
-        ) : filteredFiles.length === 0 ? (
+        ) : data?.data?.length === 0 ? (
           <div className="text-center py-10">
             <FolderOpen className="w-10 h-10 text-zinc-400 dark:text-gray-500 mx-auto mb-3" />
             <h3 className="text-base font-semibold text-zinc-900 dark:text-white mb-1">
@@ -108,7 +108,7 @@ const MyFiles = () => {
               Submit File
             </Button>
           </div>
-        ) : (
+        ) : filteredFiles.length > 0 ? (
           <table className="min-w-full w-full text-sm text-left text-zinc-800 dark:text-gray-200 whitespace-nowrap">
             <thead className="bg-zinc-100 dark:bg-[#242526] text-zinc-600 dark:text-gray-400 text-xs uppercase rounded-t-xl text-center">
               <tr>
@@ -173,6 +173,13 @@ const MyFiles = () => {
               ))}
             </tbody>
           </table>
+        ) : (
+          <div className="text-center py-10">
+            <FolderOpen className="w-10 h-10 text-zinc-400 dark:text-gray-500 mx-auto mb-3" />
+            <h3 className="text-base font-semibold text-zinc-900 dark:text-white mb-1">
+              No file matches your search result
+            </h3>
+          </div>
         )}
       </div>
     </motion.div>

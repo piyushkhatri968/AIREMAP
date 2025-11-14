@@ -50,7 +50,11 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
           hover:bg-zinc-50 
           transition-colors"
           >
-            {currentSelectionName}
+            {currentSelectionName === "Select ECU ID" ? (
+              <span className="text-zinc-500 dark:text-gray-400">Select ECU ID</span>
+            ) : (
+              currentSelectionName
+            )}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-60 dark:text-gray-400" />
           </Button>
         </DialogTrigger>
@@ -89,7 +93,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
                     />
                   </div>
 
-                  <CommandGroup className="max-h-[300px] overflow-y-auto">
+                  <CommandGroup className="max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
                     <AnimatePresence>
                       {filteredOptions.length > 0 ? (
                         filteredOptions.map((item, idx) => (

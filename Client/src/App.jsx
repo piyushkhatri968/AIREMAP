@@ -41,6 +41,7 @@ import AdminAgents from "./Pages/AdminPages/AdminAgents/AdminAgents";
 import AgentFiles from "./Pages/AgentPages/AgentFiles/AgentFiles";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
 import FaultyCodesPage from "./Pages/FaultyCodesPage/FaultyCodesPage";
+import UpdatePassword from "./Pages/UpdatePassword/UpdatePassword";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -135,6 +136,12 @@ const App = () => {
           path="/password-reset"
           element={
             !isAuthenticated ? <PasswordReset /> : <Navigate to="/dashboard" />
+          }
+        />
+        <Route
+          path="/update-password/:token"
+          element={
+            !isAuthenticated ? <UpdatePassword /> : <Navigate to="/dashboard" />
           }
         />
 

@@ -204,7 +204,7 @@ const AdminFiles = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="text-center py-12 text-zinc-500 dark:text-gray-400"
                 >
                   No files found.

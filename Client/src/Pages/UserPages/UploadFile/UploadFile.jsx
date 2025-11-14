@@ -26,10 +26,10 @@ const UploadFile = () => {
     year: "",
     registration: "",
     ecuId: "",
-    transmission: "automatic",
+    transmission: "",
     readTool: "",
     readType: "",
-    masterSlave: "master",
+    masterSlave: "",
   });
 
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -159,14 +159,19 @@ const UploadFile = () => {
     e.preventDefault();
 
     if (!formData.transmission) {
-      return toast.error("PLease select a transmission");
+      return toast.error("Please select a transmission type");
     }
-
+    if (!formData.ecuId) {
+      return toast.error("Please select a ECU ID");
+    }
     if (!formData.readTool) {
-      return toast.error("PLease select read tool");
+      return toast.error("Please select read tool");
     }
     if (!formData.readType) {
       return toast.error("Please select a read type");
+    }
+    if (!formData.masterSlave) {
+      return toast.error("Please select a master/slave");
     }
 
     if (!uploadedFile) {
@@ -259,9 +264,9 @@ const UploadFile = () => {
             </p>
           </div>
           {/* Vehicle Parameters Form */}
-          <div className="space-y-4">
+          <div className="space-y-8">
             {/* Vehicle Selection */}
-            <div className="grid grid-cols-3 gap-6 items-start">
+            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
               <div className="space-y-1">
                 <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
                   Vehicle <span className="text-red-600">*</span>
@@ -269,13 +274,16 @@ const UploadFile = () => {
                 <p className="text-sm text-zinc-600 dark:text-gray-400">
                   Choose your vehicle model.
                   {/* If you cannot find your vehicle,
-                  please contact us on*/}{" "}
-                  {/* <a href="/help" className="text-red-600">
+                  please contact us on
+                  <a
+                    href="/help"
+                    className="text-red-600 hover:underline transition-colors"
+                  >
                     Help Page
                   </a> */}
                 </p>
               </div>
-              <div className="space-y-4 col-span-2">
+              <div className="space-y-4">
                 {/* Make */}
                 <Input
                   required
@@ -323,10 +331,6 @@ const UploadFile = () => {
 
                 {/* ECU ID */}
                 <div className="relative">
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                    Select the ECU ID from the list.
-                  </p>
-
                   {/* Select with EcuSearchCombobox */}
                   <EcuSearchCombobox
                     options={ecuOptions}
@@ -340,15 +344,19 @@ const UploadFile = () => {
             </div>
 
             {/* Transmission Type */}
-            <div className="grid sm:grid-cols-1 md:grid-cols-3 sm:gap-4 md:gap-6">
-              <div className="space-y-1"></div>
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+              <div className="space-y-4">
+                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                  Transmission Type <span className="text-red-600">*</span>
+                </Label>
+              </div>
+              <div className="">
                 <RadioGroup
                   value={formData.transmission}
                   onValueChange={(value) =>
                     handleSelectChange("transmission", value)
                   }
-                  className="flex items-center space-x-6"
+                  className="flex items-center space-x-4 md:space-x-8"
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
@@ -393,9 +401,9 @@ const UploadFile = () => {
               </div>
             </div>
             {/* Tool Selection */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
               <div className="space-y-2">
-                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                <Label className="text-zinc-900 dark:text-white text-sm font-medium block mt-4 sm:mt-0">
                   Tool <span className="text-red-600">*</span>
                 </Label>
                 <p className="text-sm text-zinc-600 dark:text-gray-400">
@@ -403,7 +411,7 @@ const UploadFile = () => {
                   used to extract ECU file.
                 </p>
               </div>
-              <div className="col-span-2 space-y-4">
+              <div className="space-y-4">
                 <Select
                   required
                   value={formData.readTool}
@@ -468,14 +476,24 @@ const UploadFile = () => {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+            </div>
 
+            {/* Master/Slave */}
+            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+              <div className="space-y-4">
+                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                  Master/Slave <span className="text-red-600">*</span>
+                </Label>
+              </div>
+              <div className="">
                 <RadioGroup
                   required
                   value={formData.masterSlave}
                   onValueChange={(value) =>
                     handleSelectChange("masterSlave", value)
                   }
-                  className="flex items-center space-x-6"
+                  className="flex items-center space-x-4 md:space-x-8"
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
@@ -506,8 +524,9 @@ const UploadFile = () => {
                 </RadioGroup>
               </div>
             </div>
+
             {/* File Upload */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
               <div className="space-y-2">
                 <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
                   Uploads <span className="text-red-600">*</span>
@@ -517,7 +536,7 @@ const UploadFile = () => {
                   for the tuning process.
                 </p>
               </div>
-              <div className="col-span-2 space-y-4">
+              <div className="space-y-4">
                 <div
                   className="border-2 border-dashed border-zinc-200 dark:border-gray-600 rounded-lg p-8 text-center"
                   onDragOver={handleDragOver}

@@ -47,3 +47,12 @@ export const StatsAPI = async () => {
   const response = await axiosInstance.get("/auth/stats");
   return response.data;
 };
+
+export const ResetPassword = async (formData) => {
+  const response = await axiosInstance.post("/auth/resetPassword", formData);
+  return response.data;
+};
+export const UpdatePasswordAPI = async (formData) => {
+  const response = await axiosInstance.post("/auth/updatePassword", formData);
+  return response.data;
+};

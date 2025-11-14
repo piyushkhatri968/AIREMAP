@@ -118,7 +118,8 @@ const AgentUsersSelectorModal = ({
                       className="data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
                     />
                     <span className="text-sm text-zinc-800 dark:text-white">
-                      {user.firstName} {user.lastName}
+                      {user.firstName} {user.lastName}{" "}
+                      <span className="text-xs opacity-60"> ( {user.email} )</span>
                     </span>
                   </div>
                 ))

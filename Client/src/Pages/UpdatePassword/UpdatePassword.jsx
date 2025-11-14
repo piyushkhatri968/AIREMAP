@@ -3,14 +3,24 @@ import porscheImage from "../../assets/AuthImages/car1.png";
 import aiRemapLogo from "../../assets/logo/logo.png";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
-import { Link } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { Button } from "../../components/ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { ResetPassword } from "../../lib/APIs/authAPIs";
+import { UpdatePasswordAPI } from "../../lib/APIs/authAPIs";
 import { toast } from "react-toastify";
 
-const PasswordReset = () => {
-  const [formData, setFormData] = useState({ email: "" });
+const UpdatePassword = () => {
+  const { token } = useParams();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+    token: token,
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     const { value, id } = e.target;
@@ -18,20 +28,22 @@ const PasswordReset = () => {
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: ResetPassword,
+    mutationFn: UpdatePasswordAPI,
     onSuccess: (res) => {
       toast.success(res.message);
+      navigate("/signin");
     },
     onError: (error) => {
       const message = error?.response?.data?.message;
-      toast.error(message || "Failed to send email");
+      toast.error(message || "Failed to update password");
     },
   });
 
-  const handleSendEmail = (e) => {
+  const handleUpdatePassword = (e) => {
     e.preventDefault();
     mutate(formData);
   };
+
   return (
     <div className="min-h-screen relative font-sans antialiased">
       {/* Background Image */}
@@ -73,26 +85,43 @@ const PasswordReset = () => {
         <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-start px-4 lg:mt-0">
           <div className="w-full lg:w-9/12 bg-zinc-50/90 dark:bg-[#242526]/90 backdrop-blur lg:p-16 p-10 rounded-lg shadow-2xl z-10">
             <h2 className="text-zinc-900 dark:text-white text-2xl font-semibold mb-2">
-              Reset Password
+              Reset Your Password
             </h2>
             <p className="text-zinc-500 dark:text-gray-400 text-sm mb-8">
-              Enter your email to reset your password
+              Enter your new password and confirm password
             </p>
 
-            <form onSubmit={handleSendEmail} className="space-y-6">
+            <form onSubmit={handleUpdatePassword} className="space-y-6">
               <div>
                 <Label
-                  htmlFor="email"
+                  htmlFor="password"
                   className="block text-zinc-900 dark:text-white text-sm font-medium mb-2"
                 >
-                  Email
+                  Password
                 </Label>
                 <Input
-                  type="email"
-                  id="email"
-                  value={formData.email}
+                  type="password"
+                  id="password"
+                  value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter email address"
+                  placeholder="Enter password"
+                  className="w-full px-4 py-3 bg-white dark:bg-[#242526] text-zinc-900 dark:text-white rounded-lg border border-zinc-200 dark:border-gray-600  focus:outline-none transition-colors placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+                  required
+                />
+              </div>
+              <div>
+                <Label
+                  htmlFor="confirmPassword"
+                  className="block text-zinc-900 dark:text-white text-sm font-medium mb-2"
+                >
+                  Confirm Password
+                </Label>
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Enter confirm password"
                   className="w-full px-4 py-3 bg-white dark:bg-[#242526] text-zinc-900 dark:text-white rounded-lg border border-zinc-200 dark:border-gray-600  focus:outline-none transition-colors placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                   required
                 />
@@ -104,7 +133,7 @@ const PasswordReset = () => {
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-gray-800 disabled:bg-zinc-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
                 data-testid="button-submit"
               >
-                {isPending ? "Sending..." : "Send Email"}
+                {isPending ? "Resetting..." : "Reset"}
               </Button>
             </form>
             <div className="text-center text-sm mt-6">
@@ -123,4 +152,4 @@ const PasswordReset = () => {
   );
 };
 
-export default PasswordReset;
+export default UpdatePassword;

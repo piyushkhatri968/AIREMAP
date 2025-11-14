@@ -5,8 +5,10 @@ import {
   Logout,
   Onboarding,
   ResendEmailVerification,
+  SendForgotPasswordEmail,
   Signup,
   SignupEmailVerify,
+  UpdatePassword,
   UpdateProfile,
   UserStats,
 } from "../controllers/auth.controller.js";
@@ -32,5 +34,8 @@ router.put(
   UpdateProfile
 );
 router.get("/stats", isFullyAuthenticated, isAuthorized("user"), UserStats);
+
+router.post("/resetPassword", SendForgotPasswordEmail);
+router.post("/updatePassword", UpdatePassword);
 
 export default router;
