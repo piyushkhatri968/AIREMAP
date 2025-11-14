@@ -288,7 +288,7 @@ export const GetAllAgentEcuFiles = async (req, res) => {
       userId: { $in: agent.assignedUsersToAgent },
     })
       .select("userId status createdAt ticketNumber make model")
-      .populate("userId", "firstName lastName email")
+      .populate("userId", "firstName lastName")
       .sort({ createdAt: -1 })
       .lean();
     return sendResponse(
@@ -801,7 +801,7 @@ export const Statistics = async (req, res) => {
       pendingFiles,
       unlockedFiles,
       inProgressFiles,
-      failedFiles,
+      rejectedFiles,
       lastMonthFiles,
     ] = await Promise.all([
       Auth.countDocuments({ role: "user" }),
@@ -824,7 +824,7 @@ export const Statistics = async (req, res) => {
       EcuFile.countDocuments({ status: "Pending" }),
       EcuFile.countDocuments({ status: "Unlocked" }),
       EcuFile.countDocuments({ status: "In Progress" }),
-      EcuFile.countDocuments({ status: "Failed" }),
+      EcuFile.countDocuments({ status: "Rejected" }),
       EcuFile.countDocuments({ createdAt: { $gte: lastMonth, $lte: now } }),
     ]);
 
@@ -875,7 +875,7 @@ export const Statistics = async (req, res) => {
         pending: pendingFiles,
         unlocked: unlockedFiles,
         inProgress: inProgressFiles,
-        failed: failedFiles,
+        rejected: rejectedFiles,
         lastMonth: lastMonthFiles,
       },
       payments: {

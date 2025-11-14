@@ -164,7 +164,43 @@ export const SignupEmailVerify = async (req, res) => {
       sendResponse(res, 500, false, error.message, null);
     }
 
-    return sendResponse(res, 200, true, "Email verification successfull", user);
+    // send email to admin about this user's signup
+    await sendEmail({
+      to: "noreply@airemap.co.uk",
+      subject: "New User Signup",
+      html: `
+    <div style="font-family: Arial, sans-serif; padding: 16px; color: #333;">
+      <h2 style="color: #4F46E5;">New User Signed Up</h2>
+      <p>
+        A new user has successfully registered on the platform.
+      </p>
+      <table style="border-collapse: collapse; margin-top: 12px;">
+        <tr>
+          <td style="padding: 6px 12px; font-weight: bold;">Name:</td>
+          <td style="padding: 6px 12px;">${user.firstName} ${
+        user?.lastName || ""
+      }</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 12px; font-weight: bold;">Email:</td>
+          <td style="padding: 6px 12px;">${user.email}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 12px; font-weight: bold;">Signup Date:</td>
+          <td style="padding: 6px 12px;">${new Date().toLocaleString()}</td>
+        </tr>
+      </table>
+      <p style="margin-top: 20px;">
+        You can review the user details from the admin dashboard.
+      </p>
+      <p style="font-size: 12px; color: #777; margin-top: 30px;">
+        This is an automated message — please do not reply.
+      </p>
+    </div>
+  `,
+    });
+
+    return sendResponse(res, 200, true, "Account verified successfull", user);
   } catch (error) {
     console.error("Error in SignupEmailVerify controller", error);
     return sendResponse(

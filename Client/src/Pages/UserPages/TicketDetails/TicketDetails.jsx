@@ -46,9 +46,6 @@ const TicketDetails = () => {
         </div>
       ) : (
         <div className="">
-          {/* <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
-            {data?.make} {data?.model} {data?.year}
-          </h2> */}
           {/* Three column layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4 items-start">
             {/* Details */}
@@ -125,7 +122,9 @@ const TicketDetails = () => {
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
                   ECU
                 </p>
-                <p className="text-xs text-gray-900 dark:text-white">{data?.ecuId || "N/A"}</p>
+                <p className="text-xs text-gray-900 dark:text-white">
+                  {data?.ecuId || "N/A"}
+                </p>
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
@@ -196,13 +195,13 @@ const TicketDetails = () => {
 
                 <div className="text-xs text-white">
                   {data?.modificationOptions &&
-                    data?.modificationOptions?.flatMap(
-                      (item) =>
-                        item
-                          ?.split(",")
-                          ?.map((opt) => opt.trim())
-                          ?.filter((opt) => opt.length > 0) // remove empty values
-                    ).length > 0 ? (
+                  data?.modificationOptions?.flatMap(
+                    (item) =>
+                      item
+                        ?.split(",")
+                        ?.map((opt) => opt.trim())
+                        ?.filter((opt) => opt.length > 0) // remove empty values
+                  ).length > 0 ? (
                     data?.modificationOptions
                       ?.flatMap((item) =>
                         item
@@ -248,7 +247,7 @@ const TicketDetails = () => {
                   data.additionalFiles.map((item, idx) => (
                     <a
                       key={idx}
-                      href={item} 
+                      href={item}
                       download
                       target="_blank"
                       rel="noopener noreferrer"
@@ -260,7 +259,9 @@ const TicketDetails = () => {
                     </a>
                   ))
                 ) : (
-                  <div className="text-gray-900 dark:text-zinc-400 text-xs">No Additional Files</div>
+                  <div className="text-gray-900 dark:text-zinc-400 text-xs">
+                    No Additional Files
+                  </div>
                 )}
               </div>
             </div>

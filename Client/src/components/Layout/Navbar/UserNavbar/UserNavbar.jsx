@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 
-import favIcon from "../../../../../public/favicon.png"
+import favIcon from "../../../../../public/favicon.png";
 
 import useLogout from "../../../../hooks/useLogout";
 import { useTheme } from "../../../../hooks/useTheme";
@@ -24,12 +24,12 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
   const navigate = useNavigate();
 
   const { logoutMutation } = useLogout();
-  const { setTheme, theme } = useTheme()
+  const { setTheme, theme } = useTheme();
 
   const { data, isLoading } = useQuery({
     queryFn: QueueFiles,
-    queryKey: ["queueFiles"]
-  })
+    queryKey: ["queueFiles"],
+  });
 
   const [fileRoomStatus, setFileRoomStatus] = useState("Closed");
 
@@ -82,7 +82,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
         {/* Logo */}
         <div
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
           className="flex items-center gap-2 mr-4 sm:mr-24 cursor-pointer hover:opacity-80 transition-opacity"
         >
           <img
@@ -98,23 +98,35 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
           </span>
         </div>
         {/* Status Info - Hide on mobile */}
-        {
-          isLoading ? null : <div className="hidden lg:flex items-center gap-6">
+        {isLoading ? null : (
+          <div className="hidden lg:flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500 dark:text-zinc-400">File Room:</span>
-              <span className={`text-sm font-medium px-2 py-0.5 rounded ${fileRoomStatus === 'Open' ? 'text-green-600 dark:text-green-400 bg-green-400/10' : 'text-red-600 dark:text-red-500 bg-red-400/10'}`}>
+              <span className="text-sm text-gray-500 dark:text-zinc-400">
+                File Room:
+              </span>
+              <span
+                className={`text-sm font-medium px-2 py-0.5 rounded ${
+                  fileRoomStatus === "Open"
+                    ? "text-green-600 dark:text-green-400 bg-green-400/10"
+                    : "text-red-600 dark:text-red-500 bg-red-400/10"
+                }`}
+              >
                 {fileRoomStatus}
               </span>
             </div>
             <div className="flex items-center gap-6">
               <span className="text-gray-400 dark:text-zinc-600">|</span>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500 dark:text-zinc-400">Queue:</span>
-                <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">{data?.data || 0}</span>
+                <span className="text-sm text-gray-500 dark:text-zinc-400">
+                  Queue:
+                </span>
+                <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">
+                  {data?.data || 0}
+                </span>
               </div>
             </div>
           </div>
-        }
+        )}
       </div>
 
       {/* Right Section */}
@@ -142,8 +154,9 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
                 <DropdownMenuItem
                   onClick={() => setTheme("light")}
-                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
+                    theme === "light" ? "font-semibold" : ""
+                  }`}
                 >
                   <Sun className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                   <span>Light</span>
@@ -151,8 +164,9 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
                 <DropdownMenuItem
                   onClick={() => setTheme("dark")}
-                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "dark" ? "font-semibold" : ""
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
+                    theme === "dark" ? "font-semibold" : ""
+                  }`}
                 >
                   <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                   <span>Dark</span>
@@ -160,8 +174,9 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
                 <DropdownMenuItem
                   onClick={() => setTheme("system")}
-                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "system" ? "font-semibold" : ""
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
+                    theme === "system" ? "font-semibold" : ""
+                  }`}
                 >
                   <Monitor className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                   <span>System</span>
@@ -193,7 +208,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </nav >
+    </nav>
   );
 };
 

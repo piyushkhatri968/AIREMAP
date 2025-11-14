@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { toast } from "react-toastify";
 import useUpdateUserCredits from "../../../hooks/Adminhooks/useUpdateUserCredits";
+import useAuthUser from "../../../hooks/useAuthUser";
 
 const AdminCredits = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,6 +16,8 @@ const AdminCredits = () => {
     queryFn: GetAllUsers,
     queryKey: ["allUsers"],
   });
+
+  const { authUser } = useAuthUser();
 
   if (isError) toast.error("Failed to load credits data");
 
@@ -41,13 +44,17 @@ const AdminCredits = () => {
     >
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h2 className="text-xl sm:text-2xl mt-2 sm:my-0 font-bold text-zinc-900 dark:text-white">Credits Management</h2>
+        <h2 className="text-xl sm:text-2xl mt-2 sm:my-0 font-bold text-zinc-900 dark:text-white">
+          Credits Management
+        </h2>
       </div>
 
       {/* Search & Table */}
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
         <div className="p-6 flex flex-col gap-2">
-          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">User Credits</h2>
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+            User Credits
+          </h2>
           <p className="text-zinc-900 dark:text-zinc-400 text-sm">
             Add or remove credits for users.
           </p>
@@ -65,7 +72,10 @@ const AdminCredits = () => {
             <thead className="bg-zinc-100 dark:bg-[#1c1d1e] border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
               <tr>
                 <th className="px-4 py-3 text-center font-medium">User</th>
-                <th className="px-4 py-3 text-center font-medium">Email</th>
+                {authUser?.role === "admin" && (
+                  <th className="px-4 py-3 text-center font-medium">Email</th>
+                )}
+
                 <th className="px-4 py-3 text-center font-medium">
                   Current Credits
                 </th>
@@ -93,9 +103,11 @@ const AdminCredits = () => {
                     <td className="px-4 py-3 text-center text-zinc-900 dark:text-white">
                       {row?.firstName + " " + row?.lastName}
                     </td>
-                    <td className="px-4 py-3 text-center text-zinc-900 dark:text-white break-all">
-                      {row?.email}
-                    </td>
+                    {authUser?.role === "admin" && (
+                      <td className="px-4 py-3 text-center text-zinc-900 dark:text-white break-all">
+                        {row?.email}
+                      </td>
+                    )}
                     <td className="px-4 py-3 text-center text-zinc-900 dark:text-white">
                       {row?.credits}
                     </td>

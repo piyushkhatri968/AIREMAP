@@ -82,7 +82,7 @@ const ecuFileSchema = new mongoose.Schema(
     // Status and Credits
     status: {
       type: String,
-      enum: ["Pending", "In Progress", "Completed", "Failed", "Unlocked"],
+      enum: ["Pending", "In Progress", "Completed", "Rejected", "Unlocked"],
       default: "Pending",
     },
 

@@ -61,8 +61,8 @@ const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
       color: "text-green-500",
       button: null,
     },
-    Failed: {
-      title: "Failed",
+    Rejected: {
+      title: "Rejected",
       message:
         "Something went wrong while tuning the file. Please check again later.",
       color: "text-red-500",
@@ -76,10 +76,11 @@ const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
         <button
           onClick={handleDownload}
           disabled={isPending}
-          className={` text-xs font-semibold rounded-full py-3 px-5 ${isPending
+          className={` text-xs font-semibold rounded-full py-3 px-5 ${
+            isPending
               ? "bg-zinc-700 cursor-not-allowed opacity-70 text-white"
               : "bg-green-600 hover:bg-green-700 text-white"
-            } transition-colors`}
+          } transition-colors`}
         >
           {isPending ? "Checking..." : "Download"}
         </button>

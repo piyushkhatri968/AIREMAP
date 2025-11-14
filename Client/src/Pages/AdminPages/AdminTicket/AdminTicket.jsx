@@ -124,10 +124,7 @@ const AdminTicket = () => {
             Ticket Details...
           </div>
         ) : (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
-              {data?.make} {data?.model} {data?.year}
-            </h2>
+          <div className="">
             {/* Three column layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4">
               {/* Details */}
@@ -184,6 +181,14 @@ const AdminTicket = () => {
                     </div>
                   </div>
                 )}
+                <div className="space-y-1">
+                  <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                    Vehicle
+                  </p>
+                  <p className=" text-xs text-gray-900 dark:text-white">
+                    {data?.make} {data?.model} {data?.year}
+                  </p>
+                </div>
                 <div className="space-y-1">
                   <p className="font-semibold text-sm text-gray-900 dark:text-white">
                     Registration
@@ -282,10 +287,10 @@ const AdminTicket = () => {
                             Completed
                           </SelectItem>
                           <SelectItem
-                            value="Failed"
+                            value="Rejected"
                             className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                           >
-                            Failed
+                            Rejected
                           </SelectItem>
                           <SelectItem
                             value="Unlocked"

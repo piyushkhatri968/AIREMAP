@@ -98,7 +98,7 @@ const AdminDashboard = () => {
               { title: "Pending Files", key: "pending" },
               { title: "Unlocked Files", key: "unlocked" },
               { title: "In Progress Files", key: "inProgress" },
-              { title: "Failed Files", key: "failed" },
+              { title: "Rejected Files", key: "rejected" },
             ].map((file) => (
               <Card
                 key={file.key}

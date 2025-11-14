@@ -40,7 +40,7 @@ const AgentNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
                 {/* Logo */}
                 <div
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/files")}
                     className="flex flex-col items-start mr-4 sm:mr-40 cursor-pointer hover:opacity-80 transition-opacity"
                 >
                     <span className="text-base sm:text-xl font-bold">

@@ -242,7 +242,7 @@ export const GetTicketDetails = async (req, res) => {
     }
     const response = await EcuFile.findOne({ ticketNumber }).populate(
       "userId",
-      "firstName lastName email"
+      "firstName lastName email role"
     );
     if (!response) {
       return sendResponse(res, 404, false, "Ticket not found", null);
