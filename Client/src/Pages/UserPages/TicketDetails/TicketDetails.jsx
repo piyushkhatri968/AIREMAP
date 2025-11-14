@@ -37,7 +37,7 @@ const TicketDetails = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className=""
+      className="p-4"
     >
       {isPending ? (
         <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">

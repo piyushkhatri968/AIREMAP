@@ -14,6 +14,7 @@ const UserDashboardLayout = () => {
         activeView={activeView}
         setActiveView={setActiveView}
         isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
 
       {/* Overlay for mobile */}

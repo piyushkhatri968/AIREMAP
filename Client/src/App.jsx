@@ -42,6 +42,7 @@ import AgentFiles from "./Pages/AgentPages/AgentFiles/AgentFiles";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
 import FaultyCodesPage from "./Pages/FaultyCodesPage/FaultyCodesPage";
 import UpdatePassword from "./Pages/UpdatePassword/UpdatePassword";
+import AutoData from "./Pages/UserPages/AutoData/AutoData";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -98,6 +99,7 @@ const App = () => {
               element={<TicketDetails />}
             />
             <Route path="/fault-codes" element={<FaultyCodesPage />} />
+            <Route path="/auto-data" element={<AutoData />} />
           </Route>
         )}
 

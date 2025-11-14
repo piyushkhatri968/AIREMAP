@@ -79,11 +79,11 @@ const ChatRoom = ({ ecuFileId }) => {
   }, {});
 
   return (
-    <div className="flex flex-col h-[550px] bg-[#18191A] border border-zinc-700 rounded-xl shadow-md overflow-hidden">
+    <div className="flex flex-col h-[64vh] bg-zinc-50 dark:bg-[#242526]/90 border border-zinc-200 dark:border-gray-700 rounded-xl shadow-md overflow-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 border-b border-zinc-700 bg-[#242526]">
+      <div className="flex justify-between items-center p-4 border-b border-zinc-200 dark:border-gray-700 bg-zinc-50 dark:bg-[#242526]/90">
         <div>
-          <h1 className="font-semibold text-white text-base">
+          <h1 className="font-semibold text-gray-900 dark:text-white text-base">
             {chatPartner
               ? `${chatPartner.firstName} ${chatPartner.lastName}`
               : "Support Chat"}
@@ -97,7 +97,7 @@ const ChatRoom = ({ ecuFileId }) => {
       {/* Messages */}
       <div
         ref={chatScrollRef}
-        className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#1C1C1C] scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
+        className="flex-1 overflow-y-auto p-4 space-y-3 bg-zinc-50 dark:bg-[#242526]/90 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
       >
         {Object.keys(grouped).map((date) => (
           <div key={date}>
@@ -116,8 +116,8 @@ const ChatRoom = ({ ecuFileId }) => {
                   <div
                     className={`max-w-[75%] px-4 py-2 mb-1 rounded-2xl ${
                       isMe
-                        ? "bg-orange-600 text-white rounded-br-none"
-                        : "bg-[#3A3B3C] text-white rounded-bl-none"
+                        ? "bg-orange-600 text-gray-900 dark:text-white rounded-br-none"
+                        : "bg-[#3A3B3C] text-gray-900 dark:text-white rounded-bl-none"
                     }`}
                   >
                     <p className="text-sm">{msg.message}</p>
@@ -137,10 +137,10 @@ const ChatRoom = ({ ecuFileId }) => {
       </div>
 
       {/* Input */}
-      <div className="p-3 border-t border-zinc-700 flex gap-2 bg-[#242526]">
+      <div className="p-3 border-t border-zinc-200 dark:border-gray-700 flex gap-2 bg-zinc-50 dark:bg-[#242526]/90">
         <input
           type="text"
-          className="flex-1 px-4 py-2 rounded-full bg-[#3A3B3C] text-sm text-white placeholder-gray-400 outline-none"
+          className="flex-1 px-4 py-2 rounded-full border border-zinc-200 dark:border-gray-700 bg-zinc-50 dark:bg-[#242526]/90 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none"
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -148,9 +148,9 @@ const ChatRoom = ({ ecuFileId }) => {
         />
         <button
           onClick={handleSend}
-          className="bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-full transition"
+          className="bg-orange-600 hover:bg-orange-700 text-gray-900 dark:text-white p-3 rounded-full transition"
         >
-          <Send size={16} />
+          <Send size={16} color="white" />
         </button>
       </div>
     </div>

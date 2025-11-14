@@ -8,12 +8,18 @@ import {
   FolderOpen,
   ShoppingBag,
   File,
+  CarFront,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuthUser from "../../../../hooks/useAuthUser";
 import UserSideItem from "../UserSidebar/UserSideItem";
 
-const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
+const UserSidebar = ({
+  activeView,
+  setActiveView,
+  isOpen = true,
+  setIsOpen,
+}) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,6 +28,7 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
   const handleNavigation = useCallback(
     (view) => {
       setActiveView(view);
+      setIsOpen(false);
       navigate(`/${view}`, { replace: true });
     },
     [navigate, setActiveView]
@@ -92,6 +99,12 @@ const UserSidebar = ({ activeView, setActiveView, isOpen = true }) => {
             isActive={activeView === "price-list"}
             onClick={() => handleNavigation("price-list")}
           />
+          {/* <UserSideItem
+            icon={<CarFront className="w-4 h-4" />}
+            label="Auto Data"
+            isActive={activeView === "auto-data"}
+            onClick={() => handleNavigation("auto-data")}
+          /> */}
         </div>
 
         {/* CREDITS Section */}

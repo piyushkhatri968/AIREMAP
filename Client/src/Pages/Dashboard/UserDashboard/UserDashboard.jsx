@@ -6,6 +6,20 @@ import { useQuery } from "@tanstack/react-query";
 import { StatsAPI } from "../../../lib/APIs/authAPIs";
 import FileStatsChart from "./Charts/FileStatsChart";
 import MoneyStatsChart from "./Charts/MoneyStatsChart";
+import { useNavigate } from "react-router";
+
+import carImage from "../../../assets/AutoDataImages/cars.png";
+import vanImage from "../../../assets/AutoDataImages/vans.png";
+import pickupImage from "../../../assets/AutoDataImages/pickups.png";
+import motorhomeImage from "../../../assets/AutoDataImages/motorhomes.png";
+import truckImage from "../../../assets/AutoDataImages/trucks.png";
+import agricultureImage from "../../../assets/AutoDataImages/agriculture.png";
+import atvImage from "../../../assets/AutoDataImages/atv.png";
+import jetSkiImage from "../../../assets/AutoDataImages/jetski.png";
+import bikeImage from "../../../assets/AutoDataImages/bikes.png";
+import snowmobileImage from "../../../assets/AutoDataImages/snow-mobile.png";
+import constructionImage from "../../../assets/AutoDataImages/construction.png";
+import busImage from "../../../assets/AutoDataImages/bus.png";
 
 const UserDashboard = () => {
   const { authUser } = useAuthUser();
@@ -98,6 +112,51 @@ const UserDashboard = () => {
     </>
   );
 
+  const navigate = useNavigate();
+
+  const vehicleTypes = [
+    { id: "cars", nameKey: "Cars", image: carImage },
+    { id: "vans", nameKey: "Vans", image: vanImage },
+    {
+      id: "pickups",
+      nameKey: "Pickups",
+      image: pickupImage,
+    },
+    {
+      id: "motorhomes",
+      nameKey: "Motorhomes",
+      image: motorhomeImage,
+    },
+    {
+      id: "trucks",
+      nameKey: "Trucks",
+      image: truckImage,
+    },
+    {
+      id: "agriculture",
+      nameKey: "Agriculture",
+      image: agricultureImage,
+    },
+    { id: "atv", nameKey: "Atv", image: atvImage },
+    { id: "bikes", nameKey: "Bikes", image: bikeImage },
+    {
+      id: "jet-ski",
+      nameKey: "Jet Ski",
+      image: jetSkiImage,
+    },
+    {
+      id: "snow-mobile",
+      nameKey: "Snow Mobile",
+      image: snowmobileImage,
+    },
+    {
+      id: "construction",
+      nameKey: "Construction",
+      image: constructionImage,
+    },
+    { id: "bus", nameKey: "Bus", image: busImage },
+  ];
+
   return (
     <div className="bg-white dark:bg-[#171819] p-4">
       <motion.div
@@ -147,7 +206,7 @@ const UserDashboard = () => {
             </div>
 
             <button
-              onClick={() => navigate("/auto-data")}
+              // onClick={() => navigate("/auto-data")}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-4 sm:px-5 py-2 rounded-md font-medium text-sm transition-colors duration-200"
             >
               Open Autodata
