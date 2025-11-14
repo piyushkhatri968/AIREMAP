@@ -19,10 +19,13 @@ import useUploadTunedFile from "../../../hooks/Adminhooks/useUploadTunedFile";
 import ChatRoom from "../../UserPages/TicketDetails/ChatRoom";
 import { FileHistory } from "../../../lib/APIs/adminAPIs";
 import { FileHistoryComponent } from "./FileHistoryComponent";
+import useAuthUser from "../../../hooks/useAuthUser";
 
 const AdminTicket = () => {
   const { ticketNumber } = useParams();
   const navigate = useNavigate();
+
+  const { authUser } = useAuthUser()
 
   const [updatingFileId, setUpdatingFileId] = useState(null);
 
@@ -94,8 +97,8 @@ const AdminTicket = () => {
     } catch (error) {
       toast.error(
         error?.message ||
-          error?.response?.data?.message ||
-          "Failed to upload tuned file"
+        error?.response?.data?.message ||
+        "Failed to upload tuned file"
       );
     }
   };
@@ -231,14 +234,17 @@ const AdminTicket = () => {
                   <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
                     File Status
                   </h1>
-                  <Button
-                    variant="outline"
-                    size="xs"
-                    className="bg-red-600 hover:bg-red-700 border-red-500 text-white disabled:bg-red-800"
-                    onClick={handleFileHistoryPopup}
-                  >
-                    View File History
-                  </Button>
+                  {
+                    authUser?.role === "admin" && <Button
+                      variant="outline"
+                      size="xs"
+                      className="bg-red-600 hover:bg-red-700 border-red-500 text-white disabled:bg-red-800"
+                      onClick={handleFileHistoryPopup}
+                    >
+                      View File History
+                    </Button>
+                  }
+
                 </div>
                 <p className="w-full h-[1px] bg-zinc-200 dark:bg-gray-700" />
 
@@ -382,13 +388,13 @@ const AdminTicket = () => {
 
                   <div className="text-xs text-white">
                     {data?.modificationOptions &&
-                    data?.modificationOptions?.flatMap(
-                      (item) =>
-                        item
-                          ?.split(",")
-                          ?.map((opt) => opt.trim())
-                          ?.filter((opt) => opt.length > 0) // remove empty values
-                    ).length > 0 ? (
+                      data?.modificationOptions?.flatMap(
+                        (item) =>
+                          item
+                            ?.split(",")
+                            ?.map((opt) => opt.trim())
+                            ?.filter((opt) => opt.length > 0) // remove empty values
+                      ).length > 0 ? (
                       data?.modificationOptions
                         ?.flatMap((item) =>
                           item
