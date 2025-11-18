@@ -42,7 +42,20 @@ import AgentFiles from "./Pages/AgentPages/AgentFiles/AgentFiles";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
 import FaultyCodesPage from "./Pages/FaultyCodesPage/FaultyCodesPage";
 import UpdatePassword from "./Pages/UpdatePassword/UpdatePassword";
+
 import AutoData from "./Pages/UserPages/AutoData/AutoData";
+import Car from "./Pages/UserPages/AutoData/Car/Car";
+import Van from "./Pages/UserPages/AutoData/Van/Van";
+import Pickup from "./Pages/UserPages/AutoData/Pickup/Pickup";
+import Atv from "./Pages/UserPages/AutoData/Atv/Atv";
+import Motorhome from "./Pages/UserPages/AutoData/Motorhome/Motorhome";
+import Truck from "./Pages/UserPages/AutoData/Truck/Truck";
+import Agriculture from "./Pages/UserPages/AutoData/Agriculture/Agriculture";
+import Bike from "./Pages/UserPages/AutoData/Bike/Bike";
+import Jetski from "./Pages/UserPages/AutoData/Jetski/Jetski";
+import SnowMobile from "./Pages/UserPages/AutoData/SnowMobile/SnowMobile";
+import Construction from "./Pages/UserPages/AutoData/Construction/Construction";
+import Bus from "./Pages/UserPages/AutoData/Bus/Bus";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -100,6 +113,18 @@ const App = () => {
             />
             <Route path="/fault-codes" element={<FaultyCodesPage />} />
             <Route path="/auto-data" element={<AutoData />} />
+            <Route path="/cars" element={<Car />} />
+            <Route path="/vans" element={<Van />} />
+            <Route path="/pickups" element={<Pickup />} />
+            <Route path="/motorhomes" element={<Motorhome />} />
+            <Route path="/trucks" element={<Truck />} />
+            <Route path="/agriculture" element={<Agriculture />} />
+            <Route path="/atv" element={<Atv />} />
+            <Route path="/bikes" element={<Bike />} />
+            <Route path="/jet-ski" element={<Jetski />} />
+            <Route path="/snow-mobile" element={<SnowMobile />} />
+            <Route path="/construction" element={<Construction />} />
+            <Route path="/bus" element={<Bus />} />
           </Route>
         )}
 
