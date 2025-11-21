@@ -58,7 +58,9 @@ const AdminTransactions = () => {
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Transaction History</h2>
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          Transaction History
+        </h2>
         <Input
           placeholder="Search by email, name, transaction ID, or status"
           value={searchQuery}
@@ -85,7 +87,7 @@ const AdminTransactions = () => {
 
             <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
               {isLoading ? (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="7"
                     className="py-10 text-zinc-500 dark:text-gray-400"
@@ -95,11 +97,14 @@ const AdminTransactions = () => {
                       Fetching Transactions...
                     </div>
                   </td>
-                </tr>
+                </motion.tr>
               ) : filteredTransactions?.length > 0 ? (
-                filteredTransactions.map((row) => (
-                  <tr
+                filteredTransactions.map((row, index) => (
+                  <motion.tr
                     key={row._id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
                     className="whitespace-nowrap hover:bg-zinc-100 dark:hover:bg-[#2c2c2c]/70 transition"
                   >
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
@@ -134,17 +139,17 @@ const AdminTransactions = () => {
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {formatDateTime(row?.createdAt)}
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               ) : (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="7"
                     className="py-12 text-zinc-500 dark:text-gray-400"
                   >
                     No transactions found.
                   </td>
-                </tr>
+                </motion.tr>
               )}
             </tbody>
           </table>

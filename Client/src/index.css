@@ -5,3 +5,11 @@
 body {
   font-family: "Inter", sans-serif;
 }
+
+html.dark body {
+  background-color: #171819;
+}
+
+html.light body {
+  background-color: #ffffff;
+}

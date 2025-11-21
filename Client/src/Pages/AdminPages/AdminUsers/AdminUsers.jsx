@@ -112,7 +112,7 @@ const AdminUsers = () => {
 
             <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
               {isLoading ? (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="9"
                     className="text-center py-10 text-zinc-500 dark:text-gray-400"
@@ -120,10 +120,16 @@ const AdminUsers = () => {
                     <Loader2 className="animate-spin inline h-5 w-5 mr-2" />
                     Fetching Users...
                   </td>
-                </tr>
+                </motion.tr>
               ) : filteredUser?.length > 0 ? (
-                filteredUser.map((row) => (
-                  <tr key={row._id} className="whitespace-nowrap">
+                filteredUser.map((row, index) => (
+                  <motion.tr
+                    key={row._id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="whitespace-nowrap"
+                  >
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                       {row.firstName || "N/A"} {row.lastName}
                     </td>
@@ -214,17 +220,17 @@ const AdminUsers = () => {
                         </Button>
                       )}
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               ) : (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="9"
                     className="text-center py-12 text-zinc-500 dark:text-gray-400"
                   >
                     No users found.
                   </td>
-                </tr>
+                </motion.tr>
               )}
             </tbody>
           </table>

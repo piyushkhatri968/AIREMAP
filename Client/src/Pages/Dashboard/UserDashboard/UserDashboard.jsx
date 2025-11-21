@@ -154,7 +154,7 @@ const UserDashboard = () => {
             </div>
 
             <button
-              onClick={() => navigate("/auto-data")}
+              // onClick={() => navigate("/auto-data")}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-4 sm:px-5 py-2 rounded-md font-medium text-sm transition-colors duration-200"
             >
               Open Autodata

@@ -99,12 +99,12 @@ const UserSidebar = ({
             isActive={activeView === "price-list"}
             onClick={() => handleNavigation("price-list")}
           />
-          <UserSideItem
+          {/* <UserSideItem
             icon={<CarFront className="w-4 h-4" />}
             label="Auto Data"
             isActive={activeView === "auto-data"}
             onClick={() => handleNavigation("auto-data")}
-          />
+          /> */}
         </div>
 
         {/* CREDITS Section */}

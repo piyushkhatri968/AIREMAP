@@ -31,7 +31,7 @@ const Transactions = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4 p-4"
     >
@@ -39,6 +39,7 @@ const Transactions = () => {
       <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
         Transaction History
       </h2>
+
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 dark:text-gray-500 h-4 w-4" />
         <Input
@@ -66,7 +67,7 @@ const Transactions = () => {
 
             <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
               {isLoading ? (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="6"
                     className="py-10 text-center text-zinc-500 dark:text-gray-400"
@@ -76,11 +77,14 @@ const Transactions = () => {
                       Data...
                     </div>
                   </td>
-                </tr>
+                </motion.tr>
               ) : searchedTransaction?.length > 0 ? (
                 searchedTransaction.map((row, index) => (
-                  <tr
+                  <motion.tr
                     key={index}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
                     className="hover:bg-zinc-100/50 dark:hover:bg-gray-700/50 transition-colors"
                   >
                     <td className="py-4 px-4 text-center">
@@ -109,17 +113,17 @@ const Transactions = () => {
                         Download
                       </Button>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               ) : (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="6"
                     className="py-8 text-center text-zinc-500 dark:text-gray-400"
                   >
                     No transactions found.
                   </td>
-                </tr>
+                </motion.tr>
               )}
             </tbody>
           </table>

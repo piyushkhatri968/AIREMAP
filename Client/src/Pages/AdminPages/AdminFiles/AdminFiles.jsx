@@ -116,19 +116,22 @@ const AdminFiles = () => {
 
           <tbody>
             {isLoading ? (
-              <tr>
+              <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="text-center py-10 text-zinc-500 dark:text-gray-400"
                 >
                   <Loader2 className="animate-spin h-5 w-5 inline-block mr-2" />
                   Fetching Files...
                 </td>
-              </tr>
+              </motion.tr>
             ) : filteredEcuFiles?.length > 0 ? (
-              filteredEcuFiles.map((row) => (
-                <tr
+              filteredEcuFiles.map((row, index) => (
+                <motion.tr
                   key={row._id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
                   className="border-b border-zinc-200 dark:border-gray-700 hover:bg-zinc-100 dark:hover:bg-[#2a2b2c] transition-colors cursor-pointer whitespace-nowrap"
                   onClick={() => navigate(`/ticket/${row?.ticketNumber}`)}
                 >
@@ -199,17 +202,17 @@ const AdminFiles = () => {
                       </Select>
                     )}
                   </td>
-                </tr>
+                </motion.tr>
               ))
             ) : (
-              <tr>
+              <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <td
                   colSpan={7}
                   className="text-center py-12 text-zinc-500 dark:text-gray-400"
                 >
                   No files found.
                 </td>
-              </tr>
+              </motion.tr>
             )}
           </tbody>
         </table>

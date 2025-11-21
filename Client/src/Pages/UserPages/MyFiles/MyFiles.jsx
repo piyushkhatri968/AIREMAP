@@ -151,7 +151,7 @@ const MyFiles = () => {
                   </td>
                   <td className="px-6 py-3">
                     <span
-                      className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium ${
+                      className={`px-3 py-1 text-xs font-semibold rounded-full min-w-[80px] text-center whitespace-nowrap ${
                         file.status === "Completed"
                           ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
                           : file.status === "Rejected"

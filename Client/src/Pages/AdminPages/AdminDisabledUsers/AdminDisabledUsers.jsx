@@ -112,7 +112,7 @@ const AdminDisabledUsers = () => {
 
             <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
               {isLoading ? (
-                <tr>
+                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <td
                     colSpan="8"
                     className="py-10 text-zinc-500 dark:text-gray-400"
@@ -122,10 +122,16 @@ const AdminDisabledUsers = () => {
                       Fetching Users...
                     </div>
                   </td>
-                </tr>
+                </motion.tr>
               ) : filteredUser?.length > 0 ? (
-                filteredUser.map((row) => (
-                  <tr key={row._id} className="whitespace-nowrap">
+                filteredUser.map((row, index) => (
+                  <motion.tr
+                    key={row._id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="whitespace-nowrap"
+                  >
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {row?.firstName + " " + row?.lastName}
                     </td>
@@ -185,7 +191,7 @@ const AdminDisabledUsers = () => {
                         )}
                       </div>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               ) : (
                 <tr>
