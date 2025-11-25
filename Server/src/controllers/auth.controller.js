@@ -178,9 +178,8 @@ export const SignupEmailVerify = async (req, res) => {
       <table style="border-collapse: collapse; margin-top: 12px;">
         <tr>
           <td style="padding: 6px 12px; font-weight: bold;">Name:</td>
-          <td style="padding: 6px 12px;">${user.firstName} ${
-        user?.lastName || ""
-      }</td>
+          <td style="padding: 6px 12px;">${user.firstName} ${user?.lastName || ""
+        }</td>
         </tr>
         <tr>
           <td style="padding: 6px 12px; font-weight: bold;">Email:</td>
@@ -303,7 +302,7 @@ export const GetMe = async (req, res) => {
   try {
     const { _id } = req.user;
     const user = await Auth.findById(_id).select(
-      "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime"
+      "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime preferredLanguage"
     );
     return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {
@@ -538,3 +537,24 @@ export const UserStats = async (req, res) => {
     );
   }
 };
+
+export const UpdateLangPreference = async (req, res) => {
+  const { language } = req.body
+  try {
+    if (!language) {
+      return sendResponse(res, 400, false, "Language is required", null)
+    }
+    const userId = req.user._id
+    await Auth.findByIdAndUpdate(userId, { preferredLanguage: language }, { new: true })
+    return sendResponse(res, 200, true, "", null)
+  } catch (error) {
+    console.error("Error in UpdateLangPreference controller:", error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      error.message || "Internal Server Error",
+      null
+    );
+  }
+}

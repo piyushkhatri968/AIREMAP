@@ -1,0 +1,528 @@
+export default {
+  welcome: 'AIREMAP میں خوش آمدید',
+  signIn: 'سائن ان',
+  signOut: 'سائن آؤٹ',
+  profile: 'میرا پروفائل',
+  settings: 'ترتیبات',
+  analytics: 'تجزیات',
+  security: 'سلامتی',
+  language: 'زبان',
+  theme: 'تھیم',
+  analyticsPage: {
+    signoutError: 'سائن آؤٹ ناکام ہوگیا۔ دوبارہ کوشش کریں۔',
+    uploads: {
+      title: 'اپلوڈز',
+      subtitle: 'حالیہ 12 ماہ میں اکاؤنٹ کی اپلوڈ شدہ فائلیں'
+    },
+    purchases: { title: 'خریداری', subtitle: 'حالیہ 12 ماہ میں اکاؤنٹ کی خریداری' }
+  },
+  dashboard: 'ڈیش بورڈ',
+  general: 'جنرل',
+  database: 'ڈیٹا بیس',
+  autoData: 'آٹو ڈیٹا',
+  priceList: 'قیمتوں کی فہرست',
+  createdAt: 'بنا\u001f',
+  lastUpdate: 'آخری اپ ڈیٹ',
+  firstName: 'پہلا نام',
+  lastName: 'آخری نام',
+  fullName: 'پورا نام',
+  postCode: 'پوسٹ کوڈ',
+  postCodePlaceholder: 'پوسٹ کوڈ درج کریں',
+  country: 'ملک',
+  city: 'شہر',
+  address: 'پتہ',
+  phone: 'فون',
+  carsPage: {
+    title: 'گاڑی کا برانڈ منتخب کریں',
+    breadcrumb: 'گاڑیاں',
+    searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+  },
+    vansPage: {
+      title: 'گاڑی کی کمپنی منتخب کریں',
+      breadcrumb: 'وینز',
+      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+    },
+    pickupsPage: {
+      title: 'گاڑی کی کمپنی منتخب کریں',
+      breadcrumb: 'پک اپس',
+      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+    },
+    motorhomesPage: {
+      title: 'گاڑی کی کمپنی منتخب کریں',
+      breadcrumb: 'موٹر ہومز',
+      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+    },
+    trucksPage: {
+      title: 'گاڑی کی کمپنی منتخب کریں',
+      breadcrumb: 'ٹرکس',
+      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+    },
+    snowMobilePage: {
+      title: 'گاڑی کا برانڈ منتخب کریں',
+      breadcrumb: 'سنوبلّی',
+      searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+    },
+  autoDataPage: {
+    title: 'آٹو ڈیٹا',
+    databaseInfo: 'ہماری آٹو ڈیٹا بیس میں وسیع پیمانے پر گاڑیوں کے ماڈلز شامل ہیں۔',
+    databaseUpdated: 'ڈیٹا بیس کو باقاعدگی سے اپ ڈیٹ کیا جاتا ہے۔',
+    selectVehicleType: 'براہ کرم گاڑی کی قسم منتخب کریں۔',
+    searchByEngine: 'انجن نمبر کے ذریعے تلاش کریں',
+    inputEnginePlaceholder: 'انجن نمبر درج کریں',
+    searchByRegistration: 'رجسٹریشن کے ذریعے تلاش کریں',
+    serviceOnlyUK: 'صرف یو کے سروس',
+    inputRegistrationPlaceholder: 'رجسٹریشن نمبر درج کریں',
+    searchButton: 'تلاش کریں',
+      agriculturePage: {
+        title: 'زرعی مشینری کا برانڈ منتخب کریں',
+        breadcrumb: 'زراعت',
+        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+      },
+      atvPage: {
+        title: 'ATV برانڈ منتخب کریں',
+        breadcrumb: 'ATV',
+        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+      },
+      bikesPage: {
+        title: 'بائیک برانڈ منتخب کریں',
+        breadcrumb: 'بائیکس',
+        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+      },
+      jetSkiPage: {
+        title: 'جٹ سکئ برانڈ منتخب کریں',
+        breadcrumb: 'جٹ سکی',
+        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+      },
+    vehicles: {
+      cars: 'کاریں',
+      vans: 'وینز',
+      pickups: 'پک اپس',
+      motorhomes: 'موٹر ہومز',
+      trucks: 'ٹرکس',
+      agriculture: 'زرعی مشینری',
+      atv: 'ATV',
+      bikes: 'بائیکس',
+      jet_ski: 'جیٹ اسکی',
+      snow_mobile: 'سنوبلّی',
+      construction: 'تعمیراتی گاڑیاں',
+      bus: 'بس',
+    }
+  },
+  // Buy Credits page
+  buyCreditsPage: {
+    title: 'اپنا منصوبہ منتخب کریں',
+    pricingIntro: 'اگر آپ کو ہماری قیمتوں کے بارے میں مزید معلومات درکار ہیں، تو براہ کرم چیک کریں',
+    pricingGuidelines: 'قیمتوں کے اصول',
+    select: 'منتخب کریں',
+  },
+
+  credits: 'کریڈٹس',
+  buyCredits: 'کریڈٹس خریدیں',
+  myTransactions: 'میری ٹرانزیکشنز',
+  fileService: 'فائل سروس',
+  support: 'سپورٹ',
+  library: 'لائبریری',
+  downloads: 'ڈاؤنلوڈز',
+  boschCodes: 'بوش کوڈز',
+  faultCodes: 'فالٹ کوڈز',
+
+  // Package labels
+  '1credit': '1x کریڈٹ',
+  '2credits': '2x کریڈٹس',
+  '3credits': '3x کریڈٹس',
+  '4credits': '4x کریڈٹس',
+  '10credits': '10x کریڈٹس',
+  '25credits': '25x کریڈٹس',
+  '48credits': '48x کریڈٹس',
+  '120credits': '120x کریڈٹس',
+  // Transactions page
+  transactionHistory: 'ٹرانزیکشن کی تاریخ',
+  noTransactionsYet: 'ابھی کوئی لین دین نہیں ہے',
+  purchaseCreditsToSeeHistory: 'اپنی ٹرانزیکشن ہسٹری دیکھنے کے لیے کریڈٹس خریدیں!',
+  DATE: 'تاریخ',
+  SERIAL: 'سیرئیل نمبر',
+  PACKAGE: 'پیکیج',
+  TOTAL: 'کل',
+  INVOICE: 'انوائس',
+  Download: 'ڈاؤن لوڈ',
+  transactionsPage: {
+    title: 'میری ٹرانزیکشنز',
+    subtitle: 'اپنی خریداری کی تاریخ دیکھیں',
+    table: {
+      package: 'پیکیج',
+      credits: 'کریڈٹس',
+      amount: 'رقم',
+      date: 'تاریخ',
+    }
+  },
+  // Dashboard specific translations
+  welcomeBack: 'واپسی پر خوش آمدید',
+  lastLogin: 'آخری لاگ ان',
+  minutesAgo: 'منٹ پہلے',
+  hoursAgo: 'گھنٹے پہلے',
+  from: 'سے',
+  unknown: 'نامعلوم',
+  mostAdvanced: 'سب سے جدید',
+  airemapAutodata: 'Airemap Autodata',
+  openAutodata: 'اوپن آٹوڈیٹا',
+  yourAccountFileQueries: 'آپ کے اکاؤنٹ کی فائل کی تلاشیں',
+  yourAccountPurchases: 'آپ کی اکاؤنٹ خریداری',
+  queryFeed: 'تلاش فیڈ',
+  mostRecentlyUploaded: 'ہماری سسٹم میں حال ہی میں اپلوڈ شدہ فائلیں',
+  personalAccount: 'ذاتی اکاؤنٹ',
+  businessAccount: 'کاروباری اکاؤنٹ',
+  stage1: 'اسٹیج 1',
+  stage2: 'اسٹیج 2',
+  withoutModification: 'بغیر ترمیم',
+  creditsUnit: 'کریڈٹس',
+
+  priceListPage: {
+    freeWithTuneNotice: 'نیچے درج تمام آئٹمز کسی بھی {{stage1}} یا {{stage2}} ٹون کے ساتھ مفت دستیاب ہیں۔',
+    freeWithTuneTag: 'ٹون کے ساتھ مفت',
+    ecuInfo: "نیچے درج ECU فائلز کے لیے عام طور پر 2 کریڈٹ چارج کیے جاتے ہیں۔ حل صرف کے ساتھ بھی بعض اوقات چارچ ہوتا ہے۔",
+    workingHoursNotice: 'ورکنگ گھنٹس کے باہر اپلوڈ کردہ فائلیں جو دستی ان پٹ چاہتی ہیں وہ ایئر میپ کے دوبارہ کھلنے تک پراسس نہیں ہوں گی۔',
+    termsAndConditions: 'شرائط و ضوابط',
+    terms: {
+      li1: 'تمام خدمات کمپنی کی پالیسیز کے تابع ہیں۔',
+      li2: 'کوئی بھی فائل اپلوڈ کرنے سے پہلے آپ مقامی قانون کی پابندی کو یقینی بنائیں۔',
+      li3: 'واپس ادائیگی صرف مخصوص حالات میں ممکن ہے۔',
+      li4: 'تکنیکی مسائل کی صورت میں ہمارا سپورٹ ٹیم آپ کی مدد کرے گا۔',
+      li5: 'کسی بھی ترمیم سے پہلے مکمل بیک اپ بنائیں۔',
+      li6: 'نامناسب استعمال کی صورت میں اکاؤنٹ معطل کیا جا سکتا ہے۔',
+      li7: 'مزید معلومات کے لیے ہماری ٹیم سے رابطہ کریں۔',
+    },
+
+    stage1: {
+      o2: 'O2 / LAMBDA',
+      adblue: 'ADBLUE بند',
+      bmw_sports_display: 'BMW اسپورٹس ڈسپلے',
+      dpf_off: 'DPF بند',
+      dtc_removal: 'DTC ہٹانا',
+      egr_off: 'EGR بند',
+      exhaust_flap: 'ایگزاسٹ فلیپ ہٹانا',
+      gpf_off: 'GPF بند',
+      popcorn_limiter: 'پاپ کارن / لمیٹر',
+      hotstart_fix: 'گرم اسٹارٹ فکس',
+      maf_off: 'MAF بند',
+      oil_pressure_fix: 'تیل کا پریشر حل',
+      sap_delete: 'SAP حذف کریں',
+      speed_limiter_delete: 'رفتار لمیٹر حذف کریں',
+      speed_limiter_off: 'رفتار لمیٹر بند',
+      start_stop: 'اسٹارٹ/اسٹاپ بند',
+      swirl_flap_delete: 'سوئل فلپ حذف کریں',
+      tva_off: 'TVA بند',
+    },
+
+    stage2: {
+      alfa: 'Alfa Romeo',
+      aston: 'Aston Martin',
+      bmw_mini: 'BMW / MINI',
+    }
+  },
+  cars: 'Cars',
+  bmw: 'BMW',
+  audi: 'Audi',
+  mercedes: 'Mercedes',
+  volkswagen: 'Volkswagen',
+  ford: 'Ford',
+  // Upload File page keys
+  uploadFile: 'فائل اپلوڈ کریں',
+  portal: 'پورٹل',
+  vehicleDetails: 'گاڑی کی تفصیلات',
+  vehicleParameters: 'گاڑی کے پیرامیٹرز',
+  vehicleParametersDescription: 'براہِ کرم اپنی گاڑی کے مندرجہ ذیل پیرامیٹرز فراہم کریں تاکہ ہم بہتر ECU ٹون فراہم کر سکیں۔',
+  vehicleHelp: 'اپنا گاڑی ماڈل منتخب کریں۔ اگر آپ اپنی گاڑی نہیں ڈھونڈ سکتے تو ہم سے رابطہ کریں',
+  helpPage: 'مدد صفحہ',
+  selectVehicle: 'گاڑی منتخب کریں',
+  inputRegistration: 'رجسٹریشن',
+  inputMileage: 'مائلیج',
+  automatic: 'خودکار',
+  manual: 'دستی',
+  semiAutomatic: 'نیم خودکار',
+  tool: 'ٹول',
+  toolHelp: 'پڑھنے کے لیے استعمال ہونے والا ٹول منتخب کریں۔',
+  selectReadTool: 'پڑھنے کا ٹول منتخب کریں',
+  selectReadType: 'پڑھنے کی قسم منتخب کریں',
+  master: 'ماسٹر',
+  slave: 'سلیو',
+  uploadsHelp: 'اپنی ECU فائل اور متعلقہ عام فائلیں اپلوڈ کریں جو ٹوننگ کے لیے ضروری ہیں۔',
+  selectEcuFile: 'ایک ECU فائل منتخب کریں',
+  dragAndDrop: 'یا یہاں ڈریگ اور ڈراپ کریں',
+  uploadCommonFiles: 'عام فائلیں اپلوڈ کریں',
+  pleaseSelectVehicle: 'براہ کرم گاڑی منتخب کریں',
+  pleaseSelectReadTool: 'براہ کرم پڑھنے والا ٹول منتخب کریں',
+  pleaseSelectReadType: 'براہ کرم پڑھنے کی قسم منتخب کریں',
+  pleaseUploadFile: 'براہ کرم فائل اپلوڈ کریں',
+  modificationPlan: 'تبدیلی کا منصوبہ',
+  overview: 'خلاصہ',
+  modificationPlanPage: {
+    title: 'اسٹیج کی تبدیلی',
+    subtitle: 'حل کے نوٹس دیکھنے کے لیے آئیکون کے اوپر ماؤس رکھیں۔ منتخب شدہ گاڑی کے لیے دستیاب حل نمایاں ہیں۔',
+    stageLabel: 'اسٹیج',
+    stagePlaceholder: 'اسٹیج کی تبدیلی منتخب کریں',
+    stageOptions: {
+      'stage-1': 'اسٹیج 1',
+      'stage-2': 'اسٹیج 2',
+      'stage-3': 'اسٹیج 3',
+      ecu: 'اصل ECU'
+    },
+    optionsLabel: 'اختیارات',
+    optionsDescription: 'اپنی مرضی کے مطابق ٹوننگ کے تجربے کو مکمل کرنے کے لیے کوئی اضافی حل منتخب کریں۔',
+    originalFileLabel: 'اصل فائل',
+    originalFileHint: 'اپنی اصل ECU فائل یہاں اپلوڈ کریں۔ سپورٹ شدہ فارمیٹس: .bin, .ori',
+    dragAndDrop: 'فائل یہاں ڈریگ کریں یا منتخب کرنے کے لیے کلک کریں',
+    filesSelected: 'فائل(یں) منتخب ہوئیں',
+    clickToUploadAdditionalFiles: 'اضافی فائلیں اپلوڈ کرنے کے لیے کلک کریں',
+    additionalFilesLabel: 'اضافی فائلیں',
+    additionalFilesHint: 'کوئی اضافی فائلیں اپلوڈ کریں جو متعلقہ ہو سکتی ہیں (مثلاً لاگ فائلیں)',
+    notesLabel: 'نوٹس',
+    notesPlaceholder: 'براہ کرم نوٹس لکھیں اگر ہماری ٹنرز کو کسی بات کا خیال رکھنا چاہیے',
+    continueButton: 'جاری رکھیں',
+    pleaseSelectStage: 'براہ کرم ایک اسٹیج منتخب کریں',
+    options: {
+      'act-off': 'ACT OFF (Cylinder On Demand)',
+      'ags-off': 'AGS OFF (Active Grill Shutter)',
+      'clone-ecu': 'CLONE ECU',
+      'cvn-fix': 'CVN FIX',
+      'dpf-fap-off': 'DPF - FAP OFF',
+      'egr-off': 'EGR OFF',
+      'exhaust-flap': 'EXHAUST FLAP REMOVAL',
+      'glowplug': 'GLOWPLUG',
+      'hardcut': 'HARDCUT POP&BANG LIMITER (DIESEL ONLY)',
+      'immo-off': 'IMMO OFF',
+      'launch-control': 'LAUNCH CONTROL',
+      'nox': 'NOx',
+      'oil-pressure': 'OIL PRESSURE FIX',
+      'pop-bang': 'POP & BANG (PETROL ONLY)',
+      'sap-delete': 'SAP DELETE (Secondary Air Pump)',
+      'speed-limit': 'SPEED LIMIT OFF',
+      'swirl-flaps': 'SWIRL FLAPS OFF',
+      'water-pump': 'WATER PUMP FIX',
+      'adblue-scr': 'ADBLUE - SCR OFF',
+      'bmw-display': 'BMW SPORTS DISPLAY',
+      'cold-start': 'COLD START NOISE',
+      'decode-encode': 'DECODE - ENCODE',
+      'dtc-off': 'DTC OFF',
+      'evap-removal': 'EVAP REMOVAL',
+      'flex-fuel': 'FLEX FUEL E85',
+      'gpf-off': 'GPF - OPF OFF',
+      'hot-start': 'HOT START',
+      'kickdown': 'KICKDOWN DEACTIVATION',
+      'maf-off': 'MAF OFF',
+      'o2-lambda': 'O2 - LAMBDA OFF',
+      'original-file': 'ORIGINAL FILE REQUEST',
+      'readiness': 'READINESS CALIBRATION',
+      'rev-limiter': 'SOFT REV LIMITER REMOVAL',
+      'start-stop': 'START STOP DISABLE',
+      'tprot-off': 'TPROT OFF (Tuning Protection)'
+    }
+  },
+  overviewPage: {
+    title: 'خلاصہ',
+    description: 'جمع کرانے سے پہلے یقینی بنائیں کہ فارم ڈیٹا درست داخل کیا گیا ہے۔',
+    detailsTitle: 'تفصیلات',
+    detailsDescription: 'گاڑی کی درست تفصیلات درج کریں؛ جتنا درست ہوگا فائل اتنی تیزی سے مکمل ہوگی۔',
+    labels: {
+      registration: 'رجسٹریشن:',
+      mileage: 'مائلیج:',
+      gearbox: 'گیئر باکس:',
+      ecu: 'ECU:',
+      readTool: 'پڑھنے والا ٹول:',
+      readType: 'پڑھنے کی قسم:'
+    },
+    solutionsTitle: 'حل',
+    solutionsDescription: 'اگر کوئی حل ہیں تو حل کے نوٹس پڑھیں اور ان پر توجہ دیں۔',
+    priorityTitle: 'ترجیح',
+    priorityDescription: 'اپنی ترجیحی سروس ترجیحی سطح منتخب کریں تاکہ ہم آپ کی ٹوننگ ضروریات کو آپ کے ٹائم لائن کے مطابق پورا کر سکیں۔',
+    termsTitle: 'شرائط و ضوابط',
+    termsAccept: 'میں تصدیق کرتا ہوں کہ میں نے پڑھا اور قبول کیا ہے',
+  },
+  priority: {
+    options: {
+      '1-2-hours': '1-2 گھنٹے',
+      'as-soon': 'جتنی جلدی ممکن ہو',
+      'asap': 'کسٹمر انتظار - ASAP',
+      'tomorrow': 'کل تک ضروری نہیں'
+    }
+  },
+  openTicketPage: {
+    title: 'اوپن ٹکٹ',
+    enterDetails: 'تفصیلات درج کریں',
+    types: {
+      toolSubscriptions: {
+        title: 'ٹول سبسکرپشنز',
+        desc: 'سسٹم کی طرف سے فراہم کردہ ٹولز کی خرید یا تجدید سے متعلق سوالات۔'
+      },
+      portalProblems: {
+        title: 'پورٹل کے مسائل',
+        desc: 'پورٹل تک رسائی یا نیویگیشن سے متعلق سوالات، جیسے لاگ ان یا نیویگیشن کے مسائل۔'
+      },
+      toolIssues: {
+        title: 'ٹول مسائل',
+        desc: 'ٹولز کی فعالیت یا کارکردگی سے متعلق سوالات، جیسے بگز یا ایرر میسجز۔'
+      },
+      relatedVehicle: {
+        title: 'متعلقہ گاڑی',
+        desc: 'سسٹم سے منسلک گاڑیوں سے متعلق سوالات، جیسے رجسٹریشن، ٹریکنگ، یا مینٹیننس کے مسائل۔'
+      },
+      bugReport: {
+        title: 'بگ رپورٹ',
+        desc: 'آپ نے ہمارے سسٹم میں کوئی خرابی دیکھی ہے اور اسے رپورٹ کرنا چاہتے ہیں۔'
+      },
+      other: {
+        title: 'دیگر',
+        desc: 'اوپر کی اقسام میں شامل نہیں دیگر سوالات۔'
+      }
+    },
+    myTickets: 'میرے ٹکٹ'
+  },
+  fileRoom: 'فائل روم',
+  queue: 'قطار',
+  open: 'کھلا',
+  closed: 'بند',
+  myTickets: 'میرے ٹکٹ',
+  myTicketsPage: {
+    title: 'میرے ٹکٹ',
+    searchPlaceholder: 'ٹکٹ تلاش کریں',
+    noTicketsTitle: 'کوئی ٹکٹ نہیں ملا',
+    noTicketsDescription: 'آپ نے ابھی تک کوئی ٹکٹ نہیں کھولا۔',
+    table: {
+      id: 'ID',
+      subject: 'موضوع',
+      status: 'حیثیت',
+      date: 'تاریخ'
+    }
+  },
+  ticketStatus: {
+    open: 'کھلا',
+    closed: 'بند'
+  },
+  downloadStatsPage: {
+    title: 'ڈاؤنلوڈ کے اعدادوشمار',
+    overallTitle: 'مجموعی اعدادوشمار',
+    overallDescription: 'اپنی فائل ڈاؤنلوڈ کے اعدادوشمار اور ہسٹری دیکھیں',
+    totalDownloads: 'کل ڈاؤن لوڈز',
+    originalFiles: 'اصلی فائلیں',
+    tunedFiles: 'ٹیون شدہ فائلیں',
+    recentDownloads: 'حالیہ ڈاؤنلوڈز',
+    table: {
+      type: 'قسم',
+      dateTime: 'تاریخ اور وقت',
+      status: 'حیثیت',
+    },
+    typeTuned: 'ٹیون شدہ فائل',
+    typeOriginal: 'اصلی فائل',
+    completed: 'مکمل',
+  },
+  faultCodesPage: {
+    title: 'فالٹ کوڈز',
+    searchPlaceholder: 'فالٹ کوڈ تلاش کریں',
+    table: {
+      pCode: 'P CODE',
+      dfCode: 'DF CODE',
+      description: 'تفصیل',
+    },
+    mobile: {
+      pCode: 'P کوڈ: {{code}}',
+      dfCode: 'DF کوڈ: {{code}}',
+    }
+  },
+  loginSessions: {
+    signoutError: 'سائن آؤٹ ناکام ہوا۔ دوبارہ کوشش کریں۔',
+    title: 'لاگ ان سیشنز',
+    reportActivity: 'سرگرمی رپورٹ کریں',
+    beAware: {
+      title: 'خبردار رہیں',
+      description: 'اگر آپ کو غیر معمولی لاگ ان سرگرمی نظر آتی ہے تو براہ کرم اپنے پاس ورڈ کو تبدیل کریں اور سپورٹ سے رابطہ کریں۔'
+    },
+    table: {
+      location: 'مقام',
+      status: 'حیثیت',
+      device: 'ڈیوائس',
+      ip: 'آئی پی',
+      time: 'وقت'
+    },
+    changePassword: {
+      title: 'پاس ورڈ تبدیل کریں',
+      description: 'اپنے اکاؤنٹ کی حفاظت کے لیے باقاعدگی سے پاس ورڈ تبدیل کریں۔',
+      button: 'پاس ورڈ تبدیل کریں',
+      passwordChanged: 'پاس ورڈ آخری بار {{when}} تبدیل کیا گیا تھا'
+    },
+    labels: {
+      currentPassword: 'موجودہ پاس ورڈ',
+      newPassword: 'نیا پاس ورڈ',
+      confirmNewPassword: 'نیا پاس ورڈ کی تصدیق'
+    },
+    errors: {
+      passwordMismatch: 'نئے پاس ورڈ اور تصدیق ملتے نہیں ہیں۔',
+      passwordMinChars: 'پاس ورڈ کم از کم 6 حروف کا ہونا چاہیے۔',
+      currentPasswordIncorrect: 'موجودہ پاس ورڈ غلط ہے۔'
+    },
+    passwordUpdated: 'پاس ورڈ کامیابی کے ساتھ اپڈیٹ ہو گیا۔',
+    modal: {
+      title: 'پاس ورڈ اپڈیٹ کریں'
+    },
+    updateButton: {
+      update: 'اپڈیٹ کریں',
+      updating: 'اپ ڈیٹ ہو رہا ہے...'
+    }
+  },
+  profileSettings: {
+    title: 'پروفائل کی ترتیبات',
+    signoutError: 'سائن آؤٹ ناکام ہوا۔ دوبارہ کوشش کریں۔',
+    updateSuccess: 'پروفائل کامیابی کے ساتھ اپڈیٹ ہو گیا!',
+    updateError: 'پروفائل اپڈیٹ کرنے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔'
+  },
+  profileDetails: {
+    title: 'پروفائل کی تفصیلات',
+    searchPlaceholder: 'سرگرمی تلاش کریں',
+    activity: {
+      title: 'سرگرمی',
+      loggedIn: 'لاگ ان ہو گیا',
+      completedTransaction: 'ٹرانزیکشن مکمل {{number}} اور اکاؤنٹ بیلنس میں {{credits}} شامل کیے گئے',
+      downloadedFile: 'ڈاؤن لوڈ: {{file}} ٹیون شدہ فائل',
+      uploadedFile: 'اپ لوڈ کیا گیا: {{file}} فائل',
+    },
+    signoutError: 'سائن آؤٹ ناکام ہوا۔ دوبارہ کوشش کریں۔',
+    updateSuccess: 'پروفائل کامیابی کے ساتھ اپڈیٹ ہو گیا!',
+    updateError: 'پروفائل اپڈیٹ کرنے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔',
+    saveChanges: 'تبدیلیاں محفوظ کریں',
+    cancel: 'منسوخ کریں',
+    editProfile: 'پروفائل ترمیم کریں',
+    accountCreatedFallback: 'Feb 21, 2025, 16:26',
+    labels: {
+      firstName: 'پہلا نام',
+      lastName: 'آخری نام',
+      fullName: 'پورا نام',
+      email: 'ای میل',
+      address: 'پتہ',
+      phone: 'فون',
+      companyName: 'کمپنی کا نام',
+      businessId: 'بزنس آئی ڈی',
+      vatId: 'VAT ID',
+      accountCreated: 'اکاؤنٹ بنا',
+    }
+  },
+  boschCodesPage: {
+    title: 'بوش کوڈز',
+    searchPlaceholder: 'بوش کوڈ تلاش کریں',
+    table: {
+      manufactureNumber: 'مینوفیکچر نمبر',
+      ecu: 'ECU',
+    },
+    ecuLabel: 'ECU: {{ecu}}',
+  },
+  pleaseAcceptTerms: 'براہ کرم شرائط و ضوابط قبول کریں',
+  back: 'واپس',
+  submit: 'جمع کرائیں',
+  myFiles: 'میری فائلز',
+  myFilesPage: {
+    subtitle: 'اپنی جمع کرائی ہوئی ECU فائلز دیکھیں',
+    searchPlaceholder: 'برانڈ، ماڈل، رجسٹریشن کے ذریعے تلاش کریں...',
+    noFilesTitle: 'ابھی کوئی فائل جمع نہیں ہوئی',
+    noFilesDescription: 'شروع کرنے کے لیے اپنی پہلی ECU فائل جمع کروائیں!',
+  },
+  submitFile: 'فائل جمع کروائیں',
+  na: 'N/A',
+  pending: 'زیرِ عمل',
+};

@@ -56,3 +56,8 @@ export const UpdatePasswordAPI = async (formData) => {
   const response = await axiosInstance.post("/auth/updatePassword", formData);
   return response.data;
 };
+
+export const UpdateLangPreference = async (formData) => {
+  const response = await axiosInstance.put("/auth/updateLangPreference", formData)
+  return response.data
+}

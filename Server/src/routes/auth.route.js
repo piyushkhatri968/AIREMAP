@@ -8,6 +8,7 @@ import {
   SendForgotPasswordEmail,
   Signup,
   SignupEmailVerify,
+  UpdateLangPreference,
   UpdatePassword,
   UpdateProfile,
   UserStats,
@@ -36,6 +37,7 @@ router.put(
 router.get("/stats", isFullyAuthenticated, isAuthorized("user"), UserStats);
 
 router.post("/resetPassword", SendForgotPasswordEmail);
-router.post("/updatePassword", UpdatePassword);
+router.post("/updatePassword", isFullyAuthenticated, UpdatePassword);
+router.put("/updateLangPreference", isFullyAuthenticated, UpdateLangPreference)
 
 export default router;

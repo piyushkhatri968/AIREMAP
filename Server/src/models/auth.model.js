@@ -18,6 +18,7 @@ const authSchema = mongoose.Schema(
     address: String,
     postalCode: String,
     profileImageUrl: String,
+    preferredLanguage: String,
     credits: {
       type: Number,
       default: 0,
