@@ -8,6 +8,8 @@ export default {
     purchases: { title: 'Acquisti', subtitle: 'Acquisti negli ultimi 12 mesi' }
   },
   fileRoom: 'Sala File',
+  fileRoomStatusOpen: "Aperto",
+  fileRoomStatusClosed: "Chiuso",
   signout: 'Disconnettersi',
   general: 'Generale',
   dashboard: 'Cruscotto',
@@ -21,10 +23,10 @@ export default {
     selectVehicleType: 'Seleziona il tipo di veicolo e segui i dettagli successivi.',
     searchByEngine: 'Cerca per numero motore',
     inputEnginePlaceholder: 'Inserisci il numero del motore',
-  searchByRegistration: 'Cerca per targa',
+    searchByRegistration: 'Cerca per targa',
     serviceOnlyUK: 'Service works only in UK',
     inputRegistrationPlaceholder: 'Input vehicle registration',
-  searchButton: 'Cerca',
+    searchButton: 'Cerca',
     close: 'Chiudi',
     vehicles: {
       cars: 'CARS',
@@ -159,7 +161,7 @@ export default {
   back: 'Indietro',
   saving: 'Salvataggio...',
   saveProfile: 'Salva Profilo',
-  
+
   fullName: 'Nome Completo',
   enterYourCity: 'Inserisci la tua città',
   enterFullAddress: 'Inserisci l\'indirizzo completo',
@@ -179,61 +181,61 @@ export default {
     breadcrumb: 'Auto',
     searchPlaceholder: 'Cerca per marca',
   },
-    vansPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Furgoni',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    pickupsPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Pickups',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    motorhomesPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Motorhomes',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    trucksPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Camion',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    agriculturePage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Agricoltura',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    atvPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'ATV',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    bikesPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Bikes',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    jetSkiPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Jet-Ski',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    snowMobilePage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Moto da Neve',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    constructionPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Costruzione',
-      searchPlaceholder: 'Cerca per marca',
-    },
-    busPage: {
-      title: 'Seleziona marca veicolo',
-      breadcrumb: 'Bus',
-      searchPlaceholder: 'Cerca per marca',
-    },
+  vansPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Furgoni',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  pickupsPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Pickups',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  motorhomesPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Motorhomes',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  trucksPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Camion',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  agriculturePage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Agricoltura',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  atvPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  bikesPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Bikes',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  jetSkiPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Jet-Ski',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  snowMobilePage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Moto da Neve',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  constructionPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Costruzione',
+    searchPlaceholder: 'Cerca per marca',
+  },
+  busPage: {
+    title: 'Seleziona marca veicolo',
+    breadcrumb: 'Bus',
+    searchPlaceholder: 'Cerca per marca',
+  },
   modificationPlanPage: {
     title: 'Modifica di Fase',
     subtitle: 'Passa il mouse sopra l\'icona per visualizzare le note sulla soluzione. Le soluzioni disponibili per il veicolo selezionato sono evidenziate.',
@@ -360,7 +362,7 @@ export default {
   modificationRequests: 'Richieste di Modifica',
   tuningStage: 'Fase di Messa a Punto',
   selectTuningStage: 'Seleziona una fase di messa a punto',
-  
+
   eco: 'ECO',
   withoutTune: 'Senza Messa a Punto',
   additionalOptions: 'Opzioni Aggiuntive',
@@ -424,7 +426,7 @@ export default {
   redirectingToTicket: "Reindirizzamento alla pagina dei dettagli del ticket...",
   // Price List (page-specific)
   priceListPage: {
-  freeWithTuneNotice: 'Tutti gli elementi elencati di seguito sono GRATUITI con qualsiasi {{stage1}} o {{stage2}} Tune.',
+    freeWithTuneNotice: 'Tutti gli elementi elencati di seguito sono GRATUITI con qualsiasi {{stage1}} o {{stage2}} Tune.',
     freeWithTuneTag: 'GRATUITO CON TUNE',
     ecuInfo: "Le ECU elencate di seguito vengono addebitate a 2 CRD. Ciò include anche solo soluzioni. Tuttavia le soluzioni sono sempre GRATUITE con qualsiasi Tune. Se l'ECU NON è elencata di seguito verrà addebitata 1 credito",
     workingHoursNotice: 'I file caricati al di fuori dell\'orario di lavoro che richiedono input manuale NON saranno elaborati fino alla riapertura di Airemap.',
@@ -528,22 +530,22 @@ export default {
       updateSuccess: 'Profilo aggiornato con successo!',
       updateError: 'Impossibile aggiornare il profilo. Per favore riprova.',
     },
-      loginSessions: {
-        title: 'Sessioni di accesso',
-        signoutError: 'Impossibile disconnettersi. Riprova.',
-        reportActivity: 'Segnala attività',
-        beAware: {
-          title: 'Avere cura',
-          description: 'Tieni presente che il nostro personale non ti chiederà informazioni sensibili come email, password, dati bancari o informazioni sulla carta tramite email, telefono o SMS.'
-        },
-        table: { location: 'Posizione', status: 'Stato', device: 'Dispositivo', ip: 'IP', time: 'Ora' },
-        changePassword: { title: 'Cambia regolarmente la password', description: 'Se rileviamo attività sospette o che la password è stata compromessa, potremmo chiederti di cambiarla.', button: 'Cambia password', passwordChanged: 'Password cambiata {{when}}' },
-        modal: { title: 'Cambia password' },
-        labels: { currentPassword: 'Password corrente', newPassword: 'Nuova password', confirmNewPassword: 'Conferma nuova password' },
-        updateButton: { updating: 'Aggiornamento...', update: 'Aggiorna password' },
-        errors: { passwordMismatch: 'Le nuove password non corrispondono', passwordMinChars: 'La password deve contenere almeno 6 caratteri', currentPasswordIncorrect: 'La password corrente non è corretta' },
-        passwordUpdated: 'Password aggiornata con successo!'
+    loginSessions: {
+      title: 'Sessioni di accesso',
+      signoutError: 'Impossibile disconnettersi. Riprova.',
+      reportActivity: 'Segnala attività',
+      beAware: {
+        title: 'Avere cura',
+        description: 'Tieni presente che il nostro personale non ti chiederà informazioni sensibili come email, password, dati bancari o informazioni sulla carta tramite email, telefono o SMS.'
       },
+      table: { location: 'Posizione', status: 'Stato', device: 'Dispositivo', ip: 'IP', time: 'Ora' },
+      changePassword: { title: 'Cambia regolarmente la password', description: 'Se rileviamo attività sospette o che la password è stata compromessa, potremmo chiederti di cambiarla.', button: 'Cambia password', passwordChanged: 'Password cambiata {{when}}' },
+      modal: { title: 'Cambia password' },
+      labels: { currentPassword: 'Password corrente', newPassword: 'Nuova password', confirmNewPassword: 'Conferma nuova password' },
+      updateButton: { updating: 'Aggiornamento...', update: 'Aggiorna password' },
+      errors: { passwordMismatch: 'Le nuove password non corrispondono', passwordMinChars: 'La password deve contenere almeno 6 caratteri', currentPasswordIncorrect: 'La password corrente non è corretta' },
+      passwordUpdated: 'Password aggiornata con successo!'
+    },
     saveChanges: 'Salva modifiche',
     cancel: 'Annulla',
     editProfile: 'Modifica profilo',

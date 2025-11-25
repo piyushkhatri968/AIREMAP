@@ -37,31 +37,31 @@ export default {
     breadcrumb: 'گاڑیاں',
     searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
   },
-    vansPage: {
-      title: 'گاڑی کی کمپنی منتخب کریں',
-      breadcrumb: 'وینز',
-      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
-    },
-    pickupsPage: {
-      title: 'گاڑی کی کمپنی منتخب کریں',
-      breadcrumb: 'پک اپس',
-      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
-    },
-    motorhomesPage: {
-      title: 'گاڑی کی کمپنی منتخب کریں',
-      breadcrumb: 'موٹر ہومز',
-      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
-    },
-    trucksPage: {
-      title: 'گاڑی کی کمپنی منتخب کریں',
-      breadcrumb: 'ٹرکس',
-      searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
-    },
-    snowMobilePage: {
-      title: 'گاڑی کا برانڈ منتخب کریں',
-      breadcrumb: 'سنوبلّی',
-      searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
-    },
+  vansPage: {
+    title: 'گاڑی کی کمپنی منتخب کریں',
+    breadcrumb: 'وینز',
+    searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+  },
+  pickupsPage: {
+    title: 'گاڑی کی کمپنی منتخب کریں',
+    breadcrumb: 'پک اپس',
+    searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+  },
+  motorhomesPage: {
+    title: 'گاڑی کی کمپنی منتخب کریں',
+    breadcrumb: 'موٹر ہومز',
+    searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+  },
+  trucksPage: {
+    title: 'گاڑی کی کمپنی منتخب کریں',
+    breadcrumb: 'ٹرکس',
+    searchPlaceholder: 'برینڈ کے ذریعے تلاش کریں',
+  },
+  snowMobilePage: {
+    title: 'گاڑی کا برانڈ منتخب کریں',
+    breadcrumb: 'سنوبلّی',
+    searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+  },
   autoDataPage: {
     title: 'آٹو ڈیٹا',
     databaseInfo: 'ہماری آٹو ڈیٹا بیس میں وسیع پیمانے پر گاڑیوں کے ماڈلز شامل ہیں۔',
@@ -73,26 +73,26 @@ export default {
     serviceOnlyUK: 'صرف یو کے سروس',
     inputRegistrationPlaceholder: 'رجسٹریشن نمبر درج کریں',
     searchButton: 'تلاش کریں',
-      agriculturePage: {
-        title: 'زرعی مشینری کا برانڈ منتخب کریں',
-        breadcrumb: 'زراعت',
-        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
-      },
-      atvPage: {
-        title: 'ATV برانڈ منتخب کریں',
-        breadcrumb: 'ATV',
-        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
-      },
-      bikesPage: {
-        title: 'بائیک برانڈ منتخب کریں',
-        breadcrumb: 'بائیکس',
-        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
-      },
-      jetSkiPage: {
-        title: 'جٹ سکئ برانڈ منتخب کریں',
-        breadcrumb: 'جٹ سکی',
-        searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
-      },
+    agriculturePage: {
+      title: 'زرعی مشینری کا برانڈ منتخب کریں',
+      breadcrumb: 'زراعت',
+      searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+    },
+    atvPage: {
+      title: 'ATV برانڈ منتخب کریں',
+      breadcrumb: 'ATV',
+      searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+    },
+    bikesPage: {
+      title: 'بائیک برانڈ منتخب کریں',
+      breadcrumb: 'بائیکس',
+      searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+    },
+    jetSkiPage: {
+      title: 'جٹ سکئ برانڈ منتخب کریں',
+      breadcrumb: 'جٹ سکی',
+      searchPlaceholder: 'برانڈ کے ذریعے تلاش کریں',
+    },
     vehicles: {
       cars: 'کاریں',
       vans: 'وینز',
@@ -377,6 +377,8 @@ export default {
     myTickets: 'میرے ٹکٹ'
   },
   fileRoom: 'فائل روم',
+  fileRoomStatusOpen: "کھلا",
+  fileRoomStatusClosed: "بند",
   queue: 'قطار',
   open: 'کھلا',
   closed: 'بند',

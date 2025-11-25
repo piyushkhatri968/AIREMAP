@@ -17,6 +17,8 @@ export default {
     }
   },
   fileRoom: 'File Room',
+  fileRoomStatusOpen: 'Open',
+  fileRoomStatusClosed: 'Closed',
   queue: 'Queue',
   language: 'Language',
   theme: 'Theme',
@@ -36,7 +38,7 @@ export default {
     serviceOnlyUK: 'Service works only in UK',
     inputRegistrationPlaceholder: 'Input vehicle registration',
     searchButton: 'Search',
-     close: 'Close',
+    close: 'Close',
     vehicles: {
       cars: 'CARS',
       vans: 'VANS',
@@ -90,46 +92,46 @@ export default {
   boschCodes: 'Bosch Codes',
   faultCodes: 'Fault Codes',
   notifications: 'Notifications',
-      trucksPage: {
-        title: 'Select Vehicle Make',
-        breadcrumb: 'Trucks',
-        searchPlaceholder: 'Search by make',
-      },
-    agriculturePage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'Agriculture',
-      searchPlaceholder: 'Search by make',
-    },
-    atvPage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'ATV',
-      searchPlaceholder: 'Search by make',
-    },
-    bikesPage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'Bikes',
-      searchPlaceholder: 'Search by make',
-    },
-    jetSkiPage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'Jet-Ski',
-      searchPlaceholder: 'Search by make',
-    },
-    snowMobilePage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'Snow Mobile',
-      searchPlaceholder: 'Search by make',
-    },
-    constructionPage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'Construction',
-      searchPlaceholder: 'Search by make',
-    },
-    busPage: {
-      title: 'Select Vehicle Make',
-      breadcrumb: 'Bus',
-      searchPlaceholder: 'Search by make',
-    },
+  trucksPage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Trucks',
+    searchPlaceholder: 'Search by make',
+  },
+  agriculturePage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Agriculture',
+    searchPlaceholder: 'Search by make',
+  },
+  atvPage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'Search by make',
+  },
+  bikesPage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Bikes',
+    searchPlaceholder: 'Search by make',
+  },
+  jetSkiPage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Jet-Ski',
+    searchPlaceholder: 'Search by make',
+  },
+  snowMobilePage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Snow Mobile',
+    searchPlaceholder: 'Search by make',
+  },
+  constructionPage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Construction',
+    searchPlaceholder: 'Search by make',
+  },
+  busPage: {
+    title: 'Select Vehicle Make',
+    breadcrumb: 'Bus',
+    searchPlaceholder: 'Search by make',
+  },
   notificationTypes: {
     newMessage: 'New Message',
     fileCompleted: 'File Completed',
@@ -271,26 +273,26 @@ export default {
     subtitle: 'Mouse over the icon to see solution notes. Available solutions for selected vehicle are highlighted.',
     stageLabel: 'Stage',
     stagePlaceholder: 'Select stage modification',
-      stageOptions: {
-        'stage-1': 'Stage 1',
-        'stage-2': 'Stage 2',
-        'stage-3': 'Stage 3',
-        ecu: 'ECU Original'
-      },
+    stageOptions: {
+      'stage-1': 'Stage 1',
+      'stage-2': 'Stage 2',
+      'stage-3': 'Stage 3',
+      ecu: 'ECU Original'
+    },
     optionsLabel: 'Options',
     optionsDescription: 'Select any extra solutions you need to complement your customized tuning experience.',
     originalFileLabel: 'Original File',
     originalFileHint: 'Upload your original ECU file here. Supported formats: .bin, .ori',
-      dragAndDrop: 'Drag and drop your file here, or click to select',
-      filesSelected: 'file(s) selected',
-      clickToUploadAdditionalFiles: 'Click to upload additional files',
+    dragAndDrop: 'Drag and drop your file here, or click to select',
+    filesSelected: 'file(s) selected',
+    clickToUploadAdditionalFiles: 'Click to upload additional files',
     additionalFilesLabel: 'Additional Files',
     additionalFilesHint: 'Upload any additional files that might be relevant (e.g., log files)',
     notesLabel: 'Notes',
     notesPlaceholder: 'Please enter the notes if there is anything that our tuners should consider when modifying the file',
     continueButton: 'Continue',
     pleaseSelectStage: 'Please select a stage',
-    pleaseSelectMake:'Please select a make',
+    pleaseSelectMake: 'Please select a make',
     options: {
       'act-off': 'ACT OFF (Cylinder On Demand)',
       'ags-off': 'AGS OFF (Active Grill Shutter)',
@@ -407,7 +409,7 @@ export default {
   modificationRequests: 'Modification Requests',
   tuningStage: 'Tuning Stage',
   selectTuningStage: 'Select a tuning stage',
-  
+
   eco: 'ECO',
   withoutTune: 'Without Tune',
   additionalOptions: 'Additional Options',
@@ -448,7 +450,7 @@ export default {
     "Failed to submit file": "Failed to submit file",
     "An unknown error occurred": "An unknown error occurred",
   },
-  
+
   // Dashboard
   welcomeBack: "Welcome back",
   lastLogin: "Last Login",
@@ -476,7 +478,7 @@ export default {
   redirectingToTicket: "Redirecting to ticket detail page...",
   // Price List (page-specific)
   priceListPage: {
-  freeWithTuneNotice: 'All Listed Below are FREE With Any {{stage1}} or {{stage2}} Tune.',
+    freeWithTuneNotice: 'All Listed Below are FREE With Any {{stage1}} or {{stage2}} Tune.',
     freeWithTuneTag: 'FREE WITH TUNE',
     ecuInfo: "ECU's Listed Below Are Charged at 2 CRD. This also includes Solutions Only. However solutions are always FREE with any Tune. If The ECU Is NOT Listed Below Then It Will Be Charged At 1 Credit",
     workingHoursNotice: 'Any files uploaded outside of working hours that require manual input will NOT be processed until Airemap re-opens.',
@@ -711,5 +713,5 @@ export default {
     },
     passwordUpdated: 'Password updated successfully!'
   },
-  
+
 };

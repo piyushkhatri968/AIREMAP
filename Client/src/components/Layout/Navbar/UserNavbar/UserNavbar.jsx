@@ -138,14 +138,14 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                   : "text-red-600 dark:text-red-500 bg-red-400/10"
                   }`}
               >
-                {fileRoomStatus}
+                {fileRoomStatus === "Open" ? t("fileRoomStatusOpen") : t("fileRoomStatusClosed")}
               </span>
             </div>
             <div className="flex items-center gap-6">
               <span className="text-gray-400 dark:text-zinc-600">|</span>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500 dark:text-zinc-400">
-                  Queue:
+                  {t("queue")}:
                 </span>
                 <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">
                   {data?.data || 0}
@@ -175,7 +175,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
                 <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
-                  Theme
+                  {t("theme")}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">

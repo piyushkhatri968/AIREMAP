@@ -18,8 +18,8 @@ export default {
   },
   dashboard: 'डैशबोर्ड',
   priceList: 'मूल्य सूची',
-  
-  
+
+
   autoData: 'ऑटो डेटा',
   buyCredits: 'क्रेडिट खरीदें',
   general: 'सामान्य',
@@ -97,26 +97,26 @@ export default {
     breadcrumb: 'वाहन',
     searchPlaceholder: 'ब्रांड द्वारा खोजें',
   },
-    vansPage: {
-      title: 'वाहन ब्रांड चुनें',
-      breadcrumb: 'वैन',
-      searchPlaceholder: 'ब्रांड द्वारा खोजें',
-    },
-    pickupsPage: {
-      title: 'वाहन ब्रांड चुनें',
-      breadcrumb: 'पिकअप',
-      searchPlaceholder: 'ब्रांड द्वारा खोजें',
-    },
-    motorhomesPage: {
-      title: 'वाहन ब्रांड चुनें',
-      breadcrumb: 'मोटरहोम',
-      searchPlaceholder: 'ब्रांड द्वारा खोजें',
-    },
-    trucksPage: {
-      title: 'वाहन ब्रांड चुनें',
-      breadcrumb: 'ट्रक',
-      searchPlaceholder: 'ब्रांड द्वारा खोजें',
-    },
+  vansPage: {
+    title: 'वाहन ब्रांड चुनें',
+    breadcrumb: 'वैन',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  pickupsPage: {
+    title: 'वाहन ब्रांड चुनें',
+    breadcrumb: 'पिकअप',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  motorhomesPage: {
+    title: 'वाहन ब्रांड चुनें',
+    breadcrumb: 'मोटरहोम',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  trucksPage: {
+    title: 'वाहन ब्रांड चुनें',
+    breadcrumb: 'ट्रक',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
   autoDataPage: {
     title: 'ऑटो डेटा',
     databaseInfo: 'हमारे ऑटो डेटाबेस में वाहनों के विस्तृत मॉडल शामिल हैं।',
@@ -143,41 +143,41 @@ export default {
       bus: 'बस',
     }
   },
-      agriculturePage: {
-        title: 'कृषि पृष्ठ',
-        breadcrumb: 'कृषि',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
-      atvPage: {
-        title: 'ATV पृष्ठ',
-        breadcrumb: 'ATV',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
-      bikesPage: {
-        title: 'बाइक पृष्ठ',
-        breadcrumb: 'बाइक',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
-      jetSkiPage: {
-        title: 'जेट-स्की पृष्ठ',
-        breadcrumb: 'जेट-स्की',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
-      snowMobilePage: {
-        title: 'स्नो मोबाइल पृष्ठ',
-        breadcrumb: 'स्नो मोबाइल',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
-      constructionPage: {
-        title: 'निर्माण पृष्ठ',
-        breadcrumb: 'निर्माण',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
-      busPage: {
-        title: 'बस पृष्ठ',
-        breadcrumb: 'बस',
-        searchPlaceholder: 'ब्रांड द्वारा खोजें',
-      },
+  agriculturePage: {
+    title: 'कृषि पृष्ठ',
+    breadcrumb: 'कृषि',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  atvPage: {
+    title: 'ATV पृष्ठ',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  bikesPage: {
+    title: 'बाइक पृष्ठ',
+    breadcrumb: 'बाइक',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  jetSkiPage: {
+    title: 'जेट-स्की पृष्ठ',
+    breadcrumb: 'जेट-स्की',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  snowMobilePage: {
+    title: 'स्नो मोबाइल पृष्ठ',
+    breadcrumb: 'स्नो मोबाइल',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  constructionPage: {
+    title: 'निर्माण पृष्ठ',
+    breadcrumb: 'निर्माण',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
+  busPage: {
+    title: 'बस पृष्ठ',
+    breadcrumb: 'बस',
+    searchPlaceholder: 'ब्रांड द्वारा खोजें',
+  },
   buyCreditsPage: {
     title: 'अपनी योजना चुनें',
     pricingIntro: 'अगर आपको हमारी कीमतों के बारे में अधिक जानकारी चाहिए, तो कृपया देखें',
@@ -386,7 +386,7 @@ export default {
     priorityTitle: 'प्राथमिकता',
     priorityDescription: 'अपनी पसंदीदा सेवा प्राथमिकता स्तर चुनें ताकि हम आपकी ट्यूनिंग आवश्यकताओं को आपके समय सीमा के अनुसार पूरा कर सकें।',
     termsTitle: 'नियम और शर्तें',
-  termsAccept: 'मैं पुष्टि करता हूँ कि मैंने पढ़ा और स्वीकार किया है',
+    termsAccept: 'मैं पुष्टि करता हूँ कि मैंने पढ़ा और स्वीकार किया है',
   },
   priority: {
     options: {
@@ -428,6 +428,8 @@ export default {
     myTickets: 'मेरे टिकट'
   },
   fileRoom: 'फ़ाइल रूम',
+  fileRoomStatusOpen: "खुला",
+  fileRoomStatusClosed: "बंद",
   queue: 'कतार',
   open: 'खुला',
   closed: 'बंद',

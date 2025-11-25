@@ -8,6 +8,8 @@ export default {
     purchases: { title: 'Einkäufe', subtitle: 'Einkäufe der letzten 12 Monate' }
   },
   fileRoom: 'Dateiraum',
+  fileRoomStatusOpen: "Offen",
+  fileRoomStatusClosed: "Geschlossen",
   queue: 'Warteschlange',
   signout: 'Abmelden',
   general: 'Allgemein',
@@ -20,12 +22,12 @@ export default {
     databaseInfo: 'Wir bieten Ihnen die detaillierteste Chiptuning-Datenbank im Internet. Derzeit besteht unsere Datenbank aus mehr als 18.000 Einträgen.',
     databaseUpdated: 'Die Datenbank wird ständig von professionellen Tunern aktualisiert.',
     selectVehicleType: 'Wählen Sie den Fahrzeugtyp und folgen Sie den weiteren Details.',
-  searchByEngine: 'Nach Motornummer suchen',
-  inputEnginePlaceholder: 'Motornummer eingeben',
-  searchByRegistration: 'Nach Registrierung suchen',
+    searchByEngine: 'Nach Motornummer suchen',
+    inputEnginePlaceholder: 'Motornummer eingeben',
+    searchByRegistration: 'Nach Registrierung suchen',
     serviceOnlyUK: 'Service works only in UK',
     inputRegistrationPlaceholder: 'Input vehicle registration',
-  searchButton: 'Suchen',
+    searchButton: 'Suchen',
     vehicles: {
       cars: 'CARS',
       vans: 'VANS',
@@ -199,59 +201,59 @@ export default {
     breadcrumb: 'LKW',
     searchPlaceholder: 'Nach Marke suchen',
   },
-    agriculturePage: {
-      title: 'Fahrzeugmarke auswählen',
-      breadcrumb: 'Landwirtschaft',
-      searchPlaceholder: 'Nach Marke suchen',
-    },
-    atvPage: {
-      title: 'Fahrzeugmarke auswählen',
-      breadcrumb: 'ATV',
-      searchPlaceholder: 'Nach Marke suchen',
-    },
-    bikesPage: {
-      title: 'Fahrzeugmarke auswählen',
-      breadcrumb: 'Bikes',
-      searchPlaceholder: 'Nach Marke suchen',
-    },
-    jetSkiPage: {
-      title: 'Fahrzeugmarke auswählen',
-      breadcrumb: 'Jet-Ski',
-      searchPlaceholder: 'Nach Marke suchen',
-    },
-     snowMobilePage: {
-       title: 'Fahrzeugmarke auswählen',
-       breadcrumb: 'Schneemobil',
-       searchPlaceholder: 'Nach Marke suchen',
-     },
-    constructionPage: {
-      title: 'Fahrzeugmarke auswählen',
-      breadcrumb: 'Bau',
-      searchPlaceholder: 'Nach Marke suchen',
-    },
-    busPage: {
-      title: 'Fahrzeugmarke auswählen',
-      breadcrumb: 'Bus',
-      searchPlaceholder: 'Nach Marke suchen',
-    },
+  agriculturePage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'Landwirtschaft',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
+  atvPage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
+  bikesPage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'Bikes',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
+  jetSkiPage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'Jet-Ski',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
+  snowMobilePage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'Schneemobil',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
+  constructionPage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'Bau',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
+  busPage: {
+    title: 'Fahrzeugmarke auswählen',
+    breadcrumb: 'Bus',
+    searchPlaceholder: 'Nach Marke suchen',
+  },
   modificationPlanPage: {
     title: 'Stufenänderung',
     subtitle: 'Fahren Sie mit der Maus über das Symbol, um Lösungsnotizen anzuzeigen. Verfügbare Lösungen für das ausgewählte Fahrzeug sind hervorgehoben.',
     stageLabel: 'Stufe',
     stagePlaceholder: 'Stufenänderung auswählen',
-      stageOptions: {
-        'stage-1': 'Stufe 1',
-        'stage-2': 'Stufe 2',
-        'stage-3': 'Stufe 3',
-        ecu: 'ECU Original'
-      },
+    stageOptions: {
+      'stage-1': 'Stufe 1',
+      'stage-2': 'Stufe 2',
+      'stage-3': 'Stufe 3',
+      ecu: 'ECU Original'
+    },
     optionsLabel: 'Optionen',
     optionsDescription: 'Wählen Sie alle zusätzlichen Lösungen aus, die Sie benötigen, um Ihre personalisierte Tuning-Erfahrung zu ergänzen.',
     originalFileLabel: 'Originaldatei',
     originalFileHint: 'Laden Sie hier Ihre Original-ECU-Datei hoch. Unterstützte Formate: .bin, .ori',
-      dragAndDrop: 'Ziehen Sie Ihre Datei hierher oder klicken Sie, um auszuwählen',
-      filesSelected: 'Datei(en) ausgewählt',
-      clickToUploadAdditionalFiles: 'Klicken Sie, um zusätzliche Dateien hochzuladen',
+    dragAndDrop: 'Ziehen Sie Ihre Datei hierher oder klicken Sie, um auszuwählen',
+    filesSelected: 'Datei(en) ausgewählt',
+    clickToUploadAdditionalFiles: 'Klicken Sie, um zusätzliche Dateien hochzuladen',
     additionalFilesLabel: 'Zusätzliche Dateien',
     additionalFilesHint: 'Laden Sie alle zusätzlichen Dateien hoch, die relevant sein könnten (z. B. Protokolldateien)',
     notesLabel: 'Notizen',
@@ -367,7 +369,7 @@ export default {
   modificationRequests: 'Änderungsanforderungen',
   tuningStage: 'Tuning-Stufe',
   selectTuningStage: 'Wählen Sie eine Tuning-Stufe',
-  
+
   eco: 'ECO',
   withoutTune: 'Ohne Abstimmung',
   additionalOptions: 'Zusätzliche Optionen',
@@ -431,7 +433,7 @@ export default {
   redirectingToTicket: "Weiterleitung zur Ticket-Detailseite...",
   // Price List (page-specific)
   priceListPage: {
-  freeWithTuneNotice: 'Alle unten aufgeführten sind KOSTENLOS mit jedem {{stage1}} oder {{stage2}} Tune.',
+    freeWithTuneNotice: 'Alle unten aufgeführten sind KOSTENLOS mit jedem {{stage1}} oder {{stage2}} Tune.',
     freeWithTuneTag: 'KOSTENLOS MIT TUNE',
     ecuInfo: 'Die unten aufgeführten ECUs werden mit 2 CRD berechnet. Dies beinhaltet auch Lösungen. Lösungen sind jedoch immer KOSTENLOS mit jedem Tune. Wenn die ECU unten nicht aufgeführt ist, wird sie mit 1 Credit berechnet.',
     workingHoursNotice: 'Dateien, die außerhalb der Arbeitszeiten hochgeladen werden und manuelle Eingaben erfordern, werden NICHT verarbeitet, bis Airemap wieder geöffnet ist.',

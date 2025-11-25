@@ -18,8 +18,8 @@ export default {
   },
   dashboard: 'Kontrol Paneli',
   priceList: 'Fiyat Listesi',
-  
-  
+
+
   autoData: 'Otomatik Veri',
   buyCredits: 'Kredi Satın Al',
   general: 'Genel',
@@ -97,61 +97,61 @@ export default {
     breadcrumb: 'Araçlar',
     searchPlaceholder: 'Markaya göre ara'
   },
-    vansPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Vany',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    pickupsPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Pickups',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    motorhomesPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Karavanlar',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    trucksPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Kamyonlar',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    agriculturePage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Tarım',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    atvPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'ATV',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    bikesPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Bikes',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    jetSkiPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Jet-Ski',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    snowMobilePage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Karla Kaplı Motor',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    constructionPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'İnşaat',
-      searchPlaceholder: 'Markaya göre ara',
-    },
-    busPage: {
-      title: 'Araç Markasını Seçin',
-      breadcrumb: 'Otobüs',
-      searchPlaceholder: 'Markaya göre ara',
-    },
+  vansPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Vany',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  pickupsPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Pickups',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  motorhomesPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Karavanlar',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  trucksPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Kamyonlar',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  agriculturePage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Tarım',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  atvPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  bikesPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Bikes',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  jetSkiPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Jet-Ski',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  snowMobilePage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Karla Kaplı Motor',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  constructionPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'İnşaat',
+    searchPlaceholder: 'Markaya göre ara',
+  },
+  busPage: {
+    title: 'Araç Markasını Seçin',
+    breadcrumb: 'Otobüs',
+    searchPlaceholder: 'Markaya göre ara',
+  },
   autoDataPage: {
     title: 'Otomatik Veri',
     databaseInfo: 'Otomatik veritabanımız geniş bir araç yelpazesi içerir.',
@@ -428,6 +428,8 @@ export default {
     myTickets: 'Taleplerim'
   },
   fileRoom: 'Dosya Odası',
+  fileRoomStatusOpen: "Açık",
+  fileRoomStatusClosed: "Kapalı",
   queue: 'Sıra',
   open: 'Açık',
   closed: 'Kapalı',

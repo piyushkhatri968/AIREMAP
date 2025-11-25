@@ -21,61 +21,61 @@ export default {
   autoData: 'بيانات السيارات',
   buyCredits: 'شراء الاعتمادات',
   general: 'عام',
-      vansPage: {
-        title: 'اختر ماركة السيارة',
-        breadcrumb: 'فانز',
-        searchPlaceholder: 'ابحث حسب الماركة',
-      },
-      pickupsPage: {
-        title: 'اختر ماركة السيارة',
-        breadcrumb: 'بيك آب',
-        searchPlaceholder: 'ابحث حسب الماركة',
-      },
-      motorhomesPage: {
-        title: 'اختر ماركة السيارة',
-        breadcrumb: 'المنازل المتنقلة',
-        searchPlaceholder: 'ابحث حسب الماركة',
-      },
-      trucksPage: {
-        title: 'اختر ماركة السيارة',
-        breadcrumb: 'الشاحنات',
-        searchPlaceholder: 'ابحث حسب الماركة',
-      },
-        agriculturePage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'الزراعة',
-          searchPlaceholder: 'البحث حسب الماركة',
-        },
-        atvPage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'ATV',
-          searchPlaceholder: 'البحث حسب الماركة',
-        },
-        bikesPage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'الدراجات',
-          searchPlaceholder: 'البحث حسب الماركة',
-        },
-        jetSkiPage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'جت سكي',
-          searchPlaceholder: 'البحث حسب الماركة',
-        },
-        snowMobilePage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'زلاجة ثلجية',
-          searchPlaceholder: 'ابحث حسب الماركة',
-        },
-        constructionPage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'الإنشاء',
-          searchPlaceholder: 'ابحث حسب الماركة',
-        },
-        busPage: {
-          title: 'اختر ماركة السيارة',
-          breadcrumb: 'حافلة',
-          searchPlaceholder: 'ابحث حسب الماركة',
-        },
+  vansPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'فانز',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
+  pickupsPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'بيك آب',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
+  motorhomesPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'المنازل المتنقلة',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
+  trucksPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'الشاحنات',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
+  agriculturePage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'الزراعة',
+    searchPlaceholder: 'البحث حسب الماركة',
+  },
+  atvPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'البحث حسب الماركة',
+  },
+  bikesPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'الدراجات',
+    searchPlaceholder: 'البحث حسب الماركة',
+  },
+  jetSkiPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'جت سكي',
+    searchPlaceholder: 'البحث حسب الماركة',
+  },
+  snowMobilePage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'زلاجة ثلجية',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
+  constructionPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'الإنشاء',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
+  busPage: {
+    title: 'اختر ماركة السيارة',
+    breadcrumb: 'حافلة',
+    searchPlaceholder: 'ابحث حسب الماركة',
+  },
   database: 'قاعدة البيانات',
   credits: 'الاعتمادات',
   library: 'المكتبة',
@@ -118,35 +118,35 @@ export default {
   navigation: {
     dashboard: 'لوحة التحكم',
     submitFile: 'إرسال ملف',
-  overviewPage: {
-    title: 'نظرة عامة',
-    description: 'تأكد من إدخال بيانات النموذج بشكل صحيح قبل الإرسال.',
-    detailsTitle: 'التفاصيل',
-    detailsDescription: 'أدخل تفاصيل المركبة بدقة؛ فكلما كانت أكثر دقة، كان إنجاز الملف أسرع.',
-    labels: {
-      registration: 'التسجيل:',
-      mileage: 'العدد الكيلومتري:',
-      gearbox: 'صندوق التروس:',
-      ecu: 'ECU:',
-      readTool: 'أداة القراءة:',
-      readType: 'نوع القراءة:'
+    overviewPage: {
+      title: 'نظرة عامة',
+      description: 'تأكد من إدخال بيانات النموذج بشكل صحيح قبل الإرسال.',
+      detailsTitle: 'التفاصيل',
+      detailsDescription: 'أدخل تفاصيل المركبة بدقة؛ فكلما كانت أكثر دقة، كان إنجاز الملف أسرع.',
+      labels: {
+        registration: 'التسجيل:',
+        mileage: 'العدد الكيلومتري:',
+        gearbox: 'صندوق التروس:',
+        ecu: 'ECU:',
+        readTool: 'أداة القراءة:',
+        readType: 'نوع القراءة:'
+      },
+      solutionsTitle: 'الحلول',
+      solutionsDescription: 'اقرأ ملاحظات الحلول وانتبه لها إذا كانت هناك أي حلول.',
+      priorityTitle: 'الأولوية',
+      priorityDescription: 'اختر مستوى الأولوية لخدمتك المفضلة حتى نتمكن من تلبية احتياجات التعديل الخاصة بك وفقًا لجدولك الزمني.',
+      termsTitle: 'الشروط والأحكام',
+      termsAccept: 'أؤكد أنني قرأت وقبلت',
     },
-    solutionsTitle: 'الحلول',
-    solutionsDescription: 'اقرأ ملاحظات الحلول وانتبه لها إذا كانت هناك أي حلول.',
-    priorityTitle: 'الأولوية',
-    priorityDescription: 'اختر مستوى الأولوية لخدمتك المفضلة حتى نتمكن من تلبية احتياجات التعديل الخاصة بك وفقًا لجدولك الزمني.',
-    termsTitle: 'الشروط والأحكام',
-    termsAccept: 'أؤكد أنني قرأت وقبلت',
-  },
-  priority: {
-    options: {
-      '1-2-hours': '1-2 ساعة',
-      'as-soon': 'في أقرب وقت ممكن',
-      'asap': 'العميل في انتظار - ASAP',
-      'tomorrow': 'غير ضروري حتى الغد'
-    }
-  },
-  termsAndConditions: 'يرجى قراءة وقبول الشروط والأحكام قبل المتابعة.',
+    priority: {
+      options: {
+        '1-2-hours': '1-2 ساعة',
+        'as-soon': 'في أقرب وقت ممكن',
+        'asap': 'العميل في انتظار - ASAP',
+        'tomorrow': 'غير ضروري حتى الغد'
+      }
+    },
+    termsAndConditions: 'يرجى قراءة وقبول الشروط والأحكام قبل المتابعة.',
     myFiles: 'ملفاتي',
     buyCredits: 'شراء الاعتمادات',
     transactions: 'المعاملات',
@@ -444,8 +444,8 @@ export default {
         desc: 'أسئلة حول المركبات المرتبطة بالنظام، مثل التسجيل أو التتبع أو مشاكل الصيانة.'
       },
       bugReport: {
-      title: 'تقرير خطأ',
-      desc: 'لقد لاحظت خطأ في نظامنا وتريد الإبلاغ عنه.'
+        title: 'تقرير خطأ',
+        desc: 'لقد لاحظت خطأ في نظامنا وتريد الإبلاغ عنه.'
       },
       other: {
         title: 'أخرى',
@@ -455,6 +455,8 @@ export default {
     myTickets: 'تذاكري'
   },
   fileRoom: 'غرفة الملفات',
+  fileRoomStatusOpen: "مفتوح",
+  fileRoomStatusClosed: "مغلق",
   queue: 'قائمة الانتظار',
   open: 'مفتوحة',
   closed: 'مغلقة',

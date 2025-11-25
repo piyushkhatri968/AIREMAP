@@ -11,6 +11,8 @@ export default {
     purchases: { title: 'Compras', subtitle: 'Compras en los últimos 12 meses' }
   },
   fileRoom: 'Sala de Archivos',
+  fileRoomStatusOpen: "Abierto",
+  fileRoomStatusClosed: "Cerrado",
   queue: 'Cola',
   language: 'Idioma',
   theme: 'Tema',
@@ -26,10 +28,10 @@ export default {
     selectVehicleType: 'Seleccione el tipo de vehículo y siga los detalles posteriores.',
     searchByEngine: 'Buscar por número de motor',
     inputEnginePlaceholder: 'Introduzca el número de motor',
-  searchByRegistration: 'Buscar por matrícula',
+    searchByRegistration: 'Buscar por matrícula',
     serviceOnlyUK: 'Service works only in UK',
     inputRegistrationPlaceholder: 'Input vehicle registration',
-  searchButton: 'Buscar',
+    searchButton: 'Buscar',
     vehicles: {
       cars: 'CARS',
       vans: 'VANS',
@@ -54,18 +56,18 @@ export default {
   transactionsPage: {
     title: 'My Transactions',
     subtitle: 'View your purchase history',
-      table: {
-        package: 'PACKAGE',
-        credits: 'CREDITS',
-        amount: 'AMOUNT',
-        date: 'DATE',
-        searchTransaction: 'Buscar transacción',
-        DATE: 'FECHA',
-        SERIAL: 'NÚMERO DE SERIE',
-        PACKAGE: 'PAQUETE',
-        TOTAL: 'TOTAL',
-        INVOICE: 'FACTURA',
-        Download: 'Descargar',
+    table: {
+      package: 'PACKAGE',
+      credits: 'CREDITS',
+      amount: 'AMOUNT',
+      date: 'DATE',
+      searchTransaction: 'Buscar transacción',
+      DATE: 'FECHA',
+      SERIAL: 'NÚMERO DE SERIE',
+      PACKAGE: 'PAQUETE',
+      TOTAL: 'TOTAL',
+      INVOICE: 'FACTURA',
+      Download: 'Descargar',
     }
   },
   credits: 'Créditos',
@@ -311,7 +313,7 @@ export default {
   back: 'Atrás',
   saving: 'Guardando...',
   saveProfile: 'Guardar Perfil',
-  
+
   fullName: 'Nombre Completo',
   enterYourCity: 'Introduce tu ciudad',
   enterFullAddress: 'Introduce la dirección completa',
@@ -351,41 +353,41 @@ export default {
     breadcrumb: 'Camiones',
     searchPlaceholder: 'Buscar por marca',
   },
-    agriculturePage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'Agricultura',
-      searchPlaceholder: 'Buscar por marca',
-    },
-    atvPage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'ATV',
-      searchPlaceholder: 'Buscar por marca',
-    },
-    bikesPage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'Bikes',
-      searchPlaceholder: 'Buscar por marca',
-    },
-    jetSkiPage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'Jet-Ski',
-      searchPlaceholder: 'Buscar por marca',
-    },
-    snowMobilePage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'Moto de Nieve',
-      searchPlaceholder: 'Buscar por marca',
-    },
-    constructionPage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'Construcción',
-      searchPlaceholder: 'Buscar por marca',
-    },
-    busPage: {
-      title: 'Seleccionar la marca del vehículo',
-      breadcrumb: 'Bus',
-      searchPlaceholder: 'Buscar por marca',
-    },
+  agriculturePage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'Agricultura',
+    searchPlaceholder: 'Buscar por marca',
+  },
+  atvPage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'ATV',
+    searchPlaceholder: 'Buscar por marca',
+  },
+  bikesPage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'Bikes',
+    searchPlaceholder: 'Buscar por marca',
+  },
+  jetSkiPage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'Jet-Ski',
+    searchPlaceholder: 'Buscar por marca',
+  },
+  snowMobilePage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'Moto de Nieve',
+    searchPlaceholder: 'Buscar por marca',
+  },
+  constructionPage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'Construcción',
+    searchPlaceholder: 'Buscar por marca',
+  },
+  busPage: {
+    title: 'Seleccionar la marca del vehículo',
+    breadcrumb: 'Bus',
+    searchPlaceholder: 'Buscar por marca',
+  },
   modificationPlanPage: {
     title: 'Modificación de Etapa',
     subtitle: 'Pase el mouse sobre el icono para ver las notas de la solución. Las soluciones disponibles para el vehículo seleccionado están resaltadas.',
@@ -512,7 +514,7 @@ export default {
   modificationRequests: 'Solicitudes de Modificación',
   tuningStage: 'Etapa de Sintonización',
   selectTuningStage: 'Seleccione una etapa de sintonización',
-  
+
   eco: 'ECO',
   withoutTune: 'Sin Sintonización',
   additionalOptions: 'Opciones Adicionales',
@@ -581,7 +583,7 @@ export default {
   redirectingToTicket: "Redirigiendo a la página de detalles del ticket...",
   // Price List (page-specific)
   priceListPage: {
-  freeWithTuneNotice: 'Todo lo que figura a continuación es GRATIS con cualquier {{stage1}} o {{stage2}} Tune.',
+    freeWithTuneNotice: 'Todo lo que figura a continuación es GRATIS con cualquier {{stage1}} o {{stage2}} Tune.',
     freeWithTuneTag: 'GRATIS CON TUNE',
     ecuInfo: 'Las ECU listadas a continuación se cobran a 2 CRD. Esto también incluye solo soluciones. Sin embargo, las soluciones siempre son GRATIS con cualquier Tune. Si la ECU NO aparece a continuación, se cobrará 1 crédito.',
     workingHoursNotice: 'Cualquier archivo subido fuera del horario laboral que requiera entrada manual NO será procesado hasta que Airemap vuelva a abrir.',
