@@ -11,7 +11,6 @@ import {
   CarFront,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
-import useAuthUser from "../../../../hooks/useAuthUser";
 import UserSideItem from "../UserSidebar/UserSideItem";
 
 const UserSidebar = ({
@@ -19,8 +18,8 @@ const UserSidebar = ({
   setActiveView,
   isOpen = true,
   setIsOpen,
+  authUser
 }) => {
-  const { authUser } = useAuthUser();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -42,9 +41,8 @@ const UserSidebar = ({
 
   return (
     <div
-      className={`w-64 bg-white dark:bg-[#1C1C1C] flex flex-col justify-between h-screen fixed left-0 top-0 z-40 transition-transform duration-300 lg:translate-x-0 border-r border-zinc-200 dark:border-zinc-800 ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      }`}
+      className={`w-64 bg-white dark:bg-[#1C1C1C] flex flex-col justify-between h-screen fixed left-0 top-0 z-40 transition-transform duration-300 lg:translate-x-0 border-r border-zinc-200 dark:border-zinc-800 ${isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
     >
       {/* User Header */}
       <div className="p-4 mt-16 border-b border-zinc-200 dark:border-zinc-800">

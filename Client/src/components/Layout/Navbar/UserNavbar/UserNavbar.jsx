@@ -1,6 +1,7 @@
-import { Menu, User, LogOut, Settings, Moon, Sun, Monitor } from "lucide-react";
+import { Menu, User, LogOut, Settings, Moon, Sun, Monitor, Globe, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,11 +20,16 @@ import { useTheme } from "../../../../hooks/useTheme";
 import { useQuery } from "@tanstack/react-query";
 import { QueueFiles } from "../../../../lib/APIs/ecuFileAPIs";
 import { useEffect, useState } from "react";
+import useLanguageUpdate from "../../../../hooks/useLanguageUpdate";
+import i18n from "../../../../i18n";
 
-const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
+const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation()
+
 
   const { logoutMutation } = useLogout();
+  const { updateLanguageMutation } = useLanguageUpdate()
   const { setTheme, theme } = useTheme();
 
   const { data, isLoading } = useQuery({
@@ -32,7 +38,6 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
   });
 
   const [fileRoomStatus, setFileRoomStatus] = useState("Closed");
-
   useEffect(() => {
     const updateStatus = () => {
       const now = new Date();
@@ -53,7 +58,6 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
         // Sunday: closed
         isOpen = false;
       }
-
       setFileRoomStatus(isOpen ? "Open" : "Closed");
     };
 
@@ -62,6 +66,30 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Available languages
+  const languages = [
+    { label: 'English', value: 'en', flag: '🇬🇧' },
+    { label: 'Español', value: 'es', flag: '🇪🇸' },
+    { label: 'Français', value: 'fr', flag: '🇫🇷' },
+    { label: 'Deutsch', value: 'de', flag: '🇩🇪' },
+    { label: 'Italiano', value: 'it', flag: '🇮🇹' },
+    { label: '日本語', value: 'ja', flag: '🇯🇵' },
+    { label: '한국어', value: 'ko', flag: '🇰🇷' },
+    { label: '中文', value: 'zh', flag: '🇨🇳' },
+    { label: 'اردو', value: 'ur', flag: '🇵🇰' },
+    { label: 'العربية', value: 'ar', flag: '🇸🇦' },
+    { label: 'हिंदी', value: 'hi', flag: '🇮🇳' },
+    { label: 'Türkçe', value: 'tr', flag: '🇹🇷' }
+  ];
+
+  const [language, setLanguage] = useState(authUser?.preferredLanguage || 'en');
+
+  const handleLanguageChange = (newLanguage) => {
+    setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage)
+    updateLanguageMutation({ language: newLanguage })
+  };
 
   return (
     <nav className="h-16 bg-white dark:bg-[#1C1C1C] border-b border-zinc-200 dark:border-zinc-800 px-3 sm:px-6 flex items-center fixed top-0 left-0 right-0 z-50">
@@ -102,23 +130,22 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
           <div className="hidden lg:flex items-center gap-6">
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 dark:text-zinc-400">
-                File Room:
+                {t('fileRoom')}:
               </span>
               <span
-                className={`text-sm font-medium px-2 py-0.5 rounded ${
-                  fileRoomStatus === "Open"
-                    ? "text-green-600 dark:text-green-400 bg-green-400/10"
-                    : "text-red-600 dark:text-red-500 bg-red-400/10"
-                }`}
+                className={`text-sm font-medium px-2 py-0.5 rounded ${fileRoomStatus === "Open"
+                  ? "text-green-600 dark:text-green-400 bg-green-400/10"
+                  : "text-red-600 dark:text-red-500 bg-red-400/10"
+                  }`}
               >
-                {fileRoomStatus}
+                {fileRoomStatus === "Open" ? t("fileRoomStatusOpen") : t("fileRoomStatusClosed")}
               </span>
             </div>
             <div className="flex items-center gap-6">
               <span className="text-gray-400 dark:text-zinc-600">|</span>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500 dark:text-zinc-400">
-                  Queue:
+                  {t("queue")}:
                 </span>
                 <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">
                   {data?.data || 0}
@@ -148,15 +175,14 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
                 <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
-                  Theme
+                  {t("theme")}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
                 <DropdownMenuItem
                   onClick={() => setTheme("light")}
-                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
-                    theme === "light" ? "font-semibold" : ""
-                  }`}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
+                    }`}
                 >
                   <Sun className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                   <span>Light</span>
@@ -164,9 +190,8 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
                 <DropdownMenuItem
                   onClick={() => setTheme("dark")}
-                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
-                    theme === "dark" ? "font-semibold" : ""
-                  }`}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "dark" ? "font-semibold" : ""
+                    }`}
                 >
                   <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                   <span>Dark</span>
@@ -174,15 +199,44 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
                 <DropdownMenuItem
                   onClick={() => setTheme("system")}
-                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
-                    theme === "system" ? "font-semibold" : ""
-                  }`}
+                  className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "system" ? "font-semibold" : ""
+                    }`}
                 >
                   <Monitor className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                   <span>System</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
+
+            {/* Language Selector */}
+
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
+                <Globe className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
+                  Language
+                </span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
+                {
+                  languages.map((lang, index) =>
+                    <DropdownMenuItem key={index}
+                      onClick={() => handleLanguageChange(lang.value)}
+                      className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
+                        }`}
+                    >
+                      <span className="mr-2">{lang.flag}</span>
+                      <span>{lang.label}</span>
+                      {language === lang.value && (
+                        <Check className="w-4 h-4 text-green-500 ml-auto" />
+                      )}
+                    </DropdownMenuItem>)
+                }
+
+
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+
             {/* Settings */}
             <DropdownMenuItem
               onClick={() => navigate("/profile-settings")}

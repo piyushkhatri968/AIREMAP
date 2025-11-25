@@ -37,11 +37,10 @@ const MoneyStatsChart = ({ data, formatCurrency }) => {
   }));
 
   return (
-    <div className="relative h-16 w-full">
+    <div className="relative h-24 md:h-32 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}
-          margin={{ top: 0, right: 3, left: 5, bottom: 0 }}
         >
           <defs>
             <linearGradient id="redGradient" x1="0" y1="0" x2="0" y2="1">

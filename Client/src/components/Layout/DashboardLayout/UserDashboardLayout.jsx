@@ -2,10 +2,15 @@ import { useState } from "react";
 import { Outlet } from "react-router";
 import UserSidebar from "../Sidebar/UserSidebar/UserSidebar";
 import UserNavbar from "../Navbar/UserNavbar/UserNavbar";
+import useAuthUser from "../../../hooks/useAuthUser";
 
 const UserDashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
+
+  const { authUser } = useAuthUser()
+
+
 
   return (
     <div className="min-h-screen flex bg-white dark:bg-[#171819] overflow-hidden">
@@ -15,6 +20,7 @@ const UserDashboardLayout = () => {
         setActiveView={setActiveView}
         isOpen={isSidebarOpen}
         setIsOpen={setIsSidebarOpen}
+        authUser={authUser}
       />
 
       {/* Overlay for mobile */}
@@ -30,6 +36,7 @@ const UserDashboardLayout = () => {
         <UserNavbar
           isSidebarOpen={isSidebarOpen}
           onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+          authUser={authUser}
         />
 
         {/* Main content area */}

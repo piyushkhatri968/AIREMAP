@@ -4,13 +4,13 @@ const CustomTooltip = ({ active, payload, label, color, labelText }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#111827] text-white px-3 py-2 rounded-lg shadow-lg border border-zinc-700">
-        <p className="font-medium mb-1">{label}</p>
+        <p className="font-medium text-sm mb-1">{label}</p>
         <div className="flex items-center gap-2">
           <span
             className="w-2 h-2 rounded-full"
             style={{ backgroundColor: color }}
           ></span>
-          <p className="text-sm">
+          <p className=" text-xs">
             {labelText}:{" "}
             <span className="font-semibold">{payload[0].value}</span>
           </p>
@@ -26,15 +26,11 @@ const FileStatsChart = ({ data }) => {
     month: item.month,
     files: item.files,
   }));
-
-  console.log(chartData);
-
   return (
-    <div className="relative h-16 w-full">
+    <div className="relative h-24 md:h-32 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}
-          margin={{ top: 0, right: 3, left: 5, bottom: 0 }}
         >
           <defs>
             <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
