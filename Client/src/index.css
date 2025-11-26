@@ -13,3 +13,7 @@ html.dark body {
 html.light body {
   background-color: #ffffff;
 }
+
+.sq-card-message.sq-card-message-no-error.sq-visible{
+  color: white;
+}

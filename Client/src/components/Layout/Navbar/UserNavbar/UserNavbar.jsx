@@ -1,4 +1,4 @@
-import { Menu, User, LogOut, Settings, Moon, Sun, Monitor, Globe, Check } from "lucide-react";
+import { Menu, User, LogOut, Settings, Moon, Sun, Monitor, Globe, Check, LanguagesIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next"
@@ -130,7 +130,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
           <div className="hidden lg:flex items-center gap-6">
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 dark:text-zinc-400">
-                {t('fileRoom')}:
+                {t('userNavbar.fileRoom')}:
               </span>
               <span
                 className={`text-sm font-medium px-2 py-0.5 rounded ${fileRoomStatus === "Open"
@@ -138,14 +138,14 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                   : "text-red-600 dark:text-red-500 bg-red-400/10"
                   }`}
               >
-                {fileRoomStatus === "Open" ? t("fileRoomStatusOpen") : t("fileRoomStatusClosed")}
+                {fileRoomStatus === "Open" ? t("userNavbar.fileRoomStatusOpen") : t("userNavbar.fileRoomStatusClosed")}
               </span>
             </div>
             <div className="flex items-center gap-6">
               <span className="text-gray-400 dark:text-zinc-600">|</span>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500 dark:text-zinc-400">
-                  {t("queue")}:
+                  {t('userNavbar.queue')}:
                 </span>
                 <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">
                   {data?.data || 0}
@@ -175,7 +175,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
                 <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
-                  {t("theme")}
+                  {t("userNavbar.theme")}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
@@ -185,7 +185,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                     }`}
                 >
                   <Sun className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                  <span>Light</span>
+                  <span>{t("userNavbar.themeLight")}</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
@@ -194,7 +194,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                     }`}
                 >
                   <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                  <span>Dark</span>
+                  <span>{t("userNavbar.themeDark")}</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
@@ -203,7 +203,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                     }`}
                 >
                   <Monitor className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                  <span>System</span>
+                  <span>{t("userNavbar.themeSystem")}</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
@@ -212,9 +212,9 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
 
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
-                <Globe className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+                <LanguagesIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
-                  Language
+                  {t("userNavbar.language")}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
@@ -244,7 +244,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
             >
               <Settings className="w-4 h-4" />
               <span className="text-sm text-zinc-800 dark:text-white font-medium">
-                Settings
+                {t("userNavbar.settings")}
               </span>
             </DropdownMenuItem>
 
@@ -256,7 +256,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
             >
               <LogOut className="w-4 h-4 text-red-600" />
               <span className="text-sm text-zinc-800 dark:text-white font-medium">
-                Sign Out
+                {t("userNavbar.signOut")}
               </span>
             </DropdownMenuItem>
           </DropdownMenuContent>

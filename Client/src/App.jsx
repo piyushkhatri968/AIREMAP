@@ -56,6 +56,7 @@ import Jetski from "./Pages/UserPages/AutoData/Jetski/Jetski";
 import SnowMobile from "./Pages/UserPages/AutoData/SnowMobile/SnowMobile";
 import Construction from "./Pages/UserPages/AutoData/Construction/Construction";
 import Bus from "./Pages/UserPages/AutoData/Bus/Bus";
+import Privacy from "./Pages/Privacy/Privacy";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -112,7 +113,7 @@ const App = () => {
               element={<TicketDetails />}
             />
             <Route path="/fault-codes" element={<FaultyCodesPage />} />
-            {/* <Route path="/auto-data" element={<AutoData />} />
+            <Route path="/auto-data" element={<AutoData />} />
             <Route path="/cars" element={<Car />} />
             <Route path="/vans" element={<Van />} />
             <Route path="/pickups" element={<Pickup />} />
@@ -124,7 +125,7 @@ const App = () => {
             <Route path="/jet-ski" element={<Jetski />} />
             <Route path="/snow-mobile" element={<SnowMobile />} />
             <Route path="/construction" element={<Construction />} />
-            <Route path="/bus" element={<Bus />} /> */}
+            <Route path="/bus" element={<Bus />} />
           </Route>
         )}
 
@@ -158,6 +159,7 @@ const App = () => {
 
         <Route path="/signin" element={redirectIfAuth() || <Signin />} />
         <Route path="/signup" element={redirectIfAuth() || <Signup />} />
+        <Route path="/privacy" element={<Privacy />} />
 
         <Route
           path="/password-reset"

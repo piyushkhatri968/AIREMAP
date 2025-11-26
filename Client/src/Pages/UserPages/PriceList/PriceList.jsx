@@ -1,7 +1,9 @@
 import { useLocation } from "react-router";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const PriceList = () => {
+  const { t } = useTranslation()
   const stage1Items = [
     { nameKey: "O2 / LAMBDA", credits: 1, isFreeWithTune: true },
     {
@@ -112,7 +114,7 @@ const PriceList = () => {
             {/* Notice Box for First Column */}
             <div className="bg-zinc-100 dark:bg-[#1A1A1A] rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
               <p className="text-center text-sm sm:text-base text-zinc-900 dark:text-white">
-                All Listed Below are FREE With Any Stage 1 or Stage 2 Tune.
+                {t("priceList.freeWithTuneNotice")}
               </p>
             </div>
 
@@ -129,7 +131,7 @@ const PriceList = () => {
                     </span>
                     {item.isFreeWithTune && (
                       <span className="ml-1 sm:ml-2 text-[10px] sm:text-xs text-zinc-500 dark:text-gray-400">
-                        FREE WITH TUNE
+                        {t("priceList.freeWithTune")}
                       </span>
                     )}
                   </div>
@@ -144,10 +146,7 @@ const PriceList = () => {
             <div className="mb-4 sm:mb-6">
               <div className="bg-zinc-100 dark:bg-[#1A1A1A] rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
                 <p className="text-zinc-900 dark:text-white text-sm sm:text-base">
-                  ECU's Listed Below Are Charged at 2 CRD. This also includes
-                  Solutions Only. However solutions are always FREE with any
-                  Tune. If The ECU Is NOT Listed Below Then It Will Be Charged
-                  At 1 Credit
+                  {t("priceList.ecuInfo")}
                 </p>
               </div>
 
@@ -174,8 +173,7 @@ const PriceList = () => {
             {/* Warning Box for Second Column */}
             <div className="mb-4 sm:mb-6">
               <p className="text-center text-sm sm:text-base text-zinc-900 dark:text-white">
-                Any files uploaded outside of working hours that require manual
-                input will NOT be processed until Airemap re-opens.
+                {t("priceList.outsideWorkingHours")}
               </p>
             </div>
 
@@ -183,23 +181,15 @@ const PriceList = () => {
             <div className="text-zinc-900 dark:text-white">
               <div className="bg-red-500 rounded py-1.5 sm:py-2 mb-3 sm:mb-4 text-center">
                 <p className="text-white text-sm sm:text-base font-medium underline">
-                  Terms & Conditions
+                  {t("priceList.termsConditions")}
                 </p>
               </div>
               <ul className="space-y-2 text-center text-sm sm:text-base lg:text-lg">
                 <li>
-                  <span className="text-red-600">Slave:</span> External
-                  encrypt/decrypt requests cost 1 Credit if Airemap has no
-                  solution or ECU needs custom tuning. Credits are
-                  non-refundable, non-transferable, and not for tools. Files
-                  under 21-day warranty can be modified free (Stage options
-                  excluded). Over 21 days = +1 Credit.
+                  <span className="text-red-600">{t("priceList.slave")} </span>{t("priceList.slaveDesc")}
                 </li>
                 <li>
-                  <span className="text-red-600">Master:</span> All extras,
-                  including solutions, are chargeable. Submit complete customer
-                  requests; edits after submission incur extra charges. Credits
-                  non-refundable, non-transferable, and not for tools.
+                  <span className="text-red-600">{t("priceList.master")} </span>{t("priceList.masterDesc")}
                 </li>
               </ul>
             </div>

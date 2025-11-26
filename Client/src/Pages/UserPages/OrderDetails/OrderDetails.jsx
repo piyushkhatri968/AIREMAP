@@ -5,8 +5,10 @@ import LoadingSkeleton from "../../../components/Loader/LoadingSkeleton/LoadingS
 import { Button } from "../../../components/ui/button";
 import { Card } from "../../../components/ui/card";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const OrderDetails = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { authUser } = useAuthUser();
@@ -25,21 +27,17 @@ const OrderDetails = () => {
 
   // Company data
   const companyData = {
-    companyName: "AiRemap Ltd",
-    companyAddress: [
-      "Unit 5, Office 478, Newhall Street,",
-      "Birmingham, B3 3QR",
-    ],
+    companyName: t("company.companyName"),
+    companyAddress: [t("company.addressLine1"), t("company.addressLine2")],
   };
 
   // Package info
   const packageInfo = packageDetails || {
-    name: "Unknown Package",
+    name: t("orderDetails.unknownPackage"),
     price: "£0",
     credits: 0,
   };
 
-  // ✅ Clean and round numeric conversions
   const cleanedPriceString = packageInfo.price
     .replace("£", "")
     .replace(/,/g, "");
@@ -50,17 +48,23 @@ const OrderDetails = () => {
   const total = Math.round(subtotal + vat);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="px-4 sm:px-0 mt-6 sm:mt-0">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="px-4 sm:px-0 mt-6 sm:mt-0"
+    >
       <Card className="max-w-3xl mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-700 shadow-lg">
         <div className="p-8">
           <h1 className="text-2xl font-semibold mb-8 text-zinc-900 dark:text-white">
-            Order Details
+            {t("orderDetails.title")}
           </h1>
 
           <div className="grid grid-cols-2 gap-x-24 gap-y-8 mb-12">
             {/* From Section */}
             <div>
-              <h2 className="text-zinc-600 dark:text-gray-400 mb-4">From:</h2>
+              <h2 className="text-zinc-600 dark:text-gray-400 mb-4">
+                {t("orderDetails.from")}
+              </h2>
               <div className="space-y-1">
                 <p className="font-medium text-zinc-900 dark:text-white">
                   {companyData.companyName}
@@ -70,17 +74,13 @@ const OrderDetails = () => {
                     {line}
                   </p>
                 ))}
-                {/* <p className="text-zinc-600 dark:text-gray-400 mt-2">
-                  <span className="inline-block w-20">VAT ID:</span>
-                  {companyData.companyVatId}
-                </p> */}
               </div>
             </div>
 
             {/* Bill To Section */}
             <div>
               <h2 className="text-zinc-600 dark:text-gray-400 mb-4">
-                Bill To:
+                {t("orderDetails.billTo")}
               </h2>
               <div className="space-y-1">
                 <p className="font-medium text-zinc-900 dark:text-white">
@@ -91,7 +91,7 @@ const OrderDetails = () => {
                   )}
                 </p>
                 <p className="text-zinc-600 dark:text-gray-400">
-                  {authUser?.address || "Address not available"}
+                  {authUser?.address || t("orderDetails.addressNotAvailable")}
                 </p>
               </div>
             </div>
@@ -100,12 +100,16 @@ const OrderDetails = () => {
           {/* Selected Item Section */}
           <div className="mb-8">
             <h2 className="text-zinc-600 dark:text-gray-400 mb-4">
-              Selected Item:
+              {t("orderDetails.selectedItem")}
             </h2>
             <div className="space-y-4">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-zinc-600 dark:text-gray-400">ITEM</span>
-                <span className="text-zinc-600 dark:text-gray-400">TOTAL</span>
+                <span className="text-zinc-600 dark:text-gray-400">
+                  {t("orderDetails.item")}
+                </span>
+                <span className="text-zinc-600 dark:text-gray-400">
+                  {t("orderDetails.total")}
+                </span>
               </div>
 
               <div className="flex justify-between items-center text-zinc-900 dark:text-white">
@@ -115,20 +119,19 @@ const OrderDetails = () => {
 
               <div className="pt-4 border-t border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white">
                 <div className="flex justify-between items-center mb-2">
-                  <span>Subtotal</span>
+                  <span>{t("orderDetails.subtotal")}</span>
                   <span>£{subtotal.toLocaleString()}</span>
                 </div>
 
-                {/* ✅ Show VAT only if applicable */}
                 {isVATApplicable && (
                   <div className="flex justify-between items-center mb-2">
-                    <span>VAT (20%)</span>
+                    <span>{t("orderDetails.vat")}</span>
                     <span>£{vat.toLocaleString()}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between items-center text-lg font-semibold">
-                  <span>Grand Total</span>
+                  <span>{t("orderDetails.grandTotal")}</span>
                   <span>£{total.toLocaleString()}</span>
                 </div>
               </div>
@@ -142,8 +145,9 @@ const OrderDetails = () => {
               onClick={() => navigate("/buy-credits")}
               className="bg-white dark:bg-[#242526] text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-[#2d2e2f] border-zinc-200 dark:border-gray-700"
             >
-              Cancel
+              {t("orderDetails.cancel")}
             </Button>
+
             <Button
               onClick={() =>
                 navigate(`/checkout?package=${packageId}`, {
@@ -158,7 +162,7 @@ const OrderDetails = () => {
               }
               className="bg-red-600 hover:bg-red-700 text-white focus:ring-red-500 focus:ring-2"
             >
-              Proceed to Checkout
+              {t("orderDetails.proceedToCheckout")}
             </Button>
           </div>
         </div>

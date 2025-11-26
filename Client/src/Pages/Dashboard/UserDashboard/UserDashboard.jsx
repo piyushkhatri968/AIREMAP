@@ -7,11 +7,13 @@ import { StatsAPI } from "../../../lib/APIs/authAPIs";
 import FileStatsChart from "./Charts/FileStatsChart";
 import MoneyStatsChart from "./Charts/MoneyStatsChart";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 
 
 const UserDashboard = () => {
   const { authUser } = useAuthUser();
+  const { t } = useTranslation()
 
   const formatCurrency = (amount) => {
     if (typeof amount !== "number" || isNaN(amount)) return "£0.00";
@@ -33,11 +35,11 @@ const UserDashboard = () => {
     const diffHr = Math.floor(diffMin / 60);
     const diffDay = Math.floor(diffHr / 24);
 
-    if (diffSec < 60) return "Just now";
-    if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? "s" : ""} ago`;
-    if (diffHr < 24) return `${diffHr} hour${diffHr > 1 ? "s" : ""} ago`;
-    if (diffDay === 1) return "Yesterday";
-    if (diffDay < 7) return `${diffDay} day${diffDay > 1 ? "s" : ""} ago`;
+    if (diffSec < 60) return t("userDashboard.justNow")
+    if (diffMin < 60) return `${diffMin} ${t("userDashboard.minute")}${diffMin > 1 ? "s" : ""} ${t("userDashboard.ago")}`;
+    if (diffHr < 24) return `${diffHr} ${t("userDashboard.hour")}${diffHr > 1 ? "s" : ""} ${t("userDashboard.ago")}`;
+    if (diffDay === 1) return t("userDashboard.yesterday");
+    if (diffDay < 7) return `${diffDay} day${diffDay > 1 ? "s" : ""} ${t("userDashboard.ago")}`;
 
     return date.toLocaleString("en-US", {
       month: "short",
@@ -59,26 +61,26 @@ const UserDashboard = () => {
   const fileStatsChartData =
     statsData.length === 1
       ? [
-          { month: `Start`, files: 0 },
-          {
-            month: statsData[0].month,
-            files: statsData[0].totalFilesSubmitted,
-          },
-        ]
+        { month: `Start`, files: 0 },
+        {
+          month: statsData[0].month,
+          files: statsData[0].totalFilesSubmitted,
+        },
+      ]
       : statsData.map((item) => ({
-          month: item.month,
-          files: item.totalFilesSubmitted,
-        }));
+        month: item.month,
+        files: item.totalFilesSubmitted,
+      }));
   const amountSpentStatsChartData =
     statsData.length === 1
       ? [
-          { month: `Start`, money: 0 },
-          { month: statsData[0].month, money: statsData[0].totalMoneySpent },
-        ]
+        { month: `Start`, money: 0 },
+        { month: statsData[0].month, money: statsData[0].totalMoneySpent },
+      ]
       : statsData.map((item) => ({
-          month: item.month,
-          money: item.totalMoneySpent,
-        }));
+        month: item.month,
+        money: item.totalMoneySpent,
+      }));
 
   const StatsCardSkeleton = () => (
     <>
@@ -113,13 +115,13 @@ const UserDashboard = () => {
         className="mb-4 sm:mb-8"
       >
         <h1 className="text-xl sm:text-2xl text-zinc-900 dark:text-white">
-          Welcome Back,{" "}
+          {t("userDashboard.welcomeBack")},{" "}
           <span className="font-bold">
             {authUser?.firstName || ""} {authUser?.lastName || ""}
           </span>
         </h1>
         <p className="text-sm sm:text-base font-medium text-zinc-600 dark:text-gray-400 mb-2">
-          Last login {formatDateTime(authUser?.lastLoginTime)}
+          {t("userDashboard.lastLogin")} {formatDateTime(authUser?.lastLoginTime)}
         </p>
 
         <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl mt-6 mb-6 sm:mb-10 px-4 sm:px-6 py-4 sm:py-12 relative overflow-hidden">
@@ -145,19 +147,19 @@ const UserDashboard = () => {
               />
               <div>
                 <div className="text-zinc-600 dark:text-gray-300 text-xs sm:text-sm">
-                  The most advanced
+                  {t("userDashboard.theMostAdvanced")}
                 </div>
                 <div className="text-zinc-900 dark:text-white text-lg sm:text-xl font-bold">
-                  Airemap Autodata
+                  {t("userDashboard.airemapAutodata")}
                 </div>
               </div>
             </div>
 
             <button
-              // onClick={() => navigate("/auto-data")}
+              onClick={() => navigate("/auto-data")}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-4 sm:px-5 py-2 rounded-md font-medium text-sm transition-colors duration-200"
             >
-              Open Autodata
+              {t("userDashboard.openAutodata")}
             </button>
           </div>
         </div>
@@ -175,11 +177,11 @@ const UserDashboard = () => {
                       {authUser?.totalFilesSubmitted || 0}
                     </span>
                     <span className="text-base sm:text-lg text-zinc-600 dark:text-gray-400">
-                      Files
+                      {t("userDashboard.files")}
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-zinc-600 dark:text-gray-400">
-                    Your account file queries
+                    {t("userDashboard.accountFileQueries")}
                   </p>
                 </div>
                 {/* Green wave */}
@@ -195,7 +197,7 @@ const UserDashboard = () => {
                     {formatCurrency(authUser?.totalMoneySpent)}
                   </div>
                   <p className="text-zinc-600 dark:text-gray-400 text-sm">
-                    Your account purchases
+                    {t("userDashboard.accountPurchases")}
                   </p>
                 </div>
                 {/* Red wave */}

@@ -3,8 +3,11 @@ import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { faultCodes } from "../../utils/FaultyCodesData";
+import { useTranslation } from "react-i18next";
 
 const FaultyCodesPage = () => {
+    const { t } = useTranslation();
+
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -28,12 +31,14 @@ const FaultyCodesPage = () => {
         >
             <div className="p-4 sm:p-6">
                 <div className="space-y-4 sm:space-y-6">
+
+                    {/* Search Box */}
                     <div className="flex items-center space-x-3 sm:space-x-4">
                         <div className="relative flex-1">
                             <Search className="absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                             <Input
                                 type="text"
-                                placeholder="Search by DF-Code, P-Code, or Description"
+                                placeholder={t("faultyCodesPage.searchPlaceholder")}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-8 sm:pl-10 w-full bg-white dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white text-sm sm:text-base placeholder:text-zinc-500 dark:placeholder:text-gray-400 focus:ring-red-500 focus:border-red-500"
@@ -41,23 +46,24 @@ const FaultyCodesPage = () => {
                         </div>
                     </div>
 
+                    {/* Desktop Table */}
                     <div className="relative">
                         <div className="hidden sm:block overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-zinc-200 dark:border-gray-700">
                                         <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider w-40">
-                                            P Code
+                                            {t("faultyCodesPage.tablePCode")}
                                         </th>
                                         <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider w-56">
-                                            DF Code
+                                            {t("faultyCodesPage.tableDFCode")}
                                         </th>
-
                                         <th className="py-3 px-4 text-sm font-medium text-zinc-500 dark:text-gray-400 uppercase tracking-wider text-right">
-                                            Description
+                                            {t("faultyCodesPage.tableDescription")}
                                         </th>
                                     </tr>
                                 </thead>
+
                                 <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
                                     {paginatedCodes.map((code, index) => (
                                         <tr
@@ -70,7 +76,6 @@ const FaultyCodesPage = () => {
                                             <td className="py-3 px-4 text-zinc-900 dark:text-white text-sm">
                                                 {code.dfCode}
                                             </td>
-
                                             <td className="py-3 px-4 text-zinc-900 dark:text-white text-sm text-right">
                                                 {code.description}
                                             </td>
@@ -80,6 +85,7 @@ const FaultyCodesPage = () => {
                             </table>
                         </div>
 
+                        {/* Mobile Cards */}
                         <div className="sm:hidden">
                             <div className="space-y-2 divide-y divide-zinc-200 dark:divide-gray-700">
                                 {paginatedCodes.map((code, index) => (
@@ -89,13 +95,13 @@ const FaultyCodesPage = () => {
                                     >
                                         <div className="flex justify-between text-sm">
                                             <p className="text-zinc-500 dark:text-gray-400">
-                                                P Code: {code.pCode}
+                                                {t("faultyCodesPage.mobilePCode")}: {code.pCode}
                                             </p>
                                             <p className="text-zinc-900 dark:text-white font-medium">
-                                                DF Code: {code.dfCode}
+                                                {t("faultyCodesPage.mobileDFCode")}: {code.dfCode}
                                             </p>
-
                                         </div>
+
                                         <p className="text-zinc-700 dark:text-gray-300 text-sm mt-1">
                                             {code.description}
                                         </p>
@@ -105,6 +111,7 @@ const FaultyCodesPage = () => {
                         </div>
                     </div>
 
+                    {/* Pagination */}
                     <div className="flex items-center justify-center space-x-2 mt-4">
                         <button
                             onClick={() => setCurrentPage(1)}
@@ -113,6 +120,7 @@ const FaultyCodesPage = () => {
                         >
                             «
                         </button>
+
                         <button
                             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                             disabled={currentPage === 1}
@@ -120,6 +128,8 @@ const FaultyCodesPage = () => {
                         >
                             ‹
                         </button>
+
+                        {/* Dynamic Pages */}
                         {(() => {
                             const maxVisible = window.innerWidth < 640 ? 5 : 10;
                             const pages = [];
@@ -141,21 +151,21 @@ const FaultyCodesPage = () => {
                                 pages.push(totalPages);
                             }
 
-                            return pages.map((page, index) =>
+                            return pages.map((page, i) =>
                                 typeof page === "number" ? (
                                     <button
-                                        key={index}
+                                        key={i}
                                         onClick={() => setCurrentPage(page)}
                                         className={`w-8 h-8 flex items-center justify-center rounded text-sm ${currentPage === page
-                                            ? "bg-red-500 text-white"
-                                            : "text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white"
+                                                ? "bg-red-500 text-white"
+                                                : "text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white"
                                             }`}
                                     >
                                         {page}
                                     </button>
                                 ) : (
                                     <span
-                                        key={index}
+                                        key={i}
                                         className="w-8 h-8 flex items-center justify-center text-zinc-500 dark:text-gray-400"
                                     >
                                         {page}
@@ -171,6 +181,7 @@ const FaultyCodesPage = () => {
                         >
                             ›
                         </button>
+
                         <button
                             onClick={() => setCurrentPage(totalPages)}
                             disabled={currentPage === totalPages}
