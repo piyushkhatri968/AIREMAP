@@ -4,7 +4,7 @@ const CustomTooltip = ({ active, payload, label, color, labelText }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#111827] text-white px-3 py-2 rounded-lg shadow-lg border border-zinc-700">
-        <p className="font-medium text-sm mb-1">{label}</p>
+        <p className="font-medium mb-1">{label}</p>
         <div className="flex items-center gap-2">
           <span
             className="w-2 h-2 rounded-full"
