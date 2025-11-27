@@ -101,7 +101,7 @@ const AdminCredits = () => {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="border-b border-zinc-200 dark:border-gray-700  transition-colors whitespace-nowrap"
+                    className="border-b border-zinc-200 dark:border-gray-700  transition-colors whitespace-nowrap text-sm"
                   >
                     <td className="px-4 py-3 text-center text-zinc-900 dark:text-white">
                       {row?.firstName + " " + row?.lastName}
