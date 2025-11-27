@@ -37,7 +37,7 @@ router.put(
 router.get("/stats", isFullyAuthenticated, isAuthorized("user"), UserStats);
 
 router.post("/resetPassword", SendForgotPasswordEmail);
-router.post("/updatePassword", isFullyAuthenticated, UpdatePassword);
+router.post("/updatePassword", UpdatePassword);
 router.put("/updateLangPreference", isFullyAuthenticated, UpdateLangPreference)
 
 export default router;

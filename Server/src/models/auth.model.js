@@ -91,7 +91,6 @@ const authSchema = mongoose.Schema(
 authSchema.index({ onBoarded: 1, verified: 1 });
 authSchema.index({ createdAt: -1 });
 authSchema.index({ emailVerificationCode: 1, emailVerificationExpiry: 1 });
-authSchema.index({ emailVerificationCode: 1, emailVerificationExpiry: 1 });
 authSchema.index({ lastLoginTime: -1 });
 authSchema.index({ role: 1 });
 authSchema.index({ assignedUsersToAgent: 1 });
