@@ -167,29 +167,9 @@ const ModificationPlan = () => {
   const fromSourceData = location.state;
   const isComingFromOverviewBack = fromSourceData?.from === "overview-back";
 
-  const handleFileUpload = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setUploadedFile(event.target.files[0]);
-    }
-  };
-
   const handleCommonFilesUpload = (event) => {
     if (event.target.files) {
       setCommonFiles(Array.from(event.target.files));
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setUploadedFile(e.dataTransfer.files[0]);
     }
   };
 
@@ -221,7 +201,6 @@ const ModificationPlan = () => {
 
   useEffect(() => {
     if (isComingFromOverviewBack && fromSourceData) {
-      // Files ko load karna (files ki loading ka issue na aaye, isliye unhe pehle set kar do)
       if (fromSourceData.ecuFile) {
         setUploadedFile(fromSourceData.ecuFile);
       }
@@ -532,10 +511,7 @@ const ModificationPlan = () => {
                 Your original ECU file here.
               </p>
               <div
-                // onDragOver={handleDragOver}
-                // onDrop={handleDrop}
                 className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors"
-                // onClick={() => document.getElementById("file-upload")?.click()}
               >
                 {uploadedFile && (
                   <div className="flex items-center space-x-2 text-green-600">
@@ -543,12 +519,6 @@ const ModificationPlan = () => {
                     <span>{uploadedFile.name}</span>
                   </div>
                 )}
-                <input
-                  id="file-upload"
-                  type="file"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
               </div>
             </div>
 
@@ -595,7 +565,7 @@ const ModificationPlan = () => {
             </div>
           </div>
           {/* Notes Section (unchanged) */}
-          <div className="space-y-2">
+          <div className="space-y-2 mt-4">
             <Label
               htmlFor="notes"
               className="text-sm font-medium text-gray-900 dark:text-white"
@@ -610,7 +580,7 @@ const ModificationPlan = () => {
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="min-h-[100px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
+              className="min-h-[120px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
             />
           </div>
           {/* Submit Button (unchanged) */}
