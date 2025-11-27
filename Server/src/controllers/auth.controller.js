@@ -30,7 +30,7 @@ export const Signup = async (req, res) => {
         "Password must be atleast 6 characters long"
       );
     }
-    const isEmailUsed = await Auth.findOne({ email });
+    const isEmailUsed = await Auth.findOne({ email }).lean();
     if (isEmailUsed) {
       return sendResponse(res, 400, false, "Email is already used");
     }
@@ -303,7 +303,7 @@ export const GetMe = async (req, res) => {
     const { _id } = req.user;
     const user = await Auth.findById(_id).select(
       "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime preferredLanguage"
-    );
+    ).lean();
     return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {
     console.error("Error in GetMe controller", error);
