@@ -200,6 +200,10 @@ export const SignupEmailVerify = async (req, res) => {
   `,
     });
 
+    // setImmediate(async()=>{
+
+    // })
+
     return sendResponse(res, 200, true, "Account verified successfull", user);
   } catch (error) {
     console.error("Error in SignupEmailVerify controller", error);
