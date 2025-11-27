@@ -9,11 +9,9 @@ import MoneyStatsChart from "./Charts/MoneyStatsChart";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
-
-
 const UserDashboard = () => {
   const { authUser } = useAuthUser();
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const formatCurrency = (amount) => {
     if (typeof amount !== "number" || isNaN(amount)) return "£0.00";
@@ -35,11 +33,20 @@ const UserDashboard = () => {
     const diffHr = Math.floor(diffMin / 60);
     const diffDay = Math.floor(diffHr / 24);
 
-    if (diffSec < 60) return t("userDashboard.justNow")
-    if (diffMin < 60) return `${diffMin} ${t("userDashboard.minute")}${diffMin > 1 ? "s" : ""} ${t("userDashboard.ago")}`;
-    if (diffHr < 24) return `${diffHr} ${t("userDashboard.hour")}${diffHr > 1 ? "s" : ""} ${t("userDashboard.ago")}`;
+    if (diffSec < 60) return t("userDashboard.justNow");
+    if (diffMin < 60)
+      return `${diffMin} ${t("userDashboard.minute")}${
+        diffMin > 1 ? "s" : ""
+      } ${t("userDashboard.ago")}`;
+    if (diffHr < 24)
+      return `${diffHr} ${t("userDashboard.hour")}${diffHr > 1 ? "s" : ""} ${t(
+        "userDashboard.ago"
+      )}`;
     if (diffDay === 1) return t("userDashboard.yesterday");
-    if (diffDay < 7) return `${diffDay} day${diffDay > 1 ? "s" : ""} ${t("userDashboard.ago")}`;
+    if (diffDay < 7)
+      return `${diffDay} day${diffDay > 1 ? "s" : ""} ${t(
+        "userDashboard.ago"
+      )}`;
 
     return date.toLocaleString("en-US", {
       month: "short",
@@ -61,26 +68,26 @@ const UserDashboard = () => {
   const fileStatsChartData =
     statsData.length === 1
       ? [
-        { month: `Start`, files: 0 },
-        {
-          month: statsData[0].month,
-          files: statsData[0].totalFilesSubmitted,
-        },
-      ]
+          { month: `Start`, files: 0 },
+          {
+            month: statsData[0].month,
+            files: statsData[0].totalFilesSubmitted,
+          },
+        ]
       : statsData.map((item) => ({
-        month: item.month,
-        files: item.totalFilesSubmitted,
-      }));
+          month: item.month,
+          files: item.totalFilesSubmitted,
+        }));
   const amountSpentStatsChartData =
     statsData.length === 1
       ? [
-        { month: `Start`, money: 0 },
-        { month: statsData[0].month, money: statsData[0].totalMoneySpent },
-      ]
+          { month: `Start`, money: 0 },
+          { month: statsData[0].month, money: statsData[0].totalMoneySpent },
+        ]
       : statsData.map((item) => ({
-        month: item.month,
-        money: item.totalMoneySpent,
-      }));
+          month: item.month,
+          money: item.totalMoneySpent,
+        }));
 
   const StatsCardSkeleton = () => (
     <>
@@ -105,8 +112,6 @@ const UserDashboard = () => {
 
   const navigate = useNavigate();
 
-
-
   return (
     <div className="bg-white dark:bg-[#171819] p-4">
       <motion.div
@@ -121,7 +126,8 @@ const UserDashboard = () => {
           </span>
         </h1>
         <p className="text-sm sm:text-base font-medium text-zinc-600 dark:text-gray-400 mb-2">
-          {t("userDashboard.lastLogin")} {formatDateTime(authUser?.lastLoginTime)}
+          {t("userDashboard.lastLogin")}{" "}
+          {formatDateTime(authUser?.lastLoginTime)}
         </p>
 
         <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl mt-6 mb-6 sm:mb-10 px-4 sm:px-6 py-4 sm:py-12 relative overflow-hidden">
@@ -176,11 +182,11 @@ const UserDashboard = () => {
                     <span className="text-3xl sm:text-5xl font-light text-zinc-900 dark:text-white">
                       {authUser?.totalFilesSubmitted || 0}
                     </span>
-                    <span className="text-base sm:text-lg text-zinc-600 dark:text-gray-400">
+                    <span className="text-zinc-600 dark:text-gray-400">
                       {t("userDashboard.files")}
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-gray-400">
+                  <p className="text-sm text-zinc-600 dark:text-gray-400">
                     {t("userDashboard.accountFileQueries")}
                   </p>
                 </div>
@@ -191,9 +197,9 @@ const UserDashboard = () => {
               </div>
 
               {/* Purchases Card */}
-              <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-6 relative overflow-hidden">
+              <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-4 sm:p-6 relative overflow-hidden">
                 <div className="relative z-10">
-                  <div className="text-5xl font-light text-zinc-900 dark:text-white mb-2">
+                  <div className="text-3xl sm:text-5xl font-light text-zinc-900 dark:text-white mb-2">
                     {formatCurrency(authUser?.totalMoneySpent)}
                   </div>
                   <p className="text-zinc-600 dark:text-gray-400 text-sm">

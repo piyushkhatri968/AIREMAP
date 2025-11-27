@@ -10,7 +10,7 @@ const CustomTooltip = ({ active, payload, label, color, labelText }) => {
             className="w-2 h-2 rounded-full"
             style={{ backgroundColor: color }}
           ></span>
-          <p className=" text-xs">
+          <p className="text-sm">
             {labelText}:{" "}
             <span className="font-semibold">{payload[0].value}</span>
           </p>
