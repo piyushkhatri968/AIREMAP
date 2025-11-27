@@ -210,7 +210,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
 
             {/* Language Selector */}
 
-            <DropdownMenuSub>
+            {/* <DropdownMenuSub>
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
                 <LanguagesIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
@@ -235,7 +235,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
 
 
               </DropdownMenuSubContent>
-            </DropdownMenuSub>
+            </DropdownMenuSub> */}
 
             {/* Settings */}
             <DropdownMenuItem

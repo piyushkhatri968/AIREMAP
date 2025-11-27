@@ -59,7 +59,7 @@ const Transactions = () => {
       {/* Table */}
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
         <div className="overflow-x-auto rounded-xl">
-          <table className="w-full text-sm text-zinc-900 dark:text-white">
+          <table className="w-full text-sm text-zinc-900 dark:text-white whitespace-nowrap">
             <thead className="text-xs font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
               <tr>
                 <th className="py-3 px-4 text-center">{t("transactions.table.date")}</th>
@@ -67,7 +67,7 @@ const Transactions = () => {
                 <th className="py-3 px-4 text-center">{t("transactions.table.credits")}</th>
                 <th className="py-3 px-4 text-center">{t("transactions.table.total")}</th>
                 <th className="py-3 px-4 text-center">{t("transactions.table.status")}</th>
-                <th className="py-3 px-4 text-center">{t("transactions.table.invoice")}</th>
+                {/* <th className="py-3 px-4 text-center">{t("transactions.table.invoice")}</th> */}
               </tr>
             </thead>
 
@@ -95,17 +95,20 @@ const Transactions = () => {
                     <td className="py-4 px-4 text-center">£{row.amount}</td>
 
                     <td
-                      className={`py-4 px-4 text-center font-medium ${row.status === "Completed"
-                          ? "text-green-500"
-                          : row.status === "Failed"
-                            ? "text-red-500"
-                            : "text-yellow-500"
-                        }`}
+                      className="py-4 px-4 text-center"
                     >
-                      {row.status}
+                      <span className={`px-3 py-1 text-xs font-semibold rounded-full min-w-[80px] text-center whitespace-nowrap ${row.status === "Completed"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
+                        : row.status === "Failed"
+                          ? "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
+                          : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300"
+                        }`}>
+
+                        {row.status}
+                      </span>
                     </td>
 
-                    <td className="py-4 px-4 text-center">
+                    {/* <td className="py-4 px-4 text-center">
                       <Button
                         variant="secondary"
                         size="xs"
@@ -113,7 +116,7 @@ const Transactions = () => {
                       >
                         {t("transactions.download")}
                       </Button>
-                    </td>
+                    </td> */}
                   </motion.tr>
                 ))
               ) : (

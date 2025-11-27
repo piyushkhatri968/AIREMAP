@@ -68,7 +68,7 @@ const FaultyCodesPage = () => {
                                     {paginatedCodes.map((code, index) => (
                                         <tr
                                             key={index}
-                                            className="hover:bg-zinc-100/50 dark:hover:bg-gray-700/50 transition-colors"
+
                                         >
                                             <td className="py-3 px-4 text-zinc-900 dark:text-white text-sm">
                                                 {code.pCode}
@@ -91,7 +91,7 @@ const FaultyCodesPage = () => {
                                 {paginatedCodes.map((code, index) => (
                                     <div
                                         key={index}
-                                        className="py-3 px-3 hover:bg-zinc-100/50 dark:hover:bg-gray-700/50 transition-colors space-y-2"
+                                        className="py-3 px-3 space-y-2"
                                     >
                                         <div className="flex justify-between text-sm">
                                             <p className="text-zinc-500 dark:text-gray-400">
@@ -157,8 +157,8 @@ const FaultyCodesPage = () => {
                                         key={i}
                                         onClick={() => setCurrentPage(page)}
                                         className={`w-8 h-8 flex items-center justify-center rounded text-sm ${currentPage === page
-                                                ? "bg-red-500 text-white"
-                                                : "text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white"
+                                            ? "bg-red-500 text-white"
+                                            : "text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white"
                                             }`}
                                     >
                                         {page}
