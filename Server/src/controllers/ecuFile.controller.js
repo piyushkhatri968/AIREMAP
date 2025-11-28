@@ -25,6 +25,8 @@ export const CreateEcuFile = async (req, res) => {
     year,
   } = req.body;
 
+  // return console.log(req.body)
+
   try {
     if (
       !ecuId ||
@@ -75,15 +77,55 @@ export const CreateEcuFile = async (req, res) => {
 
     // Helper lists
     const ecuPrefixes = [
-      "ME7",
+      "MEVD17",
       "MED17",
       "MJ10",
       "EDC17",
       "MG1",
       "MD1",
-      "MEVD7",
       "MEV17",
+      "VALEO",
+      "SIEMENS EMS31XX",
+      "M2",
+      "ME7",
+      "MED9",
+      "MJD9",
+      "KEFICO",
+      "DCU17CP43",
+      "EDC17CP05",
+      "EDC17CP65",
+      "SID212",
+      "SIEMENS EMS2511",
+      "2533",
+      "24XX",
+      "DCU17CP42",
+      "DCU17CP01",
+      "EDC17C81",
+      "EDC17C83",
+      "CAMPI",
+      "MG1CS008",
+      "MED17.1.1",
+      "SH9V",
+      "MED17.8.XX",
+      "CRD3P.XX",
+      "CPC",
+      "SDI",
+      "DCM7.1",
+      "DENSO R7F701202",
+      "DCM6.2AP",
+      "SIMOS3",
+      "SIMOS6",
+      "SIMOS7",
+      "SIMOS8",
+      "SIMOS9",
+      "SIMOS10",
+      "SIMOS12",
+      "SIMOS16",
+      "SIMOS18",
+      "SIMOS19",
+      "SID321"
     ];
+
 
     const oneCreditStages = ["Gear Box", "Original File (Back To Stock)"];
     const twoCreditStages = ["ECU Cloning"];
@@ -96,8 +138,12 @@ export const CreateEcuFile = async (req, res) => {
       "FLEX FUEL E85",
       "ORIGINAL FILE REQUEST",
       "ADDITIONAL SOLUTIONS ADDED TO MASTER FILE",
+      "File Check Review"
     ];
     const paidOptions2Credit = ["IMMO OFF"];
+
+    const paidOptions4Credit = ["TRUCK / TRACTOR / HGV / CONSTRUCTION"]
+    const paidOptions25Credit = ["CUMMINS / CATERHAM"]
 
     // normalize values
     const ecu = ecuId?.trim() || "";
@@ -122,6 +168,8 @@ export const CreateEcuFile = async (req, res) => {
       let extraCredits = 0;
       for (const opt of opts) {
         if (paidOptions2Credit.includes(opt)) extraCredits += 2;
+        if (paidOptions4Credit.includes(opt)) extraCredits += 4;
+        if (paidOptions25Credit.includes(opt)) extraCredits += 25;
         else if (paidOptions1Credit.includes(opt)) extraCredits += 1;
       }
 
@@ -134,7 +182,7 @@ export const CreateEcuFile = async (req, res) => {
     if (req?.files?.ecuFile?.[0]) {
       const ecuFilePath = req.files.ecuFile[0].path;
       const cloudinaryUrl = await uploadToCloudinary(ecuFilePath);
-      await fs.unlink(ecuFilePath).catch(() => {}); // safe cleanup
+      await fs.unlink(ecuFilePath).catch(() => { }); // safe cleanup
       if (!cloudinaryUrl) {
         return sendResponse(res, 500, false, "Failed to upload ECU file", null);
       }
@@ -149,7 +197,7 @@ export const CreateEcuFile = async (req, res) => {
       );
       commonFilesUrls = await Promise.all(uploads);
       await Promise.all(
-        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => {}))
+        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => { }))
       );
     }
 

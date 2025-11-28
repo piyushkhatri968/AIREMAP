@@ -25,6 +25,7 @@ import authRoutes from "./routes/auth.route.js";
 import paymentRoutes from "./routes/payment.route.js";
 import ecuFileRoutes from "./routes/ecuFile.route.js";
 import adminRoutes from "./routes/admin.route.js";
+import agentRoutes from "./routes/agent.route.js"
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -34,6 +35,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/ecuFile", ecuFileRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/agent", agentRoutes);
 
 // http server for socket.io
 const server = http.createServer(app);

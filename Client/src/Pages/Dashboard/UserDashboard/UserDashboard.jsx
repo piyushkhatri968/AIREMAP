@@ -110,8 +110,6 @@ const UserDashboard = () => {
     </>
   );
 
-  const navigate = useNavigate();
-
   return (
     <div className="bg-white dark:bg-[#171819] p-4">
       <motion.div
@@ -176,10 +174,10 @@ const UserDashboard = () => {
           ) : (
             <>
               {/* Files Card */}
-              <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-4 sm:p-6 relative overflow-hidden">
+              <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-4 sm:p-6 relative overflow-hidden h-28 sm:h-32">
                 <div className="relative z-10">
-                  <div className="flex items-baseline space-x-2 mb-2">
-                    <span className="text-3xl sm:text-5xl font-light text-zinc-900 dark:text-white">
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-light text-zinc-900 dark:text-white">
                       {authUser?.totalFilesSubmitted || 0}
                     </span>
                     <span className="text-zinc-600 dark:text-gray-400">
@@ -191,15 +189,15 @@ const UserDashboard = () => {
                   </p>
                 </div>
                 {/* Green wave */}
-                <div className="absolute bottom-0 left-0 right-0">
+                <div className="absolute bottom-0 left-0 right-0 z-20">
                   <FileStatsChart data={fileStatsChartData} />
                 </div>
               </div>
 
               {/* Purchases Card */}
-              <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-4 sm:p-6 relative overflow-hidden">
+              <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-4 sm:p-6 relative overflow-hidden h-28 sm:h-32">
                 <div className="relative z-10">
-                  <div className="text-3xl sm:text-5xl font-light text-zinc-900 dark:text-white mb-2">
+                  <div className="text-3xl font-light text-zinc-900 dark:text-white">
                     {formatCurrency(authUser?.totalMoneySpent)}
                   </div>
                   <p className="text-zinc-600 dark:text-gray-400 text-sm">
@@ -207,7 +205,7 @@ const UserDashboard = () => {
                   </p>
                 </div>
                 {/* Red wave */}
-                <div className="absolute bottom-0 left-0 right-0">
+                <div className="absolute bottom-0 left-0 right-0 z-20">
                   <MoneyStatsChart
                     data={amountSpentStatsChartData}
                     formatCurrency={formatCurrency}

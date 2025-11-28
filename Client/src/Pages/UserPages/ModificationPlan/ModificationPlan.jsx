@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
-import { AlertTriangle, Check, Upload, UploadCloud } from "lucide-react";
+import { AlertTriangle, Check, Upload } from "lucide-react";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
@@ -89,6 +89,27 @@ const ModificationPlan = () => {
     {
       id: "enc-dec",
       name: "ENCRYPT / DECRYPT (Includes 1 Encrypt and 1 Decrypt)",
+      category: "service",
+      warning: true,
+      credits: 1,
+    },
+    {
+      id: "t-t-h-c",
+      name: "TRUCK / TRACTOR / HGV / CONSTRUCTION",
+      category: "service",
+      warning: true,
+      credits: 4,
+    },
+    {
+      id: "cum-cat",
+      name: "CUMMINS / CATERHAM",
+      category: "service",
+      warning: true,
+      credits: 25,
+    },
+    {
+      id: "file-check-review",
+      name: "File Check Review ",
       category: "service",
       warning: true,
       credits: 1,
@@ -259,10 +280,6 @@ const ModificationPlan = () => {
       return;
     }
 
-    if (!isOptionsBlocked && selectedOptions.length === 0) {
-      return toast.error("Please select any option");
-    }
-
     const data = {
       ...fromSourceData,
       ecuFile: uploadedFile,
@@ -345,285 +362,285 @@ const ModificationPlan = () => {
           </span>
         </div>
       </div>
-      {/* Main Content */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
-      >
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6">
-          <div className="space-y-6">
-            {/* Header */}
-            <div className="space-y-2">
-              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                Stage Modification
-              </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Mouse over the icon to see solution notes. Available solutions
-                for selected vehicle are highlighted.
-              </p>
+      <div className="p-4">
+        {/* Main Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
+        >
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6">
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="space-y-2">
+                <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                  Stage Modification
+                </h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Mouse over the icon to see solution notes. Available solutions
+                  for selected vehicle are highlighted.
+                </p>
+              </div>
             </div>
-          </div>
-          {/* Stage Selection (unchanged logic) */}
-          <div className="space-y-2 mt-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                Stage
-              </span>
-              <span className="text-red-500">*</span>
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Select stage modification
-            </p>
-            <Select
-              value={selectedStage}
-              onValueChange={setSelectedStage}
-              required
-            >
-              <SelectTrigger className="w-full bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 dark:text-white">
-                <SelectValue placeholder="Select stage modification" />
-              </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 [&>*]:dark:bg-[#242526]/90 [&_*]:dark:bg-[#242526]/90">
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="No Engine Mud"
-                >
-                  No Engine Mud
-                </SelectItem>
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="Eco"
-                >
-                  Eco
-                </SelectItem>
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="Stage 1"
-                >
-                  Stage 1
-                </SelectItem>
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="Stage 2"
-                >
-                  Stage 2
-                </SelectItem>
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="Gear Box"
-                >
-                  Gear Box
-                </SelectItem>
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="Original File (Back To Stock)"
-                >
-                  Original File (Back To Stock)
-                </SelectItem>
-                <SelectItem
-                  className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
-                  value="ECU Cloning"
-                >
-                  ECU Cloning
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Options Section */}
-          <div className="space-y-2 mt-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                Options
-              </span>
-              <span className="text-red-500">*</span>
-              {isOptionsBlocked && (
-                <span className="text-xs text-red-500 ml-2">
-                  (Disabled for this Stage)
+            {/* Stage Selection (unchanged logic) */}
+            <div className="space-y-2 mt-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  Stage
                 </span>
-              )}
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Select any extra solutions you need to complement your customized
-              tuning experience.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div className="space-y-3">
-                {modificationOptions.slice(0, 18).map((option) => (
-                  <label
-                    key={option.id}
-                    className={`flex items-center space-x-3 cursor-pointer group ${
-                      isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    <Checkbox
-                      checked={selectedOptions.includes(option.name)}
-                      onCheckedChange={() => handleOptionToggle(option.name)}
-                      disabled={isOptionsBlocked}
-                      className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
-                        isOptionsBlocked
-                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
-                          : ""
-                      }`}
-                    />
-                    <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
-                      <span>{option.name}</span>
-                      <span>
-                        {option.warning && (
-                          <span
-                            title={`Option requires ${option.credits} credits`}
-                          >
-                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                          </span>
-                        )}
-                      </span>
-                    </span>
-                  </label>
-                ))}
+                <span className="text-red-500">*</span>
               </div>
-
-              {/* Right Column */}
-              <div className="space-y-3">
-                {modificationOptions.slice(18).map((option) => (
-                  <label
-                    key={option.id}
-                    className={`flex items-center space-x-3 cursor-pointer group ${
-                      isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    <Checkbox
-                      checked={selectedOptions.includes(option.name)}
-                      onCheckedChange={() => handleOptionToggle(option.name)}
-                      disabled={isOptionsBlocked}
-                      className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
-                        isOptionsBlocked
-                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
-                          : ""
-                      }`}
-                    />
-                    <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
-                      <span>{option.name}</span>
-                      <span>
-                        {option.warning && (
-                          <span
-                            title={`Option requires ${option.credits} ${
-                              option.credits > 1 ? "credits" : "credit"
-                            }`}
-                          >
-                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                          </span>
-                        )}
-                      </span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 mt-4">
-            <div>
-              <Label className="text-sm font-medium text-gray-900 dark:text-white">
-                Original File <span className="text-red-600">*</span>
-              </Label>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Your original ECU file here.
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Select stage modification
               </p>
-              <div
-                // onDragOver={handleDragOver}
-                // onDrop={handleDrop}
-                className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors"
-                // onClick={() => document.getElementById("file-upload")?.click()}
+              <Select
+                value={selectedStage}
+                onValueChange={setSelectedStage}
+                required
               >
-                {uploadedFile && (
-                  <div className="flex items-center space-x-2 text-green-600">
-                    <Check className="h-5 w-5" />
-                    <span>{uploadedFile.name}</span>
-                  </div>
-                )}
-                <input
-                  id="file-upload"
-                  type="file"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-              </div>
+                <SelectTrigger className="w-full bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 dark:text-white">
+                  <SelectValue placeholder="Select stage modification" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 [&>*]:dark:bg-[#242526]/90 [&_*]:dark:bg-[#242526]/90">
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="No Engine Mud"
+                  >
+                    No Engine Mud
+                  </SelectItem>
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="Eco"
+                  >
+                    Eco
+                  </SelectItem>
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="Stage 1"
+                  >
+                    Stage 1
+                  </SelectItem>
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="Stage 2"
+                  >
+                    Stage 2
+                  </SelectItem>
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="Gear Box"
+                  >
+                    Gear Box
+                  </SelectItem>
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="Original File (Back To Stock)"
+                  >
+                    Original File (Back To Stock)
+                  </SelectItem>
+                  <SelectItem
+                    className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
+                    value="ECU Cloning"
+                  >
+                    ECU Cloning
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            <div className="mt-4">
-              <Label className="text-sm font-medium text-gray-900 dark:text-white">
-                Additional Files
-              </Label>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Upload any additional files that might be relevant (e.g., log
-                files)
-              </p>
-              <div
-                className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors"
-                onClick={() =>
-                  document.getElementById("additional-files")?.click()
+            {/* Options Section */}
+            <div className="space-y-2 mt-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  Options
+                </span>
+                {
+                  !blockedStages &&
+                  <span className="text-red-500">*</span>
                 }
-              >
-                {commonFiles.length > 0 ? (
-                  <div className="flex flex-col items-center space-y-2">
-                    <Check className="h-5 w-5 text-green-600" />
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      {commonFiles.length} file(s) selected
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {commonFiles.map((file) => file.name).join(", ")}
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <Upload className="h-10 w-10 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Click to upload additional files
-                    </p>
-                  </>
+                {isOptionsBlocked && (
+                  <span className="text-xs text-red-500 ml-2">
+                    (Disabled for this Stage)
+                  </span>
                 )}
-                <input
-                  id="additional-files"
-                  type="file"
-                  multiple
-                  onChange={handleCommonFilesUpload}
-                  className="hidden"
-                />
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Select any extra solutions you need to complement your customized
+                tuning experience.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Column */}
+                <div className="space-y-3">
+                  {modificationOptions.slice(0, 20).map((option) => (
+                    <label
+                      key={option.id}
+                      className={`flex items-center space-x-3 cursor-pointer group ${isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                    >
+                      <Checkbox
+                        checked={selectedOptions.includes(option.name)}
+                        onCheckedChange={() => handleOptionToggle(option.name)}
+                        disabled={isOptionsBlocked}
+                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${isOptionsBlocked
+                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                          : ""
+                          }`}
+                      />
+                      <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
+                        <span>{option.name}</span>
+                        <span>
+                          {option.warning && (
+                            <span
+                              title={`Option requires ${option.credits} credits`}
+                            >
+                              <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                            </span>
+                          )}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                {/* Right Column */}
+                <div className="space-y-3">
+                  {modificationOptions.slice(20).map((option) => (
+                    <label
+                      key={option.id}
+                      className={`flex items-center space-x-3 cursor-pointer group ${isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                    >
+                      <Checkbox
+                        checked={selectedOptions.includes(option.name)}
+                        onCheckedChange={() => handleOptionToggle(option.name)}
+                        disabled={isOptionsBlocked}
+                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${isOptionsBlocked
+                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                          : ""
+                          }`}
+                      />
+                      <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
+                        <span>{option.name}</span>
+                        <span>
+                          {option.warning && (
+                            <span
+                              title={`Option requires ${option.credits} ${option.credits > 1 ? "credits" : "credit"
+                                }`}
+                            >
+                              <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                            </span>
+                          )}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          {/* Notes Section (unchanged) */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="notes"
-              className="text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Notes
-            </Label>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Please enter the notes if there is anything that our tuners should
-              consider when modifying the file
-            </p>
-            <Textarea
-              id="notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="min-h-[100px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
-            />
-          </div>
-          {/* Submit Button (unchanged) */}
-          <div className="flex justify-end mt-4">
-            <Button
-              type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white px-8 mt-4"
-            >
-              Continue
-            </Button>
-          </div>
-        </form>
-      </motion.div>
+
+            <div className="space-y-4 mt-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-900 dark:text-white">
+                  Original File <span className="text-red-600">*</span>
+                </Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                  Your original ECU file here.
+                </p>
+                <div
+                  // onDragOver={handleDragOver}
+                  // onDrop={handleDrop}
+                  className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors"
+                // onClick={() => document.getElementById("file-upload")?.click()}
+                >
+                  {uploadedFile && (
+                    <div className="flex items-center space-x-2 text-green-600">
+                      <Check className="h-5 w-5" />
+                      <span>{uploadedFile.name}</span>
+                    </div>
+                  )}
+                  <input
+                    id="file-upload"
+                    type="file"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <Label className="text-sm font-medium text-gray-900 dark:text-white">
+                  Additional Files
+                </Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                  Upload any additional files that might be relevant (e.g., log
+                  files)
+                </p>
+                <div
+                  className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                  onClick={() =>
+                    document.getElementById("additional-files")?.click()
+                  }
+                >
+                  {commonFiles.length > 0 ? (
+                    <div className="flex flex-col items-center space-y-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                        {commonFiles.length} file(s) selected
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {commonFiles.map((file) => file.name).join(", ")}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Click to upload additional files
+                      </p>
+                    </>
+                  )}
+                  <input
+                    id="additional-files"
+                    type="file"
+                    multiple
+                    onChange={handleCommonFilesUpload}
+                    className="hidden"
+                  />
+                </div>
+              </div>
+            </div>
+            {/* Notes Section (unchanged) */}
+            <div className="space-y-2">
+              <Label
+                htmlFor="notes"
+                className="text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Notes
+              </Label>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Please enter the notes if there is anything that our tuners should
+                consider when modifying the file
+              </p>
+              <Textarea
+                id="notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="min-h-[100px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
+              />
+            </div>
+            {/* Submit Button (unchanged) */}
+            <div className="flex justify-end mt-4">
+              <Button
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white px-8 mt-4"
+              >
+                Continue
+              </Button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };

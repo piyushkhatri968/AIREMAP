@@ -11,6 +11,7 @@ const useUpdateUserCredits = () => {
     onSuccess: (res) => {
       toast.success(res?.message);
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["assignUsersToAgent"] });
     },
     onError: (error) => {
       toast.error(

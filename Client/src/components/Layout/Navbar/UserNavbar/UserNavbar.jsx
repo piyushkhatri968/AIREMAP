@@ -111,7 +111,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
         {/* Logo */}
         <div
           onClick={() => navigate("/dashboard")}
-          className="flex items-center gap-2 mr-4 sm:mr-24 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 mr-4 sm:mr-24 cursor-pointer"
         >
           <img
             src={favIcon}

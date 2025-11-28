@@ -111,6 +111,27 @@ const Overview = () => {
       warning: true,
       credits: 1,
     },
+    {
+      id: "t-t-h-c",
+      name: "TRUCK / TRACTOR / HGV / CONSTRUCTION",
+      category: "service",
+      warning: true,
+      credits: 4,
+    },
+    {
+      id: "cum-cat",
+      name: "CUMMINS / CATERHAM",
+      category: "service",
+      warning: true,
+      credits: 25,
+    },
+    {
+      id: "file-check-review",
+      name: "File Check Review ",
+      category: "service",
+      warning: true,
+      credits: 1,
+    },
 
     // Right Column
     { id: "adblue-scr", name: "ADBLUE - SCR OFF", category: "emissions" },
@@ -191,8 +212,6 @@ const Overview = () => {
     });
   };
 
-  const data = location.state;
-
   const { isPending, createEcuFileMutation } = useCreateEcuFile();
 
   const handleSubmit = async (e) => {
@@ -252,14 +271,14 @@ const Overview = () => {
         stage === "ECU Cloning"
       ) {
         return (
-          <p className="text-sm italic text-zinc-500 dark:text-gray-400 mt-2">
-            No extra modifications selected. (Not applicable for this Stage)
+          <p className="text-xs italic text-zinc-500 dark:text-gray-400 mt-2">
+            No extra solutions selected. (Not applicable for this Stage)
           </p>
         );
       }
       return (
-        <p className="text-sm italic text-red-500 dark:text-red-400 mt-2">
-          No extra modifications selected. (Required for this Stage)
+        <p className="text-zinc-500 dark:text-gray-400 text-xs mt-2">
+          No extra solutions selected.
         </p>
       );
     }
@@ -353,232 +372,234 @@ const Overview = () => {
         </div>
         {/* Main Content: two-column layout (left labels, right content) */}
 
-        <form
-          onSubmit={handleSubmit}
-          className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
-        >
-          <div className="p-4 sm:p-6 lg:p-8">
-            <aside className="lg:col-span-3 space-y-8">
-              <div>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">
-                  Overview
-                </h2>
-                <p className="text-sm text-zinc-500 dark:text-gray-400">
-                  Check if the form data is entered correctly before submit.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+        <div className="p-4">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700"
+          >
+            <div className="p-4 sm:p-6 lg:p-8">
+              <aside className="lg:col-span-3 space-y-8">
                 <div>
-                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mb-1">
-                    Details
-                  </h3>
-                  <p className="text-xs text-zinc-500 dark:text-gray-400">
-                    Make sure you enter the correct car details, as accurate as
-                    possible helps to complete the file faster.
+                  <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">
+                    Overview
+                  </h2>
+                  <p className="text-sm text-zinc-500 dark:text-gray-400">
+                    Check if the form data is entered correctly before submit.
                   </p>
                 </div>
-                {/* Car Details Card */}
-                <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
-                  <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
-                    <div className="flex-1 order-2 lg:order-1">
-                      <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
-                        Registration | {registration}
-                      </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                  <div>
+                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mb-1">
+                      Details
+                    </h3>
+                    <p className="text-xs text-zinc-500 dark:text-gray-400">
+                      Make sure you enter the correct car details, as accurate as
+                      possible helps to complete the file faster.
+                    </p>
+                  </div>
+                  {/* Car Details Card */}
+                  <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
+                    <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
+                      <div className="flex-1 order-2 lg:order-1">
+                        <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
+                          Registration | {registration}
+                        </h4>
 
-                      <div className="grid grid-cols-2 gap-y-2 gap-x-6 mt-4 items-start">
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          Make/Model/Year
-                        </div>
-                        <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {make} {model} {year}
+                        <div className="grid grid-cols-2 gap-y-2 gap-x-6 mt-4 items-start">
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            Make/Model/Year
+                          </div>
+                          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+                            {make} {model} {year}
+                          </div>
+
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            ECU ID
+                          </div>
+                          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+                            {ecuId || "N/A"}
+                          </div>
+
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            Gearbox
+                          </div>
+                          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+                            {transmission || "N/A"}
+                          </div>
+
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            Master/Slave
+                          </div>
+                          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+                            {masterSlave || "N/A"}
+                          </div>
+
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            Read Tool
+                          </div>
+                          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+                            {readTool || "N/A"}
+                          </div>
+
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            Read Type
+                          </div>
+                          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+                            {readType || "N/A"}
+                          </div>
                         </div>
 
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          ECU ID
-                        </div>
-                        <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {ecuId || "N/A"}
-                        </div>
-
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          Gearbox
-                        </div>
-                        <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {transmission || "N/A"}
-                        </div>
-
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          Master/Slave
-                        </div>
-                        <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {masterSlave || "N/A"}
-                        </div>
-
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          Read Tool
-                        </div>
-                        <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {readTool || "N/A"}
-                        </div>
-
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          Read Type
-                        </div>
-                        <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {readType || "N/A"}
-                        </div>
-                      </div>
-
-                      <div className="mt-4 grid grid-cols-2 gap-x-6 items-start">
-                        <div className="text-sm text-zinc-500 dark:text-gray-400">
-                          Original File:
-                        </div>
-                        <div>
-                          {ecuFile ? (
-                            <div className="flex items-center gap-2 mt-1 bg-gray-100 dark:bg-[#242526]/90 rounded px-3 py-1 max-w-full border border-zinc-200 dark:border-[#3a3b3c]">
-                              <FileCheck className="w-4 h-4 text-green-500" />
-                              <div className="flex flex-col">
-                                <span className="text-sm font-medium text-zinc-900 dark:text-gray-100">
-                                  {ecuFile.name}
-                                </span>
-                                <span className="text-xs text-zinc-500 dark:text-gray-300">
-                                  {formatFileSize(ecuFile.size)}
-                                </span>
+                        <div className="mt-4 grid grid-cols-2 gap-x-6 items-start">
+                          <div className="text-sm text-zinc-500 dark:text-gray-400">
+                            Original File:
+                          </div>
+                          <div>
+                            {ecuFile ? (
+                              <div className="flex items-center gap-2 mt-1 bg-gray-100 dark:bg-[#242526]/90 rounded px-3 py-1 max-w-full border border-zinc-200 dark:border-[#3a3b3c]">
+                                <FileCheck className="w-4 h-4 text-green-500" />
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-medium text-zinc-900 dark:text-gray-100">
+                                    {ecuFile.name}
+                                  </span>
+                                  <span className="text-xs text-zinc-500 dark:text-gray-300">
+                                    {formatFileSize(ecuFile.size)}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          ) : (
-                            <span className="text-sm text-red-500">
-                              No file uploaded
-                            </span>
-                          )}
+                            ) : (
+                              <span className="text-sm text-red-500">
+                                No file uploaded
+                              </span>
+                            )}
 
-                          {commonFiles && commonFiles.length > 0 && (
-                            <div className="mt-2 text-sm text-zinc-500 dark:text-gray-400">
-                              **+ {commonFiles.length} additional file(s)**
-                            </div>
-                          )}
+                            {commonFiles && commonFiles.length > 0 && (
+                              <div className="mt-2 text-sm text-zinc-500 dark:text-gray-400">
+                                **+ {commonFiles.length} additional file(s)**
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div>
-                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-8 sm:mt-0">
-                    Solutions
-                  </h3>
-                  <p className="text-xs text-zinc-500 dark:text-gray-400">
-                    If there are, read the solution notes and be sure to pay
-                    attention to them.
-                  </p>
-                </div>
-                <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-red-600 w-10 h-10 rounded flex items-center justify-center">
-                      {/* Display first letter of stage or 'S' for default */}
-                      <span className="text-white font-semibold">
-                        {stageDisplay[stage]
-                          ? stageDisplay[stage].charAt(0)
-                          : "S"}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
-                        {stageDisplay[stage] || stage || "N/A Stage"}
-                      </h4>
-                      {/* Stage description placeholder */}
-                      <p className="text-sm text-zinc-500 dark:text-gray-400">
-                        {stage === "stage-1"
-                          ? "Est. 21% more power and 19% more torque"
-                          : "Custom tuning plan selected."}
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-8 sm:mt-0">
+                      Solutions
+                    </h3>
+                    <p className="text-xs text-zinc-500 dark:text-gray-400">
+                      If there are, read the solution notes and be sure to pay
+                      attention to them.
+                    </p>
                   </div>
+                  <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-red-600 w-10 h-10 rounded flex items-center justify-center">
+                        {/* Display first letter of stage or 'S' for default */}
+                        <span className="text-white font-semibold">
+                          {stageDisplay[stage]
+                            ? stageDisplay[stage].charAt(0)
+                            : "S"}
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
+                          {stageDisplay[stage] || stage || "N/A Stage"}
+                        </h4>
+                        {/* Stage description placeholder */}
+                        <p className="text-sm text-zinc-500 dark:text-gray-400">
+                          {stage === "stage-1"
+                            ? "Est. 21% more power and 19% more torque"
+                            : "Custom tuning plan selected."}
+                        </p>
+                      </div>
+                    </div>
 
-                  <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
-                    <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
-                      Selected Options:
-                    </h5>
-                    {renderSelectedOptions()}
-                  </div>
-
-                  {notes && (
                     <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
                       <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
-                        Notes for Tuner:
+                        Selected Solutions:
                       </h5>
-                      <p className="text-sm italic text-zinc-600 dark:text-gray-400 whitespace-pre-wrap">
-                        {notes}
-                      </p>
+                      {renderSelectedOptions()}
                     </div>
-                  )}
-                </div>
 
-                <div></div>
-                <div>
-                  {/* Terms Card (unchanged) */}
-                  <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700 mt-8 sm:mt-0">
-                    <div className="flex items-start justify-between">
-                      <div className="flex flex-col items-start">
-                        <div className="flex gap-2">
-                          <Checkbox
-                            id="terms"
-                            checked={acceptTerms}
-                            onCheckedChange={(checked) =>
-                              setAcceptTerms(checked)
-                            }
-                            className="rounded border-gray-300 text-red-600 focus:ring-red-500"
-                          />
-                          <label
-                            htmlFor="terms"
-                            className="text-sm text-zinc-500 dark:text-gray-400 whitespace-nowrap"
+                    {notes && (
+                      <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
+                        <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
+                          Notes for Tuner:
+                        </h5>
+                        <p className="text-sm italic text-zinc-600 dark:text-gray-400 whitespace-pre-wrap">
+                          {notes}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div></div>
+                  <div>
+                    {/* Terms Card (unchanged) */}
+                    <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700 mt-8 sm:mt-0">
+                      <div className="flex items-start justify-between">
+                        <div className="flex flex-col items-start">
+                          <div className="flex gap-2">
+                            <Checkbox
+                              id="terms"
+                              checked={acceptTerms}
+                              onCheckedChange={(checked) =>
+                                setAcceptTerms(checked)
+                              }
+                              className="rounded border-gray-300 text-red-600 focus:ring-red-500"
+                            />
+                            <label
+                              htmlFor="terms"
+                              className="text-sm text-zinc-500 dark:text-gray-400 whitespace-nowrap"
+                            >
+                              I accept the terms and conditions.{" "}
+                            </label>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              settermsConditionPopup(true);
+                            }}
+                            className="text-red-600 hover:underline text-start mt-2 sm:mt-0"
                           >
-                            I accept the terms and conditions.{" "}
-                          </label>
+                            Please read and accept the terms and conditions before
+                            proceeding.
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            settermsConditionPopup(true);
-                          }}
-                          className="text-red-600 hover:underline text-start mt-2 sm:mt-0"
-                        >
-                          Please read and accept the terms and conditions before
-                          proceeding.
-                        </button>
                       </div>
                     </div>
-                  </div>
-                  {/* Action Buttons */}
-                  <div className="flex justify-between pt-8">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleGoBack}
-                      className="px-8 dark:text-white"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-red-600 hover:bg-red-700 text-white px-8"
-                      disabled={!acceptTerms || isPending}
-                    >
-                      {isPending ? (
-                        <div className="flex items-center justify-center">
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          <span>Loading...</span>
-                        </div>
-                      ) : (
-                        "Submit"
-                      )}
-                    </Button>
+                    {/* Action Buttons */}
+                    <div className="flex justify-between pt-8">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleGoBack}
+                        className="px-8 dark:text-white"
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="bg-red-600 hover:bg-red-700 text-white px-8"
+                        disabled={!acceptTerms || isPending}
+                      >
+                        {isPending ? (
+                          <div className="flex items-center justify-center">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <span>Loading...</span>
+                          </div>
+                        ) : (
+                          "Submit"
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </aside>
-          </div>
-        </form>
+              </aside>
+            </div>
+          </form>
+        </div>
       </motion.div>
 
       {termsConditionPopup && (

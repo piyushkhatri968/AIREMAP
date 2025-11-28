@@ -27,7 +27,7 @@ const FileStatsChart = ({ data }) => {
     files: item.files,
   }));
   return (
-    <div className="relative h-24 md:h-32 w-full">
+    <div className="relative h-16 sm:20 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}

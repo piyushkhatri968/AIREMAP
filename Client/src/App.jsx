@@ -57,6 +57,7 @@ import SnowMobile from "./Pages/UserPages/AutoData/SnowMobile/SnowMobile";
 import Construction from "./Pages/UserPages/AutoData/Construction/Construction";
 import Bus from "./Pages/UserPages/AutoData/Bus/Bus";
 import Privacy from "./Pages/Privacy/Privacy";
+import AgentCredits from "./Pages/AgentPages/AgentCredits/AgentCredits";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -152,7 +153,7 @@ const App = () => {
           <Route element={<AgentDashboardLayout />}>
             <Route path="/files" element={<AgentFiles />} />
             <Route path="/ticket/:ticketNumber" element={<AdminTicket />} />
-            <Route path="/credits" element={<AdminCredits />} />
+            <Route path="/credits" element={<AgentCredits />} />
             <Route path="/settings" element={<AgentSettings />} />
           </Route>
         )}

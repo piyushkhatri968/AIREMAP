@@ -248,32 +248,32 @@ const UploadFile = () => {
         </div>
       </div>
 
-      {/* Form Container */}
-      <form
-        onSubmit={handleSubmit}
-        className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700 w-full"
-      >
-        <div className="p-4 sm:p-6 lg:p-8">
-          <div className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
-              Vehicle Parameters
-            </h2>
-            <p className="text-zinc-500 dark:text-gray-400 text-sm sm:text-base">
-              Please provide the following parameters for your vehicle to help
-              us deliver a more accurate and effective ECU tune.
-            </p>
-          </div>
-          {/* Vehicle Parameters Form */}
-          <div className="space-y-8">
-            {/* Vehicle Selection */}
-            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-              <div className="space-y-1">
-                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                  Vehicle <span className="text-red-600">*</span>
-                </Label>
-                <p className="text-sm text-zinc-600 dark:text-gray-400">
-                  Choose your vehicle model.
-                  {/* If you cannot find your vehicle,
+      <div className="p-4">      {/* Form Container */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700 w-full"
+        >
+          <div className="p-4 sm:p-6 lg:p-8">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+                Vehicle Parameters
+              </h2>
+              <p className="text-zinc-500 dark:text-gray-400 text-sm sm:text-base">
+                Please provide the following parameters for your vehicle to help
+                us deliver a more accurate and effective ECU tune.
+              </p>
+            </div>
+            {/* Vehicle Parameters Form */}
+            <div className="space-y-8">
+              {/* Vehicle Selection */}
+              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                <div className="space-y-1">
+                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                    Vehicle <span className="text-red-600">*</span>
+                  </Label>
+                  <p className="text-sm text-zinc-600 dark:text-gray-400">
+                    Choose your vehicle model.
+                    {/* If you cannot find your vehicle,
                   please contact us on
                   <a
                     href="/help"
@@ -281,341 +281,341 @@ const UploadFile = () => {
                   >
                     Help Page
                   </a> */}
-                </p>
-              </div>
-              <div className="space-y-4">
-                {/* Make */}
-                <Input
-                  required
-                  id="make"
-                  placeholder="Make"
-                  value={formData.make}
-                  onChange={handleInputChange}
-                  className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                />
-
-                {/* Model */}
-                <Input
-                  required
-                  placeholder="Model"
-                  id="model"
-                  value={formData.model}
-                  onChange={handleInputChange}
-                  className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                />
-
-                {/* Year */}
-                <Input
-                  required
-                  placeholder="Year"
-                  id="year"
-                  value={formData.year}
-                  onChange={handleInputChange}
-                  className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                />
-
-                {/* Registration */}
-                <Input
-                  required
-                  placeholder="Registration"
-                  id="registration"
-                  value={formData.registration}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      registration: e.target.value.toUpperCase(),
-                    }))
-                  }
-                  className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                />
-
-                {/* ECU ID */}
-                <div className="relative">
-                  {/* Select with EcuSearchCombobox */}
-                  <EcuSearchCombobox
-                    options={ecuOptions}
-                    selectedValue={formData.ecuId}
-                    onValueChange={(value) =>
-                      handleSelectChange("ecuId", value)
-                    }
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  {/* Make */}
+                  <Input
+                    required
+                    id="make"
+                    placeholder="Make"
+                    value={formData.make}
+                    onChange={handleInputChange}
+                    className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                   />
+
+                  {/* Model */}
+                  <Input
+                    required
+                    placeholder="Model"
+                    id="model"
+                    value={formData.model}
+                    onChange={handleInputChange}
+                    className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+                  />
+
+                  {/* Year */}
+                  <Input
+                    required
+                    placeholder="Year"
+                    id="year"
+                    value={formData.year}
+                    onChange={handleInputChange}
+                    className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+                  />
+
+                  {/* Registration */}
+                  <Input
+                    required
+                    placeholder="Registration"
+                    id="registration"
+                    value={formData.registration}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        registration: e.target.value.toUpperCase(),
+                      }))
+                    }
+                    className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+                  />
+
+                  {/* ECU ID */}
+                  <div className="relative">
+                    {/* Select with EcuSearchCombobox */}
+                    <EcuSearchCombobox
+                      options={ecuOptions}
+                      selectedValue={formData.ecuId}
+                      onValueChange={(value) =>
+                        handleSelectChange("ecuId", value)
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Transmission Type */}
-            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-              <div className="space-y-4">
-                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                  Transmission Type <span className="text-red-600">*</span>
-                </Label>
-              </div>
-              <div className="">
-                <RadioGroup
-                  value={formData.transmission}
-                  onValueChange={(value) =>
-                    handleSelectChange("transmission", value)
-                  }
-                  className="flex items-center space-x-4 md:space-x-8"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="Automatic"
-                      id="automatic"
-                      className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                    />
-                    <Label
-                      htmlFor="automatic"
-                      className="text-zinc-900 dark:text-white"
-                    >
-                      Automatic
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="Manual"
-                      id="manual"
-                      className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                    />
-                    <Label
-                      htmlFor="manual"
-                      className="text-zinc-900 dark:text-white"
-                    >
-                      Manual
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="SemiAutomatic"
-                      id="semi-automatic"
-                      className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                    />
-                    <Label
-                      htmlFor="semi-automatic"
-                      className="text-zinc-900 dark:text-white"
-                    >
-                      SemiAutomatic
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
-            </div>
-            {/* Tool Selection */}
-            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-              <div className="space-y-2">
-                <Label className="text-zinc-900 dark:text-white text-sm font-medium block mt-4 sm:mt-0">
-                  Tool <span className="text-red-600">*</span>
-                </Label>
-                <p className="text-sm text-zinc-600 dark:text-gray-400">
-                  Select the options that specify the reading tool and read type
-                  used to extract ECU file.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <Select
-                  required
-                  value={formData.readTool}
-                  onValueChange={(value) =>
-                    handleSelectChange("readTool", value)
-                  }
-                >
-                  <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                    <SelectValue placeholder="Select read tool" />
-                  </SelectTrigger>
-
-                  <SelectContent
-                    className="dark:bg-[#242526] relative"
-                    side="top"
+              {/* Transmission Type */}
+              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                <div className="space-y-4">
+                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                    Transmission Type <span className="text-red-600">*</span>
+                  </Label>
+                </div>
+                <div className="">
+                  <RadioGroup
+                    value={formData.transmission}
+                    onValueChange={(value) =>
+                      handleSelectChange("transmission", value)
+                    }
+                    className="flex items-center space-x-4 md:space-x-8"
                   >
-                    {readToolData.map((tool) => (
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value="Automatic"
+                        id="automatic"
+                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      />
+                      <Label
+                        htmlFor="automatic"
+                        className="text-zinc-900 dark:text-white"
+                      >
+                        Automatic
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value="Manual"
+                        id="manual"
+                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      />
+                      <Label
+                        htmlFor="manual"
+                        className="text-zinc-900 dark:text-white"
+                      >
+                        Manual
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value="SemiAutomatic"
+                        id="semi-automatic"
+                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      />
+                      <Label
+                        htmlFor="semi-automatic"
+                        className="text-zinc-900 dark:text-white"
+                      >
+                        SemiAutomatic
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              {/* Tool Selection */}
+              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                <div className="space-y-2">
+                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block mt-4 sm:mt-0">
+                    Tool <span className="text-red-600">*</span>
+                  </Label>
+                  <p className="text-sm text-zinc-600 dark:text-gray-400">
+                    Select the options that specify the reading tool and read type
+                    used to extract ECU file.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <Select
+                    required
+                    value={formData.readTool}
+                    onValueChange={(value) =>
+                      handleSelectChange("readTool", value)
+                    }
+                  >
+                    <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                      <SelectValue placeholder="Select read tool" />
+                    </SelectTrigger>
+
+                    <SelectContent
+                      className="dark:bg-[#242526] relative"
+                      side="top"
+                    >
+                      {readToolData.map((tool) => (
+                        <SelectItem
+                          key={tool}
+                          value={tool}
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          {tool}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Select
+                    value={formData.readType}
+                    required
+                    onValueChange={(value) =>
+                      handleSelectChange("readType", value)
+                    }
+                  >
+                    <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                      <SelectValue placeholder="Select a read type" />
+                    </SelectTrigger>
+                    <SelectContent
+                      className="dark:bg-[#242526] relative"
+                      side="top"
+                    >
                       <SelectItem
-                        key={tool}
-                        value={tool}
+                        value="Full Read
+"
                         className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                       >
-                        {tool}
+                        Full Read
                       </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Select
-                  value={formData.readType}
-                  required
-                  onValueChange={(value) =>
-                    handleSelectChange("readType", value)
-                  }
-                >
-                  <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                    <SelectValue placeholder="Select a read type" />
-                  </SelectTrigger>
-                  <SelectContent
-                    className="dark:bg-[#242526] relative"
-                    side="top"
-                  >
-                    <SelectItem
-                      value="Full Read
+                      <SelectItem
+                        value="VR Read
 "
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      Full Read
-                    </SelectItem>
-                    <SelectItem
-                      value="VR Read
+                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                      >
+                        VR Read
+                      </SelectItem>
+                      <SelectItem
+                        value="ID Only
 "
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      VR Read
-                    </SelectItem>
-                    <SelectItem
-                      value="ID Only
-"
-                      className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                    >
-                      ID Only
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Master/Slave */}
-            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-              <div className="space-y-4">
-                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                  Master/Slave <span className="text-red-600">*</span>
-                </Label>
-              </div>
-              <div className="">
-                <RadioGroup
-                  required
-                  value={formData.masterSlave}
-                  onValueChange={(value) =>
-                    handleSelectChange("masterSlave", value)
-                  }
-                  className="flex items-center space-x-4 md:space-x-8"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="Master"
-                      id="master"
-                      className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                    />
-                    <Label
-                      htmlFor="Master"
-                      className="text-zinc-900 dark:text-white"
-                    >
-                      Master
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="Slave"
-                      id="slave"
-                      className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                    />
-                    <Label
-                      htmlFor="Slave"
-                      className="text-zinc-900 dark:text-white"
-                    >
-                      Slave
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
-            </div>
-
-            {/* File Upload */}
-            <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-              <div className="space-y-2">
-                <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                  Uploads <span className="text-red-600">*</span>
-                </Label>
-                <p className="text-sm text-zinc-600 dark:text-gray-400">
-                  Upload your ECU file and any related common files necessary
-                  for the tuning process.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <div
-                  className="border-2 border-dashed border-zinc-200 dark:border-gray-600 rounded-lg p-8 text-center"
-                  onDragOver={handleDragOver}
-                  onDrop={handleDrop}
-                >
-                  <input
-                    type="file"
-                    id="file-upload"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                  />
-                  <label
-                    htmlFor="file-upload"
-                    className="cursor-pointer flex flex-col items-center"
-                  >
-                    <UploadCloud className="h-12 w-12 text-zinc-400 dark:text-gray-500 mb-4" />
-                    <span className="text-zinc-900 dark:text-white font-medium mb-1">
-                      Select a ECU file to upload
-                    </span>
-                    <span className="text-sm text-zinc-600 dark:text-gray-400">
-                      or drag and drop it here
-                    </span>
-                  </label>
-                  {uploadedFile && (
-                    <div className="mt-4 text-sm text-zinc-900 dark:text-white">
-                      {uploadedFile.name}
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <div className="flex justify-end">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="h-12 text-zinc-900 dark:text-white hover:bg-transparent"
-                      onClick={() =>
-                        document.getElementById("common-files")?.click()
-                      }
-                    >
-                      Upload Additional Files
-                    </Button>
-                  </div>
-                  <input
-                    type="file"
-                    id="common-files"
-                    className="hidden"
-                    multiple
-                    onChange={handleCommonFilesUpload}
-                  />
-                  {commonFiles.length > 0 && (
-                    <div className="mt-2 space-y-1">
-                      {commonFiles.map((file, index) => (
-                        <div
-                          key={index}
-                          className="text-sm text-zinc-900 dark:text-white"
-                        >
-                          {file.name}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                      >
+                        ID Only
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-            </div>
 
-            {/* Continue Button */}
-            <div className="flex justify-end">
-              <Button
-                type="submit"
-                className="bg-red-600 hover:bg-red-700 text-white px-8 flex items-center gap-2"
-              >
-                <span>Continue</span>
-                <span className="text-lg">→</span>
-              </Button>
+              {/* Master/Slave */}
+              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                <div className="space-y-4">
+                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                    Master/Slave <span className="text-red-600">*</span>
+                  </Label>
+                </div>
+                <div className="">
+                  <RadioGroup
+                    required
+                    value={formData.masterSlave}
+                    onValueChange={(value) =>
+                      handleSelectChange("masterSlave", value)
+                    }
+                    className="flex items-center space-x-4 md:space-x-8"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value="Master"
+                        id="master"
+                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      />
+                      <Label
+                        htmlFor="Master"
+                        className="text-zinc-900 dark:text-white"
+                      >
+                        Master
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value="Slave"
+                        id="slave"
+                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                      />
+                      <Label
+                        htmlFor="Slave"
+                        className="text-zinc-900 dark:text-white"
+                      >
+                        Slave
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+
+              {/* File Upload */}
+              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                <div className="space-y-2">
+                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                    Uploads <span className="text-red-600">*</span>
+                  </Label>
+                  <p className="text-sm text-zinc-600 dark:text-gray-400">
+                    Upload your ECU file and any related common files necessary
+                    for the tuning process.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <div
+                    className="border-2 border-dashed border-zinc-200 dark:border-gray-600 rounded-lg p-8 text-center"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                  >
+                    <input
+                      type="file"
+                      id="file-upload"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                    />
+                    <label
+                      htmlFor="file-upload"
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <UploadCloud className="h-12 w-12 text-zinc-400 dark:text-gray-500 mb-4" />
+                      <span className="text-zinc-900 dark:text-white font-medium mb-1">
+                        Select a ECU file to upload
+                      </span>
+                      <span className="text-sm text-zinc-600 dark:text-gray-400">
+                        or drag and drop it here
+                      </span>
+                    </label>
+                    {uploadedFile && (
+                      <div className="mt-4 text-sm text-zinc-900 dark:text-white">
+                        {uploadedFile.name}
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="flex justify-end">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="h-12 text-zinc-900 dark:text-white hover:bg-transparent"
+                        onClick={() =>
+                          document.getElementById("common-files")?.click()
+                        }
+                      >
+                        Upload Additional Files
+                      </Button>
+                    </div>
+                    <input
+                      type="file"
+                      id="common-files"
+                      className="hidden"
+                      multiple
+                      onChange={handleCommonFilesUpload}
+                    />
+                    {commonFiles.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {commonFiles.map((file, index) => (
+                          <div
+                            key={index}
+                            className="text-sm text-zinc-900 dark:text-white"
+                          >
+                            {file.name}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Continue Button */}
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 flex items-center gap-2"
+                >
+                  <span>Continue</span>
+                  <span className="text-lg">→</span>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form></div>
     </motion.div>
   );
 };
