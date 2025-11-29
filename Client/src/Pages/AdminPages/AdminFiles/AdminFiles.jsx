@@ -103,6 +103,9 @@ const AdminFiles = () => {
                 User
               </th>
               <th scope="col" className="px-4 py-3 text-center font-medium">
+                Price
+              </th>
+              <th scope="col" className="px-4 py-3 text-center font-medium">
                 Status
               </th>
               <th scope="col" className="px-4 py-3 text-center font-medium">
@@ -146,6 +149,9 @@ const AdminFiles = () => {
                   </td>
                   <td className="px-4 py-3 text-center text-zinc-900 dark:text-white">
                     {row?.userId?.firstName + " " + row?.userId?.lastName}
+                  </td>
+                  <td className="px-4 py-3 text-center text-zinc-900 dark:text-white">
+                    {row?.creditsNeed}.00 CRD
                   </td>
                   <td className="px-4 py-3 text-center">
                     {updatingFileId === row._id && isUpdatingStatus ? (

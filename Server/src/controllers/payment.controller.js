@@ -64,15 +64,14 @@ export const CreatePayment = async (req, res) => {
       firstName: req.user.firstName,
     });
 
-    try {
-      await sendEmail({
+    // Send email in background to user (non-blocking)
+    setImmediate(() => {
+      sendEmail({
         to: req.user.email,
         html: htmlTemplate,
         subject: "AIREMAP Payment Receipt — Credits Purchase Successful",
-      });
-    } catch (error) {
-      sendResponse(res, 500, false, error.message, null);
-    }
+      }).catch(() => {});
+    });
 
     return sendResponse(
       res,

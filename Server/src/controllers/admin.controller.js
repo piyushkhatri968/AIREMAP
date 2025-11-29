@@ -8,6 +8,7 @@ import { deleteFromCloudinary } from "../utils/Cloudinary/deleteDataFromCloudina
 import Chat from "../models/chat.model.js";
 import mongoose from "mongoose";
 import FileHistory from "../models/FileHistory.js";
+import Stats from "../models/stats.model.js";
 
 export const GetAllUsers = async (req, res) => {
   try {
@@ -261,7 +262,7 @@ export const UpdateUserCredits = async (req, res) => {
 export const GetAllEcuFiles = async (req, res) => {
   try {
     const response = await EcuFile.find()
-      .select("userId status createdAt ticketNumber make model")
+      .select("userId status createdAt ticketNumber make model creditsNeed")
       .populate("userId", "firstName lastName email")
       .sort({ createdAt: -1 })
       .lean();
@@ -499,32 +500,49 @@ export const DeleteUser = async (req, res) => {
 
     //  Get all ECU files of this user
     const ecuFiles = await EcuFile.find({ userId }).session(session);
+    const ecuFileIds = ecuFiles.map((file) => file._id);
 
     // Delete all chats related to this user’s ECU files
-    const ecuFileIds = ecuFiles.map((file) => file._id);
     await Chat.deleteMany({
       $or: [{ sender: userId }, { ecuFile: { $in: ecuFileIds } }],
     }).session(session);
 
-    // Delete ECU files (and optionally delete from Cloudinary)
-    for (const file of ecuFiles) {
-      try {
-        // Optional: delete Cloudinary files
-        if (file.originalFile) await deleteFromCloudinary(file.originalFile);
-        if (file.tunedFile) await deleteFromCloudinary(file.tunedFile);
-        if (file.additionalFiles?.length) {
-          for (const f of file.additionalFiles) {
-            await deleteFromCloudinary(f);
+    // Delete ECU files from Cloudinary in parallel
+    await Promise.all(
+      ecuFiles.map(async (file) => {
+        try {
+          if (file.originalFile) await deleteFromCloudinary(file.originalFile);
+          if (file.tunedFile) await deleteFromCloudinary(file.tunedFile);
+          if (file.additionalFiles?.length) {
+            await Promise.all(
+              file.additionalFiles.map((f) => deleteFromCloudinary(f))
+            );
           }
+        } catch (cloudErr) {
+          console.error("Cloudinary delete error:", cloudErr.message);
         }
-      } catch (cloudErr) {
-        console.warn("Cloudinary delete error:", cloudErr.message);
-      }
-    }
+      })
+    );
+
+    // Delete ECU file documents
     await EcuFile.deleteMany({ userId }).session(session);
 
     // Delete payment history
     await PaymentHistory.deleteMany({ userId }).session(session);
+
+    // Remove deleted user from assignedUsersToAgent arrays
+    await Auth.updateMany(
+      { assignedUsersToAgent: userId },
+      { $pull: { assignedUsersToAgent: userId } }
+    ).session(session);
+
+    // Delete upload/download histories
+    await FileHistory.deleteMany({ ecuFile: { $in: ecuFileIds } }).session(
+      session
+    );
+
+    // Delete stats records
+    await Stats.deleteMany({ userId }).session(session);
 
     // Finally delete the user
     await Auth.findByIdAndDelete(userId).session(session);

@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
@@ -213,48 +212,48 @@ const PriceList = () => {
                   </p>
                 </div>
 
-              <div className="space-y-2">
-                {stage2Items.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center border-b border-zinc-200 dark:border-gray-700 p-3"
-                  >
-                    <span className="text-zinc-900 dark:text-white">
-                      {item?.nameKey}
-                    </span>
-                    <span className="text-zinc-900 dark:text-white whitespace-nowrap">
-                      {item.credits} Credits
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Solutios Box */}
-            <div className="mb-4 sm:mb-6">
-              <div className="bg-zinc-100 dark:bg-[#1A1A1A] rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
-                <p className="text-zinc-900 dark:text-white text-sm sm:text-base">
-                  Solutions (Extra Charges)
-                </p>
+                <div className="space-y-2">
+                  {stage2Items.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center border-b border-zinc-200 dark:border-gray-700 p-3"
+                    >
+                      <span className="text-zinc-900 dark:text-white">
+                        {item?.nameKey}
+                      </span>
+                      <span className="text-zinc-900 dark:text-white whitespace-nowrap">
+                        {item.credits} Credits
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="space-y-2">
-                {solutions.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center border-b border-zinc-200 dark:border-gray-700 p-3"
-                  >
-                    <span className="text-zinc-900 dark:text-white">
-                      {item?.nameKey}
-                    </span>
-                    <span className="text-zinc-900 dark:text-white whitespace-nowrap">
-                      {item.credits} Credits
-                    </span>
-                  </div>
-                ))}
+              {/* Solutios Box */}
+              <div className="mb-4 sm:mb-6">
+                <div className="bg-zinc-100 dark:bg-[#1A1A1A] rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+                  <p className="text-zinc-900 dark:text-white text-sm sm:text-base">
+                    Solutions (Extra Charges)
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  {solutions.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center border-b border-zinc-200 dark:border-gray-700 p-3"
+                    >
+                      <span className="text-zinc-900 dark:text-white">
+                        {item?.nameKey}
+                      </span>
+                      <span className="text-zinc-900 dark:text-white whitespace-nowrap">
+                        {item.credits} Credits
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
             {/* Second Column */}
             <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 sm:p-6 border border-zinc-200 dark:border-gray-700">
@@ -265,28 +264,33 @@ const PriceList = () => {
                 </p>
               </div>
 
-            {/* Terms & Conditions */}
-            <div className="text-zinc-900 dark:text-white">
-              <div className="bg-red-500 rounded py-1.5 sm:py-2 mb-3 sm:mb-4 text-center">
-                <p className="text-white text-sm sm:text-base font-medium underline">
-                  {t("priceList.termsConditions")}
-                </p>
+              {/* Terms & Conditions */}
+              <div className="text-zinc-900 dark:text-white">
+                <div className="bg-red-500 rounded py-1.5 sm:py-2 mb-3 sm:mb-4 text-center">
+                  <p className="text-white text-sm sm:text-base font-medium underline">
+                    {t("priceList.termsConditions")}
+                  </p>
+                </div>
+                <ul className="space-y-2 text-center text-sm sm:text-base lg:text-lg">
+                  <li>
+                    <span className="text-red-600">
+                      {t("priceList.slave")}{" "}
+                    </span>
+                    {t("priceList.slaveDesc")}
+                  </li>
+                  <li>
+                    <span className="text-red-600">
+                      {t("priceList.master")}{" "}
+                    </span>
+                    {t("priceList.masterDesc")}
+                  </li>
+                </ul>
               </div>
-              <ul className="space-y-2 text-center text-sm sm:text-base lg:text-lg">
-                <li>
-                  <span className="text-red-600">{t("priceList.slave")} </span>
-                  {t("priceList.slaveDesc")}
-                </li>
-                <li>
-                  <span className="text-red-600">{t("priceList.master")} </span>
-                  {t("priceList.masterDesc")}
-                </li>
-              </ul>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </main>
   );
 };
 

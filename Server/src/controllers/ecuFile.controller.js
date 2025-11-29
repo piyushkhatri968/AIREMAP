@@ -8,6 +8,7 @@ import Auth from "../models/auth.model.js";
 import { cleanupUploads } from "../utils/Cloudinary/fileCleanup.js";
 import { updateStats } from "./stats.controller.js";
 import FileHistory from "../models/FileHistory.js";
+import { sendEcuFileCreatedEmailConfirmationToAdmin } from "../utils/EmailTemplates/sendEcuFileCreatedEmailConfirmationToAdmin.js";
 
 export const CreateEcuFile = async (req, res) => {
   const {
@@ -24,8 +25,6 @@ export const CreateEcuFile = async (req, res) => {
     transmission,
     year,
   } = req.body;
-
-  // return console.log(req.body)
 
   try {
     if (
@@ -123,13 +122,12 @@ export const CreateEcuFile = async (req, res) => {
       "SIMOS16",
       "SIMOS18",
       "SIMOS19",
-      "SID321"
+      "SID321",
     ];
-
 
     const oneCreditStages = ["Gear Box", "Original File (Back To Stock)"];
     const twoCreditStages = ["ECU Cloning"];
-    const optionBasedStages = ["No Engine Mud", "Eco", "Stage 1", "Stage 2"];
+    const optionBasedStages = ["No Engine Mud", "Eco", "Stage 1", "Stage 2"]; // might have options or might not have
 
     const paidOptions1Credit = [
       "CVN FIX",
@@ -138,21 +136,31 @@ export const CreateEcuFile = async (req, res) => {
       "FLEX FUEL E85",
       "ORIGINAL FILE REQUEST",
       "ADDITIONAL SOLUTIONS ADDED TO MASTER FILE",
-      "File Check Review"
+      "File Check Review",
     ];
     const paidOptions2Credit = ["IMMO OFF"];
 
-    const paidOptions4Credit = ["TRUCK / TRACTOR / HGV / CONSTRUCTION"]
-    const paidOptions25Credit = ["CUMMINS / CATERHAM"]
+    const paidOptions4Credit = ["TRUCK / TRACTOR / HGV / CONSTRUCTION"];
+    const paidOptions25Credit = ["CUMMINS / CATERHAM"];
 
     // normalize values
     const ecu = ecuId?.trim() || "";
     const stg = stage?.trim() || "";
-    const opts = options ? options.split(",").map((o) => o.trim()) : [];
+    const opts = options
+      ? options
+          .split(",")
+          .map((o) => o.trim())
+          .filter((o) => o.length > 0)
+      : [];
 
     // (1) ECU-based logic
+
+    const ecuParts = ecu.toUpperCase().split(" ");
+    ecuParts.shift(); // remove first word
+    const ecuRemaining = ecuParts.join(" ");
+
     const ecuMatch = ecuPrefixes.some((prefix) =>
-      ecu.toUpperCase().includes(prefix)
+      ecuRemaining.startsWith(prefix)
     );
     if (ecuMatch) {
       creditsNeed = 2;
@@ -164,13 +172,18 @@ export const CreateEcuFile = async (req, res) => {
     } else if (twoCreditStages.includes(stg)) {
       creditsNeed = 2;
     } else if (optionBasedStages.includes(stg)) {
-      // (3) Option-based logic
+      // (3) Option-based logic // can have options or not
       let extraCredits = 0;
       for (const opt of opts) {
-        if (paidOptions2Credit.includes(opt)) extraCredits += 2;
-        if (paidOptions4Credit.includes(opt)) extraCredits += 4;
-        if (paidOptions25Credit.includes(opt)) extraCredits += 25;
-        else if (paidOptions1Credit.includes(opt)) extraCredits += 1;
+        if (paidOptions2Credit.includes(opt)) {
+          extraCredits += 2;
+        } else if (paidOptions4Credit.includes(opt)) {
+          extraCredits += 4;
+        } else if (paidOptions25Credit.includes(opt)) {
+          extraCredits += 25;
+        } else if (paidOptions1Credit.includes(opt)) {
+          extraCredits += 1;
+        }
       }
 
       // if base ecu was already 2, add them up
@@ -182,7 +195,7 @@ export const CreateEcuFile = async (req, res) => {
     if (req?.files?.ecuFile?.[0]) {
       const ecuFilePath = req.files.ecuFile[0].path;
       const cloudinaryUrl = await uploadToCloudinary(ecuFilePath);
-      await fs.unlink(ecuFilePath).catch(() => { }); // safe cleanup
+      await fs.unlink(ecuFilePath).catch(() => {}); // safe cleanup
       if (!cloudinaryUrl) {
         return sendResponse(res, 500, false, "Failed to upload ECU file", null);
       }
@@ -197,7 +210,7 @@ export const CreateEcuFile = async (req, res) => {
       );
       commonFilesUrls = await Promise.all(uploads);
       await Promise.all(
-        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => { }))
+        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => {}))
       );
     }
 
@@ -237,15 +250,28 @@ export const CreateEcuFile = async (req, res) => {
       ticketNo: newEcuFile.ticketNumber,
     });
 
-    try {
-      await sendEmail({
+    const emailTemplateForAdmin = sendEcuFileCreatedEmailConfirmationToAdmin({
+      userName: req.user.firstName,
+      ticketNo: newEcuFile.ticketNumber,
+    });
+
+    // Send email in background to user (non-blocking)
+    setImmediate(() => {
+      sendEmail({
         to: req.user.email,
         html: emailTemplate,
         subject: "Ticket Created succesfully",
-      });
-    } catch (error) {
-      console.error("Email send failed:", error.message);
-    }
+      }).catch(() => {});
+    });
+
+    // sendEmail to Admin
+    setImmediate(() => {
+      sendEmail({
+        to: process.env.ADMIN_EMAIL,
+        html: emailTemplateForAdmin,
+        subject: "Ticket Created succesfully",
+      }).catch(() => {});
+    });
 
     return sendResponse(res, 201, true, "ECU File created successfully", null);
   } catch (error) {

@@ -155,21 +155,21 @@ export const SignupEmailVerify = async (req, res) => {
       firstName: user.firstName,
     });
 
-    try {
-      await sendEmail({
+    setImmediate(() => {
+      sendEmail({
         subject: "Account Verified at AIREMAP",
         to: user.email,
         html: htmlTemplate,
-      });
-    } catch (error) {
-      sendResponse(res, 500, false, error.message, null);
-    }
+      }).catch(() => {});
+    });
 
     // send email to admin about this user's signup
-    await sendEmail({
-      to: "noreply@airemap.co.uk",
-      subject: "New User Signup",
-      html: `
+
+    setImmediate(() => {
+      sendEmail({
+        to: "noreply@airemap.co.uk",
+        subject: "New User Signup",
+        html: `
     <div style="font-family: Arial, sans-serif; padding: 16px; color: #333;">
       <h2 style="color: #4F46E5;">New User Signed Up</h2>
       <p>
@@ -178,7 +178,8 @@ export const SignupEmailVerify = async (req, res) => {
       <table style="border-collapse: collapse; margin-top: 12px;">
         <tr>
           <td style="padding: 6px 12px; font-weight: bold;">Name:</td>
-          <td style="padding: 6px 12px;">${user.firstName} ${user?.lastName || ""
+          <td style="padding: 6px 12px;">${user.firstName} ${
+          user?.lastName || ""
         }</td>
         </tr>
         <tr>
@@ -198,11 +199,8 @@ export const SignupEmailVerify = async (req, res) => {
       </p>
     </div>
   `,
+      }).catch(() => {});
     });
-
-    // setImmediate(async()=>{
-
-    // })
 
     return sendResponse(res, 200, true, "Account verified successfull", user);
   } catch (error) {
@@ -305,9 +303,11 @@ export const Login = async (req, res) => {
 export const GetMe = async (req, res) => {
   try {
     const { _id } = req.user;
-    const user = await Auth.findById(_id).select(
-      "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime preferredLanguage"
-    ).lean();
+    const user = await Auth.findById(_id)
+      .select(
+        "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime preferredLanguage"
+      )
+      .lean();
     return sendResponse(res, 200, true, "User fetched successfully", user);
   } catch (error) {
     console.error("Error in GetMe controller", error);
@@ -433,7 +433,13 @@ export const UpdatePassword = async (req, res) => {
 
     await user.save();
 
-    return sendResponse(res, 200, true, "Password updated successfully. Please login now", null);
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Password updated successfully. Please login now",
+      null
+    );
   } catch (error) {
     console.error("Error in UpdatePassword controller:", error);
     return sendResponse(
@@ -543,14 +549,18 @@ export const UserStats = async (req, res) => {
 };
 
 export const UpdateLangPreference = async (req, res) => {
-  const { language } = req.body
+  const { language } = req.body;
   try {
     if (!language) {
-      return sendResponse(res, 400, false, "Language is required", null)
+      return sendResponse(res, 400, false, "Language is required", null);
     }
-    const userId = req.user._id
-    await Auth.findByIdAndUpdate(userId, { preferredLanguage: language }, { new: true })
-    return sendResponse(res, 200, true, "", null)
+    const userId = req.user._id;
+    await Auth.findByIdAndUpdate(
+      userId,
+      { preferredLanguage: language },
+      { new: true }
+    );
+    return sendResponse(res, 200, true, "", null);
   } catch (error) {
     console.error("Error in UpdateLangPreference controller:", error);
     return sendResponse(
@@ -561,4 +571,4 @@ export const UpdateLangPreference = async (req, res) => {
       null
     );
   }
-}
+};

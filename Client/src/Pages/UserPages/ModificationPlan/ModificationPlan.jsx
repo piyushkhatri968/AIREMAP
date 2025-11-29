@@ -433,10 +433,7 @@ const ModificationPlan = () => {
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
                   Options
                 </span>
-                {
-                  !blockedStages &&
-                  <span className="text-red-500">*</span>
-                }
+                {!blockedStages && <span className="text-red-500">*</span>}
                 {isOptionsBlocked && (
                   <span className="text-xs text-red-500 ml-2">
                     (Disabled for this Stage)
@@ -444,8 +441,8 @@ const ModificationPlan = () => {
                 )}
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Select any extra solutions you need to complement your customized
-                tuning experience.
+                Select any extra solutions you need to complement your
+                customized tuning experience.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -454,17 +451,19 @@ const ModificationPlan = () => {
                   {modificationOptions.slice(0, 20).map((option) => (
                     <label
                       key={option.id}
-                      className={`flex items-center space-x-3 cursor-pointer group ${isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                      className={`flex items-center space-x-3 cursor-pointer group ${
+                        isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     >
                       <Checkbox
                         checked={selectedOptions.includes(option.name)}
                         onCheckedChange={() => handleOptionToggle(option.name)}
                         disabled={isOptionsBlocked}
-                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${isOptionsBlocked
-                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
-                          : ""
-                          }`}
+                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
+                          isOptionsBlocked
+                            ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                            : ""
+                        }`}
                       />
                       <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
                         <span>{option.name}</span>
@@ -487,25 +486,28 @@ const ModificationPlan = () => {
                   {modificationOptions.slice(20).map((option) => (
                     <label
                       key={option.id}
-                      className={`flex items-center space-x-3 cursor-pointer group ${isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                      className={`flex items-center space-x-3 cursor-pointer group ${
+                        isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     >
                       <Checkbox
                         checked={selectedOptions.includes(option.name)}
                         onCheckedChange={() => handleOptionToggle(option.name)}
                         disabled={isOptionsBlocked}
-                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${isOptionsBlocked
-                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
-                          : ""
-                          }`}
+                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
+                          isOptionsBlocked
+                            ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                            : ""
+                        }`}
                       />
                       <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
                         <span>{option.name}</span>
                         <span>
                           {option.warning && (
                             <span
-                              title={`Option requires ${option.credits} ${option.credits > 1 ? "credits" : "credit"
-                                }`}
+                              title={`Option requires ${option.credits} ${
+                                option.credits > 1 ? "credits" : "credit"
+                              }`}
                             >
                               <AlertTriangle className="h-4 w-4 text-yellow-500" />
                             </span>
@@ -518,98 +520,97 @@ const ModificationPlan = () => {
               </div>
             </div>
 
-          <div className="space-y-4 mt-4">
-            <div>
-              <Label className="text-sm font-medium text-gray-900 dark:text-white">
-                Original File <span className="text-red-600">*</span>
-              </Label>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Your original ECU file here.
-              </p>
-              <div
-                className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors"
-              >
-                {uploadedFile && (
-                  <div className="flex items-center space-x-2 text-green-600">
-                    <Check className="h-5 w-5" />
-                    <span>{uploadedFile.name}</span>
-                  </div>
-                )}
+            <div className="space-y-4 mt-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-900 dark:text-white">
+                  Original File <span className="text-red-600">*</span>
+                </Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                  Your original ECU file here.
+                </p>
+                <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors">
+                  {uploadedFile && (
+                    <div className="flex items-center space-x-2 text-green-600">
+                      <Check className="h-5 w-5" />
+                      <span>{uploadedFile.name}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="mt-4">
-              <Label className="text-sm font-medium text-gray-900 dark:text-white">
-                Additional Files
-              </Label>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Upload any additional files that might be relevant (e.g., log
-                files)
-              </p>
-              <div
-                className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors"
-                onClick={() =>
-                  document.getElementById("additional-files")?.click()
-                }
-              >
-                {commonFiles.length > 0 ? (
-                  <div className="flex flex-col items-center space-y-2">
-                    <Check className="h-5 w-5 text-green-600" />
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      {commonFiles.length} file(s) selected
+              <div className="mt-4">
+                <Label className="text-sm font-medium text-gray-900 dark:text-white">
+                  Additional Files
+                </Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                  Upload any additional files that might be relevant (e.g., log
+                  files)
+                </p>
+                <div
+                  className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                  onClick={() =>
+                    document.getElementById("additional-files")?.click()
+                  }
+                >
+                  {commonFiles.length > 0 ? (
+                    <div className="flex flex-col items-center space-y-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                        {commonFiles.length} file(s) selected
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {commonFiles.map((file) => file.name).join(", ")}
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-500">
-                      {commonFiles.map((file) => file.name).join(", ")}
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <Upload className="h-10 w-10 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Click to upload additional files
-                    </p>
-                  </>
-                )}
-                <input
-                  id="additional-files"
-                  type="file"
-                  multiple
-                  onChange={handleCommonFilesUpload}
-                  className="hidden"
-                />
+                  ) : (
+                    <>
+                      <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Click to upload additional files
+                      </p>
+                    </>
+                  )}
+                  <input
+                    id="additional-files"
+                    type="file"
+                    multiple
+                    onChange={handleCommonFilesUpload}
+                    className="hidden"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Notes Section (unchanged) */}
-          <div className="space-y-2 mt-4">
-            <Label
-              htmlFor="notes"
-              className="text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Notes
-            </Label>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Please enter the notes if there is anything that our tuners should
-              consider when modifying the file
-            </p>
-            <Textarea
-              id="notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="min-h-[120px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
-            />
-          </div>
-          {/* Submit Button (unchanged) */}
-          <div className="flex justify-end mt-4">
-            <Button
-              type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white px-8 mt-4"
-            >
-              Continue
-            </Button>
-          </div>
-        </form>
-      </motion.div>
+            {/* Notes Section (unchanged) */}
+            <div className="space-y-2 mt-4">
+              <Label
+                htmlFor="notes"
+                className="text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Notes
+              </Label>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Please enter the notes if there is anything that our tuners
+                should consider when modifying the file
+              </p>
+              <Textarea
+                id="notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="min-h-[120px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
+              />
+            </div>
+            {/* Submit Button (unchanged) */}
+            <div className="flex justify-end mt-4">
+              <Button
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white px-8 mt-4"
+              >
+                Continue
+              </Button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
