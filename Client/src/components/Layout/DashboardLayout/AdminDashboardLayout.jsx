@@ -32,7 +32,7 @@ const AdminDashboardLayout = () => {
         />
 
         {/* Main content area */}
-        <div className="flex-1 p-6 sm:p-8 lg:p-10 mt-20 overflow-x-hidden overflow-y-auto">
+        <div className="flex-1 p-2 sm:p-8 lg:p-10 mt-24 sm:mt-20 overflow-x-hidden overflow-y-auto">
           <Outlet />
         </div>
       </div>

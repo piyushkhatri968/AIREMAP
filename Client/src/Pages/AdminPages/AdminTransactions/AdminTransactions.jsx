@@ -72,9 +72,9 @@ const AdminTransactions = () => {
       {/* Table Container */}
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
         <div className="overflow-x-auto rounded-xl">
-          <table className="min-w-full w-full text-sm text-center">
+          <table className="min-w-full w-full text-sm text-center text-gray-500 dark:text-gray-400">
             <thead>
-              <tr className="font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
+              <tr className="bg-zinc-100 dark:bg-[#1c1d1e] border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap font-medium">
                 <th className="py-3 px-4">Transaction ID</th>
                 <th className="py-3 px-4">User</th>
                 <th className="py-3 px-4">Email</th>
@@ -105,7 +105,7 @@ const AdminTransactions = () => {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="whitespace-nowrap hover:bg-zinc-100 dark:hover:bg-[#2c2c2c]/70 transition"
+                    className="whitespace-nowrap text-xs sm:text-sm"
                   >
                     <td className="py-3 px-4 text-zinc-900 dark:text-white">
                       {row?.serialNo}

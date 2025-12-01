@@ -81,7 +81,7 @@ const AgentFiles = () => {
           placeholder="Search files by name, email, status and ticket no"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-80 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+          className="w-full sm:w-80 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
         />
       </div>
 
@@ -129,7 +129,7 @@ const AgentFiles = () => {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="border-b border-zinc-200 dark:border-gray-700 hover:bg-zinc-100 dark:hover:bg-[#2a2b2c] transition-colors cursor-pointer whitespace-nowrap"
+                  className="border-b border-zinc-200 dark:border-gray-700 hover:bg-zinc-100 dark:hover:bg-[#2a2b2c] transition-colors cursor-pointer whitespace-nowrap text-xs sm:text-sm"
                   onClick={() => navigate(`/ticket/${row?.ticketNumber}`)}
                 >
                   <td className="px-4 py-3 text-center text-zinc-900 dark:text-white">

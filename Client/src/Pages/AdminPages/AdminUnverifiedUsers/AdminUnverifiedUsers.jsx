@@ -91,7 +91,7 @@ const AdminUnverifiedUsers = () => {
           <div className="overflow-x-auto rounded-xl">
             <table className="min-w-full w-full text-sm text-center">
               <thead>
-                <tr className="font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
+                <tr className="font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700 bg-zinc-100 dark:bg-[#1c1d1e] whitespace-nowrap">
                   <th className="py-3 px-4">User</th>
                   <th className="py-3 px-4">Email</th>
                   <th className="py-3 px-4">Country</th>
@@ -121,7 +121,7 @@ const AdminUnverifiedUsers = () => {
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className="whitespace-nowrap"
+                      className="whitespace-nowrap text-xs sm:text-sm"
                     >
                       <td className="py-3 px-4 text-zinc-900 dark:text-white">
                         {row?.firstName || "N/A"} {row?.lastName || "N/A"}

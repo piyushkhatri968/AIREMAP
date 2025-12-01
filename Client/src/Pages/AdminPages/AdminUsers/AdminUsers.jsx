@@ -98,7 +98,7 @@ const AdminUsers = () => {
           {/* Table */}
           <table className="w-full min-w-full text-sm">
             <thead>
-              <tr className="font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
+              <tr className="font-medium text-zinc-500 dark:text-gray-400 bg-zinc-100 dark:bg-[#1c1d1e] border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
                 <th className="px-2 py-3 text-center">User</th>
                 <th className="px-2 py-3 text-center">Email</th>
                 <th className="px-2 py-3 text-center">Money Spent</th>
@@ -128,7 +128,7 @@ const AdminUsers = () => {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap  text-xs sm:text-sm"
                   >
                     <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
                       {row.firstName || "N/A"} {row.lastName}
