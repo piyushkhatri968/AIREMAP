@@ -3,7 +3,7 @@ import { SendVerificationEmailTemplate } from "../EmailTemplates/SendVerificatio
 
 const transporter = nodeMailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
+  port: Number(process.env.SMTP_PORT),
   secure: Number(process.env.SMTP_PORT) === 465,
   auth: {
     user: process.env.SMTP_USER,
@@ -13,9 +13,8 @@ const transporter = nodeMailer.createTransport({
 
 export const sendVerificationEmail = async ({ to, token, firstName }) => {
   try {
-    const verifyUrl = `${
-      process.env.FRONTEND_URL
-    }/verify-email?token=${token}&email=${encodeURIComponent(to)}`;
+    const verifyUrl = `${process.env.FRONTEND_URL
+      }/verify-email?token=${token}&email=${encodeURIComponent(to)}`;
 
     const htmlTemplate = SendVerificationEmailTemplate({
       firstName,

@@ -17,12 +17,20 @@ import UpdatePerCreditPrice from "./UpdatePerCreditPrice";
 import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
 import useUpdateVAT from "../../../hooks/Adminhooks/useUpdateVAT";
+import ConfirmActionModal from "../../../components/ConfirmActionModal";
 
 const AdminUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [disablingUserId, setDisablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
   const [updatingVATUserId, setUpdatingVATUserId] = useState(null);
+
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    type: null, // "delete" or "disable"
+    user: null
+  });
+
 
   const { isUpdatingVAT, updateUserVATMutation } = useUpdateVAT({
     setUpdatingVATUserId,
@@ -74,169 +82,206 @@ const AdminUsers = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
-    >
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
-          User Management
-        </h2>
-        <Input
-          placeholder="Search users by name, email, role"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full sm:w-80 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-        />
-      </div>
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+            User Management
+          </h2>
+          <Input
+            placeholder="Search users by name, email, role"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full sm:w-80 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
+          />
+        </div>
 
-      {/* Table Wrapper */}
-      <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 overflow-hidden">
-        <div className="overflow-x-auto">
-          {/* Table */}
-          <table className="w-full min-w-full text-sm">
-            <thead>
-              <tr className="font-medium text-zinc-500 dark:text-gray-400 bg-zinc-100 dark:bg-[#1c1d1e] border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
-                <th className="px-2 py-3 text-center">User</th>
-                <th className="px-2 py-3 text-center">Email</th>
-                <th className="px-2 py-3 text-center">Money Spent</th>
-                <th className="px-2 py-3 text-center">VAT</th>
-                <th className="px-2 py-3 text-center">Credit Price</th>
-                <th className="px-2 py-3 text-center">Files</th>
-                <th className="px-2 py-3 text-center">Joined</th>
-                <th className="px-2 py-3 text-center">Actions</th>
-              </tr>
-            </thead>
+        {/* Table Wrapper */}
+        <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 overflow-hidden">
+          <div className="overflow-x-auto">
+            {/* Table */}
+            <table className="w-full min-w-full text-sm">
+              <thead>
+                <tr className="font-medium text-zinc-500 dark:text-gray-400 bg-zinc-100 dark:bg-[#1c1d1e] border-b border-zinc-200 dark:border-gray-700 whitespace-nowrap">
+                  <th className="px-2 py-3 text-center">User</th>
+                  <th className="px-2 py-3 text-center">Email</th>
+                  <th className="px-2 py-3 text-center">Money Spent</th>
+                  <th className="px-2 py-3 text-center">VAT</th>
+                  <th className="px-2 py-3 text-center">Credit Price</th>
+                  <th className="px-2 py-3 text-center">Files</th>
+                  <th className="px-2 py-3 text-center">Joined</th>
+                  <th className="px-2 py-3 text-center">Actions</th>
+                </tr>
+              </thead>
 
-            <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
-              {isLoading ? (
-                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  <td
-                    colSpan="9"
-                    className="text-center py-10 text-zinc-500 dark:text-gray-400"
-                  >
-                    <Loader2 className="animate-spin inline h-5 w-5 mr-2" />
-                    Fetching Users...
-                  </td>
-                </motion.tr>
-              ) : filteredUser?.length > 0 ? (
-                filteredUser.map((row, index) => (
-                  <motion.tr
-                    key={row._id}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="whitespace-nowrap  text-xs sm:text-sm"
-                  >
-                    <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {row.firstName || "N/A"} {row.lastName}
-                    </td>
-                    <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {row.email || "N/A"}
-                    </td>
-                    <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {formatCurrency(row.totalMoneySpent)}
-                    </td>
-                    <td className="px-2 py-3 text-center">
-                      {updatingVATUserId === row._id && isUpdatingVAT ? (
-                        <Loader2 className="animate-spin h-5 w-5 text-zinc-500 mx-auto" />
-                      ) : (
-                        <Select
-                          required
-                          value={row?.VAT === true ? "true" : "false" || true}
-                          onValueChange={(value) =>
-                            updateUserVATMutation({
-                              userId: row._id,
-                              vat: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="w-24 mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                            <SelectValue placeholder="Select VAT" />
-                          </SelectTrigger>
-                          <SelectContent
-                            className="dark:bg-[#242526]"
-                            side="top"
-                          >
-                            <SelectItem
-                              value="true"
-                              className="dark:text-white"
-                            >
-                              True
-                            </SelectItem>
-                            <SelectItem
-                              value="false"
-                              className="dark:text-white"
-                            >
-                              False
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      )}
-                    </td>
-                    <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      <UpdatePerCreditPrice
-                        perCreditPrice={row?.perCreditPrice}
-                        userId={row?._id}
-                      />
-                    </td>
-                    <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {row.totalFilesSubmitted || 0}
-                    </td>
-                    <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
-                      {formatDateTime(row.createdAt)}
-                    </td>
-                    <td className="px-2 py-3 text-center flex justify-center items-center gap-1">
-                      {deletingUserId === row._id && deletePending ? (
-                        <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
-                      ) : (
-                        <Button
-                          variant="outline"
-                          title="Delete"
-                          onClick={() =>
-                            deleteUserMutation({ userId: row._id })
-                          }
-                          size="xs"
-                          className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
-                        >
-                          <UserX className="w-4 h-4" />
-                        </Button>
-                      )}
-                      {disablingUserId === row._id && disablePending ? (
-                        <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
-                      ) : (
-                        <Button
-                          variant="outline"
-                          title="Disable"
-                          size="xs"
-                          onClick={() =>
-                            disableUserMutation({ userId: row._id })
-                          }
-                          className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white"
-                        >
-                          <UserLock className="w-4 h-4" />
-                        </Button>
-                      )}
+              <tbody className="divide-y divide-zinc-200 dark:divide-gray-700">
+                {isLoading ? (
+                  <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <td
+                      colSpan="9"
+                      className="text-center py-10 text-zinc-500 dark:text-gray-400"
+                    >
+                      <Loader2 className="animate-spin inline h-5 w-5 mr-2" />
+                      Fetching Users...
                     </td>
                   </motion.tr>
-                ))
-              ) : (
-                <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  <td
-                    colSpan="9"
-                    className="text-center py-12 text-zinc-500 dark:text-gray-400"
-                  >
-                    No users found.
-                  </td>
-                </motion.tr>
-              )}
-            </tbody>
-          </table>
+                ) : filteredUser?.length > 0 ? (
+                  filteredUser.map((row, index) => (
+                    <motion.tr
+                      key={row._id}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="whitespace-nowrap  text-xs sm:text-sm"
+                    >
+                      <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
+                        {row.firstName || "N/A"} {row.lastName}
+                      </td>
+                      <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
+                        {row.email || "N/A"}
+                      </td>
+                      <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
+                        {formatCurrency(row.totalMoneySpent)}
+                      </td>
+                      <td className="px-2 py-3 text-center">
+                        {updatingVATUserId === row._id && isUpdatingVAT ? (
+                          <Loader2 className="animate-spin h-5 w-5 text-zinc-500 mx-auto" />
+                        ) : (
+                          <Select
+                            required
+                            value={row?.VAT === true ? "true" : "false" || true}
+                            onValueChange={(value) =>
+                              updateUserVATMutation({
+                                userId: row._id,
+                                vat: value,
+                              })
+                            }
+                          >
+                            <SelectTrigger className="w-24 mx-auto bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                              <SelectValue placeholder="Select VAT" />
+                            </SelectTrigger>
+                            <SelectContent
+                              className="dark:bg-[#242526]"
+                              side="top"
+                            >
+                              <SelectItem
+                                value="true"
+                                className="dark:text-white"
+                              >
+                                True
+                              </SelectItem>
+                              <SelectItem
+                                value="false"
+                                className="dark:text-white"
+                              >
+                                False
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </td>
+                      <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
+                        <UpdatePerCreditPrice
+                          perCreditPrice={row?.perCreditPrice}
+                          userId={row?._id}
+                        />
+                      </td>
+                      <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
+                        {row.totalFilesSubmitted || 0}
+                      </td>
+                      <td className="px-2 py-3 text-center text-zinc-900 dark:text-white">
+                        {formatDateTime(row.createdAt)}
+                      </td>
+                      <td className="px-2 py-3 text-center flex justify-center items-center gap-1">
+                        {deletingUserId === row._id && deletePending ? (
+                          <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
+                        ) : (
+                          <Button
+                            variant="outline"
+                            title="Delete"
+                            size="xs"
+                            onClick={() =>
+                              setConfirmModal({
+                                open: true,
+                                type: "delete",
+                                user: row._id
+                              })
+                            }
+                            className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
+                          >
+                            <UserX className="w-4 h-4" />
+                          </Button>
+                        )}
+                        {disablingUserId === row._id && disablePending ? (
+                          <Loader2 className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-400" />
+                        ) : (
+                          <Button
+                            variant="outline"
+                            title="Disable"
+                            size="xs"
+                            onClick={() =>
+                              setConfirmModal({
+                                open: true,
+                                type: "disable",
+                                user: row._id
+                              })
+                            }
+                            className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white"
+                          >
+                            <UserLock className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </td>
+                    </motion.tr>
+                  ))
+                ) : (
+                  <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <td
+                      colSpan="9"
+                      className="text-center py-12 text-zinc-500 dark:text-gray-400"
+                    >
+                      No users found.
+                    </td>
+                  </motion.tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+
+      <ConfirmActionModal
+        open={confirmModal.open}
+        title={
+          confirmModal.type === "delete"
+            ? "Delete User?"
+            : "Disable User?"
+        }
+        message={
+          confirmModal.type === "delete"
+            ? "This action is permanent and cannot be undone."
+            : "Are you sure you want to disable this user?"
+        }
+        onClose={() =>
+          setConfirmModal({ open: false, type: null, user: null })
+        }
+        onConfirm={() => {
+          if (confirmModal.type === "delete") {
+            deleteUserMutation({ userId: confirmModal.user });
+          } else if (confirmModal.type === "disable") {
+            disableUserMutation({ userId: confirmModal.user });
+          }
+
+          setConfirmModal({ open: false, type: null, user: null });
+        }}
+      />
+
+    </>
   );
 };
 

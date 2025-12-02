@@ -11,12 +11,19 @@ import useDisableUser from "../../../hooks/Adminhooks/useDisableUser";
 import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
 import useAuthUser from "../../../hooks/useAuthUser";
 import CreateAdmin from "./CreateAdmin";
+import ConfirmActionModal from "../../../components/ConfirmActionModal";
 
 const AdminAdmins = () => {
   const { authUser } = useAuthUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [disablingUserId, setDisablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
+
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    type: null, // "delete" or "disable"
+    user: null
+  });
 
   const { disableUserMutation, disablePending } = useDisableUser({
     setDisablingUserId,
@@ -140,7 +147,7 @@ const AdminAdmins = () => {
                             variant="outline"
                             title="Delete"
                             onClick={() =>
-                              deleteUserMutation({ userId: row._id })
+                              setConfirmModal({ open: true, type: "delete", user: row._id })
                             }
                             size="xs"
                             className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
@@ -156,7 +163,7 @@ const AdminAdmins = () => {
                             title="Disable"
                             size="xs"
                             onClick={() =>
-                              disableUserMutation({ userId: row._id })
+                              setConfirmModal({ open: true, type: "disable", user: row._id })
                             }
                             className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white ml-1"
                           >
@@ -187,6 +194,32 @@ const AdminAdmins = () => {
           <CreateAdmin setAddAdminPopup={setAddAdminPopup} />
         </div>
       )}
+
+      <ConfirmActionModal
+        open={confirmModal.open}
+        title={
+          confirmModal.type === "delete"
+            ? "Delete Admin?"
+            : "Disable Admin?"
+        }
+        message={
+          confirmModal.type === "delete"
+            ? "This action is permanent and cannot be undone."
+            : "Are you sure you want to disable this admin?"
+        }
+        onClose={() =>
+          setConfirmModal({ open: false, type: null, user: null })
+        }
+        onConfirm={() => {
+          if (confirmModal.type === "delete") {
+            deleteUserMutation({ userId: confirmModal.user });
+          } else if (confirmModal.type === "disable") {
+            disableUserMutation({ userId: confirmModal.user });
+          }
+
+          setConfirmModal({ open: false, type: null, user: null });
+        }}
+      />
     </>
   );
 };

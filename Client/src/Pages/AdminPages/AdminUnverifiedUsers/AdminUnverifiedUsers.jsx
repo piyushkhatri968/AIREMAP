@@ -9,9 +9,16 @@ import { Button } from "../../../components/ui/button";
 import useApproveUser from "../../../hooks/Adminhooks/useApproveUser";
 import RejectUserPopup from "../../../components/RejectUserPopup";
 import useRejectUser from "../../../hooks/Adminhooks/useRejectUser";
+import ConfirmActionModal from "../../../components/ConfirmActionModal";
 
 const AdminUnverifiedUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    type: null, // "delete" or "disable"
+    user: null
+  });
 
   const { isLoading, data, isError } = useQuery({
     queryFn: GetAllUnverifiedUsers,
@@ -160,7 +167,7 @@ const AdminUnverifiedUsers = () => {
                             title="Approve"
                             size="xs"
                             onClick={() =>
-                              approveUserMutation({ userId: row._id })
+                              setConfirmModal({ open: true, type: "approve", user: row._id })
                             }
                             className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white"
                           >
@@ -196,6 +203,23 @@ const AdminUnverifiedUsers = () => {
           />
         </div>
       )}
+
+      <ConfirmActionModal
+        open={confirmModal.open}
+        title={
+          "Approve User?"
+        }
+        message={
+          "Are you sure you want to approve this user?"
+        }
+        onClose={() =>
+          setConfirmModal({ open: false, type: null, user: null })
+        }
+        onConfirm={() => {
+          approveUserMutation({ userId: confirmModal.user });
+          setConfirmModal({ open: false, type: null, user: null });
+        }}
+      />
     </>
   );
 };

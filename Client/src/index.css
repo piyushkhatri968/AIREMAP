@@ -17,3 +17,13 @@ html.light body {
 .sq-card-message.sq-card-message-no-error.sq-visible{
   color: white;
 }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+}
+

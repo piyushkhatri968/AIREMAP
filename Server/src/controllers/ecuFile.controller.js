@@ -9,6 +9,7 @@ import { cleanupUploads } from "../utils/Cloudinary/fileCleanup.js";
 import { updateStats } from "./stats.controller.js";
 import FileHistory from "../models/FileHistory.js";
 import { sendEcuFileCreatedEmailConfirmationToAdmin } from "../utils/EmailTemplates/sendEcuFileCreatedEmailConfirmationToAdmin.js";
+import { sendEcuFileCreatedEmailConfirmationToAgent } from "../utils/EmailTemplates/sendEcuFileCreatedEmailConfirmationToAgent.js";
 
 export const CreateEcuFile = async (req, res) => {
   const {
@@ -26,9 +27,7 @@ export const CreateEcuFile = async (req, res) => {
     year,
   } = req.body;
 
-  // send email in background in background to Agents
-  const agents = await Auth.find({ role: "agent", assignedUsersToAgent: { $in: req.user._id } })
-  return console.log(agents)
+
 
   try {
     if (
@@ -259,13 +258,18 @@ export const CreateEcuFile = async (req, res) => {
       ticketNo: newEcuFile.ticketNumber,
     });
 
+    const emailTemplateForAgent = sendEcuFileCreatedEmailConfirmationToAgent({
+      userName: req.user.firstName,
+      ticketNo: newEcuFile.ticketNumber,
+    });
+
     // Send email in background to user (non-blocking)
     setImmediate(() => {
       sendEmail({
         to: req.user.email,
         html: emailTemplate,
         subject: "Ticket Created succesfully",
-      }).catch(() => { });
+      }).catch(err => console.error("User email error:", err));
     });
 
     // sendEmail in background to Admin
@@ -273,10 +277,29 @@ export const CreateEcuFile = async (req, res) => {
       sendEmail({
         to: process.env.ADMIN_EMAIL,
         html: emailTemplateForAdmin,
-        subject: "Ticket Created succesfully",
-      }).catch(() => { });
+        subject: "New Ticket Submitted",
+      }).catch(err => console.error("Admin email error:", err));
     });
 
+
+    // send email in background to Agents
+    setImmediate(() => {
+      Auth.find({ role: "agent", assignedUsersToAgent: { $in: req.user._id } })
+        .select("email")
+        .lean()
+        .then(agents => {
+          agents?.forEach(agent => {
+            sendEmail({
+              to: agent.email,
+              html: emailTemplateForAgent,
+              subject: "New Ticket Submitted",
+            }).catch(err =>
+              console.error(`Agent email failed to ${agent.email}:`, err)
+            );
+          });
+        })
+        .catch(err => console.error("Agent lookup error:", err));
+    });
 
 
     return sendResponse(res, 201, true, "ECU File created successfully", null);

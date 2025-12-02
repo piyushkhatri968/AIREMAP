@@ -12,11 +12,18 @@ import useDeleteUser from "../../../hooks/Adminhooks/useDeleteUser";
 import CreateAgent from "./CreateAgent";
 import AgentUsersSelectorModal from "./AgentUsersSelectorModal";
 import useAssignUsersToAgent from "../../../hooks/Adminhooks/useAssignUsersToAgent";
+import ConfirmActionModal from "../../../components/ConfirmActionModal";
 
 const AdminAgents = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [disablingUserId, setDisablingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
+
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    type: null, // "delete" or "disable"
+    user: null
+  });
 
   const [addAgentPopup, setAddAgentPopup] = useState(false);
 
@@ -170,7 +177,7 @@ const AdminAgents = () => {
                             variant="outline"
                             title="Delete"
                             onClick={() =>
-                              deleteUserMutation({ userId: row._id })
+                              setConfirmModal({ open: true, type: "delete", user: row._id })
                             }
                             size="xs"
                             className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
@@ -186,7 +193,7 @@ const AdminAgents = () => {
                             title="Disable"
                             size="xs"
                             onClick={() =>
-                              disableUserMutation({ userId: row._id })
+                              setConfirmModal({ open: true, type: "disable", user: row._id })
                             }
                             className="bg-blue-600 hover:bg-blue-700 border-blue-500 text-white ml-1"
                           >
@@ -227,6 +234,32 @@ const AdminAgents = () => {
           isAssigningUsersToAgent={isAssigningUsersToAgent}
         />
       )}
+
+      <ConfirmActionModal
+        open={confirmModal.open}
+        title={
+          confirmModal.type === "delete"
+            ? "Delete Agent?"
+            : "Disable Agent?"
+        }
+        message={
+          confirmModal.type === "delete"
+            ? "This action is permanent and cannot be undone."
+            : "Are you sure you want to disable this agent?"
+        }
+        onClose={() =>
+          setConfirmModal({ open: false, type: null, user: null })
+        }
+        onConfirm={() => {
+          if (confirmModal.type === "delete") {
+            deleteUserMutation({ userId: confirmModal.user });
+          } else if (confirmModal.type === "disable") {
+            disableUserMutation({ userId: confirmModal.user });
+          }
+
+          setConfirmModal({ open: false, type: null, user: null });
+        }}
+      />
     </>
   );
 };

@@ -41,7 +41,7 @@ const AdminNavbar = ({ onMenuToggle, isSidebarOpen }) => {
         {/* Logo */}
         <div
           onClick={() => navigate("/dashboard")}
-          className="flex flex-col items-start mr-4 sm:mr-40 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex flex-col items-start mr-4 sm:mr-40 cursor-pointer"
         >
           <span className="text-base sm:text-xl font-bold">
             <span className="text-red-600 dark:text-red-500 text-[1.1rem] sm:text-[1.3rem]">

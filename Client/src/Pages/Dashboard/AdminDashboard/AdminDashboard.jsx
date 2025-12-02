@@ -6,7 +6,7 @@ import {
   CardContent,
   CardHeader,
 } from "../../../components/ui/card";
-import { Loader2, Users, DollarSign, Shield, UserCog } from "lucide-react";
+import { Users, DollarSign, Shield, UserCog } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Statistics } from "../../../lib/APIs/adminAPIs";
 
@@ -20,21 +20,69 @@ const AdminDashboard = () => {
 
   return (
     <>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          Admin Statistics
+        </h2>
+      </div>
+
       {isLoading ? (
-        <div className="text-center py-10 text-zinc-500 dark:text-gray-400">
-          <Loader2 className="animate-spin inline h-7 w-7" />
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="space-y-6"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-32 bg-zinc-100 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-zinc-700 animate-pulse"
+              >
+                <div className="p-4 space-y-3">
+                  <div className="h-4 w-24 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                  <div className="h-7 w-20 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                  <div className="h-3 w-16 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* FILES Skeleton Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div
+                key={i}
+                className="h-32 bg-zinc-100 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-zinc-700 animate-pulse"
+              >
+                <div className="p-4 space-y-3">
+                  <div className="h-4 w-28 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                  <div className="h-7 w-20 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* PAYMENTS Skeleton Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-32 bg-zinc-100 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-zinc-700 animate-pulse"
+              >
+                <div className="p-4 space-y-3">
+                  <div className="h-4 w-28 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                  <div className="h-7 w-20 bg-zinc-300 dark:bg-zinc-600 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       ) : (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
-              Admin Statistics
-            </h2>
-          </div>
 
           {/* ===== USERS SECTION ===== */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
