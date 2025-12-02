@@ -79,7 +79,7 @@ const ChatRoom = ({ ecuFileId }) => {
   }, {});
 
   return (
-    <div className="flex flex-col h-[64vh] bg-zinc-50 dark:bg-[#242526]/90 border border-zinc-200 dark:border-gray-700 rounded-xl shadow-md overflow-hidden">
+    <div className="flex flex-col h-[65vh] bg-zinc-50 dark:bg-[#242526]/90 border border-zinc-200 dark:border-gray-700 rounded-xl shadow-md overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-zinc-200 dark:border-gray-700 bg-zinc-50 dark:bg-[#242526]/90">
         <div>
@@ -97,7 +97,7 @@ const ChatRoom = ({ ecuFileId }) => {
       {/* Messages */}
       <div
         ref={chatScrollRef}
-        className="flex-1 overflow-y-auto p-4 space-y-3 bg-zinc-50 dark:bg-[#242526]/90 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
+        className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 bg-zinc-50 dark:bg-[#242526]/90 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
       >
         {Object.keys(grouped).map((date) => (
           <div key={date}>
@@ -114,7 +114,7 @@ const ChatRoom = ({ ecuFileId }) => {
                   className={`flex ${isMe ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[75%] px-4 py-2 mb-1 rounded-2xl ${
+                    className={`max-w-[75%] px-4 py-2 mb-1 rounded-2xl break-words whitespace-pre-wrap ${
                       isMe
                         ? "bg-orange-600 text-gray-900 dark:text-white rounded-br-none"
                         : "bg-[#3A3B3C] text-gray-900 dark:text-white rounded-bl-none"

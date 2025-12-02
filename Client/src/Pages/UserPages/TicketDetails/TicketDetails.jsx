@@ -49,7 +49,7 @@ const TicketDetails = () => {
           {/* Three column layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4 items-start">
             {/* Details */}
-            <div className="p-6 space-y-4 bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 mt-6  h-full max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
+            <div className="min-w-0 p-6 space-y-4 bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 mt-6 h-full max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Details
               </h1>
@@ -147,7 +147,7 @@ const TicketDetails = () => {
             </div>
 
             {/* Chat */}
-            <div className="flex flex-col gap-4">
+            <div className="min-w-0 flex flex-col gap-4">
               <div className="">
                 <StatusCard
                   status={data?.status}
@@ -161,7 +161,7 @@ const TicketDetails = () => {
             </div>
 
             {/* Request */}
-            <div className="p-6 space-y-5 bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 mt-6  h-full max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
+            <div className="min-w-0 p-6 space-y-5 bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700 mt-6  h-full max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Request

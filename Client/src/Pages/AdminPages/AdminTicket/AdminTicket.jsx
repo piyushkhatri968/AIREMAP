@@ -127,7 +127,7 @@ const AdminTicket = () => {
             Ticket Details...
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-8 mb-4 md:mb-0">
             {/* Three column layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[0.5fr_1fr_0.5fr] gap-4">
               {/* Details */}
