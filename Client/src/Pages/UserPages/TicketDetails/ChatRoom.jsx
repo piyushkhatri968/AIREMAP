@@ -21,6 +21,36 @@ const ChatRoom = ({ ecuFileId }) => {
   const chatScrollRef = useRef(null);
   const { authUser } = useAuthUser();
 
+  const [typingUsers, setTypingUsers] = useState([]);
+
+  useEffect(() => {
+    // EXISTING JOIN LOGIC
+    socket.on("typing", ({ userId }) => {
+      setTypingUsers((prev) => [...new Set([...prev, userId])]);
+    });
+
+    socket.on("stop_typing", ({ userId }) => {
+      setTypingUsers((prev) => prev.filter((id) => id !== userId));
+    });
+
+    return () => {
+      socket.off("typing");
+      socket.off("stop_typing");
+    };
+  }, []);
+
+  // --- HANDLE TYPING ---
+  let typingTimeout;
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+    socket.emit("typing", { ecuFileId, senderId: authUser._id });
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit("stop_typing", { ecuFileId, senderId: authUser._id });
+    }, 1000);
+  };
+
   useEffect(() => {
     if (!ecuFileId) return toast.error("Invalid ECU file");
 
@@ -32,9 +62,13 @@ const ChatRoom = ({ ecuFileId }) => {
       setActiveParticipants(data.activeParticipants || []);
     });
 
-    socket.on("receive_message", (msg) =>
-      setMessages((prev) => [...prev, msg])
-    );
+    socket.on("receive_message", (msg) => {
+      setMessages((prev) => {
+        const other = prev.map((m) => (m._id === msg._id ? msg : m));
+        return [...other.filter((m) => m._id !== msg._id), msg];
+      });
+    });
+
     socket.on("participant_joined", (p) =>
       setActiveParticipants((prev) => [...prev, p])
     );
@@ -121,11 +155,13 @@ const ChatRoom = ({ ecuFileId }) => {
                     }`}
                   >
                     <p className="text-sm">{msg.message}</p>
-                    <p className="text-[10px] text-gray-300 mt-1 text-right">
-                      {new Date(msg.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                    <p className="text-[10px] text-gray-300 mt-1 flex justify-between items-center">
+                      <span>
+                        {new Date(msg.createdAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
                     </p>
                   </div>
                 </motion.div>
@@ -136,6 +172,11 @@ const ChatRoom = ({ ecuFileId }) => {
         <div ref={messagesEndRef} />
       </div>
 
+      <div className="text-xs text-white p-2 bg-transparent">
+        {typingUsers.length > 0 &&
+          `${chatPartner?.firstName || "Someone"} is typing...`}
+      </div>
+
       {/* Input */}
       <div className="p-3 border-t border-zinc-200 dark:border-gray-700 flex gap-2 bg-zinc-50 dark:bg-[#242526]/90">
         <input
@@ -143,7 +184,7 @@ const ChatRoom = ({ ecuFileId }) => {
           className="flex-1 px-4 py-2 rounded-full border border-zinc-200 dark:border-gray-700 bg-zinc-50 dark:bg-[#242526]/90 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none"
           placeholder="Type your message..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleTyping}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button

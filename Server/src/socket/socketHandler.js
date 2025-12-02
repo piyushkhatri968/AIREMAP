@@ -106,18 +106,21 @@ export const socketHandler = (io) => {
         activeParticipants: Array.from(activeChatSessions.get(ecuFileId)),
       });
 
-      // MARK AS READ
-      await Chat.updateMany(
-        { ecuFile: ecuFileId, readBy: { $ne: userId } },
-        { $addToSet: { readBy: userId } }
-      );
-
       socket.to(ecuFileId).emit("participant_joined", {
         userId,
         role: currentUser.role,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
       });
+    });
+
+    // --- TYPING INDICATOR ---
+    socket.on("typing", ({ ecuFileId, senderId }) => {
+      socket.to(ecuFileId).emit("typing", { userId: senderId });
+    });
+
+    socket.on("stop_typing", ({ ecuFileId, senderId }) => {
+      socket.to(ecuFileId).emit("stop_typing", { userId: senderId });
     });
 
     // SEND MESSAGE
@@ -132,13 +135,13 @@ export const socketHandler = (io) => {
         ecuFile: ecuFileId,
         sender: senderId,
         message,
-        readBy: [senderId],
       });
 
-      const populatedMsg = await newMsg.populate(
-        "sender",
-        "firstName lastName role"
-      );
+      const populatedMsg = await newMsg.populate({
+        path: "sender",
+        select: "firstName lastName role",
+      });
+
       const originalMessage = populatedMsg.toObject();
 
       const socketsInRoom = await io.in(ecuFileId).fetchSockets();
