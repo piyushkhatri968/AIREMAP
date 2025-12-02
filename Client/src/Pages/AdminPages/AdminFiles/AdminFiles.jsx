@@ -121,7 +121,7 @@ const AdminFiles = () => {
             {isLoading ? (
               <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <td
-                  colSpan={7}
+                  colSpan={8}
                   className="text-center py-10 text-zinc-500 dark:text-gray-400"
                 >
                   <Loader2 className="animate-spin h-5 w-5 inline-block mr-2" />
