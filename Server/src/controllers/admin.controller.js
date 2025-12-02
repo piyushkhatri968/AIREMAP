@@ -356,7 +356,7 @@ export const UploadTunedFile = async (req, res) => {
       console.error("Cloudinary upload failed:", err);
       return sendResponse(res, 500, false, "Cloud upload failed", null);
     } finally {
-      await fs.unlink(filePath).catch(() => {}); //  remove local file
+      await fs.unlink(filePath).catch(() => { }); //  remove local file
     }
 
     await EcuFile.findOneAndUpdate(
@@ -675,6 +675,7 @@ export const RejectUser = async (req, res) => {
 
     const rejectUser = await Auth.findByIdAndUpdate(userId, {
       verified: false,
+      rejected: true,
       accountRejectionReason: reason,
     });
 

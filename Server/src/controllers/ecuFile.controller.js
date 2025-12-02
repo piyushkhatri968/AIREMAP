@@ -26,6 +26,10 @@ export const CreateEcuFile = async (req, res) => {
     year,
   } = req.body;
 
+  // send email in background in background to Agents
+  const agents = await Auth.find({ role: "agent", assignedUsersToAgent: { $in: req.user._id } })
+  return console.log(agents)
+
   try {
     if (
       !ecuId ||
@@ -148,9 +152,9 @@ export const CreateEcuFile = async (req, res) => {
     const stg = stage?.trim() || "";
     const opts = options
       ? options
-          .split(",")
-          .map((o) => o.trim())
-          .filter((o) => o.length > 0)
+        .split(",")
+        .map((o) => o.trim())
+        .filter((o) => o.length > 0)
       : [];
 
     // (1) ECU-based logic
@@ -195,7 +199,7 @@ export const CreateEcuFile = async (req, res) => {
     if (req?.files?.ecuFile?.[0]) {
       const ecuFilePath = req.files.ecuFile[0].path;
       const cloudinaryUrl = await uploadToCloudinary(ecuFilePath);
-      await fs.unlink(ecuFilePath).catch(() => {}); // safe cleanup
+      await fs.unlink(ecuFilePath).catch(() => { }); // safe cleanup
       if (!cloudinaryUrl) {
         return sendResponse(res, 500, false, "Failed to upload ECU file", null);
       }
@@ -210,7 +214,7 @@ export const CreateEcuFile = async (req, res) => {
       );
       commonFilesUrls = await Promise.all(uploads);
       await Promise.all(
-        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => {}))
+        req.files.commonFiles.map((f) => fs.unlink(f.path).catch(() => { }))
       );
     }
 
@@ -261,17 +265,19 @@ export const CreateEcuFile = async (req, res) => {
         to: req.user.email,
         html: emailTemplate,
         subject: "Ticket Created succesfully",
-      }).catch(() => {});
+      }).catch(() => { });
     });
 
-    // sendEmail to Admin
+    // sendEmail in background to Admin
     setImmediate(() => {
       sendEmail({
         to: process.env.ADMIN_EMAIL,
         html: emailTemplateForAdmin,
         subject: "Ticket Created succesfully",
-      }).catch(() => {});
+      }).catch(() => { });
     });
+
+
 
     return sendResponse(res, 201, true, "ECU File created successfully", null);
   } catch (error) {

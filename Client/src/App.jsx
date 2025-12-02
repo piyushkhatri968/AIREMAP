@@ -58,6 +58,7 @@ import Construction from "./Pages/UserPages/AutoData/Construction/Construction";
 import Bus from "./Pages/UserPages/AutoData/Bus/Bus";
 import Privacy from "./Pages/Privacy/Privacy";
 import AgentCredits from "./Pages/AgentPages/AgentCredits/AgentCredits";
+import RejectPop from "./components/RejectPop";
 
 const App = () => {
   const { authUser, isLoading } = useAuthUser();
@@ -69,6 +70,7 @@ const App = () => {
   const isVerified = authUser?.verified;
   const role = authUser?.role;
   const isDisabled = authUser?.disabled;
+  const isRejected = authUser?.rejected
 
   const redirectIfAuth = () => {
     if (!isAuthenticated) return null;
@@ -229,6 +231,11 @@ const App = () => {
           <DisablePop />
         </div>
       )}
+      {
+        isRejected && <div className="fixed inset-0 z-[9999]">
+          <RejectPop reason={authUser?.accountRejectionReason} />
+        </div>
+      }
     </div>
   );
 };

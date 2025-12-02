@@ -160,7 +160,7 @@ export const SignupEmailVerify = async (req, res) => {
         subject: "Account Verified at AIREMAP",
         to: user.email,
         html: htmlTemplate,
-      }).catch(() => {});
+      }).catch(() => { });
     });
 
     // send email to admin about this user's signup
@@ -178,9 +178,8 @@ export const SignupEmailVerify = async (req, res) => {
       <table style="border-collapse: collapse; margin-top: 12px;">
         <tr>
           <td style="padding: 6px 12px; font-weight: bold;">Name:</td>
-          <td style="padding: 6px 12px;">${user.firstName} ${
-          user?.lastName || ""
-        }</td>
+          <td style="padding: 6px 12px;">${user.firstName} ${user?.lastName || ""
+          }</td>
         </tr>
         <tr>
           <td style="padding: 6px 12px; font-weight: bold;">Email:</td>
@@ -199,7 +198,7 @@ export const SignupEmailVerify = async (req, res) => {
       </p>
     </div>
   `,
-      }).catch(() => {});
+      }).catch(() => { });
     });
 
     return sendResponse(res, 200, true, "Account verified successfull", user);
@@ -305,7 +304,7 @@ export const GetMe = async (req, res) => {
     const { _id } = req.user;
     const user = await Auth.findById(_id)
       .select(
-        "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime preferredLanguage"
+        "email credits role firstName lastName verified onBoarded disabled address city country postalCode profileImageUrl totalMoneySpent totalFilesSubmitted perCreditPrice VAT lastLoginTime preferredLanguage rejected accountRejectionReason"
       )
       .lean();
     return sendResponse(res, 200, true, "User fetched successfully", user);
