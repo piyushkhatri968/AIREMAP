@@ -60,7 +60,7 @@ const Transactions = () => {
       <div className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl border border-zinc-200 dark:border-gray-700">
         <div className="overflow-x-auto rounded-xl">
           <table className="w-full text-sm text-zinc-900 dark:text-white whitespace-nowrap">
-            <thead className="text-xs font-medium text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
+            <thead className="text-xs font-medium bg-zinc-100 dark:bg-[#1c1d1e] text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
               <tr>
                 <th className="py-3 px-4 text-center">{t("transactions.table.date")}</th>
                 <th className="py-3 px-4 text-center">{t("transactions.table.serialNumber")}</th>

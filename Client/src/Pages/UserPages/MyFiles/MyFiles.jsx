@@ -116,7 +116,7 @@ const MyFiles = () => {
           </div>
         ) : filteredFiles.length > 0 ? (
           <table className="min-w-full w-full text-sm text-left text-zinc-800 dark:text-gray-200 whitespace-nowrap">
-            <thead className="bg-zinc-100 dark:bg-[#242526] text-zinc-600 dark:text-gray-400 text-xs uppercase text-center">
+            <thead className="bg-zinc-100 dark:bg-[#1c1d1e] text-zinc-600 dark:text-gray-400 text-xs uppercase text-center">
               <tr>
                 <th className="px-6 py-3 font-medium">{t("myFiles.table.vehicle")}</th>
                 <th className="px-6 py-3 font-medium">{t("myFiles.table.registration")}</th>
