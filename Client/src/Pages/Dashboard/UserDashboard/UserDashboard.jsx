@@ -33,19 +33,18 @@ const UserDashboard = () => {
     const diffHr = Math.floor(diffMin / 60);
     const diffDay = Math.floor(diffHr / 24);
 
-    if (diffSec < 60) return t("userDashboard.justNow");
+    if (diffSec < 60) return t("justNow");
     if (diffMin < 60)
-      return `${diffMin} ${t("userDashboard.minute")}${
-        diffMin > 1 ? "s" : ""
-      } ${t("userDashboard.ago")}`;
+      return `${diffMin} ${t("minute")}${diffMin > 1 ? "s" : ""
+        } ${t("ago")}`;
     if (diffHr < 24)
-      return `${diffHr} ${t("userDashboard.hour")}${diffHr > 1 ? "s" : ""} ${t(
-        "userDashboard.ago"
+      return `${diffHr} ${t("hour")}${diffHr > 1 ? "s" : ""} ${t(
+        "ago"
       )}`;
-    if (diffDay === 1) return t("userDashboard.yesterday");
+    if (diffDay === 1) return t("yesterday");
     if (diffDay < 7)
       return `${diffDay} day${diffDay > 1 ? "s" : ""} ${t(
-        "userDashboard.ago"
+        "ago"
       )}`;
 
     return date.toLocaleString("en-US", {
@@ -68,26 +67,26 @@ const UserDashboard = () => {
   const fileStatsChartData =
     statsData.length === 1
       ? [
-          { month: `Start`, files: 0 },
-          {
-            month: statsData[0].month,
-            files: statsData[0].totalFilesSubmitted,
-          },
-        ]
+        { month: `Start`, files: 0 },
+        {
+          month: statsData[0].month,
+          files: statsData[0].totalFilesSubmitted,
+        },
+      ]
       : statsData.map((item) => ({
-          month: item.month,
-          files: item.totalFilesSubmitted,
-        }));
+        month: item.month,
+        files: item.totalFilesSubmitted,
+      }));
   const amountSpentStatsChartData =
     statsData.length === 1
       ? [
-          { month: `Start`, money: 0 },
-          { month: statsData[0].month, money: statsData[0].totalMoneySpent },
-        ]
+        { month: `Start`, money: 0 },
+        { month: statsData[0].month, money: statsData[0].totalMoneySpent },
+      ]
       : statsData.map((item) => ({
-          month: item.month,
-          money: item.totalMoneySpent,
-        }));
+        month: item.month,
+        money: item.totalMoneySpent,
+      }));
 
   const StatsCardSkeleton = () => (
     <>
@@ -118,13 +117,13 @@ const UserDashboard = () => {
         className="mb-4 sm:mb-8"
       >
         <h1 className="text-xl sm:text-2xl text-zinc-900 dark:text-white">
-          {t("userDashboard.welcomeBack")},{" "}
+          {t("welcomeBack")},{" "}
           <span className="font-bold">
             {authUser?.firstName || ""} {authUser?.lastName || ""}
           </span>
         </h1>
         <p className="text-sm sm:text-base font-medium text-zinc-600 dark:text-gray-400 mb-2">
-          {t("userDashboard.lastLogin")}{" "}
+          {t("lastLogin")}{" "}
           {formatDateTime(authUser?.lastLoginTime)}
         </p>
 
@@ -151,20 +150,20 @@ const UserDashboard = () => {
               />
               <div>
                 <div className="text-zinc-600 dark:text-gray-300 text-xs sm:text-sm">
-                  {t("userDashboard.theMostAdvanced")}
+                  {t("mostAdvanced")}
                 </div>
                 <div className="text-zinc-900 dark:text-white text-lg sm:text-xl font-bold">
-                  {t("userDashboard.airemapAutodata")}
+                  {t("airemapAutodata")}
                 </div>
               </div>
             </div>
 
-            {/* <button
+            <button
               onClick={() => navigate("/auto-data")}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-4 sm:px-5 py-2 rounded-md font-medium text-sm transition-colors duration-200"
             >
-              {t("userDashboard.openAutodata")}
-            </button> */}
+              {t("openAutodata")}
+            </button>
           </div>
         </div>
         {/* Stats Cards */}
@@ -181,11 +180,11 @@ const UserDashboard = () => {
                       {authUser?.totalFilesSubmitted || 0}
                     </span>
                     <span className="text-zinc-600 dark:text-gray-400">
-                      {t("userDashboard.files")}
+                      {t("files")}
                     </span>
                   </div>
                   <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    {t("userDashboard.accountFileQueries")}
+                    {t("yourAccountFileQueries")}
                   </p>
                 </div>
                 {/* Green wave */}
@@ -197,11 +196,16 @@ const UserDashboard = () => {
               {/* Purchases Card */}
               <div className="bg-zinc-100 dark:bg-[#242526]/90 rounded-xl p-4 sm:p-6 relative overflow-hidden h-28 sm:h-32">
                 <div className="relative z-10">
-                  <div className="text-3xl font-light text-zinc-900 dark:text-white">
-                    {formatCurrency(authUser?.totalMoneySpent)}
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-light text-zinc-900 dark:text-white">
+                      {formatCurrency(authUser?.totalMoneySpent)}
+                    </span>
+                    <span className="text-zinc-600 dark:text-gray-400">
+                      {t("purchases")}
+                    </span>
                   </div>
-                  <p className="text-zinc-600 dark:text-gray-400 text-sm">
-                    {t("userDashboard.accountPurchases")}
+                  <p className="text-sm text-zinc-600 dark:text-gray-400">
+                    {t("yourAccountPurchases")}
                   </p>
                 </div>
                 {/* Red wave */}

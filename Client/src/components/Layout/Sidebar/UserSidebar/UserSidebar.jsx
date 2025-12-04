@@ -8,7 +8,6 @@ import {
   FolderOpen,
   ShoppingBag,
   File,
-  CarFront,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import UserSideItem from "../UserSidebar/UserSideItem";

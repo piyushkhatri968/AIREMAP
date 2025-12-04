@@ -12,13 +12,14 @@ import {
 } from "../../../components/ui/select";
 import { UploadCloud } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { ecuOptions } from "../../../utils/ECUdata";
 import EcuSearchCombobox from "./EcuSearchCombobox";
-
+import { useTranslation } from "react-i18next";
 const UploadFile = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     make: "",
@@ -197,7 +198,7 @@ const UploadFile = () => {
       {/* Page Title */}
       <div className="p-4">
         <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
-          Upload File
+          {t('uploadFile')}
         </h1>
         {/* Breadcrumb Navigation - Hidden on mobile */}
         <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
@@ -205,12 +206,12 @@ const UploadFile = () => {
             onClick={() => navigate("/dashboard")}
             className="hover:text-zinc-900 dark:hover:text-white transition-colors"
           >
-            Dashboard
+            {t('dashboard')}
           </button>
           <span>&gt;</span>
-          <span>Portal</span>
+          <span>{t('portal')}</span>
           <span>&gt;</span>
-          <span className="text-zinc-900 dark:text-white">Upload File</span>
+          <span className="text-zinc-900 dark:text-white">{t('uploadFile')}</span>
         </div>
       </div>
 
@@ -221,7 +222,7 @@ const UploadFile = () => {
             1
           </div>
           <span className="text-zinc-900 dark:text-white text-xs sm:text-sm font-medium">
-            Vehicle Details
+            {t('vehicleDetails')}
           </span>
         </div>
         <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
@@ -232,7 +233,7 @@ const UploadFile = () => {
             2
           </div>
           <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-            Modification Plan
+            {t('modificationPlan')}
           </span>
         </div>
         <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
@@ -243,7 +244,7 @@ const UploadFile = () => {
             3
           </div>
           <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-            Overview
+            {t('overview')}
           </span>
         </div>
       </div>
@@ -256,11 +257,10 @@ const UploadFile = () => {
           <div className="p-4 sm:p-6 lg:p-8">
             <div className="mb-6 sm:mb-8">
               <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
-                Vehicle Parameters
+                {t('vehicleParameters')}
               </h2>
               <p className="text-zinc-500 dark:text-gray-400 text-sm sm:text-base">
-                Please provide the following parameters for your vehicle to help
-                us deliver a more accurate and effective ECU tune.
+                {t('vehicleParametersDescription')}
               </p>
             </div>
             {/* Vehicle Parameters Form */}
@@ -269,18 +269,16 @@ const UploadFile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                 <div className="space-y-1">
                   <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    Vehicle <span className="text-red-600">*</span>
+                    {t('vehicle')} <span className="text-red-600">*</span>
                   </Label>
                   <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    Choose your vehicle model.
-                    {/* If you cannot find your vehicle,
-                  please contact us on
-                  <a
-                    href="/help"
-                    className="text-red-600 hover:underline transition-colors"
-                  >
-                    Help Page
-                  </a> */}
+                    {t('vehicleHelp')}
+                    <a
+                      href="/help"
+                      className="text-red-600 hover:underline transition-colors"
+                    >
+                      {t('helpPage')}
+                    </a>
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -288,7 +286,7 @@ const UploadFile = () => {
                   <Input
                     required
                     id="make"
-                    placeholder="Make"
+                    placeholder=  {t('uploadFilePage.placeholders.make')}
                     value={formData.make}
                     onChange={handleInputChange}
                     className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
@@ -297,7 +295,7 @@ const UploadFile = () => {
                   {/* Model */}
                   <Input
                     required
-                    placeholder="Model"
+                    placeholder={t('uploadFilePage.placeholders.model')}
                     id="model"
                     value={formData.model}
                     onChange={handleInputChange}
@@ -307,7 +305,7 @@ const UploadFile = () => {
                   {/* Year */}
                   <Input
                     required
-                    placeholder="Year"
+                    placeholder={t('uploadFilePage.placeholders.year')}
                     id="year"
                     value={formData.year}
                     onChange={handleInputChange}
@@ -317,7 +315,7 @@ const UploadFile = () => {
                   {/* Registration */}
                   <Input
                     required
-                    placeholder="Registration"
+                    placeholder={t('uploadFilePage.placeholders.registration')}
                     id="registration"
                     value={formData.registration}
                     onChange={(e) =>
@@ -347,7 +345,7 @@ const UploadFile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                 <div className="space-y-4">
                   <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    Transmission Type <span className="text-red-600">*</span>
+                    {t("transmissionType")} <span className="text-red-600">*</span>
                   </Label>
                 </div>
                 <div className="">
@@ -368,7 +366,7 @@ const UploadFile = () => {
                         htmlFor="automatic"
                         className="text-zinc-900 dark:text-white"
                       >
-                        Automatic
+                        {t('automatic')}
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -381,7 +379,7 @@ const UploadFile = () => {
                         htmlFor="manual"
                         className="text-zinc-900 dark:text-white"
                       >
-                        Manual
+                        {t('manual')}
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -394,7 +392,7 @@ const UploadFile = () => {
                         htmlFor="semi-automatic"
                         className="text-zinc-900 dark:text-white"
                       >
-                        SemiAutomatic
+                        {t('semiAutomatic')}
                       </Label>
                     </div>
                   </RadioGroup>
@@ -404,11 +402,10 @@ const UploadFile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                 <div className="space-y-2">
                   <Label className="text-zinc-900 dark:text-white text-sm font-medium block mt-4 sm:mt-0">
-                    Tool <span className="text-red-600">*</span>
+                    {t('tool')} <span className="text-red-600">*</span>
                   </Label>
                   <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    Select the options that specify the reading tool and read type
-                    used to extract ECU file.
+                    {t('toolHelp')}
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -420,7 +417,7 @@ const UploadFile = () => {
                     }
                   >
                     <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                      <SelectValue placeholder="Select read tool" />
+                      <SelectValue placeholder={t('selectReadTool')} />
                     </SelectTrigger>
 
                     <SelectContent
@@ -447,7 +444,7 @@ const UploadFile = () => {
                     }
                   >
                     <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                      <SelectValue placeholder="Select a read type" />
+                      <SelectValue placeholder={t('selectReadType')} />
                     </SelectTrigger>
                     <SelectContent
                       className="dark:bg-[#242526] relative"
@@ -483,7 +480,7 @@ const UploadFile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                 <div className="space-y-4">
                   <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    Master/Slave <span className="text-red-600">*</span>
+                    {t("Master_Slave")} <span className="text-red-600">*</span>
                   </Label>
                 </div>
                 <div className="">
@@ -505,7 +502,7 @@ const UploadFile = () => {
                         htmlFor="Master"
                         className="text-zinc-900 dark:text-white"
                       >
-                        Master
+                        {t('master')}
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -518,7 +515,7 @@ const UploadFile = () => {
                         htmlFor="Slave"
                         className="text-zinc-900 dark:text-white"
                       >
-                        Slave
+                        {t('master')}
                       </Label>
                     </div>
                   </RadioGroup>
@@ -529,11 +526,10 @@ const UploadFile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                 <div className="space-y-2">
                   <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    Uploads <span className="text-red-600">*</span>
+                    {t('uploads')} <span className="text-red-600">*</span>
                   </Label>
                   <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    Upload your ECU file and any related common files necessary
-                    for the tuning process.
+                    {t('uploadsHelp')}
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -554,10 +550,10 @@ const UploadFile = () => {
                     >
                       <UploadCloud className="h-12 w-12 text-zinc-400 dark:text-gray-500 mb-4" />
                       <span className="text-zinc-900 dark:text-white font-medium mb-1">
-                        Select a ECU file to upload
+                        {t('selectEcuFile')}
                       </span>
                       <span className="text-sm text-zinc-600 dark:text-gray-400">
-                        or drag and drop it here
+                        {t('dragAndDrop')}
                       </span>
                     </label>
                     {uploadedFile && (
@@ -577,7 +573,7 @@ const UploadFile = () => {
                           document.getElementById("common-files")?.click()
                         }
                       >
-                        Upload Additional Files
+                        {t('uploadFilePage.uploadAdditionalFiles')}
                       </Button>
                     </div>
                     <input
@@ -609,7 +605,7 @@ const UploadFile = () => {
                   type="submit"
                   className="bg-red-600 hover:bg-red-700 text-white px-8 flex items-center gap-2"
                 >
-                  <span>Continue</span>
+                  <span>{t('continue')}</span>
                   <span className="text-lg">→</span>
                 </Button>
               </div>

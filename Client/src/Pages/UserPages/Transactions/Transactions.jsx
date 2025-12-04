@@ -41,7 +41,7 @@ const Transactions = () => {
     >
       {/* Title */}
       <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
-        {t("transactions.title")}
+        {t("transactionsPage.title")}
       </h2>
 
       {/* Search Bar */}
@@ -50,7 +50,7 @@ const Transactions = () => {
 
         <Input
           className="pl-10 bg-zinc-50 dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-          placeholder={t("transactions.searchPlaceholder")}
+          placeholder={t("searchTransaction")}
           value={searchTerms}
           onChange={(e) => setSearchTerms(e.target.value)}
         />
@@ -62,11 +62,11 @@ const Transactions = () => {
           <table className="w-full text-sm text-zinc-900 dark:text-white whitespace-nowrap">
             <thead className="text-xs font-medium bg-zinc-100 dark:bg-[#1c1d1e] text-zinc-500 dark:text-gray-400 border-b border-zinc-200 dark:border-gray-700">
               <tr>
-                <th className="py-3 px-4 text-center">{t("transactions.table.date")}</th>
-                <th className="py-3 px-4 text-center">{t("transactions.table.serialNumber")}</th>
-                <th className="py-3 px-4 text-center">{t("transactions.table.credits")}</th>
-                <th className="py-3 px-4 text-center">{t("transactions.table.total")}</th>
-                <th className="py-3 px-4 text-center">{t("transactions.table.status")}</th>
+                <th className="py-3 px-4 text-center">{t("DATE")}</th>
+                <th className="py-3 px-4 text-center">{t("SERIAL")}</th>
+                <th className="py-3 px-4 text-center">{t("transactionsPage.table.credits")}</th>
+                <th className="py-3 px-4 text-center">{t("TOTAL")}</th>
+                <th className="py-3 px-4 text-center">{t("transactionsPage.table.status")}</th>
                 {/* <th className="py-3 px-4 text-center">{t("transactions.table.invoice")}</th> */}
               </tr>
             </thead>
@@ -77,7 +77,7 @@ const Transactions = () => {
                   <td colSpan="6" className="py-10 text-center">
                     <div className="flex items-center justify-center text-zinc-500 dark:text-gray-400">
                       <Loader2 className="animate-spin h-5 w-5 mr-2" />
-                      {t("transactions.loading")}
+                      {t("loading")}
                     </div>
                   </td>
                 </motion.tr>
@@ -104,7 +104,7 @@ const Transactions = () => {
                           : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300"
                         }`}>
 
-                        {row.status}
+                            {t(`transactionsPage.status.${row.status}`)}
                       </span>
                     </td>
 
@@ -125,7 +125,7 @@ const Transactions = () => {
                     colSpan="6"
                     className="py-8 text-center text-zinc-500 dark:text-gray-400"
                   >
-                    {t("transactions.noData")}
+                    {t("transactionsPage.noData")}
                   </td>
                 </motion.tr>
               )}
