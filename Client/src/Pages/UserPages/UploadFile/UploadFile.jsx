@@ -515,7 +515,7 @@ const UploadFile = () => {
                         htmlFor="Slave"
                         className="text-zinc-900 dark:text-white"
                       >
-                        {t('master')}
+                        {t('slave')}
                       </Label>
                     </div>
                   </RadioGroup>
