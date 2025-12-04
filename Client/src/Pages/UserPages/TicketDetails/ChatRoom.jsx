@@ -131,7 +131,9 @@ const ChatRoom = ({ ecuFileId }) => {
       {/* Messages */}
       <div
         ref={chatScrollRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 bg-zinc-50 dark:bg-[#242526]/90 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
+        className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 bg-zinc-50 dark:bg-[#242526]/90  scrollbar-thin
+    scrollbar-thumb-zinc-400 dark:scrollbar-thumb-zinc-600
+    scrollbar-track-zinc-200 dark:scrollbar-track-zinc-800"
       >
         {Object.keys(grouped).map((date) => (
           <div key={date}>
@@ -154,7 +156,7 @@ const ChatRoom = ({ ecuFileId }) => {
                         : "bg-[#3A3B3C] text-gray-900 dark:text-white rounded-bl-none"
                     }`}
                   >
-                    <p className="text-sm">{msg.message}</p>
+                    <p className="text-sm text-white">{msg.message}</p>
                     <p className="text-[10px] text-gray-300 mt-1 flex justify-between items-center">
                       <span>
                         {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -173,8 +175,7 @@ const ChatRoom = ({ ecuFileId }) => {
       </div>
 
       <div className="text-xs text-white p-2 bg-transparent">
-        {typingUsers.length > 0 &&
-          `${chatPartner?.firstName || "Someone"} is typing...`}
+        {typingUsers.length > 0 && `typing...`}
       </div>
 
       {/* Input */}
