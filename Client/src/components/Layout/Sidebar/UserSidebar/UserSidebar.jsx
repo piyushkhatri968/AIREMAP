@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import UserSideItem from "../UserSidebar/UserSideItem";
+import { useTranslation } from "react-i18next";
 
 const UserSidebar = ({
   activeView,
@@ -21,6 +22,7 @@ const UserSidebar = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation()
 
   // navigation handler
   const handleNavigation = useCallback(
@@ -75,11 +77,11 @@ const UserSidebar = ({
         {/* GENERAL Section */}
         <div className="space-y-1">
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
-            General
+            {t("general")}
           </h3>
           <UserSideItem
             icon={<LayoutDashboard className="w-4 h-4" />}
-            label="Dashboard"
+            label={t("dashboard")}
             isActive={activeView === "dashboard"}
             onClick={() => handleNavigation("dashboard")}
           />
@@ -88,11 +90,11 @@ const UserSidebar = ({
         {/* DATABASE Section */}
         <div className="space-y-1">
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
-            Database
+            {t("database")}
           </h3>
           <UserSideItem
             icon={<Tags className="w-4 h-4" />}
-            label="Price List"
+            label={t("priceList")}
             isActive={activeView === "price-list"}
             onClick={() => handleNavigation("price-list")}
           />
@@ -107,17 +109,17 @@ const UserSidebar = ({
         {/* CREDITS Section */}
         <div className="space-y-1">
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
-            Credits
+            {t("transactionsPage.table.credits")}
           </h3>
           <UserSideItem
             icon={<CircleDollarSign className="w-4 h-4" />}
-            label="Buy Credits"
+            label={t("buyCredits")}
             isActive={activeView === "buy-credits"}
             onClick={() => handleNavigation("buy-credits")}
           />
           <UserSideItem
             icon={<FileSpreadsheet className="w-4 h-4" />}
-            label="My Transactions"
+            label={t("myTransactions")}
             isActive={activeView === "transactions"}
             onClick={() => handleNavigation("transactions")}
           />
@@ -126,22 +128,22 @@ const UserSidebar = ({
         {/* PORTAL Section */}
         <div className="space-y-1">
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
-            Portal
+            {t("portal")}
           </h3>
           <UserSideItem
             icon={<File className="w-4 h-4" />}
-            label="File Service"
+            label={t("fileService")}
             hasSubmenu
           >
             <UserSideItem
               icon={<Upload className="w-4 h-4" />}
-              label="Upload File"
+              label={t("uploadFile")}
               isActive={activeView === "upload-file"}
               onClick={() => handleNavigation("upload-file")}
             />
             <UserSideItem
               icon={<FolderOpen className="w-4 h-4" />}
-              label="My Files"
+              label={t("myFiles")}
               isActive={activeView === "my-files"}
               onClick={() => handleNavigation("my-files")}
             />
@@ -151,11 +153,11 @@ const UserSidebar = ({
         {/* LIBRARY Section */}
         <div className="space-y-1">
           <h3 className="px-2 text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
-            Library
+            {t("library")}
           </h3>
           <UserSideItem
             icon={<CircleDollarSign className="w-4 h-4" />}
-            label="Fault Codes"
+            label={t("faultCodes")}
             isActive={activeView === "fault-codes"}
             onClick={() => handleNavigation("fault-codes")}
           />

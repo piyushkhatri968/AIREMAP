@@ -272,12 +272,12 @@ const UploadFile = () => {
                   </Label>
                   <p className="text-sm text-zinc-600 dark:text-gray-400">
                     {t('vehicleHelp')}
-                    <a
+                    {/* <a
                       href="/help"
                       className="text-red-600 hover:underline transition-colors"
                     >
                       {t('helpPage')}
-                    </a>
+                    </a> */}
                   </p>
                 </div>
                 <div className="space-y-4">

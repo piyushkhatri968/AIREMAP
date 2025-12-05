@@ -69,19 +69,20 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
 
   // Available languages
   const languages = [
-    { label: 'English', value: 'en', flag: '🇬🇧' },
-    { label: 'Español', value: 'es', flag: '🇪🇸' },
-    { label: 'Français', value: 'fr', flag: '🇫🇷' },
-    { label: 'Deutsch', value: 'de', flag: '🇩🇪' },
-    { label: 'Italiano', value: 'it', flag: '🇮🇹' },
-    { label: '日本語', value: 'ja', flag: '🇯🇵' },
-    { label: '한국어', value: 'ko', flag: '🇰🇷' },
-    { label: '中文', value: 'zh', flag: '🇨🇳' },
-    { label: 'اردو', value: 'ur', flag: '🇵🇰' },
-    { label: 'العربية', value: 'ar', flag: '🇸🇦' },
-    { label: 'हिंदी', value: 'hi', flag: '🇮🇳' },
-    { label: 'Türkçe', value: 'tr', flag: '🇹🇷' }
+    { label: 'English', value: 'en', flag: '🇬🇧', flag_value: 'gb' },
+    { label: 'Español', value: 'es', flag: '🇪🇸', flag_value: 'es' },
+    { label: 'Français', value: 'fr', flag: '🇫🇷', flag_value: 'fr' },
+    { label: 'Deutsch', value: 'de', flag: '🇩🇪', flag_value: 'de' },
+    { label: 'Italiano', value: 'it', flag: '🇮🇹', flag_value: 'it' },
+    { label: '日本語', value: 'ja', flag: '🇯🇵', flag_value: 'jp' },
+    { label: '한국어', value: 'ko', flag: '🇰🇷', flag_value: 'kr' },
+    { label: '中文', value: 'zh', flag: '🇨🇳', flag_value: 'cn' },
+    { label: 'اردو', value: 'ur', flag: '🇵🇰', flag_value: 'pk' },
+    { label: 'العربية', value: 'ar', flag: '🇸🇦', flag_value: 'sa' },
+    { label: 'हिंदी', value: 'hi', flag: '🇮🇳', flag_value: 'in' },
+    { label: 'Türkçe', value: 'tr', flag: '🇹🇷', flag_value: 'tr' }
   ];
+
 
   const [language, setLanguage] = useState(authUser?.preferredLanguage || 'en');
 
@@ -227,7 +228,12 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                       className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
                         }`}
                     >
-                      <span className="mr-2">{lang.flag}</span>
+                      <span className="w-[2rem] overflow-hidden">
+                        <img
+                          src={`https://flagcdn.com/w320/${lang.flag_value.toLowerCase()}.png`}
+                          className="w-full h-full object-cover"
+                          draggable="false"
+                        /></span>
                       <span>{lang.label}</span>
                       {language === lang.value && (
                         <Check className="w-4 h-4 text-green-500 ml-auto" />

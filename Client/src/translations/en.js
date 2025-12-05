@@ -407,7 +407,7 @@ export default {
   vehicleParameters: 'Vehicle Parameters',
   vehicleParametersDescription: 'Please provide the following parameters for your vehicle to help us deliver a more accurate and effective ECU tune.',
   // Flat keys used directly by pages/components
-  vehicleHelp: 'Choose your vehicle model. If you cannot find your vehicle, please contact us on ',
+  vehicleHelp: 'Choose your vehicle model. ',
   helpPage: 'Help Page',
   tool: 'Tool',
   toolHelp: 'Select the options that specify the reading tool and read type used to extract ECU file.',
