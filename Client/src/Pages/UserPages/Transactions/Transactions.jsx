@@ -18,7 +18,7 @@ const Transactions = () => {
     x.serialNo.toLowerCase().includes(searchTerms.toLowerCase())
   );
 
-  if (isError) toast.error(t("transactions.loadError"));
+  if (isError) toast.error(t("transactionsPage.loadError"));
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "";

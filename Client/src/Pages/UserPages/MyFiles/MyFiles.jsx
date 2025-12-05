@@ -15,7 +15,7 @@ const MyFiles = () => {
 
   const { data, isLoading, isError } = useMyFiles();
 
-  if (isError) toast.error(t("myFiles.errors.fetchFailed"));
+  if (isError) toast.error(t("myFilesPage.errors.common"));
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "";

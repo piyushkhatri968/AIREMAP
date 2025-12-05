@@ -14,8 +14,10 @@ import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
 import { toast } from "react-toastify";
 import Textarea from "../../../components/ui/textarea";
+import { useTranslation } from "react-i18next";
 
 const ModificationPlan = () => {
+  const { t } = useTranslation();
   const modificationOptions = [
     // Left Column
     {
@@ -109,7 +111,7 @@ const ModificationPlan = () => {
     },
     {
       id: "file-check-review",
-      name: "File Check Review ",
+      name: "File Check Review",
       category: "service",
       warning: true,
       credits: 1,
@@ -196,7 +198,7 @@ const ModificationPlan = () => {
 
   const handleOptionToggle = (optionId) => {
     if (isOptionsBlocked) {
-      toast.info("Options selection is disabled for the current Stage.");
+      toast.info(t("modificationPlanPage.toasts.optionsDisabled"));
       return;
     }
 
@@ -255,7 +257,7 @@ const ModificationPlan = () => {
     e.preventDefault();
 
     if (!selectedStage) {
-      toast.error("Please select a stage");
+      toast.error(t("modificationPlanPage.toasts.stageRequired"));
       return;
     }
 
@@ -283,7 +285,7 @@ const ModificationPlan = () => {
       {/* Page Title and Breadcrumb (unchanged) */}
       <div className="p-4">
         <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
-          Modification Plan
+          {t('modificationPlan')}
         </h1>
         {/* Breadcrumb Navigation */}
         <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
@@ -291,20 +293,20 @@ const ModificationPlan = () => {
             onClick={() => navigate("/dashboard")}
             className="hover:text-zinc-900 dark:hover:text-white transition-colors"
           >
-            Dashboard
+            {t('dashboard')}
           </button>
           <span>&gt;</span>
-          <span>Portal</span>
+          <span>{t('portal')}</span>
           <span>&gt;</span>
           <button
             onClick={() => navigate("/upload-file")}
             className="hover:text-zinc-900 dark:hover:text-white transition-colors"
           >
-            Upload File
+            {t('uploadFile')}
           </button>
           <span>&gt;</span>
           <span className="text-zinc-900 dark:text-white">
-            Modification Plan
+            {t('modificationPlan')}
           </span>
         </div>
       </div>
@@ -315,7 +317,7 @@ const ModificationPlan = () => {
             1
           </div>
           <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-            Vehicle Details
+            {t('vehicleDetails')}
           </span>
         </div>
         <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
@@ -326,7 +328,7 @@ const ModificationPlan = () => {
             2
           </div>
           <span className="text-zinc-900 dark:text-white text-xs sm:text-sm font-medium">
-            Modification Plan
+            {t('modificationPlan')}
           </span>
         </div>
         <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
@@ -337,7 +339,7 @@ const ModificationPlan = () => {
             3
           </div>
           <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-            Overview
+            {t('overview')}
           </span>
         </div>
       </div>
@@ -353,11 +355,10 @@ const ModificationPlan = () => {
               {/* Header */}
               <div className="space-y-2">
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                  Stage Modification
+                  {t('modificationPlanPage.title')}
                 </h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Mouse over the icon to see solution notes. Available solutions
-                  for selected vehicle are highlighted.
+                  {t('modificationPlanPage.subtitle')}
                 </p>
               </div>
             </div>
@@ -365,12 +366,12 @@ const ModificationPlan = () => {
             <div className="space-y-2 mt-4">
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  Stage
+                  {t('modificationPlanPage.stageLabel')}
                 </span>
                 <span className="text-red-500">*</span>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Select stage modification
+                {t('modificationPlanPage.stagePlaceholder')}
               </p>
               <Select
                 value={selectedStage}
@@ -378,14 +379,14 @@ const ModificationPlan = () => {
                 required
               >
                 <SelectTrigger className="w-full bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 dark:text-white">
-                  <SelectValue placeholder="Select stage modification" />
+                  <SelectValue placeholder={t('modificationPlanPage.stagePlaceholder')} />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-[#242526]/90 border-gray-200 dark:border-gray-700 [&>*]:dark:bg-[#242526]/90 [&_*]:dark:bg-[#242526]/90">
                   <SelectItem
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
                     value="No Engine Mud"
                   >
-                    No Engine Mud
+                    {t('modificationPlanPage.stageOptions.no-engine-mud')}
                   </SelectItem>
                   <SelectItem
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
@@ -397,31 +398,31 @@ const ModificationPlan = () => {
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
                     value="Stage 1"
                   >
-                    Stage 1
+                    {t('modificationPlanPage.stageOptions.stage-1')}
                   </SelectItem>
                   <SelectItem
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
                     value="Stage 2"
                   >
-                    Stage 2
+                    {t('modificationPlanPage.stageOptions.stage-2')}
                   </SelectItem>
                   <SelectItem
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
                     value="Gear Box"
                   >
-                    Gear Box
+                    {t('modificationPlanPage.stageOptions.gearbox')}
                   </SelectItem>
                   <SelectItem
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
                     value="Original File (Back To Stock)"
                   >
-                    Original File (Back To Stock)
+                    {t('modificationPlanPage.stageOptions.original-file')}
                   </SelectItem>
                   <SelectItem
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#1A1A1A] dark:hover:text-red-500 transition-colors duration-150"
                     value="ECU Cloning"
                   >
-                    ECU Cloning
+                    {t('modificationPlanPage.stageOptions.ecu-cloning')}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -431,7 +432,7 @@ const ModificationPlan = () => {
             <div className="space-y-2 mt-4">
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  Options
+                  {t('modificationPlanPage.optionsLabel')}
                 </span>
                 {!blockedStages && <span className="text-red-500">*</span>}
                 {isOptionsBlocked && (
@@ -441,8 +442,7 @@ const ModificationPlan = () => {
                 )}
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Select any extra solutions you need to complement your
-                customized tuning experience.
+                {t('modificationPlanPage.optionsDescription')}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -451,22 +451,20 @@ const ModificationPlan = () => {
                   {modificationOptions.slice(0, 20).map((option) => (
                     <label
                       key={option.id}
-                      className={`flex items-center space-x-3 cursor-pointer group ${
-                        isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                      className={`flex items-center space-x-3 cursor-pointer group ${isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                     >
                       <Checkbox
                         checked={selectedOptions.includes(option.name)}
                         onCheckedChange={() => handleOptionToggle(option.name)}
                         disabled={isOptionsBlocked}
-                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
-                          isOptionsBlocked
-                            ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
-                            : ""
-                        }`}
+                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${isOptionsBlocked
+                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                          : ""
+                          }`}
                       />
                       <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
-                        <span>{option.name}</span>
+                        {t(`modificationPlanPage.options.${option.id}`) || option.name}
                         <span>
                           {option.warning && (
                             <span
@@ -486,28 +484,25 @@ const ModificationPlan = () => {
                   {modificationOptions.slice(20).map((option) => (
                     <label
                       key={option.id}
-                      className={`flex items-center space-x-3 cursor-pointer group ${
-                        isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                      className={`flex items-center space-x-3 cursor-pointer group ${isOptionsBlocked ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                     >
                       <Checkbox
                         checked={selectedOptions.includes(option.name)}
                         onCheckedChange={() => handleOptionToggle(option.name)}
                         disabled={isOptionsBlocked}
-                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${
-                          isOptionsBlocked
-                            ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
-                            : ""
-                        }`}
+                        className={`border-gray-200 dark:border-gray-700 data-[state=checked]:bg-red-600 data-[state=checked]:text-white ${isOptionsBlocked
+                          ? "data-[state=checked]:bg-gray-400 data-[state=checked]:text-gray-500"
+                          : ""
+                          }`}
                       />
                       <span className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
-                        <span>{option.name}</span>
+                        {t(`modificationPlanPage.options.${option.id}`) || option.name}
                         <span>
                           {option.warning && (
                             <span
-                              title={`Option requires ${option.credits} ${
-                                option.credits > 1 ? "credits" : "credit"
-                              }`}
+                              title={`Option requires ${option.credits} ${option.credits > 1 ? "credits" : "credit"
+                                }`}
                             >
                               <AlertTriangle className="h-4 w-4 text-yellow-500" />
                             </span>
@@ -523,10 +518,10 @@ const ModificationPlan = () => {
             <div className="space-y-4 mt-4">
               <div>
                 <Label className="text-sm font-medium text-gray-900 dark:text-white">
-                  Original File <span className="text-red-600">*</span>
+                  {t('modificationPlanPage.originalFileLabel')} <span className="text-red-600">*</span>
                 </Label>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                  Your original ECU file here.
+                  {t('modificationPlanPage.originalFileHint')}
                 </p>
                 <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center transition-colors">
                   {uploadedFile && (
@@ -540,11 +535,10 @@ const ModificationPlan = () => {
 
               <div className="mt-4">
                 <Label className="text-sm font-medium text-gray-900 dark:text-white">
-                  Additional Files
+                  {t('modificationPlanPage.additionalFilesLabel')}
                 </Label>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                  Upload any additional files that might be relevant (e.g., log
-                  files)
+                  {t('modificationPlanPage.additionalFilesHint')}
                 </p>
                 <div
                   className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors"
@@ -556,7 +550,7 @@ const ModificationPlan = () => {
                     <div className="flex flex-col items-center space-y-2">
                       <Check className="h-5 w-5 text-green-600" />
                       <div className="text-sm text-gray-600 dark:text-gray-400">
-                        {commonFiles.length} file(s) selected
+                        {commonFiles.length} {t('modificationPlanPage.filesSelected')}
                       </div>
                       <div className="text-xs text-gray-500">
                         {commonFiles.map((file) => file.name).join(", ")}
@@ -566,7 +560,7 @@ const ModificationPlan = () => {
                     <>
                       <Upload className="h-10 w-10 text-gray-400 mb-2" />
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Click to upload additional files
+                        {t('modificationPlanPage.clickToUploadAdditionalFiles')}
                       </p>
                     </>
                   )}
@@ -581,22 +575,22 @@ const ModificationPlan = () => {
               </div>
             </div>
             {/* Notes Section (unchanged) */}
-            <div className="space-y-2 mt-4">
+            <div className="mt-4">
               <Label
                 htmlFor="notes"
                 className="text-sm font-medium text-gray-900 dark:text-white"
               >
-                Notes
+                {t('modificationPlanPage.notesLabel')}
               </Label>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Please enter the notes if there is anything that our tuners
-                should consider when modifying the file
+                {t('modificationPlanPage.notesPlaceholder')}
               </p>
               <Textarea
                 id="notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="min-h-[120px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
+                placeholder={t('modificationPlanPage.notesPlaceholder')}
+                className="mt-2 min-h-[120px] bg-white dark:bg-[#1A1A1A] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 placeholder:text-gray-500 dark:placeholder:text-gray-600"
               />
             </div>
             {/* Submit Button (unchanged) */}
@@ -605,7 +599,7 @@ const ModificationPlan = () => {
                 type="submit"
                 className="bg-red-600 hover:bg-red-700 text-white px-8 mt-4"
               >
-                Continue
+                {t('modificationPlanPage.continueButton')}
               </Button>
             </div>
           </form>

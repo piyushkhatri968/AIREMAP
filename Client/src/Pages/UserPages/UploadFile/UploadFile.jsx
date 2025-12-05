@@ -57,7 +57,7 @@ const UploadFile = () => {
       const file = event.target.files[0];
       if (file.size > MAX_ECU_FILE_SIZE) {
         toast.error(
-          `File size should be less than ${formatBytes(MAX_ECU_FILE_SIZE)}.`
+          `${t("uploadFilePage.toasts.fileSizeLimit")} ${formatBytes(MAX_ECU_FILE_SIZE)}.`
         );
         event.target.value = null;
         return;
@@ -76,7 +76,7 @@ const UploadFile = () => {
 
       if (totalSize > MAX_COMMON_FILES_SIZE) {
         toast.error(
-          `Total size of additional files should be less than ${formatBytes(
+          `${t("uploadFilePage.toasts.additionalFilesSizeTotalLimit")} ${formatBytes(
             MAX_COMMON_FILES_SIZE
           )}.`
         );
@@ -160,23 +160,22 @@ const UploadFile = () => {
     e.preventDefault();
 
     if (!formData.transmission) {
-      return toast.error("Please select a transmission type");
+      return toast.error(t("uploadFilePage.toasts.transmissionRequired"));
     }
     if (!formData.ecuId) {
-      return toast.error("Please select a ECU ID");
+      return toast.error(t("uploadFilePage.toasts.ecuidRequired"));
     }
     if (!formData.readTool) {
-      return toast.error("Please select read tool");
+      return toast.error(t("uploadFilePage.toasts.readToolRequired"));
     }
     if (!formData.readType) {
-      return toast.error("Please select a read type");
+      return toast.error(t("uploadFilePage.toasts.readTypeRequired"));
     }
     if (!formData.masterSlave) {
-      return toast.error("Please select a master/slave");
+      return toast.error(t("uploadFilePage.toasts.masterSlaveRequired"));
     }
-
     if (!uploadedFile) {
-      return toast.error("Please upload a ecu-file");
+      return toast.error(t("uploadFilePage.toasts.ecuFileRequired"));
     }
 
     const data = {
@@ -286,7 +285,7 @@ const UploadFile = () => {
                   <Input
                     required
                     id="make"
-                    placeholder=  {t('uploadFilePage.placeholders.make')}
+                    placeholder={t('uploadFilePage.placeholders.make')}
                     value={formData.make}
                     onChange={handleInputChange}
                     className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"

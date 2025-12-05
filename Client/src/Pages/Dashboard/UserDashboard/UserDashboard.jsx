@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { StatsAPI } from "../../../lib/APIs/authAPIs";
 import FileStatsChart from "./Charts/FileStatsChart";
 import MoneyStatsChart from "./Charts/MoneyStatsChart";
-import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
 const UserDashboard = () => {

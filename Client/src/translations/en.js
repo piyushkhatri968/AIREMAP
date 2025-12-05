@@ -81,6 +81,7 @@ export default {
   INVOICE: 'INVOICE',
   Download: 'Download',
   transactionsPage: {
+    loadError: "Failed to fetch transactions",
     noData: "No transactions found",
     title: 'My Transactions',
     subtitle: 'View your purchase history',
@@ -293,22 +294,29 @@ export default {
     stageLabel: 'Stage',
     stagePlaceholder: 'Select stage modification',
     stageOptions: {
+      'no-engine-mud': "No Engine Mud",
+      eco: "Eco",
       'stage-1': 'Stage 1',
       'stage-2': 'Stage 2',
-      'stage-3': 'Stage 3',
-      ecu: 'ECU Original'
+      gearbox: 'Gearbox',
+      'original-file': 'Original File (Back To Stock)',
+      'ecu-cloning': 'ECU Cloning'
+    },
+    toasts: {
+      optionsDisabled: "Options selection is disabled for the current Stage.",
+      stageRequired: "Please select a stage"
     },
     optionsLabel: 'Options',
     optionsDescription: 'Select any extra solutions you need to complement your customized tuning experience.',
     originalFileLabel: 'Original File',
-    originalFileHint: 'Upload your original ECU file here. Supported formats: .bin, .ori',
+    originalFileHint: 'Upload your original ECU file here.',
     dragAndDrop: 'Drag and drop your file here, or click to select',
     filesSelected: 'file(s) selected',
     clickToUploadAdditionalFiles: 'Click to upload additional files',
     additionalFilesLabel: 'Additional Files',
     additionalFilesHint: 'Upload any additional files that might be relevant (e.g., log files)',
     notesLabel: 'Notes',
-    notesPlaceholder: 'Please enter the notes if there is anything that our tuners should consider when modifying the file',
+    notesPlaceholder: 'Please enter the notes if there is anything that our tuners should consider when modifying the file...',
     continueButton: 'Continue',
     pleaseSelectStage: 'Please select a stage',
     pleaseSelectMake: 'Please select a make',
@@ -331,6 +339,11 @@ export default {
       'speed-limit': 'SPEED LIMIT OFF',
       'swirl-flaps': 'SWIRL FLAPS OFF',
       'water-pump': 'WATER PUMP FIX',
+      "add-solutions-to-master": "ADDITIONAL SOLUTIONS ADDED TO MASTER FILE",
+      "cum-cat": "CUMMINS / CATERHAM",
+      "file-check-review": "File Check Review",
+      "t-t-h-c": "TRUCK / TRACTOR / HGV / CONSTRUCTION",
+      "enc-dec": "ENCRYPT / DECRYPT (Includes 1 Encrypt and 1 Decrypt)",
       'adblue-scr': 'ADBLUE - SCR OFF',
       'bmw-display': 'BMW SPORTS DISPLAY',
       'cold-start': 'COLD START NOISE',
@@ -359,9 +372,21 @@ export default {
       registration: 'Registration',
       mileage: 'Mileage',
       gearbox: 'Gearbox',
+      transmission: "Transmission",
       ecu: 'ECU',
       readTool: 'Read Tool',
-      readType: 'Read Type'
+      readType: 'Read Type',
+      mmy: "Make/Model/Year",
+      ecuId: "ECU ID",
+      'master-slave': "Master/Slave",
+      originalFile: "Original File",
+      noFileUpload: "No file uploaded",
+      additionalFile: "Additional File",
+      solutionsSelected: "Solutions Selected",
+      notesForTuner: "Notes for Tuner"
+    },
+    toasts: {
+      termsRequired: "Please accept the terms"
     },
     solutionsTitle: 'Solutions',
     solutionsDescription: 'If there are, read the solution notes and be sure to pay attention to them.',
@@ -388,7 +413,9 @@ export default {
   toolHelp: 'Select the options that specify the reading tool and read type used to extract ECU file.',
   selectReadTool: 'Select read tool',
   master: 'Master',
+  masterDesc:"All extras, including solutions, are chargeable. Submit complete customer requests; edits after submission incur extra charges. Credits non-refundable, non-transferable, and not for tools.",
   slave: 'Slave',
+  slaveDesc:"External encrypt/decrypt requests cost 1 Credit if Airemap has no solution or ECU needs custom tuning. Credits are non-refundable, non-transferable, and not for tools. Files under 21-day warranty can be modified free (Stage options excluded). Over 21 days = +1 Credit.",
   uploads: 'Uploads',
   uploadsHelp: 'Upload your ECU file and any related common files necessary for the tuning process.',
   selectEcuFile: 'Select a ECU file to upload',
@@ -601,6 +628,16 @@ export default {
       mileage: 'Input Mileage',
       selectEcuId: "Select ECU ID"
     },
+    toasts: {
+      fileSizeLimit: "File size should be less than",
+      additionalFilesSizeTotalLimit: "Total size of additional files should be less than",
+      transmissionRequired: "Please select a transmission type",
+      ecuidRequired: "Please select a ECU ID",
+      readToolRequired: "Please select read tool",
+      readTypeRequired: "Please select a read type",
+      masterSlaveRequired: "Please select a master/slave",
+      ecuFileRequired: "Please upload a ecu-file"
+    },
     searchEcuId: "Search ECU ID",
     searchEcu: "Search ECU...",
     noEcuFound: "No ECU found matching",
@@ -631,7 +668,11 @@ export default {
       Unlocked: "Unlocked",
       Rejected: "Rejected",
       Completed: "Completed"
+    },
+    errors: {
+      common: "Failed to fetched files"
     }
+
   },
   TicketDetailsPage: {
     loading: " Fetching Ticket Details...",
