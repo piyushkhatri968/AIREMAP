@@ -7,8 +7,10 @@ import { Link } from "react-router";
 import { Checkbox } from "../../components/ui/checkbox";
 import { Button } from "../../components/ui/button";
 import useSignIn from "../../hooks/useSignIn";
+import { useTranslation } from "react-i18next";
 
 const Signin = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -52,7 +54,7 @@ const Signin = () => {
         </div>
 
         {/* Mobile Logo */}
-        <div className="lg:hidden w-full absolute top-[13%] flex flex-col items-center z-20">
+        <div className="lg:hidden w-full absolute top-[6.2%] flex flex-col items-center z-20">
           <img src={aiRemapLogo} alt="Ai REMAP Logo" className="w-60 h-auto" />
           <h2 className="text-white italic text-sm font-semibold text-center drop-shadow-lg">
             World Leading File Portal

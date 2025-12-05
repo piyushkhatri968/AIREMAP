@@ -70,7 +70,7 @@ export const CreatePayment = async (req, res) => {
         to: req.user.email,
         html: htmlTemplate,
         subject: "AIREMAP Payment Receipt — Credits Purchase Successful",
-      }).catch(() => {});
+      }).catch(() => { });
     });
 
     return sendResponse(

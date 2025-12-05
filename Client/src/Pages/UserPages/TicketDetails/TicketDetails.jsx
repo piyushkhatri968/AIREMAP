@@ -1,18 +1,19 @@
-import { useNavigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { GetTicketDetails } from "../../../lib/APIs/ecuFileAPIs";
-import { BadgeAlert, Dot, Download, Loader2, Send } from "lucide-react";
-import { toast } from "react-toastify";
+import { Dot, Download, Loader2, } from "lucide-react";
 import car1 from "../../../assets/AuthImages/car1.png";
 import StatusCard from "./StatusCard";
 import { useState } from "react";
 import ChatRoom from "./ChatRoom";
+import { useTranslation } from "react-i18next";
 
 const TicketDetails = () => {
   const { ticketNumber } = useParams();
+  const { t } = useTranslation()
 
-  const { data, isPending } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["ticketDetails", ticketNumber],
     queryFn: () => GetTicketDetails(ticketNumber),
     enabled: !!ticketNumber,
@@ -33,6 +34,16 @@ const TicketDetails = () => {
   const isLong = notes.length > 100;
   const previewText = isLong ? notes.slice(0, 100) + "..." : notes;
 
+  if (isError) {
+    return (<motion.div initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-4">
+      <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400 space-x-2">
+        <span> No Ticket Found. Go to</span>  <Link to="/my-files" className="text-red-600 hover:underline">Files</Link>
+      </div>
+    </motion.div>)
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -42,7 +53,7 @@ const TicketDetails = () => {
       {isPending ? (
         <div className="flex items-center justify-center py-10 text-zinc-500 dark:text-gray-400">
           <Loader2 className="animate-spin h-5 w-5 mr-2" />
-          Ticket Details...
+          {t("TicketDetailsPage.loading")}
         </div>
       ) : (
         <div className="">
@@ -61,7 +72,7 @@ const TicketDetails = () => {
   "
             >
               <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Details
+                {t("TicketDetailsPage.title")}
               </h1>
               <p className="w-full h-[1px] bg-zinc-200 dark:bg-gray-700" />
               <div className="w-full h-[9rem] overflow-hidden">
@@ -74,7 +85,7 @@ const TicketDetails = () => {
               {data?.notes && (
                 <div className="space-y-2">
                   <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                    Notes
+                    {t("TicketDetailsPage.notes")}
                   </p>
                   <div className="border border-red-600 rounded-lg p-3 bg-red-600/20 text-xs text-gray-900 dark:text-white relative">
                     <AnimatePresence mode="wait">
@@ -106,7 +117,7 @@ const TicketDetails = () => {
                         onClick={() => setShowFullNotes((prev) => !prev)}
                         className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 mt-2 inline-block font-semibold"
                       >
-                        {showFullNotes ? "See less" : "See more"}
+                        {showFullNotes ? t("TicketDetailsPage.seeLess") : t("TicketDetailsPage.seeMore")}
                       </button>
                     )}
                   </div>
@@ -114,7 +125,7 @@ const TicketDetails = () => {
               )}
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                  Vehicle
+                  {t("TicketDetailsPage.vehicle")}
                 </p>
                 <p className=" text-xs text-gray-900 dark:text-white">
                   {data?.make} {data?.model} {data?.year}
@@ -122,7 +133,7 @@ const TicketDetails = () => {
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                  Registration
+                  {t("TicketDetailsPage.registration")}
                 </p>
                 <p className=" text-xs text-gray-900 dark:text-white">
                   {data?.registration || "N/A"}
@@ -130,7 +141,7 @@ const TicketDetails = () => {
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                  ECU
+                  {t("TicketDetailsPage.ecu")}
                 </p>
                 <p className="text-xs text-gray-900 dark:text-white">
                   {data?.ecuId || "N/A"}
@@ -138,7 +149,7 @@ const TicketDetails = () => {
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                  Tool
+                  {t("TicketDetailsPage.tool")}
                 </p>
                 <p className=" text-xs text-gray-900 dark:text-white">
                   <span>
@@ -148,7 +159,7 @@ const TicketDetails = () => {
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                  Gearbox
+                  {t("TicketDetailsPage.gearbox")}
                 </p>
                 <p className=" text-xs  text-gray-900 dark:text-white">
                   <span>{data?.transmission || "N/A"}</span>
@@ -184,13 +195,13 @@ const TicketDetails = () => {
             >
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Request
+                  {t("TicketDetailsPage.request")}
                 </h1>
               </div>
               <p className="w-full h-[1px] bg-zinc-200 dark:bg-gray-700" />
               <div className="space-y-2">
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  Modifications
+                  {t("TicketDetailsPage.modifications")}
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="bg-red-600 w-8 h-8 rounded flex items-center justify-center">
@@ -210,18 +221,18 @@ const TicketDetails = () => {
               </div>
               <div className="space-y-2">
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  Solutions
+                  {t("TicketDetailsPage.solutions")}
                 </p>
 
                 <div className="text-xs text-white">
                   {data?.modificationOptions &&
-                  data?.modificationOptions?.flatMap(
-                    (item) =>
-                      item
-                        ?.split(",")
-                        ?.map((opt) => opt.trim())
-                        ?.filter((opt) => opt.length > 0) // remove empty values
-                  ).length > 0 ? (
+                    data?.modificationOptions?.flatMap(
+                      (item) =>
+                        item
+                          ?.split(",")
+                          ?.map((opt) => opt.trim())
+                          ?.filter((opt) => opt.length > 0) // remove empty values
+                    ).length > 0 ? (
                     data?.modificationOptions
                       ?.flatMap((item) =>
                         item
@@ -238,14 +249,14 @@ const TicketDetails = () => {
                         </div>
                       ))
                   ) : (
-                    <p className="text-gray-400 italic">No options available</p>
+                    <p className="text-gray-400 italic">   {t("TicketDetailsPage.noOptAvailable")}</p>
                   )}
                 </div>
               </div>
 
               <div className="space-y-2">
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  Uploads
+                  {t("TicketDetailsPage.uploads")}
                 </p>
                 <a
                   href={data?.originalFile}
@@ -260,7 +271,7 @@ const TicketDetails = () => {
               </div>
               <div className="space-y-2">
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  Additional Files
+                  {t("TicketDetailsPage.additionalFiles")}
                 </p>
 
                 {data?.additionalFiles?.length > 0 ? (
@@ -280,7 +291,7 @@ const TicketDetails = () => {
                   ))
                 ) : (
                   <div className="text-gray-900 dark:text-zinc-400 text-xs">
-                    No Additional Files
+                    {t("TicketDetailsPage.noAdditionalFiles")}
                   </div>
                 )}
               </div>

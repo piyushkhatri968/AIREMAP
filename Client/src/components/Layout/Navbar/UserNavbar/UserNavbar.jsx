@@ -69,19 +69,20 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
 
   // Available languages
   const languages = [
-    { label: 'English', value: 'en', flag: '🇬🇧' },
-    { label: 'Español', value: 'es', flag: '🇪🇸' },
-    { label: 'Français', value: 'fr', flag: '🇫🇷' },
-    { label: 'Deutsch', value: 'de', flag: '🇩🇪' },
-    { label: 'Italiano', value: 'it', flag: '🇮🇹' },
-    { label: '日本語', value: 'ja', flag: '🇯🇵' },
-    { label: '한국어', value: 'ko', flag: '🇰🇷' },
-    { label: '中文', value: 'zh', flag: '🇨🇳' },
-    { label: 'اردو', value: 'ur', flag: '🇵🇰' },
-    { label: 'العربية', value: 'ar', flag: '🇸🇦' },
-    { label: 'हिंदी', value: 'hi', flag: '🇮🇳' },
-    { label: 'Türkçe', value: 'tr', flag: '🇹🇷' }
+    { label: 'English', value: 'en', flag: '🇬🇧', flag_value: 'gb' },
+    { label: 'Español', value: 'es', flag: '🇪🇸', flag_value: 'es' },
+    { label: 'Français', value: 'fr', flag: '🇫🇷', flag_value: 'fr' },
+    { label: 'Deutsch', value: 'de', flag: '🇩🇪', flag_value: 'de' },
+    { label: 'Italiano', value: 'it', flag: '🇮🇹', flag_value: 'it' },
+    { label: '日本語', value: 'ja', flag: '🇯🇵', flag_value: 'jp' },
+    { label: '한국어', value: 'ko', flag: '🇰🇷', flag_value: 'kr' },
+    { label: '中文', value: 'zh', flag: '🇨🇳', flag_value: 'cn' },
+    { label: 'اردو', value: 'ur', flag: '🇵🇰', flag_value: 'pk' },
+    { label: 'العربية', value: 'ar', flag: '🇸🇦', flag_value: 'sa' },
+    { label: 'हिंदी', value: 'hi', flag: '🇮🇳', flag_value: 'in' },
+    { label: 'Türkçe', value: 'tr', flag: '🇹🇷', flag_value: 'tr' }
   ];
+
 
   const [language, setLanguage] = useState(authUser?.preferredLanguage || 'en');
 
@@ -130,7 +131,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
           <div className="hidden lg:flex items-center gap-6">
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 dark:text-zinc-400">
-                {t('userNavbar.fileRoom')}:
+                {t('fileRoom')}:
               </span>
               <span
                 className={`text-sm font-medium px-2 py-0.5 rounded ${fileRoomStatus === "Open"
@@ -138,14 +139,16 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                   : "text-red-600 dark:text-red-500 bg-red-400/10"
                   }`}
               >
-                {fileRoomStatus === "Open" ? t("userNavbar.fileRoomStatusOpen") : t("userNavbar.fileRoomStatusClosed")}
+                {/* {fileRoomStatus === "Open" ? t("fileRoomStatusOpen") : t("fileRoomStatusClosed")} */}
+                {t(fileRoomStatus.toLowerCase())}
+
               </span>
             </div>
             <div className="flex items-center gap-6">
               <span className="text-gray-400 dark:text-zinc-600">|</span>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500 dark:text-zinc-400">
-                  {t('userNavbar.queue')}:
+                  {t('queue')}:
                 </span>
                 <span className="text-sm font-medium px-2 py-0.5 rounded text-green-600 dark:text-green-400 bg-green-400/10">
                   {data?.data || 0}
@@ -175,7 +178,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
                 <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
-                  {t("userNavbar.theme")}
+                  {t("theme")}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
@@ -185,7 +188,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                     }`}
                 >
                   <Sun className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                  <span>{t("userNavbar.themeLight")}</span>
+                  <span>{t("themeLight")}</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
@@ -194,7 +197,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                     }`}
                 >
                   <Moon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                  <span>{t("userNavbar.themeDark")}</span>
+                  <span>{t("themeDark")}</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
@@ -203,18 +206,18 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                     }`}
                 >
                   <Monitor className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                  <span>{t("userNavbar.themeSystem")}</span>
+                  <span>{t("themeSystem")}</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
 
             {/* Language Selector */}
 
-            {/* <DropdownMenuSub>
+            <DropdownMenuSub>
               <DropdownMenuSubTrigger className="flex items-center gap-2 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md">
                 <LanguagesIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-zinc-300">
-                  {t("userNavbar.language")}
+                  {t("language")}
                 </span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="bg-white dark:bg-[#1C1C1C] border border-zinc-200 dark:border-zinc-800 min-w-[160px]">
@@ -225,7 +228,12 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
                       className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 ${theme === "light" ? "font-semibold" : ""
                         }`}
                     >
-                      <span className="mr-2">{lang.flag}</span>
+                      <span className="w-[2rem] overflow-hidden">
+                        <img
+                          src={`https://flagcdn.com/w320/${lang.flag_value.toLowerCase()}.png`}
+                          className="w-full h-full object-cover"
+                          draggable="false"
+                        /></span>
                       <span>{lang.label}</span>
                       {language === lang.value && (
                         <Check className="w-4 h-4 text-green-500 ml-auto" />
@@ -235,7 +243,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
 
 
               </DropdownMenuSubContent>
-            </DropdownMenuSub> */}
+            </DropdownMenuSub>
 
             {/* Settings */}
             <DropdownMenuItem
@@ -244,7 +252,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
             >
               <Settings className="w-4 h-4" />
               <span className="text-sm text-zinc-800 dark:text-white font-medium">
-                {t("userNavbar.settings")}
+                {t("settings")}
               </span>
             </DropdownMenuItem>
 
@@ -256,7 +264,7 @@ const UserNavbar = ({ onMenuToggle, isSidebarOpen, authUser }) => {
             >
               <LogOut className="w-4 h-4 text-red-600" />
               <span className="text-sm text-zinc-800 dark:text-white font-medium">
-                {t("userNavbar.signOut")}
+                {t("signOut")}
               </span>
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -38,7 +38,7 @@ const FaultyCodesPage = () => {
                             <Search className="absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                             <Input
                                 type="text"
-                                placeholder={t("faultyCodesPage.searchPlaceholder")}
+                                placeholder={t("faultCodesPage.searchPlaceholder")}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-8 sm:pl-10 w-full bg-white dark:bg-[#242526]/90 border-zinc-200 dark:border-gray-700 text-zinc-900 dark:text-white text-sm sm:text-base placeholder:text-zinc-500 dark:placeholder:text-gray-400 focus:ring-red-500 focus:border-red-500"

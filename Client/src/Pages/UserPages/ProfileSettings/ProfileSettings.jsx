@@ -5,9 +5,11 @@ import useUpdateProfile from "../../../hooks/useUpdateProfile";
 import { countries } from "../../../utils/CountriesData";
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Settings = () => {
   const { authUser } = useAuthUser();
+  const { t } = useTranslation()
 
 
   const [formData, setFormData] = useState({
@@ -70,7 +72,7 @@ const Settings = () => {
     >
       <div className="bg-white dark:bg-[#1C1C1C] rounded-xl p-4 sm:p-8 border border-zinc-200 dark:border-zinc-800">
         <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-900 dark:text-white">
-          Profile Settings
+          {t('profileSettings.title')}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -78,7 +80,7 @@ const Settings = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                First Name <span className="text-red-600">*</span>
+                {t('profileDetails.labels.firstName')} <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -91,7 +93,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Last Name <span className="text-red-600">*</span>
+                {t('profileDetails.labels.lastName')}<span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -107,7 +109,7 @@ const Settings = () => {
           {/* Country */}
           <div>
             <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-              Country <span className="text-red-600">*</span>
+              {t('country')} <span className="text-red-600">*</span>
             </label>
             <select
               name="country"
@@ -126,7 +128,7 @@ const Settings = () => {
           {/* City */}
           <div>
             <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-              City <span className="text-red-600">*</span>
+              {t('profileDetails.labels.city')} <span className="text-red-600">*</span>
             </label>
             <input
               type="text"
@@ -142,7 +144,7 @@ const Settings = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="sm:col-span-2">
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Address <span className="text-red-600">*</span>
+                {t('profileDetails.labels.address')} <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -155,7 +157,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                Post Code <span className="text-red-600">*</span>
+                {t('profileDetails.labels.postCode')} <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -174,7 +176,7 @@ const Settings = () => {
             onClick={togglePasswordPanel}
             className="text-right text-gray-900 dark:text-white hover:text-red-600"
           >
-            {showPasswordPanel ? "Close password panel?" : "Wanna update password?"}
+            {showPasswordPanel ? t("profileDetails.labels.closePassPanel") : t("profileDetails.labels.wannaUpdatePass")}
           </button>
 
           {showPasswordPanel && (
@@ -185,7 +187,7 @@ const Settings = () => {
             >
               <div>
                 <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                  Current Password <span className="text-red-600">*</span>
+                  {t("profileDetails.labels.currentPass")} <span className="text-red-600">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -194,7 +196,7 @@ const Settings = () => {
                     value={formData.currentPassword}
                     onChange={handleChange}
                     required={showPasswordPanel}
-                    placeholder="Current Password"
+                    placeholder={t("profileDetails.labels.currentPass")}
                     className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
                   />
                   <button
@@ -209,7 +211,7 @@ const Settings = () => {
 
               <div>
                 <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                  New Password <span className="text-red-600">*</span>
+                  {t("profileDetails.labels.newPass")} <span className="text-red-600">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -218,7 +220,7 @@ const Settings = () => {
                     value={formData.newPassword}
                     required={showPasswordPanel}
                     onChange={handleChange}
-                    placeholder="New Password"
+                    placeholder={t("profileDetails.labels.newPass")}
                     className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
                   />
                   <button
@@ -233,7 +235,7 @@ const Settings = () => {
 
               <div>
                 <label className="block mb-2 text-sm text-gray-500 dark:text-zinc-400">
-                  Confirm Password <span className="text-red-600">*</span>
+                  {t("profileDetails.labels.confirmPass")} <span className="text-red-600">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -242,7 +244,7 @@ const Settings = () => {
                     value={formData.confirmPassword}
                     required={showPasswordPanel}
                     onChange={handleChange}
-                    placeholder="Confirm Password"
+                    placeholder={t("profileDetails.labels.confirmPass")}
                     className="w-full px-4 py-2.5 pr-10 bg-white dark:bg-[#141414] border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-red-600 dark:focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
                   />
                   <button
@@ -265,7 +267,7 @@ const Settings = () => {
               disabled={isPending}
               className="px-5 sm:px-6 py-2.5 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 transition-colors rounded-lg text-white font-medium disabled:bg-red-400"
             >
-              {isPending ? "Saving..." : "Save Changes"}
+              {isPending ? t("saving") : t("saveChanges")}
             </button>
           </div>
         </form>

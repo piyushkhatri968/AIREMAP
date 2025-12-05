@@ -52,16 +52,16 @@ const BuyCredits = () => {
         {/* Header */}
         <div className="p-4 sm:p-6 border-b border-zinc-200 dark:border-gray-700">
           <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white text-center mb-3 sm:mb-4">
-            {t("buyCredits.chooseYourPlan")}
+            {t("buyCreditsPage.title")}
           </h2>
 
           <p className="text-center text-zinc-600 dark:text-gray-400 text-sm sm:text-base">
-            {t("buyCredits.pricingInfo1")}{" "}
+            {t("buyCreditsPage.pricingIntro")}{" "}
             <Link
               to="/price-list"
               className="text-red-500 hover:underline cursor-pointer"
             >
-              {t("buyCredits.pricingGuidelines")}
+              {t("buyCreditsPage.pricingGuidelines")}
             </Link>
             .
           </p>
@@ -93,7 +93,7 @@ const BuyCredits = () => {
                   {/* Discount Badge */}
                   {pkg.isBundle && (
                     <div className="absolute -top-1.5 sm:-top-2 -right-1.5 sm:-right-2 bg-red-500 text-white text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">
-                      {t("buyCredits.off")}
+                      {t("buyCreditsPage.off")}
                     </div>
                   )}
 
@@ -118,21 +118,21 @@ const BuyCredits = () => {
                     {pkg.isBundle && (
                       <div className="mb-3 sm:mb-4 text-[10px] sm:text-xs text-zinc-500 dark:text-gray-300">
                         <div className="mb-0.5 sm:mb-1">
-                          {t("buyCredits.benefits")}
+                          {t("buyCreditsPage.benefits")}
                         </div>
 
                         <div className="text-green-400">
-                          -{pkg.savings} {t("buyCredits.discount")}
+                          -{pkg.savings} {t("buyCreditsPage.discount")}
                         </div>
 
                         <div className="text-red-400">
-                          {pkg.perCredit} {t("buyCredits.perCredit")}
+                          {pkg.perCredit} {t("buyCreditsPage.perCredit")}
                         </div>
                       </div>
                     )}
 
                     <button className="w-full bg-red-600 hover:bg-red-700 text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm sm:text-base transition-colors">
-                      {t("buyCredits.select")}
+                      {t("buyCreditsPage.select")}
                     </button>
                   </div>
                 </div>
@@ -148,7 +148,7 @@ const BuyCredits = () => {
             className="mt-6 sm:mt-8 text-center"
           >
             <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
-              {t("buyCredits.securePayment")}
+              {t("buyCreditsPage.securePayment")}
             </p>
 
             <div className="flex items-center justify-center space-x-2 sm:space-x-4">

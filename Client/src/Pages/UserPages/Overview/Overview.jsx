@@ -7,9 +7,11 @@ import { Button } from "../../../components/ui/button";
 import { toast } from "react-toastify";
 import useCreateEcuFile from "../../../hooks/useCreateEcuFile";
 import TermsConditionPopup from "../../../components/TermsConditionPopup";
+import { useTranslation } from "react-i18next";
 
 const Overview = () => {
   const location = useLocation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [acceptTerms, setAcceptTerms] = useState(false);
 
@@ -217,7 +219,7 @@ const Overview = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!acceptTerms) {
-      toast.error("Please accept the terms");
+      toast.error(t("overviewPage.toasts.termsRequired"));
       return;
     }
 
@@ -315,26 +317,26 @@ const Overview = () => {
       >
         <div className="p-4">
           <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
-            Overview
+            {t('overview')}
           </h1>
           <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
             <button
               onClick={() => navigate("/dashboard")}
               className="hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
-              Dashboard
+              {t('dashboard')}
             </button>
             <span>&gt;</span>
-            <span>Portal</span>
+            <span>{t('portal')}</span>
             <span>&gt;</span>
             <button
               onClick={() => navigate("/upload-file/modification-plan")}
               className="hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
-              Upload File
+              {t('uploadFile')}
             </button>
             <span>&gt;</span>
-            <span className="text-zinc-900 dark:text-white">Overview</span>
+            <span className="text-zinc-900 dark:text-white">{t('overview')}</span>
           </div>
         </div>
         {/* Step Indicators */}
@@ -344,7 +346,7 @@ const Overview = () => {
               1
             </div>
             <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-              Vehicle Details
+              {t('vehicleDetails')}
             </span>
           </div>
           <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
@@ -355,7 +357,7 @@ const Overview = () => {
               2
             </div>
             <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-              Modification Plan
+              {t('modificationPlan')}
             </span>
           </div>
           <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
@@ -366,12 +368,12 @@ const Overview = () => {
               3
             </div>
             <span className="text-zinc-900 dark:text-white text-xs sm:text-sm font-medium">
-              Overview
+              {t('overview')}
             </span>
           </div>
         </div>
-        {/* Main Content: two-column layout (left labels, right content) */}
 
+        {/* Main Content: two-column layout (left labels, right content) */}
         <div className="p-4">
           <form
             onSubmit={handleSubmit}
@@ -381,20 +383,19 @@ const Overview = () => {
               <aside className="lg:col-span-3 space-y-8">
                 <div>
                   <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">
-                    Overview
+                    {t('overviewPage.title')}
                   </h2>
                   <p className="text-sm text-zinc-500 dark:text-gray-400">
-                    Check if the form data is entered correctly before submit.
+                    {t('overviewPage.description')}
                   </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
                   <div>
                     <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mb-1">
-                      Details
+                      {t('overviewPage.detailsTitle')}
                     </h3>
                     <p className="text-xs text-zinc-500 dark:text-gray-400">
-                      Make sure you enter the correct car details, as accurate as
-                      possible helps to complete the file faster.
+                      {t('overviewPage.detailsDescription')}
                     </p>
                   </div>
                   {/* Car Details Card */}
@@ -402,47 +403,47 @@ const Overview = () => {
                     <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
                       <div className="flex-1 order-2 lg:order-1">
                         <h4 className="text-base font-semibold text-zinc-900 dark:text-white">
-                          Registration | {registration}
+                          {t('overviewPage.labels.registration')} | {registration}
                         </h4>
 
                         <div className="grid grid-cols-2 gap-y-2 gap-x-6 mt-4 items-start">
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            Make/Model/Year
+                            {t('overviewPage.labels.mmy')}
                           </div>
                           <div className="text-sm font-medium text-zinc-900 dark:text-white">
                             {make} {model} {year}
                           </div>
 
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            ECU ID
+                            {t('overviewPage.labels.ecuId')}
                           </div>
                           <div className="text-sm font-medium text-zinc-900 dark:text-white">
                             {ecuId || "N/A"}
                           </div>
 
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            Gearbox
+                            {t('overviewPage.labels.gearbox')}
                           </div>
                           <div className="text-sm font-medium text-zinc-900 dark:text-white">
                             {transmission || "N/A"}
                           </div>
 
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            Master/Slave
+                            {t('overviewPage.labels.master-slave')}
                           </div>
                           <div className="text-sm font-medium text-zinc-900 dark:text-white">
                             {masterSlave || "N/A"}
                           </div>
 
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            Read Tool
+                            {t('overviewPage.labels.readTool')}
                           </div>
                           <div className="text-sm font-medium text-zinc-900 dark:text-white">
                             {readTool || "N/A"}
                           </div>
 
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            Read Type
+                            {t('overviewPage.labels.readType')}
                           </div>
                           <div className="text-sm font-medium text-zinc-900 dark:text-white">
                             {readType || "N/A"}
@@ -451,7 +452,7 @@ const Overview = () => {
 
                         <div className="mt-4 grid grid-cols-2 gap-x-6 items-start">
                           <div className="text-sm text-zinc-500 dark:text-gray-400">
-                            Original File:
+                            {t('overviewPage.labels.originalFile')}
                           </div>
                           <div>
                             {ecuFile ? (
@@ -468,13 +469,13 @@ const Overview = () => {
                               </div>
                             ) : (
                               <span className="text-sm text-red-500">
-                                No file uploaded
+                                {t('overviewPage.labels.noFileUpload')}
                               </span>
                             )}
 
                             {commonFiles && commonFiles.length > 0 && (
                               <div className="mt-2 text-sm text-zinc-500 dark:text-gray-400">
-                                **+ {commonFiles.length} additional file(s)**
+                                **+ {commonFiles.length}  {t('overviewPage.labels.additionalFile')}(s)**
                               </div>
                             )}
                           </div>
@@ -485,11 +486,10 @@ const Overview = () => {
 
                   <div>
                     <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-8 sm:mt-0">
-                      Solutions
+                      {t('overviewPage.solutionsTitle')}
                     </h3>
                     <p className="text-xs text-zinc-500 dark:text-gray-400">
-                      If there are, read the solution notes and be sure to pay
-                      attention to them.
+                      {t('overviewPage.solutionsDescription')}
                     </p>
                   </div>
                   <div className="bg-white dark:bg-[#242526]/90 rounded-lg p-4 border border-zinc-200 dark:border-gray-700">
@@ -508,16 +508,13 @@ const Overview = () => {
                         </h4>
                         {/* Stage description placeholder */}
                         <p className="text-sm text-zinc-500 dark:text-gray-400">
-                          {stage === "stage-1"
-                            ? "Est. 21% more power and 19% more torque"
-                            : "Custom tuning plan selected."}
                         </p>
                       </div>
                     </div>
 
                     <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
                       <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
-                        Selected Solutions:
+                        {t('overviewPage.labels.solutionsSelected')}:
                       </h5>
                       {renderSelectedOptions()}
                     </div>
@@ -525,7 +522,7 @@ const Overview = () => {
                     {notes && (
                       <div className="mt-4 border-t border-zinc-100 dark:border-gray-800 pt-3">
                         <h5 className="text-sm font-medium text-zinc-900 dark:text-white mb-1">
-                          Notes for Tuner:
+                          {t('overviewPage.labels.notesForTuner')}:
                         </h5>
                         <p className="text-sm italic text-zinc-600 dark:text-gray-400 whitespace-pre-wrap">
                           {notes}
@@ -553,7 +550,7 @@ const Overview = () => {
                               htmlFor="terms"
                               className="text-sm text-zinc-500 dark:text-gray-400 whitespace-nowrap"
                             >
-                              I accept the terms and conditions.{" "}
+                              {t('overviewPage.termsAccept')}.{" "}
                             </label>
                           </div>
                           <button
@@ -563,8 +560,7 @@ const Overview = () => {
                             }}
                             className="text-red-600 hover:underline text-start mt-2 sm:mt-0"
                           >
-                            Please read and accept the terms and conditions before
-                            proceeding.
+                            {t('termsAndConditions')}
                           </button>
                         </div>
                       </div>
@@ -577,7 +573,7 @@ const Overview = () => {
                         onClick={handleGoBack}
                         className="px-8 dark:text-white"
                       >
-                        Back
+                        {t('back')}
                       </Button>
                       <Button
                         type="submit"
@@ -587,10 +583,10 @@ const Overview = () => {
                         {isPending ? (
                           <div className="flex items-center justify-center">
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            <span>Loading...</span>
+                            <span>{t('loading')}</span>
                           </div>
                         ) : (
-                          "Submit"
+                          t('submit')
                         )}
                       </Button>
                     </div>

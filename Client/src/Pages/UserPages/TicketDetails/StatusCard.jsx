@@ -1,17 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import { IsEligibleToDownload } from "../../../lib/APIs/ecuFileAPIs";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const { isPending, mutateAsync } = useMutation({
     mutationFn: IsEligibleToDownload,
   });
 
   const handleDownload = async () => {
     if (!ticketNumber) {
-      toast.error("Ticket number missing!");
+      toast.error(t("StatusCardPage.common.ticketMissing")); // i18n instead of hardcoded
       return;
     }
 
@@ -20,8 +21,8 @@ const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
 
       if (res?.success && res?.data?.eligible) {
         toast.success(res?.data?.message);
-        //  Trigger actual file download
         queryClient.invalidateQueries({ queryKey: ["authUser"] });
+
         const link = document.createElement("a");
         link.href = ecuTunedFile;
         link.download = "";
@@ -31,65 +32,66 @@ const StatusCard = ({ status, ecuTunedFile, ticketNumber }) => {
         document.body.removeChild(link);
       } else {
         toast.error(
-          res?.message || "You are not eligible to download this file"
+          res?.message ||
+          t("StatusCardPage.common.notEligible") // i18n
         );
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Failed to check download eligibility"
+        error?.response?.data?.message ||
+        t("StatusCardPage.common.failedCheck") // i18n
       );
     }
   };
 
   const statusConfig = {
     Pending: {
-      title: "Pending",
-      message: "Your file request is pending and will be processed soon.",
+      title: t("StatusCardPage.pending.title"),
+      message: t("StatusCardPage.pending.message"),
       color: "text-yellow-500",
       button: null,
     },
     "In Progress": {
-      title: "In Progress",
-      message: "Your file is currently being tuned.",
+      title: t("StatusCardPage.inProgress.title"),
+      message: t("StatusCardPage.inProgress.message"),
       color: "text-blue-500",
       button: null,
     },
     Completed: {
-      title: "Completed",
-      message:
-        "File tuning has been completed successfully. Wait for the file to be available.",
+      title: t("StatusCardPage.completed.title"),
+      message: t("StatusCardPage.completed.message"),
       color: "text-green-500",
       button: null,
     },
     Rejected: {
-      title: "Rejected",
-      message:
-        "Something went wrong while tuning the file. Please check again later.",
+      title: t("StatusCardPage.rejected.title"),
+      message: t("StatusCardPage.rejected.message"),
       color: "text-red-500",
       button: null,
     },
     Unlocked: {
-      title: "File Unlocked",
-      message: "Click below to download your tuned file.",
+      title: t("StatusCardPage.unlocked.title"),
+      message: t("StatusCardPage.unlocked.message"),
       color: "text-purple-500",
       button: ecuTunedFile ? (
         <button
           onClick={handleDownload}
           disabled={isPending}
-          className={` text-xs font-semibold rounded-full py-3 px-5 ${
-            isPending
+          className={`text-xs font-semibold rounded-full py-3 px-5 ${isPending
               ? "bg-zinc-700 cursor-not-allowed opacity-70 text-white"
               : "bg-green-600 hover:bg-green-700 text-white"
-          } transition-colors`}
+            } transition-colors`}
         >
-          {isPending ? "Checking..." : "Download"}
+          {isPending
+            ? t("StatusCardPage.unlocked.checking")
+            : t("StatusCardPage.unlocked.download")}
         </button>
       ) : (
         <button
           disabled
           className="text-white text-xs font-semibold rounded-full py-3 px-5 bg-zinc-700 cursor-not-allowed"
         >
-          File not available
+          {t("StatusCardPage.unlocked.fileNotAvailable")}
         </button>
       ),
     },

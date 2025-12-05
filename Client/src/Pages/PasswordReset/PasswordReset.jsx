@@ -61,7 +61,7 @@ const PasswordReset = () => {
         </div>
 
         {/* Mobile Logo */}
-        <div className="lg:hidden w-full absolute top-[21.5%] flex flex-col items-center z-20">
+        <div className="lg:hidden w-full absolute top-[16%] flex flex-col items-center z-20">
           <img src={aiRemapLogo} alt="Ai REMAP Logo" className="w-60 h-auto" />
           <h2 className="text-white italic text-sm font-semibold text-center drop-shadow-lg">
             World Leading File Portal

@@ -15,10 +15,12 @@ import {
 } from "../../../components/ui/command";
 import { Button } from "../../../components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const { t } = useTranslation()
 
   const filteredOptions = useMemo(() => {
     const lower = searchTerm.toLowerCase();
@@ -51,7 +53,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
           transition-colors"
           >
             {currentSelectionName === "Select ECU ID" ? (
-              <span className="text-zinc-500 dark:text-gray-400">Select ECU ID</span>
+              <span className="text-zinc-500 dark:text-gray-400">{t('uploadFilePage.placeholders.selectEcuId')}</span>
             ) : (
               currentSelectionName
             )}
@@ -75,7 +77,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
               >
                 <DialogHeader className="p-4 border-b border-zinc-200 dark:border-gray-700">
                   <DialogTitle className="text-xl font-semibold text-zinc-900 dark:text-white">
-                    Search ECU ID ({options.length} Total)
+                    {t("uploadFilePage.searchEcuId")} ({options.length} {t("uploadFilePage.total")})
                   </DialogTitle>
                 </DialogHeader>
 
@@ -83,7 +85,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
                   <div className="flex items-center border-b px-3 border-zinc-200 dark:border-gray-700">
                     <Search className="mr-2 h-4 w-4 shrink-0 text-zinc-500 dark:text-gray-400" />
                     <input
-                      placeholder="Search ECU..."
+                      placeholder={t("uploadFilePage.searchEcu")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none 
@@ -111,11 +113,10 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
                               text-zinc-900 hover:bg-zinc-100 cursor-pointer transition-colors"
                             >
                               <Check
-                                className={`mr-2 h-4 w-4 ${
-                                  selectedValue === item.name
-                                    ? "opacity-100 text-blue-600 dark:text-blue-400"
-                                    : "opacity-0"
-                                }`}
+                                className={`mr-2 h-4 w-4 ${selectedValue === item.name
+                                  ? "opacity-100 text-blue-600 dark:text-blue-400"
+                                  : "opacity-0"
+                                  }`}
                               />
                               {item.name}
                             </CommandItem>
@@ -123,7 +124,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
                         ))
                       ) : (
                         <CommandEmpty className="py-6 text-center text-sm text-zinc-500 dark:text-gray-400">
-                          No ECU found matching "{searchTerm}"
+                          {t("uploadFilePage.noEcuFound")} "{searchTerm}"
                         </CommandEmpty>
                       )}
                     </AnimatePresence>
@@ -132,7 +133,7 @@ const EcuSearchCombobox = ({ options, selectedValue, onValueChange }) => {
 
                 {searchTerm === "" && options.length > 50 && (
                   <div className="p-4 text-xs text-center text-zinc-500 dark:text-gray-400 border-t border-zinc-200 dark:border-gray-700">
-                    Start typing to search all {options.length} ECUs.
+                    {t("uploadFilePage.StartTypingToSearchAll")} {options.length} ECUs.
                   </div>
                 )}
                 {searchTerm !== "" &&
