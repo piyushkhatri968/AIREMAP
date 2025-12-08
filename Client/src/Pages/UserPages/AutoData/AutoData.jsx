@@ -17,6 +17,7 @@ import bikeImage from "../../../assets/AutoDataImages/bikes.png";
 import snowmobileImage from "../../../assets/AutoDataImages/snow-mobile.png";
 import constructionImage from "../../../assets/AutoDataImages/construction.png";
 import busImage from "../../../assets/AutoDataImages/bus.png";
+import { useTranslation } from "react-i18next";
 
 const AutoData = ({ embedOverride, onSelect }) => {
   const vehicleTypes = [
@@ -63,6 +64,7 @@ const AutoData = ({ embedOverride, onSelect }) => {
   ];
 
   const location = useLocation();
+  const { t } = useTranslation()
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const isEmbedParam =
@@ -101,20 +103,18 @@ const AutoData = ({ embedOverride, onSelect }) => {
           <div className="flex flex-col lg:flex-row justify-between items-start gap-4 lg:gap-8">
             <div className="flex-1 w-full lg:w-auto">
               <h1
-                className={`${
-                  isEmbed || embedOverride
-                    ? "text-lg sm:text-xl"
-                    : "text-2xl sm:text-3xl"
-                } font-bold text-zinc-900 dark:text-white mb-2 sm:mb-3`}
+                className={`${isEmbed || embedOverride
+                  ? "text-lg sm:text-xl"
+                  : "text-2xl sm:text-3xl"
+                  } font-bold text-zinc-900 dark:text-white mb-2 sm:mb-3`}
               >
-                Choose Vehicle Type
+                {t('autoDataPage.title')}
               </h1>
               <div
-                className={`${
-                  isEmbed || embedOverride
-                    ? "text-zinc-500 text-sm space-y-2"
-                    : "text-zinc-600 dark:text-zinc-400 space-y-2 text-sm sm:text-base"
-                }`}
+                className={`${isEmbed || embedOverride
+                  ? "text-zinc-500 text-sm space-y-2"
+                  : "text-zinc-600 dark:text-zinc-400 space-y-2 text-sm sm:text-base"
+                  }`}
               >
                 <p>
                   We offer you the most detailed chiptuning database on the
@@ -132,24 +132,21 @@ const AutoData = ({ embedOverride, onSelect }) => {
 
             {/* Search Section */}
             <div
-              className={`relative ${
-                isEmbed || embedOverride
-                  ? "bg-transparent"
-                  : "bg-zinc-100 dark:bg-[#1A1A1A]"
-              } rounded-lg p-3 w-full lg:w-[420px] border ${
-                isEmbed || embedOverride
+              className={`relative ${isEmbed || embedOverride
+                ? "bg-transparent"
+                : "bg-zinc-100 dark:bg-[#1A1A1A]"
+                } rounded-lg p-3 w-full lg:w-[420px] border ${isEmbed || embedOverride
                   ? "border-dashed border-zinc-700"
                   : "border-dashed border-zinc-700"
-              }`}
+                }`}
             >
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                   <h2
-                    className={`${
-                      isEmbed || embedOverride
-                        ? "text-sm"
-                        : "text-base sm:text-lg"
-                    } font-semibold text-zinc-900 dark:text-white`}
+                    className={`${isEmbed || embedOverride
+                      ? "text-sm"
+                      : "text-base sm:text-lg"
+                      } font-semibold text-zinc-900 dark:text-white`}
                   >
                     Search by Engine Number
                   </h2>
@@ -158,14 +155,12 @@ const AutoData = ({ embedOverride, onSelect }) => {
                 {/* Yellow registration plate (visual only) */}
                 <div className="absolute top-0 right-3">
                   <div
-                    className={`flex items-center bg-[#FFD400] text-black rounded-md px-2 ${
-                      isEmbed || embedOverride ? "py-1" : "py-2"
-                    } shadow-sm border border-[#e6b800]`}
+                    className={`flex items-center bg-[#FFD400] text-black rounded-md px-2 ${isEmbed || embedOverride ? "py-1" : "py-2"
+                      } shadow-sm border border-[#e6b800]`}
                   >
                     <span
-                      className={`mr-2 ${
-                        isEmbed || embedOverride ? "w-5 h-3" : "w-6 h-4"
-                      } inline-block`}
+                      className={`mr-2 ${isEmbed || embedOverride ? "w-5 h-3" : "w-6 h-4"
+                        } inline-block`}
                     >
                       <svg
                         width="24"
@@ -194,11 +189,10 @@ const AutoData = ({ embedOverride, onSelect }) => {
                       </svg>
                     </span>
                     <div
-                      className={`${
-                        isEmbed || embedOverride
-                          ? "font-mono text-xs"
-                          : "font-mono tracking-wider text-sm"
-                      }`}
+                      className={`${isEmbed || embedOverride
+                        ? "font-mono text-xs"
+                        : "font-mono tracking-wider text-sm"
+                        }`}
                     >
                       XXXX XXX
                     </div>
@@ -210,17 +204,15 @@ const AutoData = ({ embedOverride, onSelect }) => {
                     value={engineNumber}
                     onChange={(e) => setEngineNumber(e.target.value)}
                     placeholder="Enter engine number"
-                    className={`w-full bg-white dark:bg-[#141414] border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder:text-zinc-500 ${
-                      isEmbed || embedOverride ? "h-8" : "h-9 sm:h-10"
-                    }`}
+                    className={`w-full bg-white dark:bg-[#141414] border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder:text-zinc-500 ${isEmbed || embedOverride ? "h-8" : "h-9 sm:h-10"
+                      }`}
                   />
                   <Button
                     onClick={handleSearch}
-                    className={`w-full bg-[#FFB800] hover:bg-[#FFB800]/90 text-black font-medium ${
-                      isEmbed || embedOverride
-                        ? "h-8 text-sm"
-                        : "h-9 sm:h-10 text-sm sm:text-base"
-                    }`}
+                    className={`w-full bg-[#FFB800] hover:bg-[#FFB800]/90 text-black font-medium ${isEmbed || embedOverride
+                      ? "h-8 text-sm"
+                      : "h-9 sm:h-10 text-sm sm:text-base"
+                      }`}
                   >
                     <Search className="w-4 h-4 mr-2" />
                     Search
@@ -253,48 +245,147 @@ const AutoData = ({ embedOverride, onSelect }) => {
                     if (onSelect) {
                       // pass a lightweight selection object for non-car types
                       onSelect({ type: vehicle.id, nameKey: vehicle.nameKey });
+                      console.log(vehicle.id, vehicle.nameKey)
                       return;
                     }
                     // navigate to vehicle-specific page when tile clicked
                     navigate(`/${vehicle.id}`);
                   }}
-                  className={`rounded-lg ${
-                    isEmbed || embedOverride ? "p-3" : "p-6"
-                  } border border-zinc-700 bg-transparent flex flex-col items-center justify-between hover:bg-zinc-800/50 dark:hover:bg-[#1A1A1A]/40 transition-colors cursor-pointer group`}
+                  className={`rounded-lg ${isEmbed || embedOverride ? "p-3" : "p-6"
+                    } border border-zinc-700 bg-transparent flex flex-col items-center justify-between hover:bg-zinc-800/50 dark:hover:bg-[#1A1A1A]/40 transition-colors cursor-pointer group`}
                 >
                   <div
-                    className={`${
-                      isEmbed || embedOverride
-                        ? "h-16 sm:h-18 lg:h-20"
-                        : "h-20 sm:h-24 lg:h-32"
-                    } flex items-center justify-center mb-1 sm:mb-2 lg:mb-3`}
+                    className={`${isEmbed || embedOverride
+                      ? "h-16 sm:h-18 lg:h-20"
+                      : "h-20 sm:h-24 lg:h-32"
+                      } flex items-center justify-center mb-1 sm:mb-2 lg:mb-3`}
                   >
                     <img
                       src={vehicle.image}
                       alt={vehicle.nameKey}
-                      className={`${
-                        isEmbed || embedOverride
-                          ? "w-20 h-20 sm:w-24 sm:h-24"
-                          : "w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36"
-                      } object-contain group-hover:scale-105 transition-all duration-200`}
+                      className={`${isEmbed || embedOverride
+                        ? "w-20 h-20 sm:w-24 sm:h-24"
+                        : "w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36"
+                        } object-contain group-hover:scale-105 transition-all duration-200`}
                     />
                   </div>
                   <span
-                    className={`${
-                      isEmbed || embedOverride
-                        ? "text-xs"
-                        : "text-xs sm:text-sm"
-                    } font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors text-center`}
+                    className={`${isEmbed || embedOverride
+                      ? "text-xs"
+                      : "text-xs sm:text-sm"
+                      } font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors text-center`}
                   >
                     {vehicle.nameKey}
                   </span>
                 </div>
               ))}
+
+            {/* Embedded cars drill-down views */}
+            {isEmbed && embedView?.name === 'cars' && (
+              <div className="col-span-full">
+                <h3 className="text-lg font-semibold text-white mb-3">{t('autoDataPage.vehicles.cars')}</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                  {carsMakesList.map((make) => (
+                    <div key={make.id} className="p-3 bg-[#111] rounded-lg cursor-pointer" onClick={() => {
+                      // load models for make
+                      setCarsLoading(true);
+                      fetch(`/api/tuning-data?make=${encodeURIComponent(make.name)}&limit=1000`).then(r => r.json()).then(body => {
+                        const data = Array.isArray(body) ? body : body.data ?? [];
+                        // group by model -> generation
+                        const grouped = {};
+                        data.forEach((v) => {
+                          const model = (v.model || 'Unknown').trim();
+                          if (!grouped[model]) grouped[model] = [];
+                          grouped[model].push(v);
+                        });
+                        setCarsModels(prev => ({ ...prev, [make.id]: Object.keys(grouped).map(m => ({ model: m, items: grouped[m] })) }));
+                        setCarsLoading(false);
+                        setEmbedView({ name: 'make', payload: { make } });
+                      }).catch(() => {
+                        setCarsLoading(false);
+                        setEmbedView({ name: 'make', payload: { make } });
+                      });
+                    }}>
+                      <img src={make.logo} alt={make.name} className="h-12 w-12 object-contain mb-2" />
+                      <div className="text-xs text-white">{make.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isEmbed && embedView?.name === 'make' && (
+              <div className="col-span-full">
+                <div className="flex flex-col gap-2 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <span className="text-red-600">Auto Data</span>
+                    <span>/</span>
+                    <span>Cars</span>
+                    <span>/</span>
+                    <span>{embedView.payload?.make?.name}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">Select Vehicle Model</h3>
+                </div>
+
+                <div className="relative mb-4">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder={`Search by ${embedView.payload?.make?.name} model`}
+                    value={embedSearchQ}
+                    onChange={(e) => setEmbedSearchQ(e.target.value)}
+                    className="pl-10 w-full bg-transparent border border-zinc-700 rounded-md h-10 text-white"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
+                  {carsLoading && <div className="col-span-full"><LoadingSkeleton/></div>}
+
+                  {!carsLoading && (carsModels[embedView.payload?.make?.id] || []).length === 0 && (
+                    <div className="text-gray-400 col-span-full">No models found.</div>
+                  )}
+
+                  {!carsLoading && (carsModels[embedView.payload?.make?.id] || [])
+                    .filter((m) => {
+                      if (!embedSearchQ) return true;
+                      const q = embedSearchQ.toLowerCase();
+                      if ((m.model || '').toLowerCase().includes(q)) return true;
+                      // also search inside items
+                      return m.items.some((it) => ((it.generation || '').toLowerCase().includes(q) || (it.engine || '').toLowerCase().includes(q)));
+                    })
+                    .map((m) => (
+                      <div key={m.model} className="col-span-1">
+                        <h4 className="text-sm font-semibold text-white border-b border-red-600 pb-2 mb-3">{m.model}</h4>
+                        <ul className="space-y-2">
+                          {m.items.map((it) => (
+                            <li key={it.id} className="text-[13px] text-gray-300 cursor-pointer" onClick={() => {
+                              const selection = {
+                                makeId: embedView.payload?.make?.id,
+                                makeName: embedView.payload?.make?.name,
+                                model: m.model,
+                                generation: it.generation || null,
+                                engine: it.engine || null,
+                                id: it.id,
+                              };
+                              if (onSelect) onSelect(selection);
+                            }}>{it.generation ? `${it.generation}${it.engine ? ` (${it.engine})` : ''}` : (it.engine || 'Unknown')}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       </div>
     </motion.div>
   );
+
+  // If this component is embedded programmatically (embedOverride === true)
+  // render only the inner panel (no full-screen backdrop) so it can be
+  // placed inside a modal container without producing duplicate overlays.
 
   if (embedOverride === true) {
     return (

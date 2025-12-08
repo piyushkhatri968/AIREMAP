@@ -8,6 +8,7 @@ import {
   FolderOpen,
   ShoppingBag,
   File,
+  CarFront,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import UserSideItem from "../UserSidebar/UserSideItem";
@@ -98,12 +99,12 @@ const UserSidebar = ({
             isActive={activeView === "price-list"}
             onClick={() => handleNavigation("price-list")}
           />
-          {/* <UserSideItem
+          <UserSideItem
             icon={<CarFront className="w-4 h-4" />}
-            label="Auto Data"
+            label={t("autoData")}
             isActive={activeView === "auto-data"}
             onClick={() => handleNavigation("auto-data")}
-          /> */}
+          />
         </div>
 
         {/* CREDITS Section */}

@@ -17,9 +17,13 @@ import { toast } from "react-toastify";
 import { ecuOptions } from "../../../utils/ECUdata";
 import EcuSearchCombobox from "./EcuSearchCombobox";
 import { useTranslation } from "react-i18next";
+import AutoData from "../AutoData/AutoData";
 const UploadFile = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const [isAutoDataOpen, setIsAutoDataOpen] = useState(false);
+  const [embeddedSelection, setEmbeddedSelection] = useState(null)
 
   const [formData, setFormData] = useState({
     make: "",
@@ -193,425 +197,523 @@ const UploadFile = () => {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-      {/* Page Title */}
-      <div className="p-4">
-        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
-          {t('uploadFile')}
-        </h1>
-        {/* Breadcrumb Navigation - Hidden on mobile */}
-        <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="hover:text-zinc-900 dark:hover:text-white transition-colors"
-          >
-            {t('dashboard')}
-          </button>
-          <span>&gt;</span>
-          <span>{t('portal')}</span>
-          <span>&gt;</span>
-          <span className="text-zinc-900 dark:text-white">{t('uploadFile')}</span>
+    <>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        {/* Page Title */}
+        <div className="p-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white sm:mb-2">
+            {t('uploadFile')}
+          </h1>
+          {/* Breadcrumb Navigation - Hidden on mobile */}
+          <div className="hidden sm:flex items-center space-x-2 text-sm text-zinc-500 dark:text-gray-400">
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="hover:text-zinc-900 dark:hover:text-white transition-colors"
+            >
+              {t('dashboard')}
+            </button>
+            <span>&gt;</span>
+            <span>{t('portal')}</span>
+            <span>&gt;</span>
+            <span className="text-zinc-900 dark:text-white">{t('uploadFile')}</span>
+          </div>
         </div>
-      </div>
 
-      {/* Step Indicators */}
-      <div className="flex flex-wrap items-center px-4 py-2 sm:py-4 gap-3 sm:gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-red-600 text-white flex items-center justify-center text-xs sm:text-sm font-bold">
-            1
-          </div>
-          <span className="text-zinc-900 dark:text-white text-xs sm:text-sm font-medium">
-            {t('vehicleDetails')}
-          </span>
-        </div>
-        <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
-          &gt;
-        </span>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 dark:bg-gray-600 text-zinc-500 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
-            2
-          </div>
-          <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-            {t('modificationPlan')}
-          </span>
-        </div>
-        <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
-          &gt;
-        </span>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 dark:bg-gray-600 text-zinc-500 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
-            3
-          </div>
-          <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
-            {t('overview')}
-          </span>
-        </div>
-      </div>
-
-      <div className="p-4">      {/* Form Container */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700 w-full"
-        >
-          <div className="p-4 sm:p-6 lg:p-8">
-            <div className="mb-6 sm:mb-8">
-              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
-                {t('vehicleParameters')}
-              </h2>
-              <p className="text-zinc-500 dark:text-gray-400 text-sm sm:text-base">
-                {t('vehicleParametersDescription')}
-              </p>
+        {/* Step Indicators */}
+        <div className="flex flex-wrap items-center px-4 py-2 sm:py-4 gap-3 sm:gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-red-600 text-white flex items-center justify-center text-xs sm:text-sm font-bold">
+              1
             </div>
-            {/* Vehicle Parameters Form */}
-            <div className="space-y-8">
-              {/* Vehicle Selection */}
-              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-                <div className="space-y-1">
-                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    {t('vehicle')} <span className="text-red-600">*</span>
-                  </Label>
-                  <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    {t('vehicleHelp')}
-                    {/* <a
+            <span className="text-zinc-900 dark:text-white text-xs sm:text-sm font-medium">
+              {t('vehicleDetails')}
+            </span>
+          </div>
+          <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
+            &gt;
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 dark:bg-gray-600 text-zinc-500 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
+              2
+            </div>
+            <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
+              {t('modificationPlan')}
+            </span>
+          </div>
+          <span className="text-zinc-500 dark:text-gray-400 text-lg sm:text-xl">
+            &gt;
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-zinc-200 dark:bg-gray-600 text-zinc-500 dark:text-gray-400 flex items-center justify-center text-xs sm:text-sm font-bold">
+              3
+            </div>
+            <span className="text-zinc-500 dark:text-gray-400 text-xs sm:text-sm">
+              {t('overview')}
+            </span>
+          </div>
+        </div>
+
+        <div className="p-4">      {/* Form Container */}
+          <form
+            onSubmit={handleSubmit}
+            className="bg-zinc-50 dark:bg-[#242526]/90 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-gray-700 w-full"
+          >
+            <div className="p-4 sm:p-6 lg:p-8">
+              <div className="mb-6 sm:mb-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+                  {t('vehicleParameters')}
+                </h2>
+                <p className="text-zinc-500 dark:text-gray-400 text-sm sm:text-base">
+                  {t('vehicleParametersDescription')}
+                </p>
+              </div>
+              {/* Vehicle Parameters Form */}
+              <div className="space-y-8">
+                {/* Vehicle Selection */}
+                <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                  <div className="space-y-1">
+                    <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                      {t('vehicle')} <span className="text-red-600">*</span>
+                    </Label>
+                    <p className="text-sm text-zinc-600 dark:text-gray-400">
+                      {t('vehicleHelp')}
+                      {/* <a
                       href="/help"
                       className="text-red-600 hover:underline transition-colors"
                     >
                       {t('helpPage')}
                     </a> */}
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  {/* Make */}
-                  <Input
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+
+
+
+                    <div className="flex items-center gap-2">
+                      <Select value={formData.vehicle} onValueChange={(value) => setFormData(prev => ({ ...prev, vehicle: value }))}>
+                        <SelectTrigger
+                          className="w-full h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white"
+                          onPointerDown={(e) => {
+                            // Open the AutoData modal instead of opening the native select dropdown
+                            e.preventDefault();
+                            setIsAutoDataOpen(true);
+                          }}
+                        >
+                          {formData.vehicle ? (
+                            <span className="line-clamp-1">{formData.vehicle}</span>
+                          ) : (
+                            <SelectValue placeholder={t('selectVehicle')} />
+                          )}
+                        </SelectTrigger>
+                        <SelectContent className="dark:bg-[#242526] relative" side="top">
+                          <SelectItem value="bmw-3-series" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">BMW 3 Series</SelectItem>
+                          <SelectItem value="bmw-5-series" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">BMW 5 Series</SelectItem>
+                          <SelectItem value="audi-a4" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">Audi A4</SelectItem>
+                          <SelectItem value="audi-a6" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">Audi A6</SelectItem>
+                          <SelectItem value="mercedes-c-class" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">Mercedes C-Class</SelectItem>
+                          <SelectItem value="mercedes-e-class" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">Mercedes E-Class</SelectItem>
+                          <SelectItem value="volkswagen-golf" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">Volkswagen Golf</SelectItem>
+                          <SelectItem value="volkswagen-passat" className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer">Volkswagen Passat</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* Make */}
+                    {/* <Input
                     required
                     id="make"
                     placeholder={t('uploadFilePage.placeholders.make')}
                     value={formData.make}
                     onChange={handleInputChange}
                     className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                  />
+                  /> */}
 
-                  {/* Model */}
-                  <Input
+                    {/* Model */}
+                    {/* <Input
                     required
                     placeholder={t('uploadFilePage.placeholders.model')}
                     id="model"
                     value={formData.model}
                     onChange={handleInputChange}
                     className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                  />
+                  /> */}
 
-                  {/* Year */}
-                  <Input
+                    {/* Year */}
+                    {/* <Input
                     required
                     placeholder={t('uploadFilePage.placeholders.year')}
                     id="year"
                     value={formData.year}
                     onChange={handleInputChange}
                     className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                  />
+                  /> */}
 
-                  {/* Registration */}
-                  <Input
-                    required
-                    placeholder={t('uploadFilePage.placeholders.registration')}
-                    id="registration"
-                    value={formData.registration}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        registration: e.target.value.toUpperCase(),
-                      }))
-                    }
-                    className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
-                  />
-
-                  {/* ECU ID */}
-                  <div className="relative">
-                    {/* Select with EcuSearchCombobox */}
-                    <EcuSearchCombobox
-                      options={ecuOptions}
-                      selectedValue={formData.ecuId}
-                      onValueChange={(value) =>
-                        handleSelectChange("ecuId", value)
+                    {/* Registration */}
+                    <Input
+                      required
+                      placeholder={t('uploadFilePage.placeholders.registration')}
+                      id="registration"
+                      value={formData.registration}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          registration: e.target.value.toUpperCase(),
+                        }))
                       }
+                      className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-gray-400"
                     />
+
+                    {/* ECU ID */}
+                    <div className="relative">
+                      {/* Select with EcuSearchCombobox */}
+                      <EcuSearchCombobox
+                        options={ecuOptions}
+                        selectedValue={formData.ecuId}
+                        onValueChange={(value) =>
+                          handleSelectChange("ecuId", value)
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Transmission Type */}
-              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-                <div className="space-y-4">
-                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    {t("transmissionType")} <span className="text-red-600">*</span>
-                  </Label>
-                </div>
-                <div className="">
-                  <RadioGroup
-                    value={formData.transmission}
-                    onValueChange={(value) =>
-                      handleSelectChange("transmission", value)
-                    }
-                    className="flex items-center space-x-4 md:space-x-8"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="Automatic"
-                        id="automatic"
-                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                      />
-                      <Label
-                        htmlFor="automatic"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        {t('automatic')}
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="Manual"
-                        id="manual"
-                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                      />
-                      <Label
-                        htmlFor="manual"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        {t('manual')}
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="SemiAutomatic"
-                        id="semi-automatic"
-                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                      />
-                      <Label
-                        htmlFor="semi-automatic"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        {t('semiAutomatic')}
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-              {/* Tool Selection */}
-              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-                <div className="space-y-2">
-                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block mt-4 sm:mt-0">
-                    {t('tool')} <span className="text-red-600">*</span>
-                  </Label>
-                  <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    {t('toolHelp')}
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <Select
-                    required
-                    value={formData.readTool}
-                    onValueChange={(value) =>
-                      handleSelectChange("readTool", value)
-                    }
-                  >
-                    <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                      <SelectValue placeholder={t('selectReadTool')} />
-                    </SelectTrigger>
-
-                    <SelectContent
-                      className="dark:bg-[#242526] relative"
-                      side="top"
+                {/* Transmission Type */}
+                <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                  <div className="space-y-4">
+                    <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                      {t("transmissionType")} <span className="text-red-600">*</span>
+                    </Label>
+                  </div>
+                  <div className="">
+                    <RadioGroup
+                      value={formData.transmission}
+                      onValueChange={(value) =>
+                        handleSelectChange("transmission", value)
+                      }
+                      className="flex items-center space-x-4 md:space-x-8"
                     >
-                      {readToolData.map((tool) => (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="Automatic"
+                          id="automatic"
+                          className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                        />
+                        <Label
+                          htmlFor="automatic"
+                          className="text-zinc-900 dark:text-white"
+                        >
+                          {t('automatic')}
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="Manual"
+                          id="manual"
+                          className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                        />
+                        <Label
+                          htmlFor="manual"
+                          className="text-zinc-900 dark:text-white"
+                        >
+                          {t('manual')}
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="SemiAutomatic"
+                          id="semi-automatic"
+                          className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                        />
+                        <Label
+                          htmlFor="semi-automatic"
+                          className="text-zinc-900 dark:text-white"
+                        >
+                          {t('semiAutomatic')}
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+                {/* Tool Selection */}
+                <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                  <div className="space-y-2">
+                    <Label className="text-zinc-900 dark:text-white text-sm font-medium block mt-4 sm:mt-0">
+                      {t('tool')} <span className="text-red-600">*</span>
+                    </Label>
+                    <p className="text-sm text-zinc-600 dark:text-gray-400">
+                      {t('toolHelp')}
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    <Select
+                      required
+                      value={formData.readTool}
+                      onValueChange={(value) =>
+                        handleSelectChange("readTool", value)
+                      }
+                    >
+                      <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                        <SelectValue placeholder={t('selectReadTool')} />
+                      </SelectTrigger>
+
+                      <SelectContent
+                        className="dark:bg-[#242526] relative"
+                        side="top"
+                      >
+                        {readToolData.map((tool) => (
+                          <SelectItem
+                            key={tool}
+                            value={tool}
+                            className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                          >
+                            {tool}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <Select
+                      value={formData.readType}
+                      required
+                      onValueChange={(value) =>
+                        handleSelectChange("readType", value)
+                      }
+                    >
+                      <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
+                        <SelectValue placeholder={t('selectReadType')} />
+                      </SelectTrigger>
+                      <SelectContent
+                        className="dark:bg-[#242526] relative"
+                        side="top"
+                      >
                         <SelectItem
-                          key={tool}
-                          value={tool}
+                          value="Full Read
+"
                           className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
                         >
-                          {tool}
+                          Full Read
                         </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select
-                    value={formData.readType}
-                    required
-                    onValueChange={(value) =>
-                      handleSelectChange("readType", value)
-                    }
-                  >
-                    <SelectTrigger className="h-12 bg-white dark:bg-[#242526] border-zinc-200 dark:border-gray-600 text-zinc-900 dark:text-white">
-                      <SelectValue placeholder={t('selectReadType')} />
-                    </SelectTrigger>
-                    <SelectContent
-                      className="dark:bg-[#242526] relative"
-                      side="top"
-                    >
-                      <SelectItem
-                        value="Full Read
+                        <SelectItem
+                          value="VR Read
 "
-                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                      >
-                        Full Read
-                      </SelectItem>
-                      <SelectItem
-                        value="VR Read
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          VR Read
+                        </SelectItem>
+                        <SelectItem
+                          value="ID Only
 "
-                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                      >
-                        VR Read
-                      </SelectItem>
-                      <SelectItem
-                        value="ID Only
-"
-                        className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
-                      >
-                        ID Only
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Master/Slave */}
-              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-                <div className="space-y-4">
-                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    {t("Master_Slave")} <span className="text-red-600">*</span>
-                  </Label>
-                </div>
-                <div className="">
-                  <RadioGroup
-                    required
-                    value={formData.masterSlave}
-                    onValueChange={(value) =>
-                      handleSelectChange("masterSlave", value)
-                    }
-                    className="flex items-center space-x-4 md:space-x-8"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="Master"
-                        id="master"
-                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                      />
-                      <Label
-                        htmlFor="Master"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        {t('master')}
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="Slave"
-                        id="slave"
-                        className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
-                      />
-                      <Label
-                        htmlFor="Slave"
-                        className="text-zinc-900 dark:text-white"
-                      >
-                        {t('slave')}
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-
-              {/* File Upload */}
-              <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
-                <div className="space-y-2">
-                  <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
-                    {t('uploads')} <span className="text-red-600">*</span>
-                  </Label>
-                  <p className="text-sm text-zinc-600 dark:text-gray-400">
-                    {t('uploadsHelp')}
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <div
-                    className="border-2 border-dashed border-zinc-200 dark:border-gray-600 rounded-lg p-8 text-center"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  >
-                    <input
-                      type="file"
-                      id="file-upload"
-                      className="hidden"
-                      onChange={handleFileUpload}
-                    />
-                    <label
-                      htmlFor="file-upload"
-                      className="cursor-pointer flex flex-col items-center"
-                    >
-                      <UploadCloud className="h-12 w-12 text-zinc-400 dark:text-gray-500 mb-4" />
-                      <span className="text-zinc-900 dark:text-white font-medium mb-1">
-                        {t('selectEcuFile')}
-                      </span>
-                      <span className="text-sm text-zinc-600 dark:text-gray-400">
-                        {t('dragAndDrop')}
-                      </span>
-                    </label>
-                    {uploadedFile && (
-                      <div className="mt-4 text-sm text-zinc-900 dark:text-white">
-                        {uploadedFile.name}
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="flex justify-end">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        className="h-12 text-zinc-900 dark:text-white hover:bg-transparent"
-                        onClick={() =>
-                          document.getElementById("common-files")?.click()
-                        }
-                      >
-                        {t('uploadFilePage.uploadAdditionalFiles')}
-                      </Button>
-                    </div>
-                    <input
-                      type="file"
-                      id="common-files"
-                      className="hidden"
-                      multiple
-                      onChange={handleCommonFilesUpload}
-                    />
-                    {commonFiles.length > 0 && (
-                      <div className="mt-2 space-y-1">
-                        {commonFiles.map((file, index) => (
-                          <div
-                            key={index}
-                            className="text-sm text-zinc-900 dark:text-white"
-                          >
-                            {file.name}
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          className="dark:text-white dark:bg-[#242526] dark:hover:bg-[#2f3031] cursor-pointer"
+                        >
+                          ID Only
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-              </div>
 
-              {/* Continue Button */}
-              <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 flex items-center gap-2"
-                >
-                  <span>{t('continue')}</span>
-                  <span className="text-lg">→</span>
-                </Button>
+                {/* Master/Slave */}
+                <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                  <div className="space-y-4">
+                    <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                      {t("Master_Slave")} <span className="text-red-600">*</span>
+                    </Label>
+                  </div>
+                  <div className="">
+                    <RadioGroup
+                      required
+                      value={formData.masterSlave}
+                      onValueChange={(value) =>
+                        handleSelectChange("masterSlave", value)
+                      }
+                      className="flex items-center space-x-4 md:space-x-8"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="Master"
+                          id="master"
+                          className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                        />
+                        <Label
+                          htmlFor="Master"
+                          className="text-zinc-900 dark:text-white"
+                        >
+                          {t('master')}
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="Slave"
+                          id="slave"
+                          className="text-white data-[state=checked]:bg-red-600 data-[state=checked]:text-white"
+                        />
+                        <Label
+                          htmlFor="Slave"
+                          className="text-zinc-900 dark:text-white"
+                        >
+                          {t('slave')}
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+
+                {/* File Upload */}
+                <div className="grid grid-cols-1 sm:grid-cols-[0.65fr_2fr] gap-6 items-start">
+                  <div className="space-y-2">
+                    <Label className="text-zinc-900 dark:text-white text-sm font-medium block">
+                      {t('uploads')} <span className="text-red-600">*</span>
+                    </Label>
+                    <p className="text-sm text-zinc-600 dark:text-gray-400">
+                      {t('uploadsHelp')}
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    <div
+                      className="border-2 border-dashed border-zinc-200 dark:border-gray-600 rounded-lg p-8 text-center"
+                      onDragOver={handleDragOver}
+                      onDrop={handleDrop}
+                    >
+                      <input
+                        type="file"
+                        id="file-upload"
+                        className="hidden"
+                        onChange={handleFileUpload}
+                      />
+                      <label
+                        htmlFor="file-upload"
+                        className="cursor-pointer flex flex-col items-center"
+                      >
+                        <UploadCloud className="h-12 w-12 text-zinc-400 dark:text-gray-500 mb-4" />
+                        <span className="text-zinc-900 dark:text-white font-medium mb-1">
+                          {t('selectEcuFile')}
+                        </span>
+                        <span className="text-sm text-zinc-600 dark:text-gray-400">
+                          {t('dragAndDrop')}
+                        </span>
+                      </label>
+                      {uploadedFile && (
+                        <div className="mt-4 text-sm text-zinc-900 dark:text-white">
+                          {uploadedFile.name}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <div className="flex justify-end">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="h-12 text-zinc-900 dark:text-white hover:bg-transparent"
+                          onClick={() =>
+                            document.getElementById("common-files")?.click()
+                          }
+                        >
+                          {t('uploadFilePage.uploadAdditionalFiles')}
+                        </Button>
+                      </div>
+                      <input
+                        type="file"
+                        id="common-files"
+                        className="hidden"
+                        multiple
+                        onChange={handleCommonFilesUpload}
+                      />
+                      {commonFiles.length > 0 && (
+                        <div className="mt-2 space-y-1">
+                          {commonFiles.map((file, index) => (
+                            <div
+                              key={index}
+                              className="text-sm text-zinc-900 dark:text-white"
+                            >
+                              {file.name}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Continue Button */}
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    className="bg-red-600 hover:bg-red-700 text-white px-8 flex items-center gap-2"
+                  >
+                    <span>{t('continue')}</span>
+                    <span className="text-lg">→</span>
+                  </Button>
+                </div>
               </div>
             </div>
+          </form></div>
+      </motion.div>
+
+      {/* Auto Data Modal (render AutoDataPage directly to avoid iframe scrollbars) */}
+      {isAutoDataOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setIsAutoDataOpen(false)} />
+          <div className="relative w-[100%] max-w-[1280px] bg-transparent rounded-lg overflow-auto shadow-2xl mx-4 max-h-[92vh]">
+            <button className="absolute right-6 top-6 text-sm text-gray-300 hover:text-white z-50" onClick={() => setIsAutoDataOpen(false)}>
+              {t('close') || 'Close'}
+            </button>
+            <div className="w-full h-full">
+              {embeddedSelection ? (
+                // Show vehicle details inside the modal when a selection has been made
+                <div className="w-full h-full">
+                  <div className="flex items-center justify-start mb-4">
+                    <button className="text-sm text-gray-300" onClick={() => setEmbeddedSelection(null)}>← Back to picker</button>
+                  </div>
+                  <div className="bg-white dark:bg-[#0b0b0c] rounded-lg p-4 h-[80vh] overflow-auto">
+                    <VehicleDetails
+                      embeddedSelection={embeddedSelection}
+                      onConfirm={(vehicle) => {
+                        // Only attach make + model to the Upload File form per user request
+                        const label = `${vehicle.make} ${vehicle.model}`.trim();
+                        setFormData(prev => ({ ...prev, vehicle: label }));
+                        setIsAutoDataOpen(false);
+                        setEmbeddedSelection(null);
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <AutoData
+                  embedOverride={true}
+                  onSelect={(selection) => {
+                    // If selection contains model and make, show details embedded inside modal
+                    if (selection && selection.makeId && selection.model) {
+                      setEmbeddedSelection({ make: selection.makeName || selection.makeId, model: selection.model, generation: selection.generation, engine: selection.engine, engineNumber: selection.engineNumber });
+                      return;
+                    }
+
+                    // Fallback: set the vehicle field to a string identifier
+                    if (selection && typeof selection === 'string') {
+                      setFormData(prev => ({ ...prev, vehicle: selection }));
+                    } else if (selection && selection.type) {
+                      setFormData(prev => ({ ...prev, vehicle: selection.type }));
+                    }
+                    setIsAutoDataOpen(false);
+                  }}
+                />
+              )}
+            </div>
           </div>
-        </form></div>
-    </motion.div>
+        </div>
+      )}
+    </>
   );
 };
 
