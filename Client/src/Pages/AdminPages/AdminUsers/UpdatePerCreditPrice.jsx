@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -10,11 +10,10 @@ const UpdatePerCreditPrice = ({ userId, perCreditPrice }) => {
   const [value, setValue] = useState(perCreditPrice || 60);
 
   const formatCurrency = (amount) => {
-    console.log(typeof amount);
     if (typeof amount !== "number" || isNaN(amount)) return "£0.00";
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
-      currency: "GBP", // British Pound
+      currency: "GBP",
       minimumFractionDigits: 2,
     }).format(amount);
   };
@@ -45,42 +44,65 @@ const UpdatePerCreditPrice = ({ userId, perCreditPrice }) => {
     mutate(payload);
   };
 
-  return (
-    <div className="col-span-1 text-center text-zinc-900 dark:text-white">
-      <div className="flex items-center justify-center gap-2 group relative">
-        {!editing && (
-          <>
-            <span>{formatCurrency(Math.round(perCreditPrice))}</span>
-            <span
-              className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-              onClick={() => setEditing(true)}
-            >
-              <Pencil size={16} className="text-zinc-500 hover:text-red-500" />
-            </span>
-          </>
-        )}
+  const handleCancel = () => {
+    setValue(perCreditPrice || 60);
+    setEditing(false);
+  };
 
-        <AnimatePresence>
-          {editing && (
+  return (
+    <div className="text-center text-zinc-900 dark:text-white">
+      <div className="flex items-center justify-center gap-2 group relative">
+        <AnimatePresence mode="wait">
+          {!editing ? (
             <motion.div
+              key="display"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-2"
+            >
+              <span>{formatCurrency(Math.round(perCreditPrice))}</span>
+              <button
+                onClick={() => setEditing(true)}
+                className="p-1 rounded-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 hover:bg-zinc-200 dark:hover:bg-gray-700"
+                aria-label="Edit credit price"
+              >
+                <Pencil size={16} className="text-zinc-500 hover:text-red-500" />
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="editing"
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1.5"
             >
-              <input
-                type="number"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                className="w-16 bg-transparent border-b border-zinc-400 focus:border-red-500 text-sm text-center text-zinc-900 dark:text-white outline-none"
-              />
+              <div className="relative">
+                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-zinc-500 dark:text-gray-400 text-sm">£</span>
+                <input
+                  type="number"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  className="w-20 pl-5 pr-2 py-1.5 bg-white dark:bg-[#1c1d1e] border border-zinc-300 dark:border-gray-600 rounded-md text-sm text-zinc-900 dark:text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  autoFocus
+                />
+              </div>
               <button
                 onClick={handleUpdate}
                 disabled={isPending}
-                className="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-md transition-all disabled:opacity-50"
+                className="text-xs bg-red-600 hover:bg-red-700 text-white px-2.5 py-1.5 rounded-md transition-all disabled:opacity-50 whitespace-nowrap"
               >
-                {isPending ? "Updating..." : "Update"}
+                {isPending ? "..." : "Save"}
+              </button>
+              <button
+                onClick={handleCancel}
+                disabled={isPending}
+                className="p-1.5 text-zinc-500 hover:text-zinc-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-zinc-200 dark:hover:bg-gray-700 rounded-md transition-all disabled:opacity-50"
+                aria-label="Cancel"
+              >
+                <X size={14} />
               </button>
             </motion.div>
           )}

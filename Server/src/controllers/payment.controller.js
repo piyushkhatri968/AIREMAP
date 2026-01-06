@@ -12,7 +12,7 @@ export const CreatePayment = async (req, res) => {
     const { sourceId, amount, email, packageId } = req.body;
     const userId = req.user._id;
     if (!sourceId || !amount || !email)
-      return sendResponse(res, 400, false, "Missing payment info", null);
+      return sendResponse(res, 400, false, "Please provide all required payment information.", null);
 
     const idempotencyKey = crypto.randomUUID();
 
@@ -77,11 +77,11 @@ export const CreatePayment = async (req, res) => {
       res,
       200,
       true,
-      "Payment Successful",
+      "Payment successful! Your credits have been added to your account.",
       response.data.payment
     );
   } catch (error) {
-    console.error("Error in CreatePayment Controler:", error);
+    console.error("Error in CreatePayment Controller:", error);
 
     if (req.user?._id) {
       const serialNo = `P000${Math.floor(100000 + Math.random() * 900000)}`;
@@ -115,12 +115,12 @@ export const GetPaymentHistory = async (req, res) => {
       res,
       200,
       true,
-      "History fetched successfull",
+      "Payment history retrieved successfully.",
       paymentHistory
     );
   } catch (error) {
-    console.error("Error in PaymentHistory controller", error);
-    sendResponse(res, 400, false, error.message, null);
+    console.error("Error in GetPaymentHistory Controller:", error);
+    sendResponse(res, 400, false, "Unable to retrieve payment history. Please try again.", null);
   }
 };
 
@@ -128,21 +128,48 @@ const getFriendlyErrorMessage = (error) => {
   const code = error?.code;
 
   const map = {
-    INVALID_EXPIRATION: "Please check your card’s expiry date.",
-    INVALID_CARD: "The card number you entered is invalid.",
-    INVALID_CVV: "Please check your CVV code.",
-    CARD_DECLINED:
-      "Your card was declined. Please try another card or contact your bank.",
-    INSUFFICIENT_FUNDS: "Insufficient funds on your card.",
-    CVV_FAILURE: "The CVV number didn’t match. Please try again.",
-    ADDRESS_VERIFICATION_FAILURE:
-      "Your billing address didn’t match your card details.",
-    GENERIC_DECLINE:
-      "Your payment couldn’t be processed. Please try another card.",
-    INVALID_POSTAL_CODE: "Please check your billing ZIP or postal code.",
-    PAYMENT_LIMIT_EXCEEDED: "Your card has reached its transaction limit.",
-    INVALID_EXPIRATION_DATE: "Please check your card expiry date format.",
+    // Card validation errors
+    INVALID_CARD: "The card number you entered is invalid. Please check and try again.",
+    INVALID_CARD_DATA: "The card details you entered are invalid. Please check and try again.",
+    CARD_NOT_SUPPORTED: "This card type is not supported. Please try a different card.",
+    INVALID_EXPIRATION: "The expiry date is invalid. Please check your card.",
+    INVALID_EXPIRATION_DATE: "The expiry date format is incorrect. Please use MM/YY.",
+    EXPIRATION_FAILURE: "Your card has expired. Please use a different card.",
+    INVALID_CVV: "The security code (CVV) is invalid. Please check the 3-digit code on the back of your card.",
+    VERIFY_CVV_FAILURE: "The security code (CVV) could not be verified. Please check and try again.",
+    CVV_FAILURE: "The security code (CVV) didn't match. Please check and try again.",
+
+    // Card declined errors
+    CARD_DECLINED: "Your card was declined. Please try a different card or contact your bank.",
+    CARD_DECLINED_CALL_ISSUER: "Your card was declined. Please contact your bank for assistance.",
+    CARD_DECLINED_VERIFICATION_REQUIRED: "Additional verification is required. Please contact your bank.",
+    GENERIC_DECLINE: "Your payment couldn't be processed. Please try a different card.",
+    VOICE_FAILURE: "Your bank requires voice authorization. Please contact your card issuer.",
+
+    // Funds and limits
+    INSUFFICIENT_FUNDS: "Insufficient funds available. Please try a different card.",
+    AMOUNT_TOO_HIGH: "The payment amount exceeds your card limit. Please try a different card.",
+    AMOUNT_TOO_LOW: "The payment amount is below the minimum allowed.",
+    PAYMENT_LIMIT_EXCEEDED: "This payment exceeds the processing limit. Please try a smaller amount or different card.",
+
+    // Address verification
+    VERIFY_AVS_FAILURE: "Your billing address could not be verified. Please check your details.",
+    ADDRESS_VERIFICATION_FAILURE: "Your billing address didn't match your card details. Please check and try again.",
+    INVALID_POSTAL_CODE: "The postal code is invalid. Please check your billing address.",
+
+    // Token errors
+    CARD_TOKEN_EXPIRED: "Your session has expired. Please refresh the page and try again.",
+    CARD_TOKEN_USED: "This payment was already processed. Please refresh the page if you need to try again.",
+
+    // PIN errors
+    INVALID_PIN: "The PIN entered is incorrect. Please try again.",
+    ALLOWABLE_PIN_TRIES_EXCEEDED: "Too many incorrect PIN attempts. Please contact your bank.",
+
+    // Other errors
+    CHIP_INSERTION_REQUIRED: "Your card requires chip insertion. Please use a different card for online payments.",
+    INVALID_EMAIL_ADDRESS: "The email address provided is invalid. Please check and try again.",
+    IDEMPOTENCY_KEY_REUSED: "This payment may have already been processed. Please check your account before trying again.",
   };
 
-  return map[code] || error?.detail || "Payment failed. Please try again.";
+  return map[code] || error?.detail || "Payment failed. Please try again or use a different card.";
 };

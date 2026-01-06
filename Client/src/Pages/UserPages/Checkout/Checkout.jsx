@@ -3,23 +3,55 @@ import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
+import { FaCcVisa, FaCcMastercard, FaCcAmex, FaGooglePay } from "react-icons/fa";
 
 import { Card } from "../../../components/ui/card";
 import { Input } from "../../../components/ui/input";
 import { Button } from "../../../components/ui/button";
 import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
 
-import visaImg from "../../../assets/payment/visa.svg";
-import masterCardImg from "../../../assets/payment/mastercard.svg";
-import amexImg from "../../../assets/payment/amex.svg";
-import googleplayImg from "../../../assets/payment/googlepay.svg";
-import stripeImg from "../../../assets/payment/stripe.svg";
 import useCreatePayment from "../../../hooks/useCreatePayment";
 import useAuthUser from "../../../hooks/useAuthUser";
 import { useTranslation } from "react-i18next";
 
 const SQUARE_APP_ID = "sq0idp-DEtbSQbvUEDDspvImb9jDw";
 const SQUARE_LOCATION_ID = "LJY1HYSWX9338";
+
+const getSquareCardStyle = (isDark) => ({
+  ".input-container": {
+    borderColor: isDark ? "#4b5563" : "#d4d4d8",
+    borderRadius: "6px",
+  },
+  ".input-container.is-focus": {
+    borderColor: isDark ? "#6b7280" : "#a1a1aa",
+  },
+  ".input-container.is-error": {
+    borderColor: "#ef4444",
+  },
+  ".message-text": {
+    color: isDark ? "#9ca3af" : "#71717a",
+  },
+  ".message-icon": {
+    color: isDark ? "#9ca3af" : "#71717a",
+  },
+  ".message-text.is-error": {
+    color: "#ef4444",
+  },
+  ".message-icon.is-error": {
+    color: "#ef4444",
+  },
+  input: {
+    backgroundColor: isDark ? "#242526" : "#ffffff",
+    color: isDark ? "#e5e7eb" : "#18181b",
+    fontFamily: "inherit",
+  },
+  "input::placeholder": {
+    color: isDark ? "#9ca3af" : "#a1a1aa",
+  },
+  "input.is-error": {
+    color: "#ef4444",
+  },
+});
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -53,35 +85,76 @@ const Checkout = () => {
     }
   }, [packageId, packageDetails, previousRoute, navigate]);
 
+  const initializeCard = async (showLoader = true) => {
+    if (showLoader) setIsPaymentsLoading(true);
+
+    try {
+      // Destroy existing card if any
+      if (cardRef.current && typeof cardRef.current.destroy === "function") {
+        try {
+          cardRef.current.destroy();
+        } catch { }
+        cardRef.current = null;
+        cardMountedRef.current = false;
+      }
+
+      // Wait for container to be ready after destroy
+      const container = document.getElementById("card-container");
+      if (!container) {
+        if (showLoader) setIsPaymentsLoading(false);
+        return;
+      }
+
+      // Small delay to ensure DOM is ready after destroy
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const payments = window.Square.payments(
+        SQUARE_APP_ID,
+        SQUARE_LOCATION_ID
+      );
+      paymentsRef.current = payments;
+
+      const isDark = document.documentElement.classList.contains("dark");
+      const card = await payments.card({
+        style: getSquareCardStyle(isDark),
+      });
+      cardRef.current = card;
+
+      await card.attach("#card-container");
+      cardMountedRef.current = true;
+    } catch (err) {
+      toast.error(t("checkout.loadCardFailed"));
+    } finally {
+      if (showLoader) setIsPaymentsLoading(false);
+    }
+  };
+
   useEffect(() => {
     let mounted = true;
+
     const loadSquare = async () => {
       if (cardMountedRef.current) return;
-      setIsPaymentsLoading(true);
-
-      try {
-        const payments = window.Square.payments(
-          SQUARE_APP_ID,
-          SQUARE_LOCATION_ID
-        );
-        paymentsRef.current = payments;
-
-        const card = await payments.card();
-        cardRef.current = card;
-
-        await card.attach("#card-container");
-        cardMountedRef.current = true;
-      } catch (err) {
-        toast.error(t("checkout.loadCardFailed"));
-      } finally {
-        if (mounted) setIsPaymentsLoading(false);
-      }
+      await initializeCard(true);
     };
 
     loadSquare();
 
+    // Watch for theme changes on <html> element
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.attributeName === "class" && mounted) {
+          // Reinitialize card with new theme (no loader to avoid flicker)
+          initializeCard(false);
+          break;
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
     return () => {
       mounted = false;
+      observer.disconnect();
       if (cardRef.current && typeof cardRef.current.destroy === "function") {
         try {
           cardRef.current.destroy();
@@ -160,18 +233,6 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* Divider */}
-          <div className="relative text-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-zinc-300 dark:border-gray-600"></div>
-            </div>
-            <div className="relative bg-zinc-50 dark:bg-[#18191a] inline-block">
-              <span className="px-2 text-sm text-zinc-500 dark:text-gray-400">
-                {t("checkout.or")}
-              </span>
-            </div>
-          </div>
-
           {/* Card */}
           <Card className="border border-zinc-200 dark:border-gray-700 shadow-lg dark:bg-[#242526]">
             <div className="p-6">
@@ -232,10 +293,10 @@ const Checkout = () => {
                       >
                         {t("checkout.card")}
                       </label>
-                      <div className="flex space-x-1">
-                        <img src={visaImg} className="h-4" />
-                        <img src={masterCardImg} className="h-4" />
-                        <img src={amexImg} className="h-4" />
+                      <div className="flex space-x-1.5">
+                        <FaCcVisa className="h-8 w-auto text-[#1A1F71] bg-white" />
+                        <FaCcMastercard className="h-8 w-auto text-[#EB001B] bg-white" />
+                        <FaCcAmex className="h-8 w-auto text-[#006FCF] bg-white" />
                       </div>
                     </div>
                   </div>
@@ -245,7 +306,7 @@ const Checkout = () => {
                       <div className="mt-4">
                         <div
                           id="card-container"
-                          className="w-full rounded-md bg-[#242526]"
+                          className="w-full rounded-md bg-white dark:bg-[#242526]"
                         />
 
                         {isPaymentsLoading && (
@@ -282,7 +343,7 @@ const Checkout = () => {
                       <label htmlFor="googlepay" className="font-medium">
                         {t("checkout.googlePay")}
                       </label>
-                      <img src={googleplayImg} className="h-4" />
+                      <FaGooglePay className="h-6 w-auto text-zinc-700 dark:text-gray-300" />
                     </div>
                   </div>
                 </RadioGroup>
@@ -313,8 +374,7 @@ const Checkout = () => {
 
           {/* Footer */}
           <div className="text-center text-xs text-zinc-500 dark:text-gray-400 space-x-2">
-            <span>{t("checkout.poweredBy")}</span>
-            <img src={stripeImg} className="inline-block h-4" />
+              <span>{t("checkout.poweredBy")} Square</span>
             <span>|</span>
             <a href="#" className="underline hover:text-red-500">
               {t("checkout.terms")}
