@@ -116,7 +116,7 @@ const App = () => {
               element={<TicketDetails />}
             />
             <Route path="/fault-codes" element={<FaultyCodesPage />} />
-            <Route path="/auto-data" element={<AutoData />} />
+            {/* <Route path="/auto-data" element={<AutoData />} />
             <Route path="/cars" element={<Car />} />
             <Route path="/vans" element={<Van />} />
             <Route path="/pickups" element={<Pickup />} />
@@ -128,7 +128,7 @@ const App = () => {
             <Route path="/jet-ski" element={<Jetski />} />
             <Route path="/snow-mobile" element={<SnowMobile />} />
             <Route path="/construction" element={<Construction />} />
-            <Route path="/bus" element={<Bus />} />
+            <Route path="/bus" element={<Bus />} /> */}
           </Route>
         )}
 
